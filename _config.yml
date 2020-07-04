@@ -16,7 +16,7 @@ name                     : "Inhyeok Yoo"
 description              : "ML/DL 개발을 하고 싶은 청년입니다."
 url                      : "https://inhyeokyoo.github.io/"
 baseurl                  : # the subpath of your site, e.g. "/blog"
-repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+repository               : "InhyeokYoo/inhyeokyoo.github.io"
 teaser                   : "/assets/images/1530372896823.jpg"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
