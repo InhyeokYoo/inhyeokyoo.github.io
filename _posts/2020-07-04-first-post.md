@@ -1,6 +1,6 @@
 ---
 title:  "블로그 첫 글"
-excerpt: "처음"
+excerpt: "처음 시작하는 Github, 처음 올리는 첫 포스트이다."
 toc: true
 toc_sticky: true
 
