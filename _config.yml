@@ -90,7 +90,7 @@ author:
   avatar           : "/assets/images/1530372896823.jpg"
   bio              : "Interested in NLP/DL/ML"
   location         : "Seoul, South Korea"
-  email            : "mkultra1008@gmail.com"
+  email            :
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
