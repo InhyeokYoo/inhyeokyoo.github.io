@@ -1,6 +1,7 @@
 ---
 title: "About athuor"
 permalink: /about/
+layout: single
 ---
 
 안녕하세요. DL/ML에 관심많은 백수, 유인혁입니다. 
@@ -9,6 +10,6 @@ permalink: /about/
 
 찾아와주셔서 감사합니다. 언제든 환영합니다!
 
-![]({{site.url}}{{site.baseurl}}/assets/images/bio-photo-keyboard.jpg)
+![]({{site.url}}{{site.baseurl}}/assets/images/1530372896823.jpg)
 
 
