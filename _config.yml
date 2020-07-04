@@ -88,15 +88,15 @@ analytics:
 author:
   name             : "Inhyeok Yoo"
   avatar           : "/assets/images/1530372896823.jpg"
-  bio              : "Interested in NLP/DL/ML
-                      B.S. Kangwon National University
+  bio              : "Interested in NLP/DL/ML  
+                      B.S. Kangwon National University  
                       M.S. Inha University"
   location         : "Seoul, South Korea"
-  email            :
+  email            : "mkultra1008@gmail.com"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      url: "mkultra1008@gmail.com"
+      url: "https://github.com/InhyeokYoo"
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
@@ -108,7 +108,7 @@ author:
       # url: "https://facebook.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/InhyeokYoo"
+      # url: 
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       url: "https://www.instagram.com/inhyeok_yoo/"
