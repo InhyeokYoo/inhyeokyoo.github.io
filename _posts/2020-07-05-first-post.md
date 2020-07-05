@@ -5,9 +5,9 @@ toc: true
 toc_sticky: true
 
 categories:
-  - IT
+  - IT, Deep Learning
 tags:
-  - IT
+  - docker, VScode, pytorch
 last_modified_at: 2020-07-05
 ---
 
