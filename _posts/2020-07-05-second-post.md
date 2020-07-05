@@ -7,7 +7,9 @@ toc_sticky: true
 categories:
   - IT
 tags:
-  - github, github pages, github desktop
+  - github
+  - github pages
+  - github desktop
 last_modified_at: 2020-07-05
 ---
 
