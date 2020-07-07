@@ -10,6 +10,8 @@ layout: single
 
 찾아와주셔서 감사합니다. 언제든 환영합니다!
 
+[C.V.]({{site.url}}/assets/cv.pdf)
+
 ![]({{site.url}}{{site.baseurl}}/assets/images/1530372896823.jpg)
 
 

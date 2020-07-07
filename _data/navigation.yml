@@ -6,8 +6,6 @@ main:
     url: /about/
   - title: "Category"
     url: /categories/
-  - title: "C.V."
-    url: https://{{ site.url }}/assets/cv.pdf
   # - title: "Sample Collections"
   #   url: /collection-archive/
   # - title: "Sitemap"
