@@ -128,17 +128,17 @@ blockquote {
 a {
   /* devinlife : a link 하이퍼링크 밑줄 없애기 */
   text-decoration: none;
-  color: #CD1F48;
+  color: #d34969;
   &:focus {
     @extend %tab-focus;
   }
 
   &:visited {
-    color: #CD1F48;
+    color: #d34969;
   }
 
   &:hover {
-    color: #CD1F48;
+    color: #d34969;
     outline: 0;
   }
 }
