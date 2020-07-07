@@ -23,7 +23,7 @@ CS 비전공자인 내가 github pages를 만들면서 겪었던 난관을 공�
 
 ## Jekyll 템플릿 선택
 
-내 경우 선택한 template은 [simple green techblog](http://jekyllthemes.org/themes/SIMPLE-GREEN-TECH/)였는데, Git bash를 이용하여 필요한 bundle을 설치하는데 문제가 발생했다. 이는 내 ruby환경과 달랐기 때문으로 추측한다. 따라서 위 가이드에서 소개한 template를 그대로 따라가는 수 밖에 없었다. Ruby에 능통한 분들은 적절하게 변경해서 시도하거나, local에서 jekyll을 설치하지 않고 진행하면 된다.
+내 경우 선택한 template은 [simple green techblog](http://jekyllthemes.org/themes/SIMPLE-GREEN-TECH/)였는데, Git bash를 이용하여 필요한 bundle을 설치하는데 문제가 발생했다. 이는 내 ruby환경과 달랐기 때문으로 추측한다. 따라서 위 가이드에서 소개한 template를 그대로 따라가는 수 밖에 없었다. Ruby에 능통한 분들은 적절하게 변경해서 시도하거나, ~~local에서 jekyll을 설치하지 않고 진행하면 된다.~~ 설치하지 못하면 할 수가 없다. 포기하거나, 어떻게든 해결하자.
 
 ## VScode + github desktop
 
