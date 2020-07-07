@@ -7,7 +7,7 @@ main:
   - title: "Category"
     url: /categories/
   - title: "C.V."
-    url: {{ site.url }}/assets/cv.pdf
+    url: https://{{ site.url }}/assets/cv.pdf
   # - title: "Sample Collections"
   #   url: /collection-archive/
   # - title: "Sitemap"
