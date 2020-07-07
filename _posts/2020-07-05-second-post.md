@@ -13,7 +13,7 @@ tags:
 last_modified_at: 2020-07-05
 ---
 
-CS 비전공자인 내가 github pages를 만들면서 겪었던 난관을 공유해보고자 한다. Github pages를 만들고 설치하는 과정은 https://devinlife.com/howto/ 를 따라가도록 한다.
+CS 비전공자인 내가 github pages를 만들면서 겪었던 난관을 공유해보고자 한다. Github pages를 만들고 설치하는 과정은 [이곳](https://devinlife.com/howto/)을 따라가도록 한다.
 
 ## Ruby 설치
 
