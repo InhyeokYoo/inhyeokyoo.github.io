@@ -1,9 +1,9 @@
 ---
-title: "algorithm"
-permalink: /categories/algorithm/
+title: "Algorithm"
+permalink: /categories/Algorithm/
 layout: category
 author_profile: true
-taxonomy: algorithm
+taxonomy: Algorithm
 ---
 
 Posts regarding algorithm
