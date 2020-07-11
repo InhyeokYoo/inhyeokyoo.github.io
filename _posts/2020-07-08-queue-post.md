@@ -115,6 +115,8 @@ https://daimhada.tistory.com/107?category=820522
 
 이는 배열의 특성인 제한된 길이에 맞게 고안된 것이다.
 
+추후 작성 예정
+
 ## Reference
 
 https://daimhada.tistory.com/168?category=820522
