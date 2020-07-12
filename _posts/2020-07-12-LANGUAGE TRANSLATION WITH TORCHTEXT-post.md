@@ -301,15 +301,14 @@ print(f'The model has {count_parameters(model):,} trainable parameters')
 ```
 
 > ## 자세히 살펴보기
-> 
 > 복잡하므로 하나씩 천천히 해석을 해보겠습니다. 코드 라인을 중심으로 해석할 것이니 위 아래로 왔다갔다해야합니다.  
 > 우선 우리의 모델은 `Seq2Seq`에서 제어합니다. 이 모델은 encoder, decoder를 필요로 합니다.
 
-```python
-model = Seq2Seq(enc, dec, device).to(device)
-```
+>```python
+>model = Seq2Seq(enc, dec, device).to(device)
+>```
 
-`Seq2Seq`의 forward를 보겠습니다. 여기서는 `src`와 `trg` 텐서를 input으로 받고 있습니다. 이는 `BucketIterator`의 iterator로, 위에 코드로 확인했듯이 다음을 통해 접근 가능합니다.
+>`Seq2Seq`의 forward를 보겠습니다. 여기서는 `src`와 `trg` 텐서를 input으로 받고 있습니다. 이는 `BucketIterator`의 iterator로, 위에 코드로 확인했듯이 다음을 통해 접근 가능합니다.
 
 > ```python
 > for i, batch in enumerate(train_iterator):
@@ -317,119 +316,119 @@ model = Seq2Seq(enc, dec, device).to(device)
 >     trg = batch.trg  # [seq_len x B]
 > ```
 
-````
-번역을 하다보면 문장이 끊임없이 늘어날 수 있으므로, `seq_len`만큼의 길이를 갖도록 제한을 해줍니다.
-```python
-max_len = trg.shape[0]
-````
+>````
+>번역을 하다보면 문장이 끊임없이 늘어날 수 있으므로, >`seq_len`만큼의 길이를 갖도록 제한을 해줍니다.
+>```python
+>max_len = trg.shape[0]
+>````
 
-`outputs`는 decoder를 수행한 결과를 담을 tensor입니다. 처음에 이를 초기화한 이후, 번역의 결과를 담도록 합니다. 차원은 RNN의 input과 같이 **\[Seq\_len, Batch, input\_dim\]**을 따를 것입니다.
+>`outputs`는 decoder를 수행한 결과를 담을 >tensor입니다. 처음에 이를 초기화한 이후, 번역의 >결과를 담도록 합니다. 차원은 RNN의 input과 같이 **\>[Seq\_len, Batch, input\_dim\]**을 따를 것입니다.
 
-```python
-outputs = torch.zeros(max_len, batch_size, trg_vocab_size).to(self.device)
-```
+>```python
+>outputs = torch.zeros(max_len, batch_size, >trg_vocab_size).to(self.device)
+>```
 
-이후 얻은 src는 `Encoder`에 넣도록 하겠습니다. 인코더로 얻어지는 결과는 `enocoder_outputs`와 `hidden`으로, `enocoder_outputs`은 input sequence의 back/forward 모든 hidden state이고, `hidden`은 마지막 hidden state로 linear layer에 쓰입니다.
+>이후 얻은 src는 `Encoder`에 넣도록 하겠습니다. 인코더로 얻어지는 결과는 `enocoder_outputs`와 `hidden`으로, `enocoder_outputs`은 input sequence의 back/forward 모든 hidden state이고, `hidden`은 마지막 hidden state로 linear layer에 쓰입니다.
 
-```python
-encoder_outputs, hidden = self.encoder(src)
-```
+>```python
+>encoder_outputs, hidden = self.encoder(src)
+>```
 
 > ## `Encoder`
 > 
 > 앞서 본 src는 `nn.Embedding`으로 전달됩니다. 한 가지 특이사항으로 `nn.Embedding`은 **\[Seq\_len x B\]** 이나 **\[B x Seq\_len\]** 모두의 형태를 input을 받을 수 있습니다. 다음 예시를 봐볼까요?
 
-```python
-emb = nn.Embedding(len(SRC.vocab), 32)
-emb.to(device)
-data = batch.src.to(device)
-data_T = data.T
-print(f"Orignal: {data.size()}, Batch_first: {emb(data_T).size()}, Batch_last: {emb(data).size()}")
-```
+>```python
+>emb = nn.Embedding(len(SRC.vocab), 32)
+>emb.to(device)
+>data = batch.src.to(device)
+>data_T = data.T
+>print(f"Orignal: {data.size()}, Batch_first: {emb>(data_T).size()}, Batch_last: {emb(data).size()}")
+>```
 
-```
-Orignal: torch.Size([30, 128]), Batch_first: torch.Size([128, 30, 32]), Batch_last: torch.Size([30, 128, 32])
-```
+>```
+># 결과
+>Orignal: torch.Size([30, 128]), Batch_first: >torch.Size([128, 30, 32]), Batch_last: torch.Size(>[30, 128, 32])
+>```
 
-결국 어느 경우든 input에 embedding\_dim이 추가되는 형태임을 알 수 있습니다. 따라서 어느 것을 사용할지는 RNN의 batch\_first에 달려있습니다.
+>결국 어느 경우든 input에 embedding\_dim이 추가되는 형태임을 알 수 있습니다. 따라서 어느 것을 사용할지는 RNN의 batch\_first에 달려있습니다.
 
 > 다음은 GRU입니다. Seq2Seq (정확하게는 조경현 교수님의 Seq2Seq의 초기버전)에서는 GRU를 사용합니다. GRU가 처음 제안된 논문이기도 합니다. 번역 모델에서는 언어에 따라 word order가 달라질 수 있으므로 Bidirectional한 모델을 사용합니다. GRU의 input은 앞선 `nn.Embedding`의 output인 **\[Seq\_len x Batch x Emb\_dim\]**이 됩니다. GRU의 `hidden`은 마지막(t=src len) hidden state 값으로, **\[num\_layers \* num\_directions x Batch x Hid\_dim\]** 차원입니다. `output`은 GRU의 hidden state를 모아놓은 것으로, 세번째 차원 **\[hid dim \* num directions\]**에서 첫번째는 forward RNN, 두번째는 backward RNN을 의미합니다. 즉, $h\_1 = \[\\overrightarrow h\_1;\\overrightarrow h\_T \]$이고, $h\_2 = \[\\overrightarrow h\_2;\\overrightarrow h\_{T-1} \]$이 됩니다. 그리고, 이러한 stacked encoder hidden state를 $H = {h\_1, h\_2, ...h\_T} $로 나타낼 수 있습니다. 차원은 **\[src sent len, batch size, hid dim \* num directions\]**이 됩니다.
 
 > 그 후 concat하게 되는데, `hidden [-2, :, : ]`은 forwards RNN을, `hidden[-1, :, : ]`은 backward RNN을 의미합니다. Batch는 변하면 안되므로 Batch차원은 유지(dim=1)합니다.  
 > FC layer의 경우 GRU의 hidden state 두개를 concat하여 넣어줍니다. 이는 후에 decoder의 초기 hidden state가 될 것이므로, 디코더의 차원과 맞게끔 유지합니다. Embedding과는 다르게 matrix multiplication의 차원을 신경써줘야 합니다.
 
-```python
-embedded = self.dropout(self.embedding(src)) 
-outputs, hidden = self.rnn(embedded)
-hidden = torch.tanh(self.fc(torch.cat((hidden[-2,:,:], hidden[-1,:,:]), dim = 1)))
-```
+>```python
+>embedded = self.dropout(self.embedding(src)) 
+>outputs, hidden = self.rnn(embedded)
+>hidden = torch.tanh(self.fc(torch.cat((hidden[-2,:,:], hidden[-1,:,:]), dim = 1)))
+>```
 
 > 최종적으로 차원을 정리하면 다음과 같습니다:  
 > **GRU**
-
--   src: \[Seq\_len, Batch, Emb\_dim\]
--   outputs: \[src sent len, batch size, hid dim \* num directions\]
--   hidden: \[n layers \* num directions, batch size, hid dim\]
+>-   src: \[Seq\_len, Batch, Emb\_dim\]
+>-   outputs: \[src sent len, batch size, hid dim \* num directions\]
+>-   hidden: \[n layers \* num directions, batch size, hid dim\]
 
 > **torch.cat(, dim = 1)**
-
--   `hidden[-2, :, :], hidden[-1, :, :]`: \[Batch, Hid\_dim\]
--   output: \[batch\_size, enc\_hid\_dim \* 2\]
+>-   `hidden[-2, :, :], hidden[-1, :, :]`: \[Batch, Hid\_dim\]
+>-   output: \[batch\_size, enc\_hid\_dim \* 2\]
 
 > **FC**
-
--   input: \[batch\_size, enc\_hid\_dim \* 2\]
--   output: \[batch size, dec hid dim\]
+>-   input: \[batch\_size, enc\_hid\_dim \* 2\]
+>-   output: \[batch size, dec hid dim\]
 
 > ## 다시 `Seq2Seq`
 > 
 > 다시 Seq2Seq으로 돌아오겠습니다. Encoder가 끝나면, 이 결과에 대해 decoding을 할 차례입니다. 우선 문장의 시작을 알리는 토큰이 필요합니다. `trg`의 0번째 idx는 토큰이므로, 이를 이용하겠습니다. 그러면 `output`은 **\[Batch\]**의 vector가 됩니다.
 
-```python
-output = trg[0,:] # first input to the decoder is the <sos> token
-```
+>```python
+>output = trg[0,:] # first input to the decoder is the <sos> token
+>```
 
-이후에는 앞서 encoder의 output인 `hidden`와 'encoder\_outputs', 그리고 토큰인 `output`, 을 디코더에 넣겠습니다. 나머지 부분은 디코더를 확인하고 다시보겠습니다.
+>이후에는 앞서 encoder의 output인 `hidden`와 'encoder\_outputs', 그리고 토큰인 `output`, 을 디코더에 넣겠습니다. 나머지 부분은 디코더를 확인하고 다시보겠습니다.
 
-```python
-for t in range(1, max_len):
-    output, hidden = self.decoder(output, hidden, encoder_outputs)
-    """
-    outputs[t] = output
-    teacher_force = random.random() < teacher_forcing_ratio
-    top1 = output.max(1)[1]
-    output = (trg[t] if teacher_force else top1)
-    """
-```
+>```python
+>for t in range(1, max_len):
+>    output, hidden = self.decoder(output, hidden, encoder_outputs)
+>    """
+>    outputs[t] = output
+>    teacher_force = random.random() < teacher_forcing_ratio
+>    top1 = output.max(1)[1]
+>    output = (trg[t] if teacher_force else top1)
+>    """
+>```
 
-## `Attention`
+>## `Attention`
 
 > Decoder를 보기에 앞서 `Attention`을 확인하겠습니다. 이는 디코더의 이전 hidden\_state인 $s\_{t-1}$과 encoder의 모든 forward와 backward를 쌓은 hidden state $H$를 필요로합니다. 이 레이어의 결과는 attnetion vector $a\_t$로, 길이가 source sentence의 길이와 같고 값이 0부터 1 사이이며, 모두 합치면 1이 됩니다.
 
-```python
-class Attention(nn.Module):
-    def __init__(self, enc_hid_dim: int, dec_hid_dim: int, attn_dim: int):
-        super(Attention, self).__init__()
-        self.enc_hid_dim = enc_hid_dim
-        self.dec_hid_dim = dec_hid_dim
-
-        self.attn_in = (enc_hid_dim) * 2 + dec_hid_dim
-        self.attn = nn.Linear(self.attn_in, attn_dim)
-
-    def forward(self, decoder_hidden: Tensor, encoder_outputs: Tensor) -> Tensor:
-        src_len = encoder_outputs.shape[0]
-        repeated_decoder_hidden = decoder_hidden.unsqueeze(1).repeat(1, src_len, 1)
-        encoder_outputs = encoder_outputs.permute(1, 0, 2)
-        energy = torch.tanh(self.attn(torch.cat((repeated_decoder_hidden encoder_outputs), dim=2)))
-        attention = torch.sum(energy, dim=2)
-
-        return F.softmax(attention)
-```
+>```python
+>class Attention(nn.Module):
+>    def __init__(self, enc_hid_dim: int, dec_hid_dim: int, attn_dim: int):
+>        super(Attention, self).__init__()
+>        self.enc_hid_dim = enc_hid_dim
+>        self.dec_hid_dim = dec_hid_dim
+>
+>        self.attn_in = (enc_hid_dim) * 2 + dec_hid_dim
+>        self.attn = nn.Linear(self.attn_in, attn_dim)
+>
+>    def forward(self, decoder_hidden: Tensor, encoder_outputs: Tensor) -> Tensor:
+>        src_len = encoder_outputs.shape[0]
+>        repeated_decoder_hidden = decoder_hidden.unsqueeze(1).repeat(1, src_len, 1)
+>        encoder_outputs = encoder_outputs.permute(1, 0, 2)
+>        energy = torch.tanh(self.attn(torch.cat((repeated_decoder_hidden encoder_outputs), dim=2)))
+>        attention = torch.sum(energy, dim=2)
+>
+>        return F.softmax(attention)
+>```
 
 > 먼저 이전 디코더 hidden state와 encoder hidden state사이의 energy를 계산해야합니다. Energy를 구하는 식은 다음과 같습니다.  
+><p style="text-align: center;">
 > $$  
 > E\_t = \\tanh(\\textrm{attn}(s\_{t-1}, H))  
 > $$
+> </p>
 
 > 인코더의 히든 스테이트는 T (source len)개 tensor의 sequence이고, 디코더의 히든 스테이트는 **\[batch size, dec hid dim\]**의 single vector이므로, 길이를 맞춰주어야 합니다. 이를 위해 `unsqueeze(1)`을 하여 **\[batch size, 1, dec hid dim\]**로 바꾸고, T번 `repeat(1, T, 1)`합니다. 그러면 **\[batch size, seq\_len, dec hid dim\]**이 될 것입니다.
 
@@ -439,113 +438,114 @@ repeated_decoder_hidden = decoder_hidden.unsqueeze(1).repeat(1, src_len, 1)
 
 > `encoder_outputs`는 **\[src sent len, batch size, enc hid dim \* 2\]**의 차원을 갖고 있습니다. 이를 concat하고, FC에 feed하여 attn\_dim으로 나타내기 위해 `torch.Tensor.permute`를 통해 텐서 차원끼리 교환합니다. 이 결과 **\[batch size, src sent len, enc hid dim \* 2\]**차원이 됩니다.
 
-```python
-encoder_outputs = encoder_outputs.permute(1, 0, 2)
-```
+>```python
+>encoder_outputs = encoder_outputs.permute(1, 0, 2)
+>```
 
-이후 이 둘을 concat합니다. **\[batch size, seq\_len, dec hid dim ; batch size, src sent len, enc hid dim \* 2\]** 이므로, **\[batch size, src sent len, enc hid dim \* 2 + dec hid dim\]**이 될 것입니다.
+>이후 이 둘을 concat합니다. **\[batch size, seq\_len, dec hid dim ; batch size, src sent len, enc hid dim \* 2\]** 이므로, **\[batch size, src sent len, enc hid dim \* 2 + dec hid dim\]**이 될 것입니다.
 
-```python
-torch.cat((repeated_decoder_hidden, encoder_outputs), dim = 2)
-```
+>```python
+>torch.cat((repeated_decoder_hidden, encoder_outputs), dim = 2)
+>```
 
-이제 energy를 계산합니다. 에너지는 FC인 `self.attn`을 통과하여 얻습니다. 차원은 **\[batch\_size, seq\_len, attn\_dim\]** 입니다. 그 후 tanh를 통과합니다.
+>이제 energy를 계산합니다. 에너지는 FC인 `self.attn`을 통과하여 얻습니다. 차원은 **\[batch\_size, seq\_len, attn\_dim\]** 입니다. 그 후 tanh를 통과합니다.
+>```python
+>energy = torch.tanh(self.attn(torch.cat(>(repeated_decoder_hidden, encoder_outputs), dim=2)))
+>```
 
-```python
-energy = torch.tanh(self.attn(torch.cat((repeated_decoder_hidden, encoder_outputs), dim=2)))
-```
+>Addictive attention의 경우 $E\_t = v^T\\tanh (\\textrm{attn}(Ws\_{t-1} + Uh\_j))$ 가 되고, 사이즈는 **\[batch size, src len\]**입니다. $\\tanh (\\textrm{attn}(Ws\_{t-1} + Uh\_j))$ 부분은 앞서 concat하여 구했습니다. 여기서는 parameter $v^T$를 학습시키는 대신 이후 attention dim으로 sum하겠습니다. 사이즈는 마찬가지로 **\[batch size, src len\]**가 됩니다.
 
-Addictive attention의 경우 $E\_t = v^T\\tanh (\\textrm{attn}(Ws\_{t-1} + Uh\_j))$ 가 되고, 사이즈는 **\[batch size, src len\]**입니다. $\\tanh (\\textrm{attn}(Ws\_{t-1} + Uh\_j))$ 부분은 앞서 concat하여 구했습니다. 여기서는 parameter $v^T$를 학습시키는 대신 이후 attention dim으로 sum하겠습니다. 사이즈는 마찬가지로 **\[batch size, src len\]**가 됩니다.
-
-```python
-attention = torch.sum(energy, dim=2)
-```
+>```python
+>attention = torch.sum(energy, dim=2)
+>```
 
 > ## `Decoder`
 > 
 > Encoder의 결과인 hidden vector와 output vector, attention의 attention score를 받아 번역할 언어의 단어를 차례대로 반환합니다. 따라서, trg 언어의 embedding이 필요할 것입니다. output\_dim은 trg언어의 look-up words의 개수, emb\_dim은 embedding vector의 차원입니다.
 
-```python
-self.embedding = nn.Embedding(output_dim, emb_dim)
-```
+>```python
+>self.embedding = nn.Embedding(output_dim, emb_dim)
+>```
 
-이후엔 encoder와 마찬가지로 GRU를 이용해 번역합니다. 어텐션의 `attn_in`은 인코더의 context vector로부터 decoder의 attention score를 계산하는 layer의 input dimension입니다.
+>이후엔 encoder와 마찬가지로 GRU를 이용해 번역합니다. 어텐션의 `attn_in`은 인코더의 context vector로부터 decoder의 attention score를 계산하는 layer의 input dimension입니다.
 
-```python
-self.rnn = nn.GRU((enc_hid_dim * 2) + emb_dim, dec_hid_dim)
-self.out = nn.Linear(self.attention.attn_in + emb_dim, output_dim)
-self.dropout = nn.Dropout(dropout)
-```
+>```python
+>self.rnn = nn.GRU((enc_hid_dim * 2) + emb_dim, dec_hid_dim)
+>self.out = nn.Linear(self.attention.attn_in + emb_dim, output_dim)
+>self.dropout = nn.Dropout(dropout)
+>```
 
-디코더는 어텐션을 이용해 인코더 히든 스테이트인 $H$와 어텐션 벡터 $a\_t$를 이용해 weighted source vector $w\_t$를 생성합니다.  
-$$  
-w\_t = a\_tH  
-$$  
-이 과정은 함수 `_weighted_encoder_rep`에 나와 있습니다.
+>디코더는 어텐션을 이용해 인코더 히든 스테이트인 $H$와 어텐션 벡터 $a\_t$를 이용해 weighted source vector $w\_t$를 생성합니다.  
 
-```python
-def _weighted_encoder_rep(self, decoder_hidden: Tensor, encoder_outputs: Tensor) -> Tensor:
-        a = self.attention(decoder_hidden, encoder_outputs)
-        a = a.unsqueeze(1)
-        encoder_outputs = encoder_outputs.permute(1, 0, 2)
-        weighted_encoder_rep = torch.bmm(a, encoder_outputs)
-        weighted_encoder_rep = weighted_encoder_rep.permute(1, 0, 2)
+><p style="text-align: center;">
+>$$  
+>w\_t = a\_tH  
+>$$  
+</p>
 
-        return weighted_encoder_rep
-```
+> 이 과정은 함수 `_weighted_encoder_rep`에 나와 있습니다.
+>```python
+>def _weighted_encoder_rep(self, decoder_hidden: Tensor, >encoder_outputs: Tensor) -> Tensor:
+>        a = self.attention(decoder_hidden, encoder_outputs)
+>        a = a.unsqueeze(1)
+>        encoder_outputs = encoder_outputs.permute(1, 0, 2)
+>        weighted_encoder_rep = torch.bmm(a, encoder_outputs)
+>        weighted_encoder_rep = weighted_encoder_rep.permute(1, 0, 2)
+>
+>        return weighted_encoder_rep
+>```
 
 > 우선 attention의 결과로 얻어지는 attention vector `a`는 차원이 **\[Batch x seq len\]**이기 때문에, 이를 **\[Batch x 1 x seq len\]**로 바꾸어줍니다.
 
-```python
-a = self.attention(decoder_hidden, encoder_outputs)
-a = a.unsqueeze(1)
-```
+>```python
+>a = self.attention(decoder_hidden, encoder_outputs)
+>a = a.unsqueeze(1)
+>```
 
-이후, Batch matrix multiplication을 하기 위해 `permute(1, 0, 2)`를 이용해 stacked hidden state인 `encoder_outputs`의 차원을 **\[src sent len, batch size, hid dim \* num directions\]** 에서 **\[batch size, src sent len, hid dim \* num directions\]**로 바꾸어줍니다.
+>이후, Batch matrix multiplication을 하기 위해 `permute(1, 0, 2)`를 이용해 stacked hidden state인 `encoder_outputs`의 차원을 **\[src sent len, batch size, hid dim \* num directions\]** 에서 **\[batch size, src sent len, hid dim \* num directions\]**로 바꾸어줍니다.
+>```python
+>encoder_outputs = encoder_outputs.permute(1, 0, 2)
+>```
 
-```python
-encoder_outputs = encoder_outputs.permute(1, 0, 2)
-```
-
-이제는 위에서 본 weighted source vector `w_t`를 구하면 됩니다.  
+>이제는 위에서 본 weighted source vector `w_t`를 구하면 됩니다.  
 **\[Batch x 1 x seq len\]**와 **\[batch size, src sent len, hid dim \* num directions\]**의 배치곱이므로, 결과는 **\[batch size, 1, hid dim \* num directions\]**이 됩니다. 이를 다시 **\[1, batch size, enc hid dim \* 2\]**차원으로 바꿉니다.
-
-```python
-weighted_encoder_rep = torch.bmm(a, encoder_outputs)
-weighted_encoder_rep = weighted_encoder_rep.permute(1, 0, 2)
-```
+>```python
+>weighted_encoder_rep = torch.bmm(a, encoder_outputs)
+>weighted_encoder_rep = weighted_encoder_rep.permute(1, 0, 2)
+>```
 
 > 이제는 `forward`를 보겠습니다.  
 > `input`은 글자의 idx tensor로, **\[batch size\]**차원입니다. 즉, 매 t번째 시점의 단어 (처음에는 토큰이 batch size만큼)가 들어오는 것입니다. seq\_len이 1이므로 이를 **\[1, batch size\]**로 `unsqueeze(0)`해줍니다. 그 후 각 단어의 idx는 임베딩되어 `embedded`가 되고, 이의 차원은 \*\*\[1, batch\_size, emb\_dim\]이 됩니다.
+>```python
+>input = input.unsqueeze(0)
+>embedded = self.dropout(self.embedding(input))
+>```
 
-```python
-input = input.unsqueeze(0)
-embedded = self.dropout(self.embedding(input))
-```
+>임베딩된 input word $y\_t$(`embedded`)와 weighted source >vector $w\_t$(`weighted_encoder_rep`), 이전 시점의 >디코더의 히든 스테이트 $s\_{t-1}$(`decoder_hidden`)은 디코더 RNN으로 전달됩니다.
+><p style="text-align: center;">
+>$$  
+>s\_t = \\textrm{DecoderGRU}(y\_t, w\_t, s\_{t-1})  
+>$$
+></p> 
+>weighted source vector $w\_t$(`weighted_encoder_rep`)는 **\[1, batch size, enc hid dim \* 2\]**, $y\_t$와 $w\_t$는 concat되어 **\[1, batch size, (enc hid dim \* 2) + emb dim\]**이 됩니다.
 
-임베딩된 input word $y\_t$(`embedded`)와 weighted source vector $w\_t$(`weighted_encoder_rep`), 이전 시점의 디코더의 히든 스테이트 $s\_{t-1}$(`decoder_hidden`)은 디코더 RNN으로 전달됩니다.  
-$$  
-s\_t = \\textrm{DecoderGRU}(y\_t, w\_t, s\_{t-1})  
-$$  
-weighted source vector $w\_t$(`weighted_encoder_rep`)는 **\[1, batch size, enc hid dim \* 2\]**, $y\_t$와 $w\_t$는 concat되어 **\[1, batch size, (enc hid dim \* 2) + emb dim\]**이 됩니다.
+>```python
+>weighted_encoder_rep = self._weighted_encoder_rep(decoder_hidden, encoder_outputs)
+>rnn_input = torch.cat((embedded, weighted_encoder_rep), dim = 2)
+>```
 
-```python
-weighted_encoder_rep = self._weighted_encoder_rep(decoder_hidden, encoder_outputs)
-rnn_input = torch.cat((embedded, weighted_encoder_rep), dim = 2)
-```
+>Decoder의 hidden state $s\_{t-1}$은 encoder의 `hidden`으로 **\[batch size, dec hid dim\]**입니다. 이를 Decoder의 GRU에 넣기 위해 `unsqueeze(0)`하여 **\[1, batch size, dec hid dim\]**를 얻습니다. 마찬가지로, 1은 seq\_len입니다.
+>```python
+>output, decoder_hidden = self.rnn(rnn_input, >decoder_hidden.unsqueeze(0))
+>```
+>`output`은 마찬가지로 hidden state의 집함, `decoder_hidden`은 마지막 hidden state입니다.
 
-Decoder의 hidden state $s\_{t-1}$은 encoder의 `hidden`으로 **\[batch size, dec hid dim\]**입니다. 이를 Decoder의 GRU에 넣기 위해 `unsqueeze(0)`하여 **\[1, batch size, dec hid dim\]**를 얻습니다. 마찬가지로, 1은 seq\_len입니다.
-
-```python
-output, decoder_hidden = self.rnn(rnn_input, decoder_hidden.unsqueeze(0))
-```
-
-`output`은 마찬가지로 hidden state의 집함, `decoder_hidden`은 마지막 hidden state입니다.
-
-> 그 후엔 linear layer $f$에 $y\_t, w\_t, s\_{t-1}$를 전달하여 target sentence $\\hat{y\_{t+1}}$을 예측합니다. 이는 이들 모두를 concat하여 수행할 수 있습니다.  
+> 그 후엔 linear layer $f$에 $y\_t, w\_t, s\_{t-1}$를 전달하여 target sentence $\\hat{y\_{t+1}}$을 예측합니다. 이는 이들 모두를 concat하여 수행할 수 있습니다. 
+><p style="text-align: center;">
 > $$  
 > y\_t = f(y\_t, w\_t, s\_t)  
-> $$  
+> $$
+> </p> 
 > seq\_len은 전부 1이니까 이를 `squeeze(0)`하고 concat한 후 FC에 넣습니다.  
 > `embedded`: **\[1, batch size\]** -> **\[batch size\]**  
 > `output`: **\[1, batch size, dec hid dim \* n directions\]**\-> **\[batch size, dec hid dim \* n directions\]**,  
@@ -561,7 +561,7 @@ output = self.out(torch.cat((output, weighted_encoder_rep, embedded), dim = 1))
 return output, decoder_hidden.squeeze(0)
 ```
 
-> # 다시 `Seq2seq`
+> ## 다시 `Seq2seq`
 > 
 > 아까봤던 `Seq2seq`의 `forward`의 반복문을 보겠습니다. 앞서 저희는 `outputs`라는 텐서에 단어를 넣기로 하였습니다. Decoder의 결과물인 `output`은 softmax를 통하여 예측하는 다음단어가 됩니다.
 
