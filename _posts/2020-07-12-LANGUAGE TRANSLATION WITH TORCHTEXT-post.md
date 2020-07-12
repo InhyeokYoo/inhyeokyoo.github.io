@@ -426,7 +426,7 @@ print(f'The model has {count_parameters(model):,} trainable parameters')
 > 먼저 이전 디코더 hidden state와 encoder hidden state사이의 energy를 계산해야합니다. Energy를 구하는 식은 다음과 같습니다.  
 ><p style="text-align: center;">
 > $$  
-> E\_t = \\tanh(\\textrm{attn}(s\_{t-1}, H))  
+> E_t = \tanh(\textrm{attn}(s_{t-1}, H))
 > $$
 > </p>
 
@@ -479,7 +479,7 @@ repeated_decoder_hidden = decoder_hidden.unsqueeze(1).repeat(1, src_len, 1)
 
 ><p style="text-align: center;">
 >$$  
->w\_t = a\_tH  
+>w_t = a_tH 
 >$$  
 </p>
 
@@ -524,7 +524,7 @@ repeated_decoder_hidden = decoder_hidden.unsqueeze(1).repeat(1, src_len, 1)
 >임베딩된 input word $y\_t$(`embedded`)와 weighted source >vector $w\_t$(`weighted_encoder_rep`), 이전 시점의 >디코더의 히든 스테이트 $s\_{t-1}$(`decoder_hidden`)은 디코더 RNN으로 전달됩니다.
 ><p style="text-align: center;">
 >$$  
->s\_t = \\textrm{DecoderGRU}(y\_t, w\_t, s\_{t-1})  
+>s_t = \textrm{DecoderGRU}(y_t, w_t, s_{t-1}) 
 >$$
 ></p> 
 >weighted source vector $w\_t$(`weighted_encoder_rep`)는 **\[1, batch size, enc hid dim \* 2\]**, $y\_t$와 $w\_t$는 concat되어 **\[1, batch size, (enc hid dim \* 2) + emb dim\]**이 됩니다.
@@ -543,7 +543,7 @@ repeated_decoder_hidden = decoder_hidden.unsqueeze(1).repeat(1, src_len, 1)
 > 그 후엔 linear layer $f$에 $y\_t, w\_t, s\_{t-1}$를 전달하여 target sentence $\\hat{y\_{t+1}}$을 예측합니다. 이는 이들 모두를 concat하여 수행할 수 있습니다. 
 ><p style="text-align: center;">
 > $$  
-> y\_t = f(y\_t, w\_t, s\_t)  
+> y_t = f(y_t, w_t, s_t)
 > $$
 > </p> 
 > seq\_len은 전부 1이니까 이를 `squeeze(0)`하고 concat한 후 FC에 넣습니다.  
