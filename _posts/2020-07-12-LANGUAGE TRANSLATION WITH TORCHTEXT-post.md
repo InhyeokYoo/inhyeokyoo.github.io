@@ -481,7 +481,7 @@ repeated_decoder_hidden = decoder_hidden.unsqueeze(1).repeat(1, src_len, 1)
 >$$  
 >w_t = a_tH 
 >$$  
-</p>
+></p>
 
 > 이 과정은 함수 `_weighted_encoder_rep`에 나와 있습니다.
 >```python

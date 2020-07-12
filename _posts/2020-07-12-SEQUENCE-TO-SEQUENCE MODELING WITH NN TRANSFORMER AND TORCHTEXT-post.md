@@ -104,16 +104,16 @@ class PositionalEncoding(nn.Module):
 > 
 > ![](https://wikidocs.net/images/page/31379/transformer6_final.PNG)
 
-> positional encoding은 다음과 같은 함수를 이용해 진행됩니다.  
+> positional encoding은 다음과 같은 함수를 이용해 진행됩니다.
+><p style="text-align: center;">
 > $$  
-> PE\_{(pos, 2i)} = \\sin (pos/10000^{2i/d\_{model}}) \\  
-> PE\_{(pos, 2i+1)} = \\cos (pos/10000^{2i/d\_{model}})  
+> PE_{(pos, 2i)} = \sin (pos/10000^{2i/d_{model}})   \\  
+> PE_{(pos, 2i+1)} = \cos (pos/10000^{2i/d_{model}}) 
 > $$
+> </p>
 
-여기서 pos는 embedding vector 내에서 위치를, i는 단어의 위치를 나타냅니다. 이를 문장의 개념에서 생각해보면 문장의 단어들의 embedding vector matrix와, positional encoding matrix를 더해주는 것으로 이해할 수 있습니다.
-
-![](https://wikidocs.net/images/page/31379/transformer7.PNG)
-
+>여기서 pos는 embedding vector 내에서 위치를, i는 단어의 위치를 나타냅니다. 이를 문장의 개념에서 생각해보면 문장의 단어들의 embedding vector matrix와, positional encoding matrix를 더해주는 것으로 이해할 수 있습니다.
+![](https://wikidocs.net/images/page/31379/transformer7.PNG)  
 > 코드를 보면 좀 더 명확합니다. 우선 encoding matrix와 positional encoding matrix를 더해줄 큰 matrix를 0으로 초기화합니다. 이를 `pe`에 할당합니다. 이후 position역할을 해줄 $pos$ sequence를 생성합니다.
 
 ```python
@@ -121,7 +121,7 @@ pe = torch.zeros(max_len, d_model)
 position = torch.arange(0, max_len, dtype=torch.float).unsqueeze(1)
 ```
 
-그리고 `div_term`에 $1/10000^{2i/d\_{model}}$ sequence를 생성하고 `position`과 곱해 $PE$를 만들면 됩니다.
+>그리고 `div_term`에 $1/10000^{2i/d\_{model}}$ sequence를 생성하고 `position`과 곱해 $PE$를 만들면 됩니다.
 
 ```python
 div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model))
@@ -129,7 +129,7 @@ pe[:, 0::2] = torch.sin(position * div_term)
 pe[:, 1::2] = torch.cos(position * div_term)
 ```
 
-그러나 여기서 굳이 $\\exp(\\log(...))$의 형태로 한 것은 잘 이해가 가질 않네요.
+>그러나 여기서 굳이 $\\exp(\\log(...))$의 형태로 한 것은 잘 이해가 가질 않네요.
 
 > positional encoding과 embedding이 결합된 matrix `pe`는 **\[max len, d\_model\]**차원이 됩니다. 이를 **\[1, max len, d\_model\]**로 만들고, transpose를 통해 **\[max len, 1, d\_model\]**로 만듭니다. 일반적으로 RNN에서 사용하는 input모양과 닮았네요. 1은 batch size으로 보입니다.  
 > 이후엔 `self.register_buffer`에 이 matrix를 할당해줍니다. `self.register_buffer`는 `parameter`는 아니기 때문에 grad에 영향을 받진 않지만, `state_dict`안에 저장됩니다. 또한 `model.parameters()`를 통해서 return받지도 않습니다.
@@ -217,30 +217,31 @@ def __init__(self, d_model, nhead, dim_feedforward=2048, dropout=0.1, activation
 
 > MultiheadAttention은 위와 같이 Scaled Dot-Product Attention 여러개로 구성되어 있습니다. 그림에서 보이는 h가 바로 앞서 보았던 `TransformerEncoder`의 Param. `nhead`를 의미합니다. $Q, K, V$는 모두 같은 것으로, input vector를 nhead로 나눈 것이 이들의 차원이됩니다. 원문에서는 d\_model이 512이 이고, nhead(h)가 8이므로, $Q, K, V$의 차원은 $512/8=64$가 됩니다. PyTorch에서 이 코드를 찾아봤으나, `nn.functional.multi_head_attention_forward`을 통해 접근하고, 코드는 찾지 못하였습니다.
 
-![](https://miro.medium.com/max/533/1*szM6NDR-RhIip9IkwFTJMw.png)
-
-> 그리고 Scaled Dot-Product Attention내에서 self attention이 일어나게 됩니다. 이를 수식으로 표현하면 다음과 같습니다.
-
-$$  
-\\text{MultiHead}(Q, K, V) = \\text{Concat}(head\_1,\\dots,head\_h)W^O  
-\\text{where } head\_i = \\text{Attention}(QW\_i^Q, KW\_i^K, VW\_i^V)  
-$$
+>![](https://miro.medium.com/max/533/1*szM6NDR-RhIip9IkwFTJMw.png)
+> 그리고 Scaled Dot-Product Attention내에서 self attention이 일어나게 됩니다. 이를 수식으로 표현하면 다음과 같습니다.  
+><p style="text-align: center;">
+> $$  
+> \text{MultiHead}(Q, K, V) = \text{Concat}(head_1,\dots,head_h)W^O
+>        \text{where } head_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)
+> $$
+> </p>
 
 # Load and batch data
 
 학습과정은 `torchtext`내의 Wikitext-2 dataset를 이용합니다. vocab 객체는 학습 데이터에 기반하여 만들어지고, token을 tensor로 numericalize하는데 이용됩니다. Sequential 데이터로부터 시작하여, `batchify()` 함수는 데이터셋을 column으로 정렬하여 데이터가 `batch_size` 크기의 배치로 나눠진 후 남은 토큰을 제거합니다. 예를 들어, 알파벳 sequence와 4의 batch size인 경우, 우리는 알파벳을 6의 길이의 4개의 sequence로 나타낼 것입니다.  
 $$  
-\\begin{split}\\begin{bmatrix}  
-\\text{A} & \\text{B} & \\text{C} & \\ldots & \\text{X} & \\text{Y} & \\text{Z}  
-\\end{bmatrix}  
-\\Rightarrow  
-\\begin{bmatrix}  
-\\begin{bmatrix}\\text{A} \\ \\text{B} \\ \\text{C} \\ \\text{D} \\ \\text{E} \\ \\text{F}\\end{bmatrix} &  
-\\begin{bmatrix}\\text{G} \\ \\text{H} \\ \\text{I} \\ \\text{J} \\ \\text{K} \\ \\text{L}\\end{bmatrix} &  
-\\begin{bmatrix}\\text{M} \\ \\text{N} \\ \\text{O} \\ \\text{P} \\ \\text{Q} \\ \\text{R}\\end{bmatrix} &  
-\\begin{bmatrix}\\text{S} \\ \\text{T} \\ \\text{U} \\ \\text{V} \\ \\text{W} \\ \\text{X}\\end{bmatrix}  
-\\end{bmatrix}\\end{split}  
+\begin{split}\begin{bmatrix}
+\text{A} & \text{B} & \text{C} & \ldots & \text{X} & \text{Y} & \text{Z}
+\end{bmatrix}
+\Rightarrow
+\begin{bmatrix}
+\begin{bmatrix}\text{A} \\ \text{B} \\ \text{C} \\ \text{D} \\ \text{E} \\ \text{F}\end{bmatrix} &
+\begin{bmatrix}\text{G} \\ \text{H} \\ \text{I} \\ \text{J} \\ \text{K} \\ \text{L}\end{bmatrix} &
+\begin{bmatrix}\text{M} \\ \text{N} \\ \text{O} \\ \text{P} \\ \text{Q} \\ \text{R}\end{bmatrix} &
+\begin{bmatrix}\text{S} \\ \text{T} \\ \text{U} \\ \text{V} \\ \text{W} \\ \text{X}\end{bmatrix}
+\end{bmatrix}
 $$  
+
 이러한 컬럼은 모델에 의해 독립적으로 처리됩니다. 즉, `G`와 `F`의 관계는 학습될 수 없으나 더욱 효율적인 batch processing을 가능케합니다.
 
 ```python
