@@ -5,9 +5,10 @@ toc: true
 toc_sticky: true
 
 categories:
-  - PyTorch
+  - NLP
 tags:
   - Attention
+  - PyTorch
 use_math: true
 last_modified_at: 2020-07-12
 ---
@@ -25,6 +26,7 @@ last_modified_at: 2020-07-12
 
 사실 maxout layer에 대한 지식이 없어서 drop out과 비슷한 건줄 알았다.  
 maxout은 non-linear layer의 일종으로, linear layer 두개를 합친 후, max값을 취해 linearity를 제거한다. 그러나, 두 개의 linear layer를 계산해야 하므로 비효율적이다. 수식으로 표현하면 다음과 같다.  
+
 $$  
 f(x) = \max(w_1^Tx + b_1, w_2^Tx + b_2)  
 $$
