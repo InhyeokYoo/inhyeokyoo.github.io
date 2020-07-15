@@ -15,6 +15,12 @@ last_modified_at: 2020-07-08
 
 드디어 알고리즘에서 볼 수 있는 stack까지 왔다. CS전공자가 아니므로 대부분 줏어 들은게 다였는데, 이를 정리하면서 많은 도움이 됐다. 그럼 다시 시작해보자.
 
+# IT 면접준비 1. Data Structure - Stack
+- [Array, LinkedList](https://inhyeokyoo.github.io/recruiting/Array-LinkedList-post/)
+- [HashTable](https://inhyeokyoo.github.io/recruiting/HashTable-post/)
+- **[Stack](https://inhyeokyoo.github.io/recruiting/stack-post/)**
+- [Queue](https://inhyeokyoo.github.io/recruiting/queue-post/)
+
 # Stack
 
 ![](https://wayhome25.github.io/assets/post-img/cs/stack.jpg)

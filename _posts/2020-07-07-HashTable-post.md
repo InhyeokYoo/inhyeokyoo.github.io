@@ -12,6 +12,12 @@ tags:
 last_modified_at: 2020-07-07
 ---
 
+# IT 면접준비 1. Data Structure - HashTable
+- [Array, LinkedList](https://inhyeokyoo.github.io/recruiting/Array-LinkedList-post/)
+- **[HashTable](https://inhyeokyoo.github.io/recruiting/HashTable-post/)**
+- [Stack](https://inhyeokyoo.github.io/recruiting/stack-post/)
+- [Queue](https://inhyeokyoo.github.io/recruiting/queue-post/)
+
 # HashTable
 
 ![](https://media.vlpt.us/post-images/cyranocoding/8d25f580-b225-11e9-a4ce-730fc6b3757a/1iHTnDFd3sR5FqjHD1FDu9A.png)

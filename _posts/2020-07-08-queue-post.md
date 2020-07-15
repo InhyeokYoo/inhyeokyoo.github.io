@@ -13,6 +13,12 @@ tags:
 last_modified_at: 2020-07-08
 ---
 
+# IT 면접준비 1. Data Structure - Queue
+- [Array, LinkedList](https://inhyeokyoo.github.io/recruiting/Array-LinkedList-post/)
+- [HashTable](https://inhyeokyoo.github.io/recruiting/HashTable-post/)
+- [Stack](https://inhyeokyoo.github.io/recruiting/stack-post/)
+- **[Queue](https://inhyeokyoo.github.io/recruiting/queue-post/)**
+
 # Queue
 
 Stack과 비슷하지만, 먼저 들어간 자료가 먼저 나오는 선입선출(FIFO) 구조이다. 큐에 새로운 데이터가 들어오면 enqueue, 데이터가 삭제될 때는 dequeue가 된다.

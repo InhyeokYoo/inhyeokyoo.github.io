@@ -10,7 +10,7 @@ tags:
   - BPE
   - sentencepiece
   - tutorial
-last_modified_at: 2020-07-10
+last_modified_at: 2020-07-14
 ---
 
 (아직 작성 중)
