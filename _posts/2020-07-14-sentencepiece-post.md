@@ -18,7 +18,7 @@ last_modified_at: 2020-07-14
 sentencepiece를 공부해보면 WPM, BPE, Unigram LM과 같은 것들이 튀어나와 헷갈린다.
 특히, WPM, BPE 논문은 서로 바꿔 달아놓기도 하고 (어디서는 Senrich를 BPE라 하고, 어디서는 WPM이라 한다)
 서로 차이점이 없어보이기도 한다.
-한번 자세히 살펴보자.
+한번 자세히 살펴보자.  
 
 ## Introduction
 
