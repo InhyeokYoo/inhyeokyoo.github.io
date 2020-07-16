@@ -12,7 +12,7 @@ locale                   : "en-US"
 title                    : "NLP가 하고싶은 산업공학도"
 title_separator          : "-"
 subtitle                 : 
-name                     : "NLP가 하고싶은 산업공학도"
+name                     : 
 description              : "ML, DL, NLP에 관심있는 산업공학도입니다."
 url                      : "https://inhyeokyoo.github.io/"
 baseurl                  : # the subpath of your site, e.g. "/blog"
@@ -88,13 +88,13 @@ analytics:
 author:
   name             : "Inhyeok Yoo"
   avatar           : "/assets/images/1530372896823.jpg"
-  bio              : "자연어처리와 머신러닝, 딥러닝에 관심많은 백수"
+  bio              : "자연어처리와 머신러닝, 딥러닝에 관심많은 백수입니다."
   location         : "Seoul, South Korea"
   email            :
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      url: "https://github.com/InhyeokYoo"
+      url: "mkultra1008@gmail.com"
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
