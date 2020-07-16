@@ -11,7 +11,7 @@ minimal_mistakes_skin    : "contrast" # "air", "aqua", "contrast", "dark", "dirt
 locale                   : "en-US"
 title                    : "NLP가 하고싶은 산업공학도"
 title_separator          : "-"
-subtitle                 : "NLP가 하고싶은 산업공학도"
+subtitle                 : 
 name                     : "NLP가 하고싶은 산업공학도"
 description              : "ML, DL, NLP에 관심있는 산업공학도입니다."
 url                      : "https://inhyeokyoo.github.io/"
@@ -88,7 +88,7 @@ analytics:
 author:
   name             : "Inhyeok Yoo"
   avatar           : "/assets/images/1530372896823.jpg"
-  bio              : "Interested in NLP/DL/ML"
+  bio              : "자연어처리와 머신러닝, 딥러닝에 관심많은 백수"
   location         : "Seoul, South Korea"
   email            :
   links:
