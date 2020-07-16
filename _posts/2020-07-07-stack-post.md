@@ -18,7 +18,7 @@ last_modified_at: 2020-07-08
 # IT 면접준비 1. Data Structure - Stack
 - [Array, LinkedList](https://inhyeokyoo.github.io/recruiting/Array-LinkedList-post/)
 - [HashTable](https://inhyeokyoo.github.io/recruiting/HashTable-post/)
-- **[Stack](https://inhyeokyoo.github.io/recruiting/stack-post/)**
+- **Stack**
 - [Queue](https://inhyeokyoo.github.io/recruiting/queue-post/)
 
 # Stack
