@@ -1,0 +1,38 @@
+---
+title:  "백준 Circular Queue 풀이"
+excerpt: "백준 Circular Queue 풀이 모음집"
+toc: true
+toc_sticky: true
+
+categories:
+  - Algorithm
+tags:
+  - Circular queue
+  - BOJ
+  - Python
+use_math: true
+last_modified_at: 2020-07-17
+---
+
+
+## Introduction
+
+백준에서 Queue 풀이 만을 모아놓았다. 예전에 푼 것은 수정하기가 귀찮아서 그냥 올렸는데 앞으로 푸는 것은 풀이 과정도 정리해서 올릴 예정이다. 
+
+사용언어는 Python이다. 
+
+오른쪽 TOC를 통해 바로가기를 해보자.
+
+**<h3> 알고리즘 바로가기 </h3>**
+
+- [스택](https://inhyeokyoo.github.io/algorithm/algorithm-stack-post/)
+- 큐
+- 순환 큐
+
+
+## 문제 모음
+
+### 10845 큐
+
+
+2252 줄 세우기
