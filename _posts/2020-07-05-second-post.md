@@ -54,3 +54,9 @@ VScode의 설치과정은 쉬우니 따로 작성하지 않겠다. 설치가 완
 이후 다음과 같이 편리하게 markdown을 편집할 수 있다.
 
 ![image](https://user-images.githubusercontent.com/47516855/86532471-2a154480-bf05-11ea-811f-2e99a026245b.png)
+
+## Google search console 등록
+
+아쉽게도 내가 따라한 블로그에는 제대로 설정되어있지가 않다. 다음 링크를 참고하여 설정해보자.
+
+[구글 검색 등록하기](http://jinyongjeong.github.io/2017/01/13/blog_make_searched/)
