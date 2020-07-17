@@ -11,6 +11,7 @@ tags:
   - BOJ
   - Python
 use_math: true
+class: wide
 last_modified_at: 2020-07-17
 ---
 
