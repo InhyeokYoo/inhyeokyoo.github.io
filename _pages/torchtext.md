@@ -1,9 +1,9 @@
 ---
-title: "torchtext"
-permalink: /categories/torchtext/
+title: "Torchtext"
+permalink: /categories/Torchtext/
 layout: category
 author_profile: true
-taxonomy: torchtext
+taxonomy: Torchtext
 ---
 
 Posts regarding torchtext

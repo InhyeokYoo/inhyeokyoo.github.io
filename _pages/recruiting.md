@@ -1,9 +1,9 @@
 ---
-title: "recruiting"
-permalink: /categories/recruiting/
+title: "Recruiting"
+permalink: /categories/Recruiting/
 layout: category
 author_profile: true
-taxonomy: recruiting
+taxonomy: Recruiting
 ---
 
-Posts regarding recruiting
+Posts regarding Recruiting
