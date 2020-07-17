@@ -50,7 +50,8 @@ Remote Development는 다음 링크에서 다운 받을 수 있다. Install 시 
 
 나의 경우는 아래와 같이 debug configuration을 설정해야 했다. 첨엔 뭔 소린지 몰라서 당황했는데, 그냥 python file로 하고, 필요하다면 container에 설치하면 된다.  
 
-![위와 같이 뜬다](https://user-images.githubusercontent.com/47516855/86518789-056e8d80-be6f-11ea-9725-e044a93bbbbd.png)
+
+![위와 같이 뜬다](https://user-images.githubusercontent.com/47516855/86518789-056e8d80-be6f-11ea-9725-e044a93bbbbd.png){: .align-center}
 
 
 
