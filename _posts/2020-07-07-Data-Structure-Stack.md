@@ -1,5 +1,5 @@
 ---
-title:  "1. Data Structure - Stack"
+title:  "(1) Data Structure - Stack"
 excerpt: "CS 비전공자의 IT 기업 면접 뽀개기"
 toc: true
 toc_sticky: true
