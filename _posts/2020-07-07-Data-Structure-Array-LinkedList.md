@@ -14,10 +14,17 @@ last_modified_at: 2020-07-07
 ---
 
 ## IT 면접준비 1. Data Structure - Array, LinkedList
-- **Array, LinkedList**
-- [HashTable](https://inhyeokyoo.github.io/recruiting/HashTable-post/)
-- [Stack](https://inhyeokyoo.github.io/recruiting/stack-post/)
-- [Queue](https://inhyeokyoo.github.io/recruiting/queue-post/)
+- **[Array, LinkedList](https://inhyeokyoo.github.io/recruiting/Data-Structure-Array-LinkedList/)**
+- [HashTable](https://inhyeokyoo.github.io/recruiting/Data-Structure-HashTable/)
+- [Stack](https://inhyeokyoo.github.io/recruiting/Data-Structure-Stack/)
+- [Queue](https://inhyeokyoo.github.io/recruiting/Data-Structure-Queue/)
+- [Graph]
+- [Tree]
+- [그래프(Graph)와 트리(Tree)의 차이점]
+- [Binary Heap]
+- [Red-Black Tree]
+- [B+ Tree]
+
 
 자료구조(Data structure)는 데이터들의 모임, 관계, 함수, 명령 등의 집합을 의미한다. 즉, 처리하고자 하는 데이터들이 모여 있는 형태, 혹은, 처리하고자 하는 데이터들 사이의 관계 (수직, 상하, 일방적, 상호 등)를 정의한 것, 혹은, 데이터들을 사용하기 용이하게 저장해 놓은 형태라고 볼 수 있다.
 

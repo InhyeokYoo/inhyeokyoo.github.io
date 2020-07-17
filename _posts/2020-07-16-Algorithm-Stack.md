@@ -22,6 +22,11 @@ last_modified_at: 2020-07-17
 
 오른쪽 TOC를 통해 바로가기를 해보자.
 
+**<h3> 알고리즘 바로가기 </h3>**
+- **[스택](https://inhyeokyoo.github.io/algorithm/Algorithm-Stack/)**
+- [큐](https://inhyeokyoo.github.io/algorithm/algorithm-queue/)
+- [순환 큐](https://inhyeokyoo.github.io/algorithm/Algorithm-CircularQueue/)
+
 ## 문제 모음
 
 ### 10828 스택

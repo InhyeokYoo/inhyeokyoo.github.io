@@ -22,12 +22,17 @@ last_modified_at: 2020-07-17
 
 오른쪽 TOC를 통해 바로가기를 해보자.
 
+**<h3> 알고리즘 바로가기 </h3>**
+- [스택](https://inhyeokyoo.github.io/algorithm/Algorithm-Stack/)
+- **[큐](https://inhyeokyoo.github.io/algorithm/algorithm-queue/)**
+- [순환 큐](https://inhyeokyoo.github.io/algorithm/Algorithm-CircularQueue/)
+
 ## 문제 모음
 
 ### 10845 큐
 
-- [문제보기](https://www.acmicpc.net/problem/10845)   
-- [풀이보기](https://github.com/InhyeokYoo/BOJ_Algorithm/blob/master/Stack/10845.py)
+- [문제보기](https://www.acmicpc.net/problem/10845)
+- [풀이보기](https://github.com/InhyeokYoo/BOJ_Algorithm/blob/master/Queue/10845.py)
 - 풀이 과정:
 - class로 직접 구현하는 방법과 `collections.deque`를 활용하는 방법이 있다.
 - deque를 활용하는 방법은 아래와 같다.

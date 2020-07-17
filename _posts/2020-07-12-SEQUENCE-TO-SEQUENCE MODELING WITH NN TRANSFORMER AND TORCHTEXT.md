@@ -221,7 +221,7 @@ def __init__(self, d_model, nhead, dim_feedforward=2048, dropout=0.1, activation
 > 그리고 Scaled Dot-Product Attention내에서 self attention이 일어나게 됩니다. 이를 수식으로 표현하면 다음과 같습니다.  
 ><p style="text-align: center;">
 > $$  
-> \text{MultiHead}(Q, K, V) = \text{Concat}(head_1,\dots,head_h)W^O
+> \text{MultiHead}(Q, K, V) = \text{Concat}(head_1,\dots,head_h)W^O  \\
 >        \text{where } head_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)
 > $$
 > </p>
@@ -229,18 +229,6 @@ def __init__(self, d_model, nhead, dim_feedforward=2048, dropout=0.1, activation
 # Load and batch data
 
 학습과정은 `torchtext`내의 Wikitext-2 dataset를 이용합니다. vocab 객체는 학습 데이터에 기반하여 만들어지고, token을 tensor로 numericalize하는데 이용됩니다. Sequential 데이터로부터 시작하여, `batchify()` 함수는 데이터셋을 column으로 정렬하여 데이터가 `batch_size` 크기의 배치로 나눠진 후 남은 토큰을 제거합니다. 예를 들어, 알파벳 sequence와 4의 batch size인 경우, 우리는 알파벳을 6의 길이의 4개의 sequence로 나타낼 것입니다.  
-$$  
-\begin{split}\begin{bmatrix}
-\text{A} & \text{B} & \text{C} & \ldots & \text{X} & \text{Y} & \text{Z}
-\end{bmatrix}
-\Rightarrow
-\begin{bmatrix}
-\begin{bmatrix}\text{A} \\ \text{B} \\ \text{C} \\ \text{D} \\ \text{E} \\ \text{F}\end{bmatrix} &
-\begin{bmatrix}\text{G} \\ \text{H} \\ \text{I} \\ \text{J} \\ \text{K} \\ \text{L}\end{bmatrix} &
-\begin{bmatrix}\text{M} \\ \text{N} \\ \text{O} \\ \text{P} \\ \text{Q} \\ \text{R}\end{bmatrix} &
-\begin{bmatrix}\text{S} \\ \text{T} \\ \text{U} \\ \text{V} \\ \text{W} \\ \text{X}\end{bmatrix}
-\end{bmatrix}
-$$  
 
 이러한 컬럼은 모델에 의해 독립적으로 처리됩니다. 즉, `G`와 `F`의 관계는 학습될 수 없으나 더욱 효율적인 batch processing을 가능케합니다.
 

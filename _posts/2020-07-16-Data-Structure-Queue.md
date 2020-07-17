@@ -17,16 +17,17 @@ last_modified_at: 2020-07-16
 ---
 
 # IT 면접준비 1. Data Structure - Queue
-- [Array, LinkedList](https://inhyeokyoo.github.io/recruiting/Array-LinkedList-post/)
-- [HashTable](https://inhyeokyoo.github.io/recruiting/HashTable-post/)
-- [Stack](https://inhyeokyoo.github.io/recruiting/stack-post/)
-- **Queue**
+- [Array, LinkedList](https://inhyeokyoo.github.io/recruiting/Data-Structure-Array-LinkedList/)
+- [HashTable](https://inhyeokyoo.github.io/recruiting/Data-Structure-HashTable/)
+- [Stack](https://inhyeokyoo.github.io/recruiting/Data-Structure-Stack/)
+- **[Queue](https://inhyeokyoo.github.io/recruiting/Data-Structure-Queue/)**
 - [Graph]
 - [Tree]
 - [그래프(Graph)와 트리(Tree)의 차이점]
 - [Binary Heap]
 - [Red-Black Tree]
 - [B+ Tree]
+
 
 # Queue
 
