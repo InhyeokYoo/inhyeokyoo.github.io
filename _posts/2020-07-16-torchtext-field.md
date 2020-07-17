@@ -7,7 +7,6 @@ toc_sticky: true
 categories:
   - PyTorch
   - NLP
-tags:
   - torchtext
 use_math: true
 last_modified_at: 2020-07-16
@@ -15,8 +14,18 @@ last_modified_at: 2020-07-16
 
 ## Introduction
 
+아직 작성 중
+
 PyTorch를 통해 NLP를 처리하다보면 torchtext를 사용하게 되는데, 마테리얼도 따로 없고... 공부할 방법이 마땅치가 않다.
 이번 기회에 한번 정리해보자
+
+torchtext로 할 수 있는 목록은 다음과 같다.
+- File loading
+- Tokenization
+- generate a vocabulary list(Vocab)
+- Numericalize/Indexify
+- Word Vector
+- Batching
     
 ## Field
 
@@ -48,3 +57,12 @@ Field 클래스는 tensor로 표현될 수 있는 공통의 text processing data
 
 대충 text 데이터를 처리하는데 있어서 사용할 것이란 감이 온다. 각종 special token부터 전/후처리 등을 담당한다.
 
+## Dataset
+
+
+
+## Reference
+
+Allen Nie's article: ["A Tutorial on Torchtext"](http://anie.me/On-Torchtext/)
+
+simonjisu's notebook: [TorchText Tutorials](https://github.com/simonjisu/pytorch_tutorials/blob/master/00_Basic_Utils/01_TorchText.ipynb)
