@@ -11,7 +11,7 @@ tags:
   - BOJ
   - Python
 use_math: true
-last_modified_at: 2020-07-16
+last_modified_at: 2020-07-17
 ---
 
 ## Introduction
@@ -206,3 +206,30 @@ else:
 
 여기서의 실책은 `while`을 쓰느라고 `reverse`와 slice로 시간 복잡도를 증가한 것이다.
 잘 기억해뒀다가 써먹으면 좋을 것 같다.
+
+### 1918 후위 표기식
+
+- [문제보기](https://www.acmicpc.net/problem/1918)
+- [풀이보기](https://github.com/InhyeokYoo/BOJ_Algorithm/blob/master/Stack/1918.py)
+- 풀이과정:
+  - INPUT: STRING
+  - SET: ANSWER: stack, STACK: stack, PRIORITY: hashtable
+  - 연산자의 순위를 PRIORITY에 초기화함. */가 1순위, +-가 2순위, )가 3순위
+  - START for i = 0, 1, ..., len(string)
+      - if: string의 i-th element가 )라면,
+          - (가 나올 때가지 STACK에서 pop하여 ANSWER에 PUSH
+      - else if: string의 i-th element가 알파벳이라면,
+          - ANSWER에 PUSH
+      - else if: string의 i-th element가 (라면,
+          - STACK에 PUSH
+      - else if: string의 i-th element가 )라면,
+          - (전까지의 stack을 전부 다 pop하고
+      - else if: string의 i-th element가 연산자라면,
+          - stack내에 자기 이상의 우선순위를 갖는 연산자는 다 뱉음.
+          - (는 제외함.
+            
+문제점:
+    input부터 FIFO구존데? 뒤로 쓸 수 있나? 
+        -> for문으로 하면 FIFO가능
+    어떻게 합치지? extend는 부담스럽고, 또 앞에다가 더하는건 어떻게 하지?
+        -> print(end='')를 통해 한 줄로 이어서 출력이 가능.
