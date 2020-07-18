@@ -60,3 +60,28 @@ VScode의 설치과정은 쉬우니 따로 작성하지 않겠다. 설치가 완
 아쉽게도 내가 따라한 블로그에는 제대로 설정되어있지가 않다. 다음 링크를 참고하여 설정해보자.
 
 [구글 검색 등록하기](http://jinyongjeong.github.io/2017/01/13/blog_make_searched/)
+
+## 에러 발생 시 대처방법
+
+### jekyll serve 에러
+
+다음과 같은 에러가 발생했다.
+
+```
+C:/Ruby27-x64/lib/ruby/2.7.0/bundler/runtime.rb:312:in `check_for_activated_spec!': You have already activated rouge 3.21.0, but your Gemfile requires rouge 3.20.0. Prepending `bundle exec` to your command may solve this. (Gem::LoadError)
+```
+
+`bundle exec jekyll serve`로 해결 가능하다길래 해봤더니 다른 에러를 뱉어냈다.
+
+```
+Configuration file: C:/Users/mkult/inhyeokyoo.github.io/_config.yml
+  Dependency Error: Yikes! It looks like you don't have tzinfo or one of its dependencies installed. In order to use Jekyll as currently configured, you'll need to install this gem. If you've run Jekyll with `bundle exec`, ensure that you have included the tzinfo gem in your Gemfile as well. The full error message from Ruby is: 'cannot load such file -- tzinfo' If you run into trouble, you can find helpful resources at https://jekyllrb.com/help/!
+```
+
+찾아봤더니 time zone 문제라고 한다. 따라서 다음 명령어를 실행하고, 
+
+```
+gem install tzinfo-data
+```
+
+github pages 루트 디렉토리에 있는 gemfile을 메모장으로 열고 `gem 'tzinfo-data'`를 추가해준다. 그러면 [http://127.0.0.1:4000/](http://127.0.0.1:4000/)에 접속이 가능하다.
