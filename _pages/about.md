@@ -4,7 +4,7 @@ permalink: /about/
 layout: single
 ---
 
-<img src={{site.url}}{{site.baseurl}}/assets/images/1530372896823.jpg heigth=600>{}{: .align-center}
+<img src='{{site.url}}{{site.baseurl}}/assets/images/1530372896823.jpg' heigth=600>{}{: .align-center}
 
 안녕하세요. NLP가 하고 싶은 산업공학도, 유인혁입니다.
 
