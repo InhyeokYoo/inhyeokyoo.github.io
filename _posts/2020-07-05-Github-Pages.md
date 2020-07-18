@@ -10,6 +10,8 @@ tags:
   - github
   - github pages
   - github desktop
+  - jekyll
+  - minimal mistake
 last_modified_at: 2020-07-05
 ---
 
