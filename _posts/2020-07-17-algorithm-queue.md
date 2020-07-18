@@ -1,6 +1,6 @@
 ---
-title:  "백준 Queue 풀이"
-excerpt: "백준 Queue 풀이 모음집"
+title:  "백준 Queue 풀이 모음집"
+excerpt: "Python으로 풀어보는 백준 Queue 문제"
 toc: true
 toc_sticky: true
 

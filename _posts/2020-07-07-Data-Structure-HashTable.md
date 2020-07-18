@@ -1,14 +1,15 @@
 ---
-title:  "(1) Data Structure - HashTable"
-excerpt: "CS 비전공자의 IT 기업 면접 뽀개기"
+title:  "CS 비전공자의 IT 기업 면접 뽀개기 - (1) Data Structure - HashTable"
+excerpt: "HashTable 자료구조를 알아보자"
 toc: true
 toc_sticky: true
 
 categories:
-  - recruiting
+  - IT-Interview
 tags:
   - CS
   - HashTable
+  - Data Structure
 last_modified_at: 2020-07-07
 ---
 

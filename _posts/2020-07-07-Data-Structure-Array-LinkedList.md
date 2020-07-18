@@ -1,15 +1,16 @@
 ---
-title:  "(1) Data Structure - 배열(Array), 연결리스트(LinkedList)"
-excerpt: "CS 비전공자의 IT 기업 면접 뽀개기"
+title:  "CS 비전공자의 IT 기업 면접 뽀개기 - (1) Data Structure - Array/LinkedList"
+excerpt: "Array/LinkedList를 알아보자"
 toc: true
 toc_sticky: true
 
 categories:
-  - recruiting
+  - IT-Interview
 tags:
   - CS
   - Array
   - List
+  - Data Structure
 last_modified_at: 2020-07-07
 ---
 

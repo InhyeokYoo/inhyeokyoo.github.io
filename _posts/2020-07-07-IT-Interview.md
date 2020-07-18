@@ -1,11 +1,11 @@
 ---
-title:  "IT기업 면접 질문 정리"
-excerpt: "CS 비전공자의 IT 기업 면접 뽀개기"
+title:  "CS 비전공자의 IT 기업 면접 뽀개기"
+excerpt: "IT기업 면접 질문 정리"
 toc: true
 toc_sticky: true
 
 categories:
-  - recruiting
+  - IT-Interview
 tags:
   - CS
   - IT

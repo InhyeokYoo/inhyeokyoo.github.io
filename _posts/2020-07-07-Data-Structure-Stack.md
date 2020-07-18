@@ -1,14 +1,15 @@
 ---
-title:  "(1) Data Structure - Stack"
-excerpt: "CS 비전공자의 IT 기업 면접 뽀개기"
+title:  "CS 비전공자의 IT 기업 면접 뽀개기 - (1) Data Structure - Stack"
+excerpt: "Stack을 알아보자"
 toc: true
 toc_sticky: true
 
 categories:
-  - recruiting
+  - IT-Interview
 tags:
   - CS
   - Stack
+  - Data Structure
   - Data Structure
 last_modified_at: 2020-07-08
 ---

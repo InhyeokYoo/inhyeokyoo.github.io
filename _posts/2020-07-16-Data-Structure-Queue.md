@@ -1,11 +1,11 @@
 ---
-title:  "(1) Data Structure - Queue"
-excerpt: "CS 비전공자의 IT 기업 면접 뽀개기"
+title:  "CS 비전공자의 IT 기업 면접 뽀개기 - (1) Data Structure - Queue"
+excerpt: "Queue에 대해 알아보자"
 toc: true
 toc_sticky: true
 
 categories:
-  - recruiting
+  - IT-Interview
 tags:
   - CS
   - Queue
