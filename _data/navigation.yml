@@ -4,6 +4,8 @@ main:
     url: https://inhyeokyoo.github.io/
   - title: "About author"
     url: /about/
+  - title: "Resume"
+    url: /assets/cv.pdf
   - title: "Category"
     url: /categories/
   - title: "Archive"
