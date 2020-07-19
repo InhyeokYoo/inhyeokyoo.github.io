@@ -1,7 +1,7 @@
 # main links
 main:
   - title: "Home"
-    url: https://inhyeokyoo.github.io/
+    url: /
   - title: "About author"
     url: /about/
   - title: "Resume"
