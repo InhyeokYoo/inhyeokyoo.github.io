@@ -87,7 +87,7 @@ markdown을 이용한다.
 
 이번엔 크기 조절을 해보자. 
 
-<figure style="width: 300" class="align-center">
+<figure style="width: 300px" class="align-center">
   <img src="https://mmistakes.github.io/minimal-mistakes/assets/images/image-alignment-580x300.jpg" alt="">
   <figcaption>크기는 아까와 같이 300으로 주었다. </figcaption>
 </figure> 
@@ -95,7 +95,7 @@ markdown을 이용한다.
 코드는 다음과 같다.
 
 ```html
-<figure style="width: 300" class="align-left">
+<figure style="width: 300px" class="align-left">
   <img src="https://mmistakes.github.io/minimal-mistakes/assets/images/image-alignment-580x300.jpg" alt="">
   <figcaption>크기는 아까와 같이 300으로 주었다. </figcaption>
 </figure>
