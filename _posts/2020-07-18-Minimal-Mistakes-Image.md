@@ -13,8 +13,6 @@ tags:
   - jekyll
   - minimal mistakes
 use_math: true
-# classes: wide
-layout: single
 last_modified_at: 2020-07-18
 ---
 
