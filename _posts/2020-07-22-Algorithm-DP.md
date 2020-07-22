@@ -46,3 +46,7 @@ last_modified_at: 2020-07-22
     $$
     dp[n][k][1] = dp[n-1][k-1][1] + dp[n-1][k][0]
     $$
+
+### 9507 Generations of Tribbles
+- [문제보기](https://www.acmicpc.net/problem/9507)
+- [풀이보기](https://github.com/InhyeokYoo/BOJ_Algorithm/blob/master/DP/9507.py)
