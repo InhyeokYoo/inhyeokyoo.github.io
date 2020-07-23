@@ -64,7 +64,7 @@ last_modified_at: 2020-07-22
     - 일종의 hashmapping이라 생각하자
     - 최종적으로 0/1의 고유벡터를 얻고, 차원 수는 원-핫 인코딩보다 작다
     - *linear regression의 경우 [dummy trap](https://towardsdatascience.com/one-hot-encoding-multicollinearity-and-the-dummy-variable-trap-b5840be3c41a)문제가 발생하기 때문에 이 방법이 좋을 수 있다*
-- 이 외에도 Helmert Contrast, Sum, Contrast, Polynomial Contrast, Backward Difference Contrast 등의 방법이 있다.
+    - 이 외에도 Helmert Contrast, Sum, Contrast, Polynomial Contrast, Backward Difference Contrast 등의 방법이 있다.
 
 ## 3. interaction feature
 
@@ -115,7 +115,7 @@ last_modified_at: 2020-07-22
 
 ## 5. 이미지 데이터가 부족할 때는 어떻게 처리하는가?
 
-## ★★ 이미지 분류 문제에서 훈련 데이터가 부족하면 어떻게 되고, 이를 해결하려면 어떻게 하는가?
+### ★★ 이미지 분류 문제에서 훈련 데이터가 부족하면 어떻게 되고, 이를 해결하려면 어떻게 하는가?
 
 - 과적합 발생하기 쉬움
     - 모델을 쉽게 만들거나, normalizing (L1, L2) 추가, 앙상블, dropout 등이 있음
