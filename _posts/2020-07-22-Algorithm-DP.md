@@ -50,3 +50,7 @@ last_modified_at: 2020-07-22
 ### 9507 Generations of Tribbles
 - [문제보기](https://www.acmicpc.net/problem/9507)
 - [풀이보기](https://github.com/InhyeokYoo/BOJ_Algorithm/blob/master/DP/9507.py)
+
+### 2163 초콜릿 자르기
+- [문제보기](https://www.acmicpc.net/problem/2163)
+- [풀이보기](https://github.com/InhyeokYoo/BOJ_Algorithm/blob/master/DP/2163.py)
