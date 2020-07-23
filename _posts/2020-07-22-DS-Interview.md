@@ -85,7 +85,9 @@ last_modified_at: 2020-07-22
 ## 4. Text 표현 모델
 
 ### ★★ 텍스트 표현 모델과 장단점
-![word representation](https://wikidocs.net/images/page/31767/wordrepresentation.PNG)
+![word representation](https://user-images.githubusercontent.com/47516855/88257173-21d84a00-ccf8-11ea-9bc8-49c164966e13.png){: width="900"}{: .align-center}
+*임베딩 기법의 역사와 종류 [^4]*
+{: .text-center}
 - BOW: 각 단어를 순서에 상관없이 고유한 인덱스로 맵핑한 뒤, 빈도수를 추출한다
 - TF-IDF: BOW 단어에 대해 빈도수가 아닌 TF-IDF값을 통해 표현하는 방식이다. TF는 각 단어가 갖는 빈도수/가중치 이고, IDF는 각 단어가 문서에 등장하는 횟수에 대해 역수를 취해 penalizing 하는 값이다.
 - N-gram: language model로, n개의 단어들을 모아서 bag of words처럼 표현한다.
@@ -95,9 +97,10 @@ last_modified_at: 2020-07-22
 *word2vec, glove, fasttext 등이 있다. 그러나 요새 대세는 Pre-trained Language Model 인 것 같다.*
 
 
-[^1]: [공돌이의 수학노트](https://angeloyeo.github.io/2019/08/01/SVD.html)
-[^2]: https://sragent.tistory.com/entry/Latent-Semantic-AnalysisLSA
-[^3]: https://losskatsu.github.io/linear-algebra/svd/
+[^4]: 오픈카톡방 '자연어처리와 딥러닝'의 '자연'
+[^1]: 공돌이의 수학노트: [특이값 분해(SVD)](https://angeloyeo.github.io/2019/08/01/SVD.html)
+[^2]: 내 맘을 알아주는 검색: [Latent Semantic Analysis(LSA)](https://sragent.tistory.com/entry/Latent-Semantic-AnalysisLSA)
+[^3]: 로츠카츠의 AI 머신러닝: [[선형대수] 특이값 분해(Singular Value Decomposition)의 의미](https://losskatsu.github.io/linear-algebra/svd/)
 
 ### ★★★ word2vec은 무엇이고 LDA와 무슨 차이가 있는가?
 
