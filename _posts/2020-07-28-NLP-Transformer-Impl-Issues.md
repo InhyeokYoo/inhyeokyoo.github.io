@@ -9,7 +9,7 @@ categories:
   - NLP
 
 use_math: true
-last_modified_at: 2020-07-28
+last_modified_at: 2020-07-30
 ---
 
 ## Introduction
@@ -19,6 +19,9 @@ PyTorch로 Transformer을 구현하며 생기는 issue를 정리해보았다.
 우선 구조 이야기를 해보겠다.
 고민이 제일 많이 되었던 부분인데, Transformer를 먼저 만들고, 그 안에서 encoder와 decoder, 또 다시 encoder 안에서 multiheadattn 등을 만드는 식으로 잡았다. 
 너무 클래스간 결합성이 낮나 싶을 정도로 잘라놓긴 했다. 그래서 별 필요없는 parameter도 여러번 걸쳐서 scaled dop product attention까지 들어간다. 그래도 뭐 좋은게 좋은거니까...
+
+그러나 생각해보면 encoder는 src를 받아서 계속해서 K, Q를 생성해주고, decoder는 매 time step에 따라 생성하는 Q, k, V가 다르다. 따라서 Transformer 내에서 만들면 output으로 학습하기가 힘들다.
+그냥 Transformer에 encoder와 decoder를 넣어주는 형태로 가는게 제일 좋아보인다.
 
 ## Transformer
 
@@ -117,7 +120,7 @@ Encoder 같은 경우에는 **a stack of $N = 6$ identical layers** 라고 본�
 따라서 기능상으로는 필요한 구조가 아니다 (객체지향적으론 옳아보인다). 거기다가 q, k, v는 각 attention으로 동시에 들어가기 때문에 이걸 따로 구현하는게 애매하다고 생각했다.
 따라서 그냥 `MultiHeadAttn`을 만들고, 한꺼번에 넣어주는 것으로 생각했다. 그리고 각 attention layer는 필요하다면 따로 `get` 메소드를 통해서 받으면 될 것 같다.
 
-사실 여기서 더 생각해보면, Q, K, V에 대한 weight를 전부 다 합친, $W \in R^{Batch \times Seq_len \times 3d_model}$을 생각할 수가 있다.
+사실 여기서 더 생각해보면, Q, K, V에 대한 weight를 전부 다 합친, $W \in R^{Batch \times \textrm{Seq_len} \times \textrm{3d_model}}$을 생각할 수 있을 것 같다.
 이 경우 linear 모델에 bias가 없는 경우를 생각할 수 있을 것 같다.
 
 ## W_q, W_v, W_k의 size는 어떻게 정해야 하는가?
@@ -128,9 +131,12 @@ embedding vector의 사이즈는 `[Batch x Seq_len x d_model]`이고, 각 어텐
 
 이것도 잘 보면 논문에 다 나와있다. $W^Q_i \in R^{d_{model}\times d_k}$, $W^K_i \in R^{d_{model}\times d_k}$, $W^V_i \in R^{d_{model}\times d_v}$, $W^O \in R^{h d_v \times d_{model}}$ 이다.
 
-마지막 $W^O$는 그냥 linear layer로 구현했다.
+그리고 굳이 `nn.Parameter()`로 구현할 필요가 없이, `nn.Linear`로 구현하면 된다. 실제로 하버드 구현은 `nn.Linear`로 되어 있다. 저번에 attention 구현했을 때와 마찬가지로 bias는 포함하면 될 것 같다.
 
 ## Add & Norm은 뭐지?
+
+Add & Norm은 $\textrm{LayerNorm}(x + \textrm{Sublayer}(x))$ 으로 계산된다. LayerNorm은 [논문](https://arxiv.org/abs/1607.06450)을 보면 되고, 안에는 residual connection이 되어있다.
+PyTorch에는 `nn.LayerNorm`으로 구현되어 있다. 듣자하니 RNN에서는 BN보다 더 낫다고 한다.
 
 ## Position-wise FFN에서 `inner-layer dimensionality`가 무엇인가?
 
@@ -138,4 +144,17 @@ embedding vector의 사이즈는 `[Batch x Seq_len x d_model]`이고, 각 어텐
 
 ## dropout은 어디어디 들어가야 하는가?
 
-온갖 곳에 다 들어간다고 보면 될 것 같다.
+매 레이어를 통과할 때마다 해주면 될 것 같다.
+
+## positional encoding의 저장문제
+
+앞서 `positional_encoding`을 다룬 하버드 자료에서는 `self.register_buffer`에 `pe`를 할당하는 모습을 볼 수 있다.
+`register_buffer`는 `nn.Paramter`와는 다르게, gradient가 흐르지는 않지만, `nn.Module`의 `state_dict`에 저장할 필요가 있을 때
+쓰인다. 예를 들면 batch norm같은게 있다. 그러면 여기서 드는 의문은 **pe는 언제 저장해야 하는가?**
+
+앞서 `Transforemr`에서 정의한다고 되어있는데, 이렇게 되면 initializer에서 초기화 및 계산을 시행해줘야 하므로 따로 클래스로 만들었다.
+gradient는 흐르지 않지만, `PositionalEncoding` 내에서도 buffer에 등록해야 하므로, `nn.Module`을 상속하였다. 그리고 임베딩 레이어 이후에 저장하는 것으로 해결했다.
+
+재미있는 점은 `self.register_buffer`로 등록하면, **자동으로 instance의 attribute**로 등록된다는 점이다.
+
+## masking을 어떻게 할 것인가?
