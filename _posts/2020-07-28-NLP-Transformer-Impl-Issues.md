@@ -9,7 +9,7 @@ categories:
   - NLP
 
 use_math: true
-last_modified_at: 2020-07-30
+last_modified_at: 2020-08-05
 ---
 
 ## Introduction
@@ -22,8 +22,6 @@ PyTorch로 Transformer을 구현하며 생기는 issue를 정리해보았다.
 
 그러나 생각해보면 encoder는 src를 받아서 계속해서 K, Q를 생성해주고, decoder는 매 time step에 따라 생성하는 Q, k, V가 다르다. 따라서 Transformer 내에서 만들면 output으로 학습하기가 힘들다.
 그냥 Transformer에 encoder와 decoder를 넣어주는 형태로 가는게 제일 좋아보인다.
-
-## Transformer
 
 ## `Transformer` 클래스가 담당하는 것은 무엇인가?
 
@@ -106,13 +104,13 @@ tensor([[ 0.0000,  1.0000,  0.0000,  1.0000,  0.0000,  1.0000,  0.0000,  1.0000]
 
 위 링크의 자료에서는 이거보다 짧게 구현했지만 난 머리가 좋지 않아서 풀어쓰는게 좋다. 여튼 이해됐으면 됐지 뭐.
 
-## Encoder
-
 ## module을 복사할 때 `deepcopy`를 쓸까? 아니면 객체를 생성할까?
 
 Encoder 같은 경우에는 **a stack of $N = 6$ identical layers** 라고 본문에 명시되어 있다. 
 따라서 iteration을 통해서 encoder를 매번 생성해서 `Encoders`라는 `nn.Sequential`에 `add_module()`을 통해 넣는 것으로 설정했다.
 다른 사람들의 implementation을 보면, `deepcopy`를 사용하는 경우가 많았는데, 굳이 그래야 하는 의문이 든다.
+
+근데 PyTorch에서 nn.Sequential을 쓰면 parameter를 여러개를 쓸 수가 없다. 그래서 `Modulelist` 내에서 comprehension으로 만들어줬다.
 
 ## Scaled Dot Product Attention class가 따로 필요한가?
 
@@ -157,4 +155,14 @@ gradient는 흐르지 않지만, `PositionalEncoding` 내에서도 buffer에 등
 
 재미있는 점은 `self.register_buffer`로 등록하면, **자동으로 instance의 attribute**로 등록된다는 점이다.
 
+## src_mask가 왜 필요하지?
+
+[PyTorch 문서](https://pytorch.org/docs/stable/generated/torch.nn.Transformer.html#torch.nn.Transformer)를 보면 forward에 src_mask에 해당하는 parameter가 있다. 이게 왜 필요하지 싶어서 알아보았는데, `<pad>` token을 위해서였다. 패드 토큰은 attention weight에 영향을 주면 안되므로, 이를 0으로 처리한다.
+
 ## masking을 어떻게 할 것인가?
+
+## 1e-9는 뭔가?
+
+## Labeling Smoothing
+
+## 한 번에 학습할 수 있나?
