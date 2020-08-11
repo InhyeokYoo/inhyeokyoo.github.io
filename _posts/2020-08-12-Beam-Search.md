@@ -32,4 +32,4 @@ last_modified_at: 2020-08-12
 - 따라서 다음과 같이 써도 무방함
     - $h_t \leftarrow \textrm{RNN}(w_t, h_{t-1}; \theta)$
     - 여기서 $w_t$는 항상 이의 embedding을 의미함
-- $p(w_t|w_{1:t-1}, x) = g(w_t, h_{t-1}$ $\bm
+- $p(w_t|w_{1:t-1}, x) = g(w_t, h_{t-1}$ $\bm{x}$
