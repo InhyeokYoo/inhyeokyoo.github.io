@@ -36,6 +36,6 @@ last_modified_at: 2020-08-12
     - 이는 $x$와 target history($w_{1:t-1}$)에 조건부로 t번째 target word의 확률을 model하는 것
     - $g$는 보통 affine layer와 softmax를 의미
 - 완성된 모델은 neural language model과 유사하게 매 time step에서 gold history에 조건부로 하며 cross-entropy loss를 minimize
-    - $-\ln \Pi^T_{t=1} p(y_t|y_{1:t-1}, x)$
+    - $- \ln \Pi^T_{t=1} p(y_t|y_{1:t-1}, x)$
 - 디코더가 학습되고 나면, discrete sequence의 생성은 conditional distribution $\hat{y}_{1:T}=\arg \textrm{beam}_{w_{1:T}} \Pi^T_{t=1} p(w_t|w_{1:t-1}, x)$에 따라 target sequence의 확률을 maximizing하여 실행된다
     - 여기서 notation $\textrm{argbeam}$
