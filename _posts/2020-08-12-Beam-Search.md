@@ -25,15 +25,17 @@ last_modified_at: 2020-08-12
     - 특히, 이 생성되는 단어들은 input representation $x$와 이전에 생성된 단어들이나 *history*에 조건부로 생성
 - 여기서 우리는 $w_{1:T}$라는 notation을 사용하여 T길이의 임의의 sequence를 표현할 것임
 - $y_{1:T}$는 x에 대한 *gold*(정답) target word sequence를 의미함
-- $m_1, ..., m_T$를 sequence of T vector로, $h_0$를 initial state vector로 하자
+- $m_1, ..., m_T$를 vector T개의 sequence, $h_0$를 initial state vector로 하자
 - 이러면 RNN에 어떠한 sequence를 적용하더라도 다음과 같은 $h_t$를 생성한다
     - $h_t \leftarrow \textrm{RNN}(m_t, h_{t-1}; \theta)$
-- 여기서 $m_t$는 항상 target word sequence $w_{1:T}$에 대응하는 embedding
-- 따라서 다음과 같이 써도 무방함
-    - $h_t \leftarrow \textrm{RNN}(w_t, h_{t-1}; \theta)$
+    - 여기서 $m_t$는 항상 target word sequence $w_{1:T}$에 대응하는 embedding vector
+    - 따라서 다음과 같이 써도 무방함
+        - $h_t \leftarrow \textrm{RNN}(w_t, h_{t-1}; \theta)$
     - 여기서 $w_t$는 항상 이의 embedding을 의미함
-- 그리고 $p(w_t|w_{1:t-1}, x) = g(w_t, h_{t-1})$를 통해서 conditional laguage modeling을 학습함
+- 그리고 $p(w_t | w_{1:t-1}, x) = g(w_t, h_{t-1})$를 통해서 conditional laguage modeling을 학습함
     - 이는 $x$와 target history($w_{1:t-1}$)에 조건부로 t번째 target word의 확률을 model하는 것
     - $g$는 보통 affine layer와 softmax를 의미
 - 완성된 모델은 neural language model과 유사하게 매 time step에서 gold history에 조건부로 하며 cross-entropy loss를 minimize
     - $-\ln \Pi^T_{t=1} p(y_t|y_{1:t-1}, x)$
+- 디코더가 학습되고 나면, discrete sequence의 생성은 conditional distribution $\hat{y}_{1:T}=\arg \textrm{beam}_{w_{1:T}} \Pi^T_{t=1} p(w_t|w_{1:t-1}, x)$에 따라 target sequence의 확률을 maximizing하여 실행된다
+    - 여기서 notation $\textrm{argbeam}$
