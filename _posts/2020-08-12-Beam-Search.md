@@ -14,8 +14,6 @@ last_modified_at: 2020-08-12
 
 ## Introduction
 
-$\bm{x}$
-
 [Transformer 구현](https://inhyeokyoo.github.io/pytorch/nlp/NLP-Transformer-Impl-Issues/)을 하던 도중 Beam Search에 대한 이해가 부족한 것 같아 정리를 해보려 한다.
 논문의 링크는 [여기](https://arxiv.org/pdf/1606.02960.pdf)를, reference는 따로 밑에다 달도록 하겠다.
 
@@ -38,4 +36,4 @@ $\bm{x}$
     - 이는 $x$와 target history($w_{1:t-1}$)에 조건부로 t번째 target word의 확률을 model하는 것
     - $g$는 보통 affine layer와 softmax를 의미
 - 완성된 모델은 neural language model과 유사하게 매 time step에서 gold history에 조건부로 하며 cross-entropy loss를 minimize
-    - $-ln \Pi^T_{t=1} p(y_t|y_{1:t-1}, x)$
+    - $-\ln \Pi^T_{t=1} p(y_t|y_{1:t-1}, x)$
