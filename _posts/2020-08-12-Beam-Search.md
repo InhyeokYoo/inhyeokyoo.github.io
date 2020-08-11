@@ -36,8 +36,10 @@ last_modified_at: 2020-08-12
     - $g$는 보통 affine layer와 softmax를 의미
 - 완성된 모델은 neural language model과 유사하게 매 time step에서 gold history에 조건부로 하며 cross-entropy loss를 minimize
     - $- \ln \Pi^T_{t=1} p(y_t \rvert y_{1:t-1}, x)$
-- 디코더가 학습되고 나면, discrete sequence의 생성은 conditional distribution $\hat{y}_{1:T}=\arg \textrm{beam}_{w_{1:T}} \Pi^T_{t=1} p(w_t \rvert w_{1:t-1}, x)$에 따라 target sequence의 확률을 maximizing하여 실행된다
+- 디코더가 학습되고 나면, discrete sequence의 생성은 conditional distribution $\hat{y_{1:T}}=\textrm{argbeam}_{w_{1:T}} \Pi^T_{t=1} p(w_t \rvert w_{1:t-1}, x)$에 따라 target sequence의 확률을 maximizing하여 실행된다
     - 여기서 notation $\textrm{argbeam}$는 디코딩 프로세스에 휴리스틱한 search가 필요하기 때문에 강조
     - 디코더는 non-Markovian이기 때문
 - 간단한 beam search 프로시져는 나중의 K개의 history를 탐색하는데, 이는 디코더에 매우 효과적으로 알려져 있음
+- 그러나, 위에서도 언급했듯, conditional language-model style training 이후에 이런방식으로 decoding하는 것은 *잠재적으로* exposure bias와 label bias문제를 겪을 가능성이 있다.
+
 
