@@ -1,5 +1,5 @@
 ---
-title:  "Torch text 살펴보기"
+title:  "Torch text 살펴보기 (아직 작성 중)"
 excerpt: ""
 toc: true
 toc_sticky: true
@@ -14,7 +14,7 @@ last_modified_at: 2020-07-21
 
 ## Introduction
 
-아직 작성 중
+
 
 PyTorch를 통해 NLP를 처리하다보면 torchtext를 사용하게 되는데, 마테리얼도 따로 없고... 공부할 방법이 마땅치가 않다.
 이번 기회에 한번 정리해보자
