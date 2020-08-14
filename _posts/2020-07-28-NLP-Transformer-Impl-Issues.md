@@ -9,7 +9,7 @@ categories:
   - NLP
 
 use_math: true
-last_modified_at: 2020-08-10
+last_modified_at: 2020-08-13
 ---
 
 ## Introduction
@@ -102,6 +102,8 @@ Encoder 같은 경우에는 **a stack of $N = 6$ identical layers** 라고 본�
 
 근데 PyTorch에서 nn.Sequential을 쓰면 parameter를 여러개를 쓸 수가 없다. 그래서 `Modulelist` 내에서 comprehension으로 만들어줬다.
 
+만일 따로 만들어준다면, OOP, 혹은, 기능에 따라 함수를 구현하는 것으로 이해할 수 있을 것 같다.
+
 ## Scaled Dot Product Attention class가 따로 필요한가?
 
 본문에는 input으로 q, k, v를 받는다고 되어 있다. 따라서 `forward`에서 얘네 셋을 받아줬다. 그러면 의문이 생기는게... 여기서 하는 일은 그냥 attention score 계산하는 거 밖엔 없다.
@@ -110,8 +112,6 @@ Encoder 같은 경우에는 **a stack of $N = 6$ identical layers** 라고 본�
 
 사실 여기서 더 생각해보면, Q, K, V에 대한 weight를 전부 다 합친, $W \in R^{Batch \times \textrm{Seq_len} \times \textrm{3d_model}}$을 생각할 수 있을 것 같다.
 이 경우 linear 모델에 bias가 없는 경우를 생각할 수 있을 것 같다.
-
--> 다른 사람들의 코드를 살펴본 결과 `[Batch, Seq_len, num_head, d_k]` 형태로 받아서 계산했다. 이것도 나름대로 해결하는 방법일 것 같다.
 
 ## W_q, W_v, W_k의 size는 어떻게 정해야 하는가?
 
@@ -157,14 +157,42 @@ gradient는 흐르지 않지만, `PositionalEncoding` 내에서도 buffer에 등
 
 ## Dropout layer를 재사용해도 되는가?
 
-![image](https://user-images.githubusercontent.com/47516855/89760837-212d1980-db28-11ea-9f64-1ba9b649b8d9.png){: .align-center}{: width="400" height="200"}
+![image](https://user-images.githubusercontent.com/47516855/89760837-212d1980-db28-11ea-9f64-1ba9b649b8d9.png){: .align-center}{: width="700"}
 
 안됨. [다음](https://discuss.pytorch.org/t/using-same-dropout-object-for-multiple-drop-out-layers/39027/6?u=i_h_yoo)을 참고.
 
-## Inference 어떻게 하는가?
+## Beam Search
 
-Inference 시에는 RNN처럼
+우선, Beam search가 inference외에 train/test에도 사용되는지 의문이었다.
+그래서 한번 찾아봤더니, Beam Search Optimization(BSO)라는 개념이 있었다.
+이는 RNN의 beam search 과정에서 training을 원할하게 하기 위해 loss function을 조정하는 개념이다.
+Transformer에선 inference시에만 하는 것으로 추정된다. (명확하게 밝혀지지 않아서 아직은 모르겠다)
+
+아래는 이에 대한 정리이다.
+
+- 그 유명한 [word piece 논문](https://arxiv.org/pdf/1609.08144.pdf)을 참고
+- decoding과정에서 socre function $s(Y, X)$를 maximize하는 sequence $Y$를 찾는 것이 목적
+- Hyper parameter: dev set으로 얻음
+  - beam size: 4
+  - 이게 없으면 모델은 더 짧은 문장을 선호
+    - negative log-probability를 사용하는데, 길이가 길수록, 더 negative (lower)한 값이 나오기 때문
+  - 공식은 다음과 같음
+    - $s(Y, X)=log(P(Y \rvert X))/lp(Y)+ cp(X; Y) $
+    - $lp(Y) = (5 + \rvert Y \rvert)^\alpha $
+    - $cp(X; Y) = \beta \times \sum^{\rvert X \rvert}_{i=1} log (min(\sum^{\rvert Y \rvert}_{j=1} p_{i,j}, 1.0))$
+        - $ p_{i,j} $는 i번째 source word $x_i$에 대한 j번째 target word $y_j$ attention probability
+        - $5$는 minimum length로, 이 또한 조정 가능
+    - Attention 확률의 합은 1이 되므로, $\sum^{\rvert X \rvert} p_{i,j}=1$
+    - $\alpha, \beta$는 length normalization과 coverage penaly를 관리하는 parameter
+        - $\alpha=0, \beta=0$이면, 일반적인 beam search
+  - 논문에선 length penalty $\alpha = 0.6$로 설정
+  - coverage penalty는 사용하지 않은 것으로 보임
+  
+
 
 ## Labeling Smoothing
 
-## Optimizer 만들기
+## Optimizer/Warm-up step
+
+
+## Inference 어떻게 하는가?
