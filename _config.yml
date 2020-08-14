@@ -10,7 +10,7 @@ minimal_mistakes_skin    : "contrast" # "air", "aqua", "contrast", "dark", "dirt
 # Site Settings
 locale                   : "en-US"
 title                    : "From I.E To NLP"
-title_separator          : "산업공학에서 시작하여 NLP까지"
+title_separator          : "산업공학에서 NLP까지"
 subtitle                 : 
 name                     : 
 description              : "ML, DL, NLP에 관심있는 산업공학 전공자입니다."
