@@ -1,5 +1,5 @@
 ---
-title:  "Beam Search (아직 작성 중)"
+title:  "Beam Search Optimization (아직 작성 중)"
 excerpt: "Beam Search에 대한 이해와 구현"
 toc: true
 toc_sticky: true
@@ -17,9 +17,24 @@ last_modified_at: 2020-08-12
 [Transformer 구현](https://inhyeokyoo.github.io/pytorch/nlp/NLP-Transformer-Impl-Issues/)을 하던 도중 Beam Search에 대한 이해가 부족한 것 같아 정리를 해보려 한다.
 논문의 링크는 [여기](https://arxiv.org/pdf/1606.02960.pdf)를, reference는 따로 밑에다 달도록 하겠다.
 
-## Background and Notation
+## Introductuion & Related Work
 
-시작하기 앞서 논문 3장을 보면서 notation을 익혀보자
+- seq2seq을 학습하는 주된 방법은 conditional language model
+    - input sequence와 target words의 *gold* history를 조건부로 각 연속적인 target word의 likelihood를 maximizing
+- 따라서 학습은 word-level의 loss를 계산하고, 이는 주로 target vocabulary에 대한 cross entropy loss가 됨
+- 그러나 seq2seq은 test-time에서 conditional language model로 사용되지 않음
+    - 대신 반드시 온전한 형태의 word sequence를 생성해야 함
+- 실제로는 대부분 beam search나 greedy search를 사용해서 단어를 생성
+- 이러한 맥락에서 [Ranzato et al. (2016)](https://arxiv.org/abs/1511.06732)는 학습과 생성의 구조 조합이 다음과 같은 두 가지 major한 문제를 야기
+    - *Exposure Bias*: 모델은 학습과정에서 training data distribution에만 노출되고, 자신이 직접 생성한 데이터에는 노출되지 않아서 문제가 발생
+    - *Loss-Evaluation  Mismatch*: 학습에서 사용된 loss-function은 word-level에서 적용됨. 그러나 모델의 성능은 discrete metric (e.g. BLEU)을 통해 평가
+        - BLEU를 학습에서 안 쓰는 이유는 differentiable하지 않고,
+        - optimization을 조합하여 쓰는 것은 given context에 대해 어떠한 sub-string을 maximize할 것인지 결정해야 하기 때문
+    - 이외에도 *label bias* ([Lafferty et al.,  2001](https://repository.upenn.edu/cgi/viewcontent.cgi?article=1162&context=cis_papers))문제를 고려
+        - Label bias는 [이곳](https://www.quantumdl.com/entry/Endtoend-Sequence-Labeling-via-Bidirectional-LSTMCNNsCRF)을 참조
+- 
+
+## Background and Notation
 
 - 일단 input sequence가 인코딩되면, seq2seq은 *디코더*를 사용하여 target vocabulary $\mathcal V$로부터 target sequence를 생성
     - 특히, 이 생성되는 단어들은 input representation $x$와 이전에 생성된 단어들이나 *history*에 조건부로 생성
@@ -44,5 +59,6 @@ last_modified_at: 2020-08-12
 
 ## Beam Search Optimization (BSO)
 
+## Conclusion
 
-
+결국 Transformer에서 BSO를 쓰지는 않는 것으로... RNN계열에서 사용되는 것인데, 현재 RNN은 거의 사용하지 않으므로 크게 신경쓸 필요가 없어보인다.
