@@ -161,23 +161,33 @@ gradient는 흐르지 않지만, `PositionalEncoding` 내에서도 buffer에 등
 
 안됨. [다음](https://discuss.pytorch.org/t/using-same-dropout-object-for-multiple-drop-out-layers/39027/6?u=i_h_yoo)을 참고.
 
+## Labeling Smoothing
+
+
+## Optimizer/Warm-up step
+
+
+## Inference 어떻게 하는가?
+
+
+
 ## Beam Search
 
 우선, Beam search가 inference외에 train/test에도 사용되는지 의문이었다.
 그래서 한번 찾아봤더니, Beam Search Optimization(BSO)라는 개념이 있었다.
 이는 RNN의 beam search 과정에서 training을 원할하게 하기 위해 loss function을 조정하는 개념이다.
-Transformer에선 inference시에만 하는 것으로 추정된다. (명확하게 밝혀지지 않아서 아직은 모르겠다)
+Transformer에선 inference시에만 하는 것으로 추정된다. (명확하게 밝혀지지 않아서 확실히 모르겠다)
 
 아래는 이에 대한 정리이다.
 
 - 그 유명한 [word piece 논문](https://arxiv.org/pdf/1609.08144.pdf)을 참고
 - decoding과정에서 socre function $s(Y, X)$를 maximize하는 sequence $Y$를 찾는 것이 목적
 - Hyper parameter: dev set으로 얻음
-  - beam size: 4
+- beam size: 4
   - 이게 없으면 모델은 더 짧은 문장을 선호
     - negative log-probability를 사용하는데, 길이가 길수록, 더 negative (lower)한 값이 나오기 때문
   - 공식은 다음과 같음
-    - $s(Y, X)=log(P(Y \rvert X))/lp(Y)+ cp(X; Y) $
+    - $s(Y, X)=log(P(Y \rvert X))/lp(Y)+ cp(X; Y)$
     - $lp(Y) = (5 + \rvert Y \rvert)^\alpha $
     - $cp(X; Y) = \beta \times \sum^{\rvert X \rvert}_{i=1} log (min(\sum^{\rvert Y \rvert}_{j=1} p_{i,j}, 1.0))$
         - $ p_{i,j} $는 i번째 source word $x_i$에 대한 j번째 target word $y_j$ attention probability
@@ -187,12 +197,3 @@ Transformer에선 inference시에만 하는 것으로 추정된다. (명확하�
         - $\alpha=0, \beta=0$이면, 일반적인 beam search
   - 논문에선 length penalty $\alpha = 0.6$로 설정
   - coverage penalty는 사용하지 않은 것으로 보임
-  
-
-
-## Labeling Smoothing
-
-## Optimizer/Warm-up step
-
-
-## Inference 어떻게 하는가?
