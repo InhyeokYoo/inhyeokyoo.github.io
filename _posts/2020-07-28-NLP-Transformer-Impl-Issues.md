@@ -161,8 +161,27 @@ gradient는 흐르지 않지만, `PositionalEncoding` 내에서도 buffer에 등
 
 안됨. [다음](https://discuss.pytorch.org/t/using-same-dropout-object-for-multiple-drop-out-layers/39027/6?u=i_h_yoo)을 참고.
 
-## Labeling Smoothing
+## Labeling Smoothing module 만들기
 
+두 가지 문제가 있는데, 첫 번째로 *Labeling Smoothing이 뭔지* 모르겠고, 두 번째는 pytorch에서 custom loss를 짜는 방법을 모르겠다.
+
+### Labeling Smoothing란?
+
+Label smoothing은 regularization 기법 중 하나로, 말 그대로 label을 smoothing하는 기법이다.
+one-hot representation으로 이루어진 hard target을 soft target으로 바꾸는 것으로,
+model calibration 효과가 있다.
+
+$K$개 class에 대한 labeling smoothing vector의 $k$번째 sclar값은 다음과 같다.
+
+$$
+y^{LS}_k = y_k(1-\alpha) + alpha/K
+$$
+
+여기서 $y_k$는 $k$번째 class가 정답이면 1, 아니면 0이며, $\alpha$는 hyper parameter이다.
+
+### Custom loss in PyTorch
+
+특별한 구현 없이 `nn.Module`내에서 계산하면 알아서 loss를 계산한다.
 
 ## Optimizer/Warm-up step
 
