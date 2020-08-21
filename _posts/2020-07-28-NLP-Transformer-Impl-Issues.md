@@ -171,13 +171,18 @@ Label smoothing은 regularization 기법 중 하나로, 말 그대로 label을 s
 one-hot representation으로 이루어진 hard target을 soft target으로 바꾸는 것으로,
 model calibration 효과가 있다.
 
-$K$개 class에 대한 labeling smoothing vector의 $k$번째 sclar값은 다음과 같다.
+$K$개 class에 대한 labeling smoothing vector의 $k$번째 sclar값은 다음과 같다. 여기서 $y_k$는 $k$번째 class가 정답이면 1, 아니면 0이며, $\alpha$는 hyper parameter이다.
 
 $$
 y^{LS}_k = y_k(1-\alpha) + alpha/K
 $$
 
-여기서 $y_k$는 $k$번째 class가 정답이면 1, 아니면 0이며, $\alpha$는 hyper parameter이다.
+자 이제 문제는 **이를 어떻게 구현 할 것인가?**
+
+[OpenNMT](https://github.com/OpenNMT/OpenNMT-py/blob/e8622eb5c6117269bb3accd8eb6f66282b5e67d9/onmt/utils/loss.py#L186)나, 앞서 언급한 하버드 구현에서는 KL-divergence를 사용했다. 문제는 KL-divergence를 통해서 label smoothing을 유도하는 법을 모르겠다... 역시 수학은 손에서 놓으면 안되나보다... 이 부분은 further study로 남겨놔야 겠다.
+
+
+
 
 ### Custom loss in PyTorch
 
