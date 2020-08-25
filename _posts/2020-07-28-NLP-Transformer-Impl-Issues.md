@@ -128,13 +128,19 @@ embedding vector의 사이즈는 `[Batch x Seq_len x d_model]`이고, 각 어텐
 Add & Norm은 $\textrm{LayerNorm}(x + \textrm{Sublayer}(x))$ 으로 계산된다. LayerNorm은 [논문](https://arxiv.org/abs/1607.06450)을 보면 되고, 안에는 residual connection이 되어있다.
 PyTorch에는 `nn.LayerNorm`으로 구현되어 있다. 듣자하니 RNN에서는 BN보다 더 낫다고 한다.
 
+다만, 원래 paper와는 다르게 실제로 구현할 때는 layer norm의 순서가 약간 다르다. 대부분의 구현은 아래의 그림처럼 되어있는데, 성능이 더 좋기 때문이다. 자세한 내용은 [다음](https://tunz.kr/post/4)을 참고.
+
+![](https://tunz.kr/img/post4/transformer-prepost.png){: .align-center}{: width="500"}
+
 ## Position-wise FFN에서 `inner-layer dimensionality`가 무엇인가?
 
 본문에 보면, **the inner-layer has dimensionality $d_{ff}=2048$이라고 되어 있다. FC가 2개 이므로, 처음에 있는 FC의 weight가 `[512 x 2048]`이고, ReLU를 거친 FC가 `[2048 x 512]` 인 것으로 보인다.
 
-## dropout은 어디어디 들어가야 하는가?
+## dropout은 어디에 사용되는가?
 
-매 레이어를 통과할 때마다 해주면 될 것 같다.
+[다음](https://tunz.kr/post/4)을 참고한 결과, 논문에 나왔던데로 **sub-layer, embedding layer 다음에 drop-out을 추가하고, 논문에 나오지는 않았지만, 일반적으로 사용하는 Position-wise FC의 ReLU 이후와 attention의 softmax 이후에도 추가적으로 사용하면 된다.**
+
+> The paper described only two dropouts: one in the output of each sub-layer and the other in the embedding layers. But, two more dropouts are added to Transformer. Transformer has dropouts after ReLU in position-wise feed-forward networks, and after SoftMax in attentions.
 
 ## positional encoding의 저장문제
 
@@ -153,7 +159,7 @@ gradient는 흐르지 않지만, `PositionalEncoding` 내에서도 buffer에 등
 
 ## -1e9 vs. -2e9
 
-보통 무한대를 나타낼 때 2e9를 통해 나타내는 것으로 알고 있다. 그러나 대부분의 implementation은 1e9를 사용하는데, 그 이유를 모르겠다.
+보통 무한대를 나타낼 때 2e9를 통해 나타내는 것으로 알고 있다. 그러나 대부분의 implementation은 1e9를 사용하는데, 이는 overflow를 막기 위함이다.
 
 ## Dropout layer를 재사용해도 되는가?
 
@@ -171,18 +177,13 @@ Label smoothing은 regularization 기법 중 하나로, 말 그대로 label을 s
 one-hot representation으로 이루어진 hard target을 soft target으로 바꾸는 것으로,
 model calibration 효과가 있다.
 
-$K$개 class에 대한 labeling smoothing vector의 $k$번째 sclar값은 다음과 같다. 여기서 $y_k$는 $k$번째 class가 정답이면 1, 아니면 0이며, $\alpha$는 hyper parameter이다.
+$K$개 class에 대한 labeling smoothing vector의 $k$번째 sclar값은 다음과 같다.
 
 $$
 y^{LS}_k = y_k(1-\alpha) + alpha/K
 $$
 
-자 이제 문제는 **이를 어떻게 구현 할 것인가?**
-
-[OpenNMT](https://github.com/OpenNMT/OpenNMT-py/blob/e8622eb5c6117269bb3accd8eb6f66282b5e67d9/onmt/utils/loss.py#L186)나, 앞서 언급한 하버드 구현에서는 KL-divergence를 사용했다. 문제는 KL-divergence를 통해서 label smoothing을 유도하는 법을 모르겠다... 역시 수학은 손에서 놓으면 안되나보다... 이 부분은 further study로 남겨놔야 겠다.
-
-
-
+여기서 $y_k$는 $k$번째 class가 정답이면 1, 아니면 0이며, $\alpha$는 hyper parameter이다.
 
 ### Custom loss in PyTorch
 
@@ -190,9 +191,8 @@ $$
 
 ## Optimizer/Warm-up step
 
-
+ 
 ## Inference 어떻게 하는가?
-
 
 
 ## Beam Search
