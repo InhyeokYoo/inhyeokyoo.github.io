@@ -188,9 +188,6 @@ $$
 ### Custom loss in PyTorch
 
 특별한 구현 없이 `nn.Module`내에서 계산하면 알아서 loss를 계산한다.
-
-## Optimizer/Warm-up step
-
  
 ## Inference 어떻게 하는가?
 
@@ -205,19 +202,20 @@ Transformer에선 inference시에만 하는 것으로 추정된다. (명확하�
 아래는 이에 대한 정리이다.
 
 - 그 유명한 [word piece 논문](https://arxiv.org/pdf/1609.08144.pdf)을 참고
-- decoding과정에서 socre function $s(Y, X)$를 maximize하는 sequence $Y$를 찾는 것이 목적
+- decoding과정에서 socre function $s(Y,X)$를 maximize하는 sequence $Y$를 찾는 것이 목적
 - Hyper parameter: dev set으로 얻음
 - beam size: 4
   - 이게 없으면 모델은 더 짧은 문장을 선호
     - negative log-probability를 사용하는데, 길이가 길수록, 더 negative (lower)한 값이 나오기 때문
   - 공식은 다음과 같음
-    - $s(Y, X)=log(P(Y \rvert X))/lp(Y)+ cp(X; Y)$
-    - $lp(Y) = (5 + \rvert Y \rvert)^\alpha $
-    - $cp(X; Y) = \beta \times \sum^{\rvert X \rvert}_{i=1} log (min(\sum^{\rvert Y \rvert}_{j=1} p_{i,j}, 1.0))$
-        - $ p_{i,j} $는 i번째 source word $x_i$에 대한 j번째 target word $y_j$ attention probability
+    - $s(Y,X)=log(P(Y \rvert X))/lp(Y)+cp(X;Y)$
+    - $lp(Y)=\frac{(5+ \rvert Y \rvert)^\alpha}{(5+1)^\alpha}$
+
+    - $cp(X;Y)=\beta*\sum^{\lvert X \rvert} _{i=1} log(min(\sum^{\lvert Y \rvert} _{j=1} p _{i,j} ,1.0))$
+        - $p_{i,j} $는 i번째 source word $x_i$에 대한 j번째 target word $y_j$ attention probability
         - $5$는 minimum length로, 이 또한 조정 가능
-    - Attention 확률의 합은 1이 되므로, $\sum^{\rvert X \rvert} p_{i,j}=1$
+    - Attention 확률의 합은 1이 되므로, $\sum^{\rvert X \rvert}p_{i,j}=1$
     - $\alpha, \beta$는 length normalization과 coverage penaly를 관리하는 parameter
-        - $\alpha=0, \beta=0$이면, 일반적인 beam search
-  - 논문에선 length penalty $\alpha = 0.6$로 설정
+        - $\alpha=0,\beta=0$이면, 일반적인 beam search
+  - 논문에선 length penalty $\alpha=0.6$로 설정
   - coverage penalty는 사용하지 않은 것으로 보임
