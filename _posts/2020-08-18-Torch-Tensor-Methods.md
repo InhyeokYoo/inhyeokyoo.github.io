@@ -11,16 +11,16 @@ use_math: true
 last_modified_at: 2020-08-18
 ---
 
-## Introduction
+# Introduction
 
 PyTorch을 사용하다 보면 tensor의 유용한 method가 있다.
 이를 빠른 레퍼런스 겸 참고용으로 정리하였다.
 
-## expand/repeat
+# expand/repeat
 
 [다음](https://inhyeokyoo.github.io/pytorch/Expand-Repeat-Compare/)을 참고.
 
-## gather()
+# gather()
 
 ![](https://i.stack.imgur.com/nudGq.png){: .align-center}{: width='600'}
 
@@ -36,7 +36,7 @@ PyTorch을 사용하다 보면 tensor의 유용한 method가 있다.
 즉, `[0, 1, 2, 2]`는 `dim=0`의 index를 의미하고, dim2와 dim3은 `[0, 1, 2, 2]`의 위치에 따라 달라진다(e.g. `[0, 1, 2, 2]`는 `index`에서 `[[0][0], [0][1], [0][2], [0][3]]`의 위치에 자리잡고 있으므로, 이 값이 전달된다).
 
 
-## scatter_
+# scatter_
 
 `torch.Tensor.scatter_(dim, index, src)`는 `src` 텐서의 모든 값을 `index`값을 통해 `self`의 텐서로 변환한다. 즉, `self` tensor의 `dim`에 대해, `index`에 위치한 값들을 src의 값들로 변환한다는 뜻이다.
 
