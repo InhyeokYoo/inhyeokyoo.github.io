@@ -12,12 +12,12 @@ use_math: true
 last_modified_at: 2020-08-12
 ---
 
-## Introduction
+# Introduction
 
 [Transformer 구현](https://inhyeokyoo.github.io/pytorch/nlp/NLP-Transformer-Impl-Issues/)을 하던 도중 Beam Search에 대한 이해가 부족한 것 같아 정리를 해보려 한다.
 논문의 링크는 [여기](https://arxiv.org/pdf/1606.02960.pdf)를, reference는 따로 밑에다 달도록 하겠다.
 
-## Introductuion & Related Work
+# Introductuion & Related Work
 
 - seq2seq을 학습하는 주된 방법은 conditional language model
     - input sequence와 target words의 *gold* history를 조건부로 각 연속적인 target word의 likelihood를 maximizing
@@ -34,7 +34,7 @@ last_modified_at: 2020-08-12
         - Label bias는 [이곳](https://www.quantumdl.com/entry/Endtoend-Sequence-Labeling-via-Bidirectional-LSTMCNNsCRF)을 참조
 - 
 
-## Background and Notation
+# Background and Notation
 
 - 일단 input sequence가 인코딩되면, seq2seq은 *디코더*를 사용하여 target vocabulary $\mathcal V$로부터 target sequence를 생성
     - 특히, 이 생성되는 단어들은 input representation $x$와 이전에 생성된 단어들이나 *history*에 조건부로 생성
@@ -57,8 +57,8 @@ last_modified_at: 2020-08-12
 - 간단한 beam search 프로시져는 나중의 K개의 history를 탐색하는데, 이는 디코더에 매우 효과적으로 알려져 있음
 - 그러나, 위에서도 언급했듯, conditional language-model style training 이후에 이런방식으로 decoding하는 것은 *잠재적으로* exposure bias와 label bias문제를 겪을 가능성이 있다.
 
-## Beam Search Optimization (BSO)
+# Beam Search Optimization (BSO)
 
-## Conclusion
+# Conclusion
 
 결국 Transformer에서 BSO를 쓰지는 않는 것으로... RNN계열에서 사용되는 것인데, 현재 RNN은 거의 사용하지 않으므로 크게 신경쓸 필요가 없어보인다.
