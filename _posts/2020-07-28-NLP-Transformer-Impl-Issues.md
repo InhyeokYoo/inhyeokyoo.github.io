@@ -12,7 +12,7 @@ use_math: true
 last_modified_at: 2020-08-13
 ---
 
-## Introduction
+# Introduction
 
 PyTorch로 Transformer을 구현하며 생기는 issue를 정리해보았다.
 
@@ -20,12 +20,12 @@ PyTorch로 Transformer을 구현하며 생기는 issue를 정리해보았다.
 고민이 제일 많이 되었던 부분인데, Transformer를 먼저 만들고, 그 안에서 encoder와 decoder, 또 다시 encoder 안에서 multiheadattn 등을 만드는 식으로 잡았다. 
 너무 클래스간 결합성이 낮나 싶을 정도로 잘라놓긴 했다. 그래서 별 필요없는 parameter도 여러번 걸쳐서 scaled dop product attention까지 들어간다. 그래도 뭐 좋은게 좋은거니까...
 
-## sequence length는 미리 정해야 하는가?
+# sequence length는 미리 정해야 하는가?
 Seq2Seq은 RNN에서 알아서 반환해주니까 sequence length를 따로 생각할 필요가 없었다. 
 그러나 트랜스포머는 그런 구조가 아니므로 **sentence의 길이를 미리 정해놓고 가야 하는지 의문이 생겼다.**
 아주 당연하게도, 정답은 당연히 그래야 한다. 따라서 추후에 padding도 해야한다.
 
-## positional encoding을 어떻게 구현하는가?
+# positional encoding을 어떻게 구현하는가?
 
 우선, 내가 착각하고 있는게 있었는데, 난 여태까지 $PE_{(pos, 2i)} = sin({(\frac{pos}{10000}})^{\frac {2i} {d_{model}}})$ 인 줄 알았다.
 근데 알고보니 $PE_{(pos, 2i)} = sin({\frac{pos}{10000^{\frac {2i} {d_{model}}}}})$ 였었다.
@@ -94,7 +94,7 @@ tensor([[ 0.0000,  1.0000,  0.0000,  1.0000,  0.0000,  1.0000,  0.0000,  1.0000]
 
 위 링크의 자료에서는 이거보다 짧게 구현했지만 난 머리가 좋지 않아서 풀어쓰는게 좋다. 여튼 이해됐으면 됐지 뭐.
 
-## module을 복사할 때 `deepcopy`를 쓸까? 아니면 객체를 생성할까?
+# module을 복사할 때 `deepcopy`를 쓸까? 아니면 객체를 생성할까?
 
 Encoder 같은 경우에는 **a stack of $N = 6$ identical layers** 라고 본문에 명시되어 있다. 
 따라서 iteration을 통해서 encoder를 매번 생성해서 `Encoders`라는 `nn.Sequential`에 `add_module()`을 통해 넣는 것으로 설정했다.
@@ -104,7 +104,7 @@ Encoder 같은 경우에는 **a stack of $N = 6$ identical layers** 라고 본�
 
 만일 따로 만들어준다면, OOP, 혹은, 기능에 따라 함수를 구현하는 것으로 이해할 수 있을 것 같다.
 
-## Scaled Dot Product Attention class가 따로 필요한가?
+# Scaled Dot Product Attention class가 따로 필요한가?
 
 본문에는 input으로 q, k, v를 받는다고 되어 있다. 따라서 `forward`에서 얘네 셋을 받아줬다. 그러면 의문이 생기는게... 여기서 하는 일은 그냥 attention score 계산하는 거 밖엔 없다.
 따라서 기능상으로는 필요한 구조가 아니다 (그러나 객체지향적으론 옳아보인다). 거기다가 q, k, v는 각 attention으로 동시에 들어가기 때문에 이걸 따로 구현하는게 애매하다고 생각했다.
@@ -113,7 +113,7 @@ Encoder 같은 경우에는 **a stack of $N = 6$ identical layers** 라고 본�
 사실 여기서 더 생각해보면, Q, K, V에 대한 weight를 전부 다 합친, $W \in R^{Batch \times \textrm{Seq_len} \times \textrm{3d_model}}$을 생각할 수 있을 것 같다.
 이 경우 linear 모델에 bias가 없는 경우를 생각할 수 있을 것 같다.
 
-## W_q, W_v, W_k의 size는 어떻게 정해야 하는가?
+# W_q, W_v, W_k의 size는 어떻게 정해야 하는가?
 
 embedding vector의 사이즈는 `[Batch x Seq_len x d_model]`이고, 각 어텐션을 통과하면 `[Batch x Seq_len x d_model/h]`가 된다.
 나는 Scaled Dot Product Attention을 따로 구현하지 않았기 때문에 `[Batch x Seq_len x d_model]`이 될 것이다.
@@ -123,7 +123,7 @@ embedding vector의 사이즈는 `[Batch x Seq_len x d_model]`이고, 각 어텐
 
 그리고 굳이 `nn.Parameter()`로 구현할 필요가 없이, `nn.Linear`로 구현하면 된다. 실제로 하버드 구현은 `nn.Linear`로 되어 있다. 저번에 attention 구현했을 때와 마찬가지로 bias는 포함하면 될 것 같다.
 
-## Add & Norm은 뭐지?
+# Add & Norm은 뭐지?
 
 Add & Norm은 $\textrm{LayerNorm}(x + \textrm{Sublayer}(x))$ 으로 계산된다. LayerNorm은 [논문](https://arxiv.org/abs/1607.06450)을 보면 되고, 안에는 residual connection이 되어있다.
 PyTorch에는 `nn.LayerNorm`으로 구현되어 있다. 듣자하니 RNN에서는 BN보다 더 낫다고 한다.
@@ -132,17 +132,17 @@ PyTorch에는 `nn.LayerNorm`으로 구현되어 있다. 듣자하니 RNN에서�
 
 ![](https://tunz.kr/img/post4/transformer-prepost.png){: .align-center}{: width="500"}
 
-## Position-wise FFN에서 `inner-layer dimensionality`가 무엇인가?
+# Position-wise FFN에서 `inner-layer dimensionality`가 무엇인가?
 
 본문에 보면, **the inner-layer has dimensionality $d_{ff}=2048$이라고 되어 있다. FC가 2개 이므로, 처음에 있는 FC의 weight가 `[512 x 2048]`이고, ReLU를 거친 FC가 `[2048 x 512]` 인 것으로 보인다.
 
-## dropout은 어디에 사용되는가?
+# dropout은 어디에 사용되는가?
 
 [다음](https://tunz.kr/post/4)을 참고한 결과, 논문에 나왔던데로 **sub-layer, embedding layer 다음에 drop-out을 추가하고, 논문에 나오지는 않았지만, 일반적으로 사용하는 Position-wise FC의 ReLU 이후와 attention의 softmax 이후에도 추가적으로 사용하면 된다.**
 
 > The paper described only two dropouts: one in the output of each sub-layer and the other in the embedding layers. But, two more dropouts are added to Transformer. Transformer has dropouts after ReLU in position-wise feed-forward networks, and after SoftMax in attentions.
 
-## positional encoding의 저장문제
+# positional encoding의 저장문제
 
 앞서 `positional_encoding`을 다룬 하버드 자료에서는 `self.register_buffer`에 `pe`를 할당하는 모습을 볼 수 있다.
 `register_buffer`는 `nn.Paramter`와는 다르게, gradient가 흐르지는 않지만, `nn.Module`의 `state_dict`에 저장할 필요가 있을 때
@@ -153,25 +153,25 @@ gradient는 흐르지 않지만, `PositionalEncoding` 내에서도 buffer에 등
 
 재미있는 점은 `self.register_buffer`로 등록하면, **자동으로 instance의 attribute**로 등록된다는 점이다.
 
-## src_mask가 왜 필요하지?
+# src_mask가 왜 필요하지?
 
 [PyTorch 문서](https://pytorch.org/docs/stable/generated/torch.nn.Transformer.html#torch.nn.Transformer)를 보면 forward에 src_mask에 해당하는 parameter가 있다. 이게 왜 필요하지 싶어서 알아보았는데, `<pad>` token을 위해서였다. 패드 토큰은 attention weight에 영향을 주면 안되므로, 이를 0으로 처리한다.
 
-## -1e9 vs. -2e9
+# -1e9 vs. -2e9
 
 보통 무한대를 나타낼 때 2e9를 통해 나타내는 것으로 알고 있다. 그러나 대부분의 implementation은 1e9를 사용하는데, 이는 overflow를 막기 위함이다.
 
-## Dropout layer를 재사용해도 되는가?
+# Dropout layer를 재사용해도 되는가?
 
 ![image](https://user-images.githubusercontent.com/47516855/89760837-212d1980-db28-11ea-9f64-1ba9b649b8d9.png){: .align-center}{: width="700"}
 
 안됨. [다음](https://discuss.pytorch.org/t/using-same-dropout-object-for-multiple-drop-out-layers/39027/6?u=i_h_yoo)을 참고.
 
-## Labeling Smoothing module 만들기
+# Labeling Smoothing module 만들기
 
 두 가지 문제가 있는데, 첫 번째로 *Labeling Smoothing이 뭔지* 모르겠고, 두 번째는 pytorch에서 custom loss를 짜는 방법을 모르겠다.
 
-### Labeling Smoothing란?
+## Labeling Smoothing란?
 
 Label smoothing은 regularization 기법 중 하나로, 말 그대로 label을 smoothing하는 기법이다.
 one-hot representation으로 이루어진 hard target을 soft target으로 바꾸는 것으로,
@@ -185,14 +185,11 @@ $$
 
 여기서 $y_k$는 $k$번째 class가 정답이면 1, 아니면 0이며, $\alpha$는 hyper parameter이다.
 
-### Custom loss in PyTorch
+## Custom loss in PyTorch
 
 특별한 구현 없이 `nn.Module`내에서 계산하면 알아서 loss를 계산한다.
- 
-## Inference 어떻게 하는가?
 
-
-## Beam Search
+# Beam Search
 
 우선, Beam search가 inference외에 train/test에도 사용되는지 의문이었다.
 그래서 한번 찾아봤더니, Beam Search Optimization(BSO)라는 개념이 있었다.
@@ -210,10 +207,12 @@ Transformer에선 inference시에만 하는 것으로 추정된다. (명확하�
   - 공식은 다음과 같음
     - $s(Y,X)=log(P(Y \rvert X))/lp(Y)+cp(X;Y)$
     - $lp(Y)=\frac{(5+ \rvert Y \rvert)^\alpha}{(5+1)^\alpha}$
+      - $ \rvert Y \rvert$는 Y의 length
+      - $5$는 minimum length로, 이 또한 조정 가능
 
     - $cp(X;Y)=\beta*\sum^{\lvert X \rvert} _{i=1} log(min(\sum^{\lvert Y \rvert} _{j=1} p _{i,j} ,1.0))$
         - $p_{i,j} $는 i번째 source word $x_i$에 대한 j번째 target word $y_j$ attention probability
-        - $5$는 minimum length로, 이 또한 조정 가능
+    
     - Attention 확률의 합은 1이 되므로, $\sum^{\rvert X \rvert}p_{i,j}=1$
     - $\alpha, \beta$는 length normalization과 coverage penaly를 관리하는 parameter
         - $\alpha=0,\beta=0$이면, 일반적인 beam search
