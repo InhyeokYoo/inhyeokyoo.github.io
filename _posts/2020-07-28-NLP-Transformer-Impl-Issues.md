@@ -1,5 +1,5 @@
 ---
-title:  "Transformer 구현 Issue 정리 (아직 작성 중)"
+title:  "Transformer 구현 Issue 정리"
 excerpt: "PyTorch로 Transformer을 구현하며 생기는 issue를 정리해보았다."
 toc: true
 toc_sticky: true
