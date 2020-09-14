@@ -26,24 +26,33 @@ last_modified_at: 2020-09-11
 
 우선 ELMo는 [Jozefowicz et al. (2016)](https://arxiv.org/abs/1602.02410)와 [Kim et al. (2015)](https://arxiv.org/pdf/1508.06615.pdf)에 기반하고 있다고 밝히고 있으니, 이를 필히 읽어야 한다.
 
-> The pre-trained biLMs in this paper are similar tothe  architectures in  J ́ozefowicz  et al.  (2016) andKim  et  al.  (2015)  
+> The pre-trained biLMs in this paper are similar to the  architectures in  J ozefowicz  et al. (2016) and Kim  et  al.  (2015)  
 ...  
 we halved all embedding and hidden dimensions from the singlebest model CNN-BIG-LSTM in Jozefowicz et al.(2016).
 
-#### Kim et al. (2015)
+## 전처리과정
 
-- $\mathcal C$: vocaburalry of chraceters
-- $d$: the  dimensionality of character embeddings
-  - 여기서 $d < \lvert \mathcal C \rvert$
-- $\mathbf Q \in \mathbb R^{d \times \lvert \mathcal C \rvert}$: character embedding의 matrix
-- 이러한 word embedding $\mathbf Q$와 width w를 갖는 *filter (or kernel)* $\mathbf H \in  \mathbb R^{d \times w$ 사이의 narrow convoultion을 적용
-- 이후 bias와 non-linearity를 추가하여 feature map을 얻음
+biLM을 돌리기 위해서는, 
+- sequence 내에 word를 그대로 받은 이후에 (tensor X)
+- 각 word를 iterate하며 character를 모아야 함
 
+말이야 쉽지 이미 전처리 라인을 `Field`와 `Vocab`으로 구성해놓은 걸 어느 세월에 character level로 바꾸나 싶어서 당황스러웠다. 또한, language modeling에서의 전처리 과정에서 특수문자는 어떻게 처리하는지도 모르겠다.
 
-$e _w$: word embedding for $w$
+또한, WikiText2는 영어 외에도 일본어같은 다양한 언어가 들어있다. 따라서 이를 적절하게 처리할 방법이 필요하다.
 
-흠.. 구현이슈 정리인데 하다보니 논문정리가 되는 듯 하다.
+## WikiText2에서 batch_size로 만드는 방법
 
-## Embedding layer의 vocab size는 어떻게 되는가?
+`BPTTIterator`를 이용해서 iterator를 만들어보았는데, 분명 batch size 옵션을 넣었는데도 불구하고 `[1, seq_len]`의 tensor를 반환한다. 뭔가 이상하다 싶어서 알아봤는데, `bptt_len`옵션을 넣어줘야 batch로 반환하는 것으로 보인다. 아래와 같이 작성하면 잘 작동한다.
 
-character만 하므로, 26개의 alphabet만 하면 되는가 싶다가도, space라던가, apostrophe, puncation 등은 어떻게 처리하나 궁금해졌다.
+```python
+train_iter, valid_iter, test_iter = BPTTIterator.splits(
+    (train_data, valid_data, test_data),
+    batch_size=32,
+    bptt_len=30, # this is where we specify the sequence length
+    device=0,
+    repeat=False)
+```
+
+## LM의 전처리 과정
+
+character를 embedding 하므로, 26개의 alphabet만 하면 되는가 싶다가도, space라던가, apostrophe, puncation 등은 어떻게 처리하나 궁금해졌다. 또한, 앞서 언급했듯, WikiText2는 영어 외에도 일본어같은 다양한 언어가 들어있다. 따라서 이를 적절하게 처리할 방법이 필요할 것 같다.
