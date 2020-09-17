@@ -60,7 +60,7 @@ markdown을 이용한다.
 ![큰 이미지](https://mmistakes.github.io/minimal-mistakes/assets/images/image-alignment-580x300.jpg){: .align-center}
 
 
-<img src='https://mmistakes.github.io/minimal-mistakes/assets/images/image-alignment-580x300.jpg' width=300>{: .align-center}
+![큰 이미지](https://mmistakes.github.io/minimal-mistakes/assets/images/image-alignment-580x300.jpg){: .align-center}{: width="400"}
 
 ## Markup
 
