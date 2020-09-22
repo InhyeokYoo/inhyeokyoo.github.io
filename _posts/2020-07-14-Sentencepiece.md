@@ -149,7 +149,7 @@ for i in range(num_merges):
 
 ## WordPiece Model (WPM)
 
-WordPiece는 또 다른 word segmentation algorithm으로, subword-nmt와 흡사하다. [Schuster and Nakajima, (2012)](https://static.googleusercontent.com/media/research.google.com/ko//pubs/archive/37842.pdf)가 공개한 논문 *'Japanese and Korean voice search'*에서 처음 제안 되었다. subword-nmt와 비슷하지만 다른 점은 새로운 subword를 구성할 때 빈도수로 결정하는 것이 아니라 **likelihood**로 계산하는 것이다.
+WordPiece는 또 다른 word segmentation algorithm으로, subword-nmt와 흡사하다. [Schuster and Nakajima, (2012)](https://static.googleusercontent.com/media/research.google.com/ko//pubs/archive/37842.pdf)가 공개한 논문 'Japanese and Korean voice search'에서 처음 제안 되었다. subword-nmt와 비슷하지만 다른 점은 새로운 subword를 구성할 때 빈도수로 결정하는 것이 아니라 **likelihood**로 계산하는 것이다.
 
 ### Algorithm
 
@@ -328,7 +328,7 @@ sp.DecodeIds(ids)
 'This eBook is for the use of anyone anywhere at no cost'
 ```
 
-공식 github의 사용법 번역본은 [다음](https://github.com/InhyeokYoo/NLP/blob/master/2.%20Sub-word%20Model/Sentencepiece_python_module_example.ipynb)을 참고.
+공식 github의 사용법을 번역한 문서를 colab으로 만들어서 배포 중에 있다. [다음](https://github.com/InhyeokYoo/NLP/blob/master/2.%20Sub-word%20Model/Sentencepiece_python_module_example.ipynb)을 참고해서 따라해보자.
 
 
 

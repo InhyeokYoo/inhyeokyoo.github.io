@@ -1,5 +1,5 @@
 ---
-title:  "한국어 전처리의 이해"
+title:  "한국어 전처리의 이해 (미완성)"
 excerpt: "한국어 전처리에 대한 Zero-to-All"
 toc: true
 toc_sticky: true
@@ -52,9 +52,6 @@ last_modified_at: 2020-09-16
 | Unsupervised | [SoyNLP](https://github.com/lovit/soynlp) |  형태소 분석, 품사 판별 등을 지원하는 파이썬 기반 한국어 자연어 처리 패키. 하나의 문장 혹은 문서에서보다는 어느 정도 규모가 있으면서 동질적인 문서 집합(Homogeneous Documents)에서 잘 작동함 |
 | Unsupervised | [SentencePiece](https://github.com/google/sentencepiece) | 구글에서 분석한 subword segmentation으로, BPE, Unigram, WordPiece 등을 지원 |
 
-
-
-
 # Lemmatization, stemming
 
 **김기현의 자연어처리** 8.3 절을 보면 다음과 같은 내용이 나온다.
@@ -66,7 +63,7 @@ last_modified_at: 2020-09-16
 ...  
 따라서 처음부터 lemmatization 또는 stemming을 한 후에 텍스트 분류 문제에 접근하는 것보다는, **일단은 하지 않은 상태에서, 이후 설명할 신경망 모델을 사용하여 텍스트 분류 문제 해결을 시도하여 베이스라인 성능을 확보**함이 바람직합니다. 이후에 성능 향상을 위한 차원에서 여러 가지 튜닝 및 시도를 할 때 **코퍼스 양의 부족이 성능 저하의 원인이라는 가정이 성립**되면, 그때 lemmatization 또는 stemming을 추가로 실험해보는 편이 낫습니다.
 
-# PLM vs. TF-IDF/Word embedding 같은거는 전혀 안쓰나?
+# PLM vs. TF-IDF/Word embedding
 
 PLM을 학습시킬 여력이 안되는 경우엔 울며 겨자먹기로 TF-IDF 혹은 word2vec 등을 써야되는 경우가 생길텐데, 이들의 성능 차이가 과연 얼마나 나는지 궁금했다. 또한, 자연어처리 오픈카톡방에서 누군가가 
 
@@ -116,6 +113,4 @@ If you are working with basic NLP techniques like BOW, Count Vectorizer or TF-ID
 
 # 날짜, 돈, 사람이름 등은 어떻게 전처리를 해야하나?
 
-Entity recognition이랑 비슷하지만, 이를 전처리 단계에서 신경써주어야 하는 의문이 든다. 즉 다음과 같은 문장이 있을 때,
-
-> 
+Entity recognition이랑 비슷하지만, 이를 전처리 단계에서 신경써주어야 하는 의문이 든다.

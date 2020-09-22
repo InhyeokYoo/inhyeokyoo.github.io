@@ -74,38 +74,8 @@ last_modified_at: 2020-07-17
 처음에는 바보처럼 탑 배열을 stack으로 넣고 pop하며 크기를 비교하느라 O(N^2)의 시간이 걸렸다.
 stack에 대한 이해가 부족하다는걸 느꼈다.
 바보처럼 짠 코드는 다음과 같다.
-```python
-import sys
 
-num = int(sys.stdin.readline().strip()) # [1, 500,000]
-stack = list(map(int, sys.stdin.readline().split())) # O(N)
-
-answer = [0 for _ in range(num)] # O(N)
-mn_fire = float('inf')
-mx_fire = 0
-prev_hit_idx = 0
-
-while len(stack) != 1: # O(N)
-    fire = stack.pop()
-
-    record_idx = len(stack) # answer에 기록 용도
-    hit_idx = len(stack) # hit 확인 용도
-    
-    if fire < mn_fire or record_idx <= prev_hit_idx:
-        while hit_idx > 0: # O(N^2)
-            hit_idx -= 1
-
-            if stack[hit_idx] > fire:
-                answer[record_idx] = hit_idx + 1 # hit_idx는 index이므로 +1을 해줌.
-                mx_fire = stack[hit_idx]
-                mn_fire = fire
-                prev_hit_idx = hit_idx
-                break
-    else:
-        answer[record_idx] = prev_hit_idx + 1
-        
-print(*answer)
-```
+<script src="https://gist.github.com/InhyeokYoo/edd62e15ae3c6bdf57438895f8ee169b.js"></script>
 
 `while`에서 탑의 배열을 한 번, 크기 비교를 위해 남는 stack에서 한 번, 총 2번의 iteration을 도는 것을 확인할 수 있다.
 
@@ -161,53 +131,13 @@ print(*answer)
   - end loop
 
 그냥 생으로 풀면 O(N^2) 나오므로 잘 생각해야 한다. 만약 코딩테스트에서 이런 문제를 봤다면, regular expression으로 풀었을 거 같은데, 이 경우에도 시간초과가 발생한다.
-```python
-import sys
-import re
 
-string = sys.stdin.readline().rstrip()
-bomb = sys.stdin.readline().rstrip()
-n = len(bomb)
+<script src="https://gist.github.com/InhyeokYoo/97a6c5af87fb1499e14a1f5e25560793.js"></script>
 
-p = re.compile(bomb)
-
-loop_ctr = True
-
-while loop_ctr:
-    if p.search(string):
-        string = p.sub('', string)
-    else:
-        loop_ctr = False
-
-if string:
-    print(string)
-else:
-    print('FRULA')
-```
 
 따라서 다음 방법으로 풀었었는데, kO(N) 정도가 되서 역시 실패하였다.
-```python
-import sys
 
-string = list(sys.stdin.readline().rstrip()) # O(1,000,000)
-bomb = list(sys.stdin.readline().rstrip()) # O(36)
-bomb.reverse() # O(36)
-
-n = len(bomb)
-temp = []
-
-while string: # O(1,000,000)
-    temp.append(string.pop())
-    
-    if temp[-n:] == bomb: # O(36)
-        temp = temp[:-n] # O(36)
-else:
-    if temp:
-        temp.reverse() # O(1,000,000)
-        print(*temp)
-    else:
-        print('FRULA')
-```
+<script src="https://gist.github.com/InhyeokYoo/bfd72f67b00ec4d3bcf7f60cb4062cde.js"></script>
 
 여기서의 실책은 `while`을 쓰느라고 `reverse`와 slice로 시간 복잡도를 증가한 것이다.
 잘 기억해뒀다가 써먹으면 좋을 것 같다.

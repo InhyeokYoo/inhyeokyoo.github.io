@@ -50,72 +50,13 @@ Queue의 종류로는 Circular queue, Priority queue가 있다.
 
 다음은 List로 구현한 코드이다.
 
-```python
-class Queue(list):
-
-    enqueue = list.append
-
-    def dequeue(self):
-        return self.pop(0)
-
-    def is_empty(self):
-        if not self:
-            return True
-        else:
-            return False
-
-    def peek(self):
-        return self[0]
-```
+<script src="https://gist.github.com/InhyeokYoo/f727945c6cf6dc9402a12e6fa390dcc6.js"></script>
 
 그러나 dequeue시에 `pop(0)`를 하면 O(N)의 시간복잡도를 갖아 상당히 느려진다. 반면 `collections.deque`의 경우 O(1)이 된다. 이는 doubly linked list로 이루어져 있기 때문이다.
 
 다음은 linked list를 이용하여 구현한 모습이다.
 
-```python
-class Node:
-    def __init__(self, data) -> None:
-        self.data = data
-        self.next = None
-
-class Queue:
-    def __init__(self) -> None:
-        self.head = None # 선입
-        self.tail = None # 후입
-
-    def is_empty(self) -> bool:
-        if not self.head:
-            return True
-
-        return False
-
-    def enqueue(self, data):
-        # Insert
-        new_node = Node(data)
-
-        if self.is_empty():
-            self.head = new_node
-            self.tail = new_node
-            return
-        # n-1 데이터의 다음 데이터가 n번째 데이터가 됨
-        self.tail.next = new_node
-        # 새로운 데이터는 Last Input이 됨
-        self.tail = new_node
-
-    def dequeue(self):
-        if self.is_empty():
-            return None
-
-        ret_data = self.head.data # FIFO
-        self.head = self.head.next # 그 다음 데이터가 FI가 됨
-        return ret_data
-
-    def peek(self):
-        if self.is_empty():
-            return None
-
-        return self.head.data
-```
+<script src="https://gist.github.com/InhyeokYoo/8e8ce07795682f3cf16f8341c232f923.js"></script>
 
 
 ## Reference
@@ -160,73 +101,7 @@ front와 rear가 같으면 큐가 비어있다. 따라서 이를 이용하여 `i
 rear의 바로 다음이 front이면 큐는 꽉 찬 것이다. 따라서 이를 이용하여 `is_full()`을 구현한다.
 혹은, size를 따로 지정한 후,
 
-```python
-class CircularQueue:
-    def __init__(self, max=5):
-        self.max = max
-        self.queue = [None] * self.max
-        self.front = 0
-        self.rear = 0
-
-    def is_empty(self):
-        return self.rear == self.front
-
-    def is_full(self):
-        if self.next_index(self.rear) == self.front:
-            return True
-        else:
-            return False
-
-    def next_index(self, idx):
-        return (idx + 1) % self.max
-
-    def enqueue(self, data):
-        if self.is_full():
-            raise Exception("Queue is full")
-
-        if self.rear == None:
-            self.rear = 0
-        else:
-            self.rear = self.next_index(self.rear)
-
-        self.queue[self.rear] = data
-        return self.queue[self.rear]
-
-    def deque(self):
-        if self.is_empty():
-            raise Exception("Queue is empty")
-        
-        self.queue[self.front] = None
-        self.front = self.next_index(self.front)
-        return self.queue[self.front]
-```
-
-```python
-a = CircularQueue()
-print("enqueue시에는 rear만 움직임.")
-for i in range(4):
-    a.enqueue(i)
-    print(f"\t{a.queue}: front:{a.front}, rear:{a.rear}")
-
-print("deque시에는 front만 움직임")
-for i in range(4):
-    a.deque()
-    print(f"\t{a.queue}: front:{a.front}, rear:{a.rear}")
-```
-
-```
-# 결과:
-enqueue시에는 rear만 움직임.
-    [None, 0, None, None, None]: front:0, rear:1
-    [None, 0, 1, None, None]: front:0, rear:2
-    [None, 0, 1, 2, None]: front:0, rear:3
-    [None, 0, 1, 2, 3]: front:0, rear:4 # (rear + 1) % 5 == 0 이므로 full.
-deque시에는 front만 움직임
-    [None, 0, 1, 2, 3]: front:1, rear:4
-    [None, None, 1, 2, 3]: front:2, rear:4
-    [None, None, None, 2, 3]: front:3, rear:4
-    [None, None, None, None, 3]: front:4, rear:4 # rear == front면 empty
-```
+<script src="https://gist.github.com/InhyeokYoo/bf94c4d59230a1473e64bd6cad1d8f50.js"></script>
 
 ## Reference
 
@@ -252,48 +127,7 @@ python에서는 `heapq` 모듈을 통해 구현되어 있다.
 
 데이터를 삽입할 때 `priority`를 통해 우선순위를 함께 삽입한다.
 
-```python
-import heapq
-
-class PriorityQueue:
-    def __init__(self) -> None:
-        self.queue = []
-        self.count = 0
-
-    def enqueue(self, priority, value):
-        self.count += 1
-        heapq.heappush(self.queue, (priority, value))
-
-    def dequeue(self):
-        return heapq.heappop(self.queue)
-
-pq = PriorityQueue()
-
-print("Enqueue")
-inputs = [1, 3, 5, 2, 0, 9, 4, 3]
-for idx, item in enumerate(inputs):
-    pq.enqueue(item, f"test{idx}")
-    print(f"\t{item},{idx}: -> {pq.queue}")
-```
-
-```
-Enqueue
-    1,0: -> [(1, 'test0')]
-    3,1: -> [(1, 'test0'), (3, 'test1')]
-    5,2: -> [(1, 'test0'), (3, 'test1'), (5, 'test2')]
-    2,3: -> [(1, 'test0'), (2, 'test3'), (5, 'test2'), (3, 'test1')]
-    0,4: -> [(0, 'test4'), (1, 'test0'), (5, 'test2'), (3, 'test1'), (2, 'test3')]
-    9,5: -> [(0, 'test4'), (1, 'test0'), (5, 'test2'), (3, 'test1'), (2, 'test3'), (9, 'test5')]
-    4,6: -> [(0, 'test4'), (1, 'test0'), (4, 'test6'), (3, 'test1'), (2, 'test3'), (9, 'test5'), (5, 'test2')]
-    3,7: -> [(0, 'test4'), (1, 'test0'), (4, 'test6'), (3, 'test1'), (2, 'test3'), (9, 'test5'), (5, 'test2'), (3, 'test7')]
-```
-
-```
-Dequeue: [(0, 'test4'), (1, 'test0'), (4, 'test6'), (3, 'test1'), (2, 'test3'), (9, 'test5'), (5, 'test2'), (3, 'test7')]
-    (0, 'test4') -> [(1, 'test0'), (2, 'test3'), (4, 'test6'), (3, 'test1'), (3, 'test7'), (9, 'test5'), (5, 'test2')]
-    (1, 'test0') -> [(2, 'test3'), (3, 'test1'), (4, 'test6'), (5, 'test2'), (3, 'test7'), (9, 'test5')]
-    (2, 'test3') -> [(3, 'test1'), (3, 'test7'), (4, 'test6'), (5, 'test2'), (9, 'test5')]
-```
+<script src="https://gist.github.com/InhyeokYoo/a13baae14048473041262f070d06abc4.js"></script>
 
 ## Refrence
 
