@@ -121,3 +121,14 @@ NLP task을 위한 supervised model과 pre-trained biLM이 주어졌을 때, biL
 - 다운스트림 task에선 증가
 - 이는 domain trasnfer의 일종으로 간주 가능
 - 결과적으로, 대부분의 다운스트림 task에서 fine-tuned biLM을 사용
+
+# 추가사항:
+
+## pre-trained language representation 종류
+
+- feature-based
+  - 특정 task를 수행하는 network에 pre-trained LM을 추가적인 feature로 제공하는 방식 (ELMo)
+- fine-tuning
+  - task-specific한 parameter를 최대한 줄이고, pre-trained된 parameter들을 downstream task 학습을 통해 fine-tuning하는 방식 (BERT)
+
+## Fine-tuning vs. Transfer learning
