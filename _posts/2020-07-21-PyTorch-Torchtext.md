@@ -12,26 +12,24 @@ use_math: true
 last_modified_at: 2020-07-21
 ---
 
-## Introduction
-
-
+# Introduction
 
 PyTorch를 통해 NLP를 처리하다보면 torchtext를 사용하게 되는데, 마테리얼도 따로 없고... 공부할 방법이 마땅치가 않다.
-이번 기회에 한번 정리해보자
+이번 기회에 한번 정리해보자. Colab문서는 [다음](https://github.com/InhyeokYoo/NLP/blob/master/utils/1.%20torchtext/1_torchtext_tutorial.ipynb)을 참조하며 따라해보자.
 
 torchtext로 할 수 있는 목록은 다음과 같다.
 - File loading
 - Tokenization
-- generate a vocabulary list(Vocab)
+- Generate a vocabulary list(Vocab)
 - Numericalize/Indexify
 - Word Vector
 - Batching
     
-## Field
+# Field
 
-다음은 [공식문서](https://pytorch.org/text/data.html#fields)에서 발췌한 내용이다.
+다음은 [공식문서](https://pytorch.org/text/data.html#torchtext.data.Field)에서 발췌한 내용이다.
 > Field는 Tensor로 변환하기 위한 지시사항과 datatype을 함께 정의한다.  
-Field 클래스는 tensor로 표현될 수 있는 공통의 text processing dataype을 모델링한다. 이에는 field의  요소에 대해 모든 가능한 값과 이에 대응되는 숫자표현을 정의하는 Vocab 객체를 갖고 있다. Field객체는 또한 datatype이 숫자로 변환되는 방법(Tokenization, Tensor의 생성 방법)에 관련된 parameter를 갖고 있다.  
+Field 클래스는 tensor로 표현될 수 있는 공통의 text processing datatype을 모델링한다. 이에는 field의  요소에 대해 모든 가능한 값과 이에 대응되는 숫자표현을 정의하는 Vocab 객체를 갖고 있다. Field객체는 또한 datatype이 숫자로 변환되는 방법(Tokenization, Tensor의 생성 방법)에 관련된 parameter를 갖고 있다.  
 만약 Field가 데이터 셋 내에서 두 개의 컬럼에 작용하는 경우(e.g. QA), 이 컬럼들은 같은 vocabulary를 갖는다.
 
 뭔 말인진 알겠으면서 잘 모르겠다. Parameter를 제공한다 했으니 한번 살펴보자.
@@ -55,16 +53,15 @@ Field 클래스는 tensor로 표현될 수 있는 공통의 text processing data
 - `stop_words=None`: 불용어
 - ` is_target=False`: 레이블 데이터 여부
 
-대충 text 데이터를 처리하는데 있어서 사용할 것이란 감이 온다. 각종 special token부터 전/후처리 등을 담당한다.
-한번 만들어보자.
+대충 text 데이터를 처리하는데 있어서 사용할 것이란 감이 온다.
+
+다음은 실사용 예시이다. Many-to-one model을 가정하고, 텍스트에 관련된 `TEXT` Field와 이에 대한 label정보를 갖는 `LABEL` Field를 만들었다. 데이터 타입에 따라 파라미터가 어떻게 바뀌는지 직접 확인해보자.
 
 <script src="https://gist.github.com/InhyeokYoo/48d680bb7f70cc773d4a702f428a4702.js"></script>
 
-
-
 ## Dataset
 
-이제 데이터 셋을 만들어보자
+이제 데이터 셋을 만들어보자. 
 
 ## Reference
 

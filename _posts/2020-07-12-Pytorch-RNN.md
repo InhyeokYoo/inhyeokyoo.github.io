@@ -16,19 +16,19 @@ last_modified_at: 2020-07-12
 
 ### 기본 구조
 
-우리가 생각하는 것과는 다르게, RNN은 $x\_1, ..., x\_{t}$\]의 sequence 데이터 전부를 필요로 한다. 즉, iteratively $x=1, 2, 3, ...$을 하나씩 넣는 구조가 아니다. 기본 구조는 다음과 같이 생겼다.
+우리가 생각하는 것과는 다르게, RNN은 $x_1, ..., x_{t}$]의 sequence 데이터 전부를 필요로 한다. 즉, iteratively $x=1, 2, 3, ...$을 하나씩 넣는 구조가 아니다. 기본 구조는 다음과 같이 생겼다.
 
 ```python
 model = RNN(input_size: int, hidden_size: int, num_layers: int=1, bias=True, batch_first: bool, dropout: float, bidirectional: bool=False, nonlinearity: str='tanh')
 ```
 
--   input\_size: 말 그대로 input의 size. 자연어 처리에서는 embedding 차원이 된다. 일반적인 sequence 데이터라면 # features가 될 것이다.
--   'hidden\_size': hidden state의 dimension.
--   'num\_layers': layer의 개수를 의미한다. 우리가 알고있는 RNN은 보통 layer 1개 짜리다. 밑은 2개짜리 RNN이다.
+-   input_size: 말 그대로 input의 size. 자연어 처리에서는 embedding 차원이 된다. 일반적인 sequence 데이터라면 # features가 될 것이다.
+-   'hidden_size': hidden state의 dimension.
+-   'num_layers': layer의 개수를 의미한다. 우리가 알고있는 RNN은 보통 layer 1개 짜리다. 밑은 2개짜리 RNN이다.
 
 ![](https://www.researchgate.net/profile/Matt_Bianchi/publication/318720785/figure/fig2/AS:520568544137216@1501124620230/Multi-layer-RNN-for-SLEEPNET.png)
 
--   batch\_first: 이 옵션을 주면, input의 데이터 구조가 batch first로 바뀐다. 밑에서 후술.
+-   batch_first: 이 옵션을 주면, input의 데이터 구조가 batch first로 바뀐다. 밑에서 후술.
 -   nonlinearity: non-linear 함수. 디폴트는 tanh고, relu를 줄 수가 있다.
 
 RNN에 feed할 때 input의 차원은 `[Seq_len, Batch_size, Hidden_size]`가 된다. 만일 `batch_first=True`라면, `[Batch_size, Seq_len, Hidden_size]` 형태로 feed하면 된다. 또 다른 input인 `hidden`의 경우, `[num_layers * num_directions, batch, hidden_size]`이 된다. 이는 `batch_first=True` 유무와 무관하다. 이는 초기 hidden state $h\_0$를 의미한다.
@@ -79,24 +79,7 @@ model = GRU(input_size: int, hidden_size: int, num_layers: int=1, bias=True, bat
 
 LSTM의 bias term은 `[b_ig | b_fg | b_gg | b_og]` 형태로 되어 있다. 따라서 두번째 `b_fg`를 적당히 큰 값(1 or 2)으로 초기화 해주면 된다. 이는 다음을 통해서 실행 가능하다. (출처: [https://discuss.pytorch.org/t/set-forget-gate-bias-of-lstm/1745/4](https://discuss.pytorch.org/t/set-forget-gate-bias-of-lstm/1745/4))
 
-```python
-l = LSTM(10, 20, 2)
-
-print(l._all_weights) 
-# [['weight_ih_l0', 'weight_hh_l0', 'bias_ih_l0', 'bias_hh_l0'],
-# ['weight_ih_l1', 'weight_hh_l1', 'bias_ih_l1', 'bias_hh_l1']]
-
-INIT_VAL = 1 # some large value
-l.bias_ih_l0.data[20:40].fill_(1) = INIT_VAL # check where b_fg is at
-
-# All you can set the bias for all forget gates:
-for names in l._all_weights:
-    for name in filter(lambda n: "bias" in n,  names):
-        bias = getattr(l, name)
-        n = bias.size(0)
-        start, end = n//4, n//2
-        bias.data[start:end].fill_(1.)
-```
+<script src="https://gist.github.com/InhyeokYoo/21f2da7e29c723a26167ac42c7533b34.js"></script>
 
 ### Dropout
 

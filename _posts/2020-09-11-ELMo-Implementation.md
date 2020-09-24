@@ -44,14 +44,7 @@ biLM을 돌리기 위해서는,
 
 `BPTTIterator`를 이용해서 iterator를 만들어보았는데, 분명 batch size 옵션을 넣었는데도 불구하고 `[1, seq_len]`의 tensor를 반환한다. 뭔가 이상하다 싶어서 알아봤는데, `bptt_len`옵션을 넣어줘야 batch로 반환하는 것으로 보인다. 아래와 같이 작성하면 잘 작동한다.
 
-```python
-train_iter, valid_iter, test_iter = BPTTIterator.splits(
-    (train_data, valid_data, test_data),
-    batch_size=32,
-    bptt_len=30, # this is where we specify the sequence length
-    device=0,
-    repeat=False)
-```
+<script src="https://gist.github.com/InhyeokYoo/827545227b081452cd2345010e23aff8.js"></script>
 
 ## LM의 전처리 과정
 
