@@ -18,6 +18,8 @@ last_modified_at: 2020-08-31
 
 NLP 스터디에서 ELMo를 공부할 차례가 되서 간략하게 정리해보았다. 원 논문은 [다음](https://arxiv.org/abs/1802.05365)에서 확인할 수 있다.
 
+---
+
 # 3. ELMo: Embeddings from Language Models
 
 ELMo word representations
@@ -122,13 +124,26 @@ NLP task을 위한 supervised model과 pre-trained biLM이 주어졌을 때, biL
 - 이는 domain trasnfer의 일종으로 간주 가능
 - 결과적으로, 대부분의 다운스트림 task에서 fine-tuned biLM을 사용
 
-# 추가사항:
+# 추가사항
 
-## pre-trained language representation 종류
+## Pre-trained Language Representation 종류
 
 - feature-based
   - 특정 task를 수행하는 network에 pre-trained LM을 추가적인 feature로 제공하는 방식 (ELMo)
+  - ELMo가 pre-trained LM에 다른 word vector를 concat해서 사용하는 것을 생각하면 될듯
 - fine-tuning
   - task-specific한 parameter를 최대한 줄이고, pre-trained된 parameter들을 downstream task 학습을 통해 fine-tuning하는 방식 (BERT)
+  - BERT는 ELMo와는 다르게 END-TO-END로 사용
 
-## Fine-tuning vs. Transfer learning
+## Fine-tuning vs. Transfer Learning
+
+비슷한 맥락에서 비슷하게 사용하는 개념인데, 이 둘의 차이를 구체적으로 비교하고, 이에는 어떤 종류가 있는지 살펴보지.
+
+- Transfer Learning (Domain Adaptation)
+  - pre-trained model $f(x)$가 있고, 새롭게 학습할 도메인 $g()$가 있을 때, $g(f(x))$를 학습
+  - train the same model with another dataset that has a different distribution of classes
+
+  - Fine-tuning
+    - **an approach of Transfer Learning**
+    - making some fine adjustments to further improve performance
+    - For train data set, 90% for training, train the same model with **the remaining 10%**
