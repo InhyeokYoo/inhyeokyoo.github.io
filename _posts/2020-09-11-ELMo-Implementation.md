@@ -13,6 +13,7 @@ tags:
 
 use_math: true
 last_modified_at: 2020-09-25
+comments: true
 ---
 
 # Intro.
@@ -59,7 +60,7 @@ character를 embedding 하므로, 26개의 alphabet만 하면 되는가 싶다�
 
 논문에 보면 Jozefowicz et al. (2016)의 CNN에서 사이즈를 반토막 낸다고 되어 있는데(4096 -> 2048), filter map의 사이즈가 정확하게 안 나와있다.
 
-그러나 cs224n 등의 자료를 보면 filter size가 나와있으므로, 이를 활용하면 될듯 싶다.
+그러나 [이기창님의 자료](https://github.com/ratsgo/embedding/blob/master/models/bilm/training.py#L114)를 보면, filter size가 나와있으므로, 이를 활용하면 될듯 싶다.
 
 # BiLM
 
