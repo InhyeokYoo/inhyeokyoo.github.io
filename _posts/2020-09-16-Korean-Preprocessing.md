@@ -1,5 +1,5 @@
 ---
-title:  "한국어 전처리의 이해 (미완성)"
+title:  "한국어 전처리의 이해 (작성 중)"
 excerpt: "한국어 전처리에 대한 Zero-to-All"
 toc: true
 toc_sticky: true
@@ -7,6 +7,7 @@ toc_sticky: true
 categories:
   - NLP
   - PyTorch
+  - Fucking Lazy
 tags:
   - Language Modeling
 

@@ -1,5 +1,5 @@
 ---
-title:  "Deep contextualized word representations 정리"
+title:  "Deep contextualized word representations 정리 (추가 작성 중)"
 excerpt: "ELMO 정리"
 toc: true
 toc_sticky: true
@@ -9,6 +9,7 @@ categories:
 tags:
   - Paper
   - Language Modeling
+  - Fucking Lazy
 
 use_math: true
 last_modified_at: 2020-08-31

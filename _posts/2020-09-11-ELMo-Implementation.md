@@ -7,17 +7,18 @@ toc_sticky: true
 categories:
   - NLP
   - PyTorch
+  - Fucking Lazy
 tags:
   - Language Modeling
 
 use_math: true
-last_modified_at: 2020-09-11
+last_modified_at: 2020-09-25
 ---
 
 # Intro.
 
 [지난번](https://inhyeokyoo.github.io/nlp/ELMO-Paper/)엔 ELMo에 대해 알아보았으니, 이제는 구현을 할 차례이다.
-본 포스트에서는 ELMo를 구현하며 궁금한 점과 issue를 정리해보았다.
+본 포스트에서는 ELMo를 구현하며 궁금한 점과 issue를 정리해보았다. 완성본은 [다음 repo](https://github.com/InhyeokYoo/NLP/tree/master/papers/4.%20ELMo)을 참고하자.
 
 # Character CNN Embedding
 
@@ -30,7 +31,11 @@ last_modified_at: 2020-09-11
 ...  
 we halved all embedding and hidden dimensions from the singlebest model CNN-BIG-LSTM in Jozefowicz et al.(2016).
 
-## 전처리과정
+아래는 이를 종합적으로 정리한 내용이다 (cs224n)
+
+![CNN Embedding](https://user-images.githubusercontent.com/47516855/94338680-2b9b6800-002f-11eb-83b3-34f3f5df884d.png)
+
+## torch text를 활용한 chracter embedding 방법
 
 biLM을 돌리기 위해서는, 
 - sequence 내에 word를 그대로 받은 이후에 (tensor X)
@@ -49,3 +54,15 @@ biLM을 돌리기 위해서는,
 ## LM의 전처리 과정
 
 character를 embedding 하므로, 26개의 alphabet만 하면 되는가 싶다가도, space라던가, apostrophe, puncation 등은 어떻게 처리하나 궁금해졌다. 또한, 앞서 언급했듯, WikiText2는 영어 외에도 일본어같은 다양한 언어가 들어있다. 따라서 이를 적절하게 처리할 방법이 필요할 것 같다.
+
+## Filter map size
+
+논문에 보면 Jozefowicz et al. (2016)의 CNN에서 사이즈를 반토막 낸다고 되어 있는데(4096 -> 2048), filter map의 사이즈가 정확하게 안 나와있다.
+
+그러나 cs224n 등의 자료를 보면 filter size가 나와있으므로, 이를 활용하면 될듯 싶다.
+
+# BiLM
+
+여기는 딱히 어려운 내용은 없다만 워낙 논문이 개떡같아서...
+
+## 

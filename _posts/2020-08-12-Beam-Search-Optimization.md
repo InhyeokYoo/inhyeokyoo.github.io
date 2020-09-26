@@ -1,5 +1,5 @@
 ---
-title:  "Beam Search Optimization (아직 작성 중)"
+title:  "Beam Search Optimization (미완성)"
 excerpt: "Beam Search에 대한 이해와 구현"
 toc: true
 toc_sticky: true
@@ -62,3 +62,4 @@ last_modified_at: 2020-08-12
 # Conclusion
 
 결국 Transformer에서 BSO를 쓰지는 않는 것으로... RNN계열에서 사용되는 것인데, 현재 RNN은 거의 사용하지 않으므로 크게 신경쓸 필요가 없어보인다.
+따라서 포스트 중도포기.

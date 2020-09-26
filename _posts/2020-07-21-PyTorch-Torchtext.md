@@ -8,8 +8,9 @@ categories:
   - PyTorch
   - NLP
   - Torchtext
+  - Fucking Lazy
 use_math: true
-last_modified_at: 2020-07-21
+last_modified_at: 2020-09-21
 ---
 
 # Introduction
