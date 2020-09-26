@@ -256,7 +256,7 @@ tag_archive:
 compress_html:
   clippings: all
   ignore:
-    envs: production
+    envs: development
 
 
 # Defaults
