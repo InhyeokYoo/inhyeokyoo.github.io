@@ -64,6 +64,22 @@ last_modified_at: 2020-09-16
 ...  
 따라서 처음부터 lemmatization 또는 stemming을 한 후에 텍스트 분류 문제에 접근하는 것보다는, **일단은 하지 않은 상태에서, 이후 설명할 신경망 모델을 사용하여 텍스트 분류 문제 해결을 시도하여 베이스라인 성능을 확보**함이 바람직합니다. 이후에 성능 향상을 위한 차원에서 여러 가지 튜닝 및 시도를 할 때 **코퍼스 양의 부족이 성능 저하의 원인이라는 가정이 성립**되면, 그때 lemmatization 또는 stemming을 추가로 실험해보는 편이 낫습니다.
 
+아래는 한국어 문법 및 처리에 대한 reference이다. 
+
+[말뭉치를 이용한 한국어 용언 분석기 (Korean Lemmatizer) ](https://lovit.github.io/nlp/2019/01/22/trained_kor_lemmatizer/)
+
+[한국어 용언의 활용 함수 (Korean conjugation)](https://lovit.github.io/nlp/2018/06/11/conjugator/)
+
+[어간 추출(Stemming) and 표제어 추출(Lemmatization)](https://settlelib.tistory.com/57)
+
+밑의 논문은 한국어 sub word representation에 대한 연구이다.
+
+[Subword-level Word Vector Representations for korean](https://catsirup.github.io/ai/2020/03/12/subword-level-word-vector-representations-for-korean.html)
+
+[KR-BERT: A Small-Scale Korean-Specific Language Model](https://www.semanticscholar.org/paper/KR-BERT%3A-A-Small-Scale-Korean-Specific-Language-Lee-Jang/c0ba595b2bef54f2552ec4716bb187901f52f4a3)
+
+[Advanced Subword Segmentation and Interdependent Regularization Mechanisms for Korean Language Understanding](https://ieeexplore.ieee.org/document/8903977)
+
 # PLM vs. TF-IDF/Word embedding
 
 PLM을 학습시킬 여력이 안되는 경우엔 울며 겨자먹기로 TF-IDF 혹은 word2vec 등을 써야되는 경우가 생길텐데, 이들의 성능 차이가 과연 얼마나 나는지 궁금했다. 또한, 자연어처리 오픈카톡방에서 누군가가 
@@ -95,7 +111,6 @@ PLM을 학습시킬 여력이 안되는 경우엔 울며 겨자먹기로 TF-IDF 
 
 
 엄청나게 성능이 향상하는 것은 아니지만, 어쨋든 fine-tuning의 문제도 있고, 성능이 올라간 것은 사실이기 때문에 PLM을 쓰는게 좋다는 생각이 들긴 한다. 한번 쓰고 버릴 것도 아니니까...
-
 
 
 # Task에 따라 전처리 및 feature extraction과정이 달라지나?
