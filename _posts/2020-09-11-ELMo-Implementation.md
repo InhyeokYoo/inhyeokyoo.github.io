@@ -43,8 +43,9 @@ biLM을 돌리기 위해서는,
 - 각 word를 iterate하며 character를 모아야 함
 
 말이야 쉽지 이미 전처리 라인을 `Field`와 `Vocab`으로 구성해놓은 걸 어느 세월에 character level로 바꾸나 싶어서 당황스러웠다. 또한, language modeling에서의 전처리 과정에서 특수문자는 어떻게 처리하는지도 모르겠다.
+또한, WikiText2는 영어 외에도 일본어같은 다양한 언어가 들어있다. 따라서 이를 적절하게 처리할 방법이 필요하다. 
 
-또한, WikiText2는 영어 외에도 일본어같은 다양한 언어가 들어있다. 따라서 이를 적절하게 처리할 방법이 필요하다.
+우선 찾다보니 torchtext 깃허브에 [이슈](https://github.com/pytorch/text/issues/834)로 등록된 글을 찾았는데, contributor중 하나가 고맙게도 [gist](https://gist.github.com/akurniawan/30719686669dced49e7ced720329a616)로 코드를 작성해주었다. 물론 NMT 데이터 셋에 대한 것이고, 잘 작동하지 않아서 좀 고쳐야 하지만, 최소한 시작점 위에는 올라선 셈.
 
 ## WikiText2에서 batch_size로 만드는 방법
 
@@ -61,6 +62,13 @@ character를 embedding 하므로, 26개의 alphabet만 하면 되는가 싶다�
 논문에 보면 Jozefowicz et al. (2016)의 CNN에서 사이즈를 반토막 낸다고 되어 있는데(4096 -> 2048), filter map의 사이즈가 정확하게 안 나와있다.
 
 그러나 [이기창님의 자료](https://github.com/ratsgo/embedding/blob/master/models/bilm/training.py#L114)를 보면, filter size가 나와있으므로, 이를 활용하면 될듯 싶다.
+
+## CNN parallel
+
+ELMo 구조를 보면 여러 filter map size에 대해 convolution 연산을 하기 때문에, 이를 병렬로 처리하여 loop 구조를 탈피해야만 했다.
+그러나 여러방면으로 노력해도 이에 대한 자료를 찾을 수는 없었다. 각 in_channels에 대해 convolution 연산을 처리할 순 있으나, 우리의 in_channels는 embedding dimension이므로 이 조차도 실패.
+
+그리고 애초에 [AllenAI](https://github.com/allenai/allennlp/blob/master/allennlp/modules/elmo.py#L410)조차도 iterative 돌리고 있으므로 이대로 issue close.
 
 # BiLM
 
