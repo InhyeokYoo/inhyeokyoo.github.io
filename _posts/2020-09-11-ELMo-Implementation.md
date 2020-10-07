@@ -42,9 +42,7 @@ biLM을 돌리기 위해서는,
 - sequence 내에 word를 그대로 받은 이후에 (tensor X)
 - 각 word를 iterate하며 character를 모아야 함
 
-말이야 쉽지 이미 전처리 라인을 `Field`와 `Vocab`으로 구성해놓은 걸 어느 세월에 character level로 바꾸나 싶어서 당황스러웠다. 또한, language modeling에서의 전처리 과정에서 특수문자는 어떻게 처리하는지도 모르겠다.
-또한, WikiText2는 영어 외에도 일본어같은 다양한 언어가 들어있다. 따라서 이를 적절하게 처리할 방법이 필요하다. 
-
+말이야 쉽지 이미 전처리 라인을 `Field`와 `Vocab`으로 구성해놓은 걸 어느 세월에 character level로 바꾸나 싶어서 당황스러웠다. 
 우선 찾다보니 torchtext 깃허브에 [이슈](https://github.com/pytorch/text/issues/834)로 등록된 글을 찾았는데, contributor중 하나가 고맙게도 [gist](https://gist.github.com/akurniawan/30719686669dced49e7ced720329a616)로 코드를 작성해주었다. 물론 NMT 데이터 셋에 대한 것이고, 잘 작동하지 않아서 좀 고쳐야 하지만, 최소한 시작점 위에는 올라선 셈.
 
 ## WikiText2에서 batch_size로 만드는 방법
@@ -55,7 +53,7 @@ biLM을 돌리기 위해서는,
 
 ## LM의 전처리 과정
 
-character를 embedding 하므로, 26개의 alphabet만 하면 되는가 싶다가도, space라던가, apostrophe, puncation 등은 어떻게 처리하나 궁금해졌다. 또한, 앞서 언급했듯, WikiText2는 영어 외에도 일본어같은 다양한 언어가 들어있다. 따라서 이를 적절하게 처리할 방법이 필요할 것 같다.
+character를 embedding 하므로, 26개의 alphabet만 하면 되는가 싶다가도, space라던가, apostrophe, puncation, capital 등은 어떻게 처리하나 궁금해졌다. 또한, ikiText2는 영어 외에도 일본어같은 다양한 언어가 들어있다. 따라서 이를 적절하게 처리할 방법이 필요하다.
 
 ## Filter map size
 
@@ -68,10 +66,15 @@ character를 embedding 하므로, 26개의 alphabet만 하면 되는가 싶다�
 ELMo 구조를 보면 여러 filter map size에 대해 convolution 연산을 하기 때문에, 이를 병렬로 처리하여 loop 구조를 탈피해야만 했다.
 그러나 여러방면으로 노력해도 이에 대한 자료를 찾을 수는 없었다. 각 in_channels에 대해 convolution 연산을 처리할 순 있으나, 우리의 in_channels는 embedding dimension이므로 이 조차도 실패.
 
-그리고 애초에 [AllenAI](https://github.com/allenai/allennlp/blob/master/allennlp/modules/elmo.py#L410)조차도 iterative 돌리고 있으므로 이대로 issue close.
+그리고 애초에 [AllenAI](https://github.com/allenai/allennlp/blob/master/allennlp/modules/elmo.py#L410)조차도 iterative 돌리고 있으므로 이대로 issue closed.
 
 # BiLM
 
-여기는 딱히 어려운 내용은 없다만 워낙 논문이 개떡같아서...
+전반적으로 내용을 정리하면, CNN을 통해 Char embedding의 결과인 2048 (halved from 4096) 차원의 word embeddings에 대해, $L=2$인 biLSTM을 통과하고, 첫번째 레이어부터 2번째 레이어까지의 residual connection 하나와 LSTM 사이에 projection layer 하나가 있다.
 
-## 
+## Residual connection
+
+본문에는 *add a residual connection between LSTM layers*라고 되어 있는데, 정확히 어떻게 되는건지 모르겠다. 첫 번째 LSTM의 시작(input)에서 두 번째 LSTM의 시작(input)으로 residual connection을 연결한다는 것인지, 첫 번째 LSTM의 결과(output)와 두 번째 LSTM의 결과(output)을 연결한다는 것인지 헷갈린다. 
+
+딱히 중요한 것은 아니므로, 둘 다 시도해서 성능을 비교하는 것도 좋아보인다.
+
