@@ -80,6 +80,12 @@ last_modified_at: 2020-09-16
 
 [Advanced Subword Segmentation and Interdependent Regularization Mechanisms for Korean Language Understanding](https://ieeexplore.ieee.org/document/8903977)
 
+[국민은행의 KB-Albert](https://github.com/KB-Bank-AI/KB-ALBERT-KO#3-subtoken-based-model%EC%9D%98-%EA%B2%BD%EC%9A%B0-bpe%EC%9D%B4%EC%A0%84-%EB%8B%A8%EA%B3%84%EC%97%90-%EC%96%B4%EA%B7%BC%EC%96%B4%EB%AF%B8-%EB%B6%84%EB%A6%AC%EB%A5%BC-%EC%A7%84%ED%96%89%ED%95%98%EB%8F%84%EB%A1%9D-%EC%B6%94%EA%B0%80)에서는 다음과 같이 밝히고 있다.
+>- 한글에 BPE를 바로 적용하는 것 보다 형태소 분석 후에 적용하는 것이 일반적으로 성능이 더 좋음.
+> - 하지만 보통 형태소 분석기의 경우 50여개의 형태소 태그를 분류하기 위한 연산의 오버로드와 형태소의 원형을 복원하기 위한 오버로드가 상당한데, 실제로 BPE의 입력에는 해당 부분이 사용 되지 않음.
+> - 그래서 형태소 분석 말뭉치를 변형하여 간단히 어근과 어미만 분리(실제로는 명사와 동사 어근)하기 위한 말뭉치를 생성 해냈으며, 해당 말뭉치와 CRF를 이용하여 간단한 전처리기(어근 분리기)를 구현 ⇒ 세종 말뭉치에 대해서 99.1%의 정확도 보임.
+
+
 # PLM vs. TF-IDF/Word embedding
 
 PLM을 학습시킬 여력이 안되는 경우엔 울며 겨자먹기로 TF-IDF 혹은 word2vec 등을 써야되는 경우가 생길텐데, 이들의 성능 차이가 과연 얼마나 나는지 궁금했다. 또한, 자연어처리 오픈카톡방에서 누군가가 

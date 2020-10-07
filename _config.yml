@@ -23,7 +23,7 @@ masthead_title           : # overrides the website title displayed in the masthe
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
 comments:
-  provider               : "facebook" # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "custom"
+  provider               : "disqus" # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "custom"
   disqus:
     shortname            : "inhyeokyoo-github-io" # https://help.disqus.com/customer/portal/articles/466208-what-s-a-shortname-
   discourse:
@@ -88,7 +88,7 @@ analytics:
 author:
   name             : "Inhyeok Yoo"
   avatar           : "/assets/images/1530372896823.jpg"
-  bio              : "자연어처리와 머신러닝, 딥러닝에 관심많은 백수입니다."
+  bio              : "자연어처리와 머신러닝, 그리고 딥러닝"
   location         : "Seoul, South Korea"
   email            :
   links:
@@ -250,14 +250,12 @@ tag_archive:
 #     category: /categories/:name/
 #     tag: /tags/:name/
 
-
 # HTML Compression
 # - https://jch.penibelst.de/
 compress_html:
   clippings: all
   ignore:
     envs: development
-
 
 # Defaults
 defaults:
@@ -266,7 +264,6 @@ defaults:
       path: ""
       type: posts
     values:
-      classes: wide
       layout: single
       author_profile: false
       read_time: true
