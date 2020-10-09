@@ -45,6 +45,8 @@ biLM을 돌리기 위해서는,
 말이야 쉽지 이미 전처리 라인을 `Field`와 `Vocab`으로 구성해놓은 걸 어느 세월에 character level로 바꾸나 싶어서 당황스러웠다. 
 우선 찾다보니 torchtext 깃허브에 [이슈](https://github.com/pytorch/text/issues/834)로 등록된 글을 찾았는데, contributor중 하나가 고맙게도 [gist](https://gist.github.com/akurniawan/30719686669dced49e7ced720329a616)로 코드를 작성해주었다. 물론 NMT 데이터 셋에 대한 것이고, 잘 작동하지 않아서 좀 고쳐야 하지만, 최소한 시작점 위에는 올라선 셈.
 
+좀 더 issue를 찾아보니, [다음](https://github.com/pytorch/text/issues/444)을 약간 수정하여 torchtext를 이용한 Field, dataset 등을 만들 수 있었다.
+
 ## WikiText2에서 batch_size로 만드는 방법
 
 `BPTTIterator`를 이용해서 iterator를 만들어보았는데, 분명 batch size 옵션을 넣었는데도 불구하고 `[1, seq_len]`의 tensor를 반환한다. 뭔가 이상하다 싶어서 알아봤는데, `bptt_len`옵션을 넣어줘야 batch로 반환하는 것으로 보인다. 아래와 같이 작성하면 잘 작동한다.
@@ -59,22 +61,36 @@ character를 embedding 하므로, 26개의 alphabet만 하면 되는가 싶다�
 
 논문에 보면 Jozefowicz et al. (2016)의 CNN에서 사이즈를 반토막 낸다고 되어 있는데(4096 -> 2048), filter map의 사이즈가 정확하게 안 나와있다.
 
-그러나 [이기창님의 자료](https://github.com/ratsgo/embedding/blob/master/models/bilm/training.py#L114)를 보면, filter size가 나와있으므로, 이를 활용하면 될듯 싶다.
+좀 더 자료를 찾다보니 [이기창님의 자료](https://github.com/ratsgo/embedding/blob/master/models/bilm/training.py#L114)에서 filter size를 확인할 수 있었다. 
+그러나, 실제로 더해보면, 2048이 되기까지 512가 부족하다.
 
 ## CNN parallel
 
 ELMo 구조를 보면 여러 filter map size에 대해 convolution 연산을 하기 때문에, 이를 병렬로 처리하여 loop 구조를 탈피해야만 했다.
-그러나 여러방면으로 노력해도 이에 대한 자료를 찾을 수는 없었다. 각 in_channels에 대해 convolution 연산을 처리할 순 있으나, 우리의 in_channels는 embedding dimension이므로 이 조차도 실패.
+그러나 여러방면으로 노력해도 이에 대한 자료를 찾을 수는 없었다. 각 in_channels에 대해 convolution 연산을 처리할 순 있으나(depth convolution), 우리의 in_channels는 embedding dimension이므로 이 조차도 실패.
 
-그리고 애초에 [AllenAI](https://github.com/allenai/allennlp/blob/master/allennlp/modules/elmo.py#L410)조차도 iterative 돌리고 있으므로 이대로 issue closed.
+그러나 [AllenAI](https://github.com/allenai/allennlp/blob/master/allennlp/modules/elmo.py#L410)조차도 iteratively 돌리고 있으므로 이대로 issue closed.
 
 # BiLM
 
 전반적으로 내용을 정리하면, CNN을 통해 Char embedding의 결과인 2048 (halved from 4096) 차원의 word embeddings에 대해, $L=2$인 biLSTM을 통과하고, 첫번째 레이어부터 2번째 레이어까지의 residual connection 하나와 LSTM 사이에 projection layer 하나가 있다.
 
+## Dimesion 일치
+
+Dimension이 조금 헷갈리게 되어 있는데 정리하면 다음과 같다.
+
+- Char Embedding:
+  - > The context insensitive type representation uses 2048 character n-gram convolutional filters followed by two highway layers (Srivastava et al., 2015) and a linear projection down to a 512 representation.
+  - CNN의 결과 **2048**의 embedding vector를 얻게 되고, highway network를 통과해도 이는 변하지 않는다 (차원 보존). 이에 projection하여 **512** 차원을 갖게 된다.
+- LSTM:
+  - > The final model uses L = 2 biLSTM layers with 4096 units and 512 dimension projections and a residual connection from the first to second layer.
+  - 이는 2-stacked LSTM에 bidirectional한 구조가 **4096**개의 parameter를 갖는다는 뜻이다. 또한, cell과 hidden 두 개의 state가 있으므로, LSTM의 output은 **1024**의 dimension을 갖아야 한다. 즉, $4096 / (n_layers * n_directions * 2)$ 이므로, LSTM의 output은 **512**가 된다. 논문에 언급된 loss항에 따라, 1024를 forward/backward로 나누어 더하면 **512**가 되는 구조이다.
+
+따라서 embedding과 각 LSTM의 결과는 **512**차원이 된다.
+
 ## Residual connection
 
 본문에는 *add a residual connection between LSTM layers*라고 되어 있는데, 정확히 어떻게 되는건지 모르겠다. 첫 번째 LSTM의 시작(input)에서 두 번째 LSTM의 시작(input)으로 residual connection을 연결한다는 것인지, 첫 번째 LSTM의 결과(output)와 두 번째 LSTM의 결과(output)을 연결한다는 것인지 헷갈린다. 
 
-딱히 중요한 것은 아니므로, 둘 다 시도해서 성능을 비교하는 것도 좋아보인다.
+딱히 어려운 구현은 아니므로, 둘 다 시도해서 성능을 비교하는 것도 좋아보인다.
 
