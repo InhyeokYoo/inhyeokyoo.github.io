@@ -1,5 +1,5 @@
 ---
-title:  "Deep contextualized word representations (ELMo) 구현 Issue (작성 중)"
+title:  "Deep contextualized word representations (ELMo) 구현 Issue"
 excerpt: "PyTorch ELMo 구현 이슈 정리"
 toc: true
 toc_sticky: true
@@ -7,7 +7,6 @@ toc_sticky: true
 categories:
   - NLP
   - PyTorch
-  - Fucking Lazy
 tags:
   - Language Modeling
 
@@ -24,7 +23,7 @@ comments: true
 # Character CNN Embedding
 
 처음에 읽을 때 뭐 이런 논문이 다 있나 싶었는데, 모델 구조도 정확하게 안 나와있고, 다른 논문의 citation에 의존하고 있어서 굉장히 당황스러웠다.
-읽을 땐 그냥 그랬는데, 이를 막상 구현하자니 이렇게 막막할 수가... 
+읽을 땐 그냥 그랬는데, 막상 구현하자니 매우 막막했다.
 
 우선 ELMo는 [Jozefowicz et al. (2016)](https://arxiv.org/abs/1602.02410)와 [Kim et al. (2015)](https://arxiv.org/pdf/1508.06615.pdf)에 기반하고 있다고 밝히고 있으니, 이를 필히 읽어야 한다.
 
@@ -57,12 +56,16 @@ biLM을 돌리기 위해서는,
 
 character를 embedding 하므로, 26개의 alphabet만 하면 되는가 싶다가도, space라던가, apostrophe, puncation, capital 등은 어떻게 처리하나 궁금해졌다. 또한, ikiText2는 영어 외에도 일본어같은 다양한 언어가 들어있다. 따라서 이를 적절하게 처리할 방법이 필요하다.
 
+당장 논문구현과는 관계가 없으므로, 논문 구현 후에 따로 포스팅 하는 것이 좋아보인다.
+
 ## Filter map size
 
 논문에 보면 Jozefowicz et al. (2016)의 CNN에서 사이즈를 반토막 낸다고 되어 있는데(4096 -> 2048), filter map의 사이즈가 정확하게 안 나와있다.
 
 좀 더 자료를 찾다보니 [이기창님의 자료](https://github.com/ratsgo/embedding/blob/master/models/bilm/training.py#L114)에서 filter size를 확인할 수 있었다. 
 그러나, 실제로 더해보면, 2048이 되기까지 512가 부족하다.
+
+걍 잘못된거였다. 마지막 갯수가 1024이면 된다.
 
 ## CNN parallel
 
@@ -94,3 +97,9 @@ Dimension이 조금 헷갈리게 되어 있는데 정리하면 다음과 같다.
 
 딱히 어려운 구현은 아니므로, 둘 다 시도해서 성능을 비교하는 것도 좋아보인다.
 
+# 기타
+
+## runtimeerror: CUDA error: device-side assert triggered/ CUDNN_STATUS_NOT_INITIALIZED
+
+GPU 단에서 다음과 같은 에러가 발생했다. 살펴보니 주로 `nn.CrossEntropy`에서 발생하는 문제로 보인다. (index error라던가)
+만약 이런 문제가 발생할 경우, 먼저 cpu위로 텐서를 올린 후 재실행하는 것이 좋다. cpu위에서 에러가 발생할 경우엔 에러 메시지를 정확하게 확인할 수 있기 때문이다.
