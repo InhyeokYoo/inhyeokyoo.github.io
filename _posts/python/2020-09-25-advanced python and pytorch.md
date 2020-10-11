@@ -5,11 +5,10 @@ toc: true
 toc_sticky: true
 
 categories:
-  - Deep Learning
   - PyTorch
   - Python
+tags:
   - Fucking Lazy
-
 use_math: true
 last_modified_at: 2020-09-25
 ---

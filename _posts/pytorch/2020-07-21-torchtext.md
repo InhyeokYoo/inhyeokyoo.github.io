@@ -5,9 +5,8 @@ toc: true
 toc_sticky: true
 
 categories:
-  - PyTorch
-  - NLP
   - Torchtext
+tags:
   - Fucking Lazy
 use_math: true
 last_modified_at: 2020-09-21

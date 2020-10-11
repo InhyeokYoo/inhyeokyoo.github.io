@@ -7,9 +7,9 @@ toc_sticky: true
 categories:
   - NLP
   - PyTorch
-  - Fucking Lazy
 tags:
   - Language Modeling
+  - Fucking Lazy
 
 use_math: true
 last_modified_at: 2020-09-16

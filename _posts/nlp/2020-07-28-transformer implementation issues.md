@@ -3,18 +3,17 @@ title:  "Transformer 구현 Issue 정리"
 excerpt: "PyTorch로 Transformer을 구현하며 생기는 issue를 정리해보았다."
 toc: true
 toc_sticky: true
-
+permalink: /project/nlp/transformer-issue/
 categories:
   - PyTorch
   - NLP
-
 use_math: true
 last_modified_at: 2020-08-13
 ---
 
 # Introduction
 
-PyTorch로 Transformer을 구현하며 생기는 issue를 정리해보았다.
+PyTorch로 Transformer을 구현하며 생기는 issue를 정리해보았다. 구현한 repo는 [다음](https://github.com/InhyeokYoo/NLP/tree/master/papers/3.%20Transformer)을 참고.
 
 우선 구조 이야기를 해보겠다.
 고민이 제일 많이 되었던 부분인데, Transformer를 먼저 만들고, 그 안에서 encoder와 decoder, 또 다시 encoder 안에서 multiheadattn 등을 만드는 식으로 잡았다. 

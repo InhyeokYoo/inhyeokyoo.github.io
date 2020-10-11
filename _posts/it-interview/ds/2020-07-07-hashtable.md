@@ -3,21 +3,19 @@ title:  "CS 비전공자의 IT 기업 면접 뽀개기 - (1) Data Structure - Ha
 excerpt: "HashTable 자료구조를 알아보자"
 toc: true
 toc_sticky: true
-
+permalink: /project/IT-interview/DS/hashtable/
 categories:
   - IT-Interview
+  - Data Structure
 tags:
   - CS
   - HashTable
-  - Data Structure
 last_modified_at: 2020-07-07
 ---
 
-# IT 면접준비 1. Data Structure - HashTable
-- [Array, LinkedList](https://inhyeokyoo.github.io/recruiting/Array-LinkedList-post/)
-- **HashTable**
-- [Stack](https://inhyeokyoo.github.io/recruiting/stack-post/)
-- [Queue](https://inhyeokyoo.github.io/recruiting/queue-post/)
+자료구조(Data structure)는 데이터들의 모임, 관계, 함수, 명령 등의 집합을 의미한다. 즉, 처리하고자 하는 데이터들이 모여 있는 형태, 혹은, 처리하고자 하는 데이터들 사이의 관계 (수직, 상하, 일방적, 상호 등)를 정의한 것, 혹은, 데이터들을 사용하기 용이하게 저장해 놓은 형태라고 볼 수 있다.
+
+자료구조를 잘 선택하면 사용하는 메모리와 시간, 공간적 효율성을 확보할 수 있다.
 
 # HashTable
 
@@ -42,9 +40,9 @@ Hashtable의 특징은 다음과 같다.
 -   Hash function의 의존도가 높다.
     
 
-## Hash function의 종류
+# Hash function의 종류
 
-### 1\. Division method
+## 1. Division method
 
 나눗셈 법은 입력 값을 테이블의 크기로 나누고, 나머지를 테이블의 주소로 사용한다.
 
@@ -52,16 +50,16 @@ Hashtable의 특징은 다음과 같다.
 -   테이블의 크기를 n이라 하면, `[0, n-1]`의 주소를 반환함을 보장한다.
 -   테이블의 크기는 소수로 정하는 것이 좋다고 알려져 있다.
 
-### 2\. Digit folding
+## 2. Digit folding
 
 숫자의 각 자릿수를 더해 해시 값을 만든다.
 
 -   문자열에 잘 어울린다. 문자열의 각 요소를 ASCII 코드 번호로 바꾸고, 이 값들을 다 더하면 hash table 내의 주소로 변환된다.  
     ![](https://t1.daumcdn.net/cfile/tistory/161C99415027FF6E18)
 
-## Hash 충돌을 피하는 방법(Collision resolution)
+# Hash 충돌을 피하는 방법(Collision resolution)
 
-### 1\. Separate chaining
+## 1. Separate chaining
 
 ![](https://media.vlpt.us/post-images/cyranocoding/329e7e60-b226-11e9-a4ce-730fc6b3757a/16eBeaqTti8MxWPsw4xBgw.png)
 
@@ -84,7 +82,7 @@ Hashtable의 특징은 다음과 같다.
 
 삭제나 탐색 시, O(키의 개수/ bucket의 길이)만큼의 시간복잡도를 갖는다. 이는 평균적으로 bucket에서 1개의 hash당 들어있는 키의 개수이다.
 
-### 2\. Open Addressing
+## 2. Open Addressing
 
 ![](https://media.vlpt.us/post-images/cyranocoding/7c9f8040-b226-11e9-89af-8fc0a61dbc3e/19O8Eyd9wEhZKhwrXzKJaw.png)
 
@@ -107,12 +105,12 @@ Hashtable의 특징은 다음과 같다.
 
 삽입, 삭제, 탐색 모두 Hash 과정에 따라 계산된다. Hash가 비어있는 경우 O(1)이지만, 최악의 경우 O(N)이 된다.
 
-## Remark
+# Remark
 
 1.  연관배열(associative array): key 1개와 value 1개가 1:1로 연관되어 있는 자료구조를 의미한다.
 2.  Cluster: 일부 지역의 주소들을 집중적으로 반환 하는 결과로 데이터들이 한 곳에 모이는 문제를 뜻한다.
 
-## Reference
+# Reference
 
 [https://velog.io/@cyranocoding/Hash-Hashing-Hash-Table%ED%95%B4%EC%8B%9C-%ED%95%B4%EC%8B%B1-%ED%95%B4%EC%8B%9C%ED%85%8C%EC%9D%B4%EB%B8%94-%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%EC%9D%98-%EC%9D%B4%ED%95%B4-6ijyonph6o](https://velog.io/@cyranocoding/Hash-Hashing-Hash-Table%ED%95%B4%EC%8B%9C-%ED%95%B4%EC%8B%B1-%ED%95%B4%EC%8B%9C%ED%85%8C%EC%9D%B4%EB%B8%94-%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%EC%9D%98-%EC%9D%B4%ED%95%B4-6ijyonph6o)
 

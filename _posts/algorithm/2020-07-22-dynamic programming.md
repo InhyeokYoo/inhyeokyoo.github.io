@@ -3,7 +3,7 @@ title:  "백준 DP 풀이 모음집"
 excerpt: "Python으로 풀어보는 백준 DP 문제"
 toc: true
 toc_sticky: true
-
+permalink: /project/algorithm/DP/
 categories:
   - Algorithm
 tags:
@@ -14,23 +14,11 @@ use_math: true
 last_modified_at: 2020-07-22
 ---
 
-## Introduction
-
 백준에서 DP 풀이 만을 모아놓았다. 예전에 푼 것은 수정하기가 귀찮아서 그냥 올렸는데 앞으로 푸는 것은 풀이 과정도 정리해서 올릴 예정이다. 
-
 사용언어는 Python이다. 
+TOC를 통해 바로가기를 해보자.
 
-오른쪽 TOC를 통해 바로가기를 해보자.
-
-### 알고리즘 바로가기
-- [스택](https://inhyeokyoo.github.io/algorithm/Algorithm-Stack/)
-- [큐](https://inhyeokyoo.github.io/algorithm/algorithm-queue/)
-- [순환 큐](https://inhyeokyoo.github.io/algorithm/Algorithm-CircularQueue/)
-- **[DP](https://inhyeokyoo.github.io/algorithm/Algorithm-DP/)**
-
-## 문제 모음
-
-### 2698 인접한 비트의 갯수
+# 2698 인접한 비트의 갯수
 
 - [문제보기](https://www.acmicpc.net/problem/2698)
 - [풀이보기](https://github.com/InhyeokYoo/BOJ_Algorithm/blob/master/DP/2698.py)
@@ -47,10 +35,10 @@ last_modified_at: 2020-07-22
     dp[n][k][1] = dp[n-1][k-1][1] + dp[n-1][k][0]
     $$
 
-### 9507 Generations of Tribbles
+# 9507 Generations of Tribbles
 - [문제보기](https://www.acmicpc.net/problem/9507)
 - [풀이보기](https://github.com/InhyeokYoo/BOJ_Algorithm/blob/master/DP/9507.py)
 
-### 2163 초콜릿 자르기
+# 2163 초콜릿 자르기
 - [문제보기](https://www.acmicpc.net/problem/2163)
 - [풀이보기](https://github.com/InhyeokYoo/BOJ_Algorithm/blob/master/DP/2163.py)

@@ -3,11 +3,10 @@ title:  "Beam Search Optimization (미완성)"
 excerpt: "Beam Search에 대한 이해와 구현"
 toc: true
 toc_sticky: true
-
+permalink: /project/nlp/beam-search-optimization/
 categories:
-  - PyTorch
   - NLP
-
+  - Paper Review
 use_math: true
 last_modified_at: 2020-08-12
 ---
