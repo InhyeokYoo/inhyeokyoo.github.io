@@ -1,9 +1,9 @@
 ---
-title: "IT"
-permalink: /categories/IT/
+title: "Github Pages"
+permalink: /categories/Github Pages/
 layout: category
 author_profile: true
-taxonomy: IT
+taxonomy: Github Pages
 ---
 
-Posts regarding IT
+Posts regarding Github Pages

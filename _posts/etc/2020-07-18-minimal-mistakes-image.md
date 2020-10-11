@@ -5,11 +5,8 @@ toc: true
 toc_sticky: true
 
 categories:
-  - IT
+  - Github Pages
 tags:
-  - github
-  - github pages
-  - github desktop
   - jekyll
   - minimal mistakes
 use_math: true
