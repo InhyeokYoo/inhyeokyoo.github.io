@@ -13,7 +13,7 @@ last_modified_at: 2020-08-12
 
 # Introduction
 
-[Transformer 구현](https://inhyeokyoo.github.io/pytorch/nlp/NLP-Transformer-Impl-Issues/)을 하던 도중 Beam Search에 대한 이해가 부족한 것 같아 정리를 해보려 한다.
+[Transformer 구현](/project/nlp/transformer-issue/)을 하던 도중 Beam Search에 대한 이해가 부족한 것 같아 정리를 해보려 한다.
 논문의 링크는 [여기](https://arxiv.org/pdf/1606.02960.pdf)를, reference는 따로 밑에다 달도록 하겠다.
 
 # Introductuion & Related Work

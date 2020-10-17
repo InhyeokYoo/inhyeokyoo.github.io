@@ -17,7 +17,7 @@ comments: true
 
 # Intro.
 
-[지난번](https://inhyeokyoo.github.io/nlp/ELMO-Paper/)엔 ELMo에 대해 알아보았으니, 이제는 구현을 할 차례이다.
+[지난번](/project/nlp/elmo-review/)엔 ELMo에 대해 알아보았으니, 이제는 구현을 할 차례이다.
 본 포스트에서는 ELMo를 구현하며 궁금한 점과 issue를 정리해보았다. 완성본은 [다음 repo](https://github.com/InhyeokYoo/NLP/tree/master/papers/4.%20ELMo)을 참고하자.
 
 # Character CNN Embedding
