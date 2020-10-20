@@ -7,7 +7,7 @@ toc_sticky: true
 categories:
   - Torchtext
 tags:
-  - Fucking Lazy
+  - Need to complete
 use_math: true
 last_modified_at: 2020-09-21
 ---
