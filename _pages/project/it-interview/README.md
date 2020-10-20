@@ -13,10 +13,10 @@ IT 기업 기술 면접 대비를 위한 기본 개념 정리를 위한 카테�
 현재(2020년 10월)는 취업을 한 상황이므로, computer에 대한 이해를 돕는 개념/이직을 위한 정리라고 보시면 될 것 같습니다.
 
 # 1. Data structure
-- [Array, LinkedList](/project/DS/IT-interview/array-linkedList/)
-- [HashTable](/project/DS/IT-interview/hashtable/)
-- [Stack](/project/DS/IT-interview/stack/)
-- [Queue](/project/DS/IT-interview/queue/)
+- [Array, LinkedList](/project/IT-interview/DS/array-linkedList/)
+- [HashTable](/project/IT-interview/DS/hashtable/)
+- [Stack](/project/IT-interview/DS/stack/)
+- [Queue](/project/IT-interview/DS/queue/)
 - [Graph]
 - [Tree]
 - [그래프(Graph)와 트리(Tree)의 차이점]
