@@ -4,7 +4,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch-theme-algolia.min.css">
 
 <script>
-// Instanciating InstantSearch.js with Algolia credentials
+/*
+Instanciating InstantSearch.js with Algolia credentials
+*/
 const search = instantsearch({
   appId: '{{ site.algolia.application_id }}',
   apiKey: '{{ site.algolia.search_only_api_key }}',
@@ -31,8 +33,9 @@ const hitTemplate = function(hit) {
     </div>
   `;
 }
-
-// Adding searchbar and results widgets
+/*
+Adding searchbar and results widgets
+*/
 search.addWidget(
   instantsearch.widgets.searchBox({
     container: '.search-searchbar',
@@ -49,6 +52,6 @@ search.addWidget(
   })
 );
 
-// Starting the search
+/* Starting the search */
 search.start();
 </script>

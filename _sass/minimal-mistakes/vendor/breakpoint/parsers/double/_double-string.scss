@@ -2,7 +2,7 @@
   $feature: '';
   $value: '';
 
-  // Test to see which is the feature and which is the value
+  /* Test to see which is the feature and which is the value */
   @if (breakpoint-string-value($first) == true) {
     $feature: $first;
     $value: $second;
