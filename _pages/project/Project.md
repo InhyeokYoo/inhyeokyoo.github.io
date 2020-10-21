@@ -14,17 +14,21 @@ toc: true
 
 자연어 처리와 관련된 프로젝트 모음집입니다.
 
-## Paper Review & Implemetation (July 2020 -)
+## Paper Review & Implemetation (July 2020 - )
 
 NLP 관련 굵직한 논문들을 읽고, 정리하고 구현하는 활동입니다. Traditional NLP가 아닌 seq2eq, transformer와 같은 NLP에 대한 활동입니다. 
 
+본 과정은 다른 스터디원분들과 함께 진행합니다.
+
 [link](/project/nlp/)
 
-## CS224N
+## CS224N (July 2020 - )
 
-과거에 word2vec을 배울 때 어떤 원리에 의해, 어떻게 back-propagation이 발생하는지 공부한 적이 있지만, NCE라던가 noise constrative estimation같은 복잡한 부분은 그냥 넘어갔었습니다. 따라서 전반적으로 한번 훑으면서 과거에 넘어갔던 내용을 정리하고 살펴보는 활동을 진행했습니다.
+과거에 word2vec을 배울 때 어떤 원리에 의해, 어떻게 back-propagation이 발생하는지 공부한 적이 있지만, NCE라던가 negative sampling같은 복잡한 부분은 그냥 넘어갔었습니다. 그렇게 공부를 하다가 어느 순간 그냥 궁금증을 해결하고 넘어갔지, 진정으로 제가 이해하고 배운 것이란 느낌이 들지 않았습니다. 따라서 전반적으로 한번 훑으면서 과거에 넘어갔던 내용을 정리하고 살펴보는 활동을 진행하게 되었습니다.
 
-[link](https://github.com/InhyeokYoo/CS224N)
+본 과정은 다른 스터디원분들과 함께 진행합니다.
+
+[Repo](https://github.com/InhyeokYoo/CS224N)
 
 ---
 
