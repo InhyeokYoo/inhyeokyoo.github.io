@@ -20,6 +20,12 @@ NLP 관련 굵직한 논문들을 읽고, 정리하고 구현하는 활동입니
 
 [link](/project/nlp/)
 
+## CS224N
+
+과거에 word2vec을 배울 때 어떤 원리에 의해, 어떻게 back-propagation이 발생하는지 공부한 적이 있지만, NCE라던가 noise constrative estimation같은 복잡한 부분은 그냥 넘어갔었습니다. 따라서 전반적으로 한번 훑으면서 과거에 넘어갔던 내용을 정리하고 살펴보는 활동을 진행했습니다.
+
+[link](https://github.com/InhyeokYoo/CS224N)
+
 ---
 
 # Interview
