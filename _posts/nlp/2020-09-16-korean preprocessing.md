@@ -1,18 +1,16 @@
 ---
 title:  "한국어 전처리의 이해 (작성 중)"
-excerpt: "한국어 전처리에 대한 Zero-to-All"
+excerpt: "검색해도 안 나오는 한국어 전처리에 대해 공부해보자."
 toc: true
 toc_sticky: true
 
 categories:
   - NLP
-  - PyTorch
 tags:
-  - Language Modeling
-  - Fucking Lazy
+  - Preprocessing
 
 use_math: true
-last_modified_at: 2020-09-16
+last_modified_at: 2020-11-04
 ---
 
 # Intro.
@@ -30,13 +28,30 @@ last_modified_at: 2020-09-16
 > 5. (병렬 코퍼스 정렬)
 > 6. 서브워드 분절
 
-여기서 4번 분절과 6번 서브워드 분절의 의미에 혼동이 생겼다. 4번의 경우 책에서 설명하기를, *형태소 분석/단순한 분절, 띄어쓰기 교정 등을 통해 정규화를 수행한다*고 되어 있고, 6번 서브워드 분절의 경우 *BPE, WPM, Sentencepiece 등을 통해 단어를 더 작은 단어의 모음으로 쪼갠다*라고 하는데, 결국 형태소 분석도 단어를 더 작은 단어의 모음으로 분해하는 과정이 아닌가하는 의문이 생겼다.
+여기서 **4번 분절**과 **6번 서브워드 분절**의 의미에 혼동이 생긴다. 4번의 경우 책에서 설명하기를, **형태소 분석/단순한 분절, 띄어쓰기 교정 등을 통해 정규화를 수행한다**고 되어 있고, 6번 서브워드 분절의 경우 **BPE, WPM, Sentencepiece 등을 통해 단어를 더 작은 단어의 모음으로 쪼갠다**라고 하는데, 결국 형태소 분석도 단어를 더 작은 단어의 모음으로 분해하는 과정이 아닌가하는 의문이 생겼다.
+
+**한국어 임베딩**을 살펴봐도 이와 비슷한 맥락으로 설명한다.
+> 웹 문서나 json 파일 같은 형태의 데이터를 순수 텍스트 파일로 바꾸고 여기에 형태소 분석을 실시하는 방법을 설명한다. 형태소 분석 방법에는 국어학 전문가들이 태깅한 데이터로 학습된 모델로 분석하는 지도 학습 기법과 우리가 가진 말뭉치의 패턴을 학습한 모델을 적용하는 비지도 학습 기법 등이 있다.
+
+# 정제
+
+# 날짜, 돈, 사람이름 등은 어떻게 전처리를 해야하나?
+
+Entity recognition이랑 비슷하지만, 이를 전처리 단계에서 신경써주어야 하는 의문이 든다.
+
+
 
 # 형태소 분석과 subword segmentation
 
+우선 형태소란 무엇인가? 다음은 이기창의 **한국어 임베딩**에서 발췌한 내용이다.
+
+> 형태소(morpheme)란 의미를 가지는 최소 단위를 말하는 것으로, 더 쪼개면 뜻을 잃어버리게 된다. 이때 의미는 **어휘**뿐만 아니라 **문법**적인 것도 포함된다. 그러나 언어학자들이 형태소를 분석하는 방법은 조금 다른데, 대표적으로는 계열 관계(paradigmatic relation)가 있다. 이는 해당 형태소 자리에 다른 형태소가 대치돼 쓰일 수 있는가를 따지는 것이다. 즉, distributional hypothesis와 밀접한 관계를 갖고 있다.
+
+즉, tokenization의 일종으로 보인다.
+
 [HanBert의 발표자료](https://www.slideshare.net/YoungHCHO/hanbert-korquad-20-by-twoblock-ai)에 따르면, 형태소 분석을 먼저 실시하여 tokenizing을 하여 corpus를 만들고, 이 중 일부를 이용해 Vocab을 구성한다고 되어 있다. 이 때, BPE를 사용할지, 한글 음절을 기준으로 사용할지를 고민하는 것을 보면 이 둘은 다른 프로세스로 보인다. **김기현의 자연어처리**에서도 마찬가지로 형태소 분석과 subword 분절을 별개의 것으로 취급하는 것으로 보인다.
 
-그러나 [핑퐁 블로그](https://blog.pingpong.us/dialog-bert-tokenizer/)를 보면, 공백 기반/형태서 분석기 기반/ BPE 기반 tokenizer로 구분하는 것을 볼 수 있다. 또한, [당근 마켓 블로그](https://medium.com/daangn/%EB%94%A5%EB%9F%AC%EB%8B%9D%EC%9C%BC%EB%A1%9C-%EB%8F%99%EB%84%A4%EC%83%9D%ED%99%9C-%EA%B2%8C%EC%8B%9C%EA%B8%80-%ED%95%84%ED%84%B0%EB%A7%81%ED%95%98%EA%B8%B0-263cfe4bc58d)를 보면 형태소 분석과 subword 분절을 같은 level의 작업으로 보고 있는 것 같다. 
+그러나 [핑퐁 블로그](https://blog.pingpong.us/dialog-bert-tokenizer/)를 보면, 공백 기반/형태소 분석기 기반/ BPE 기반 tokenizer로 구분하는 것을 볼 수 있다. 또한, [당근 마켓 블로그](https://medium.com/daangn/%EB%94%A5%EB%9F%AC%EB%8B%9D%EC%9C%BC%EB%A1%9C-%EB%8F%99%EB%84%A4%EC%83%9D%ED%99%9C-%EA%B2%8C%EC%8B%9C%EA%B8%80-%ED%95%84%ED%84%B0%EB%A7%81%ED%95%98%EA%B8%B0-263cfe4bc58d)를 보면 형태소 분석과 subword 분절을 같은 level의 작업으로 보고 있는 것 같다. 
 
 > 사실 BERT 논문에서 wordpiece 모델을 사용했던 이유 중에 하나가 다국어에 대해서 동작하게 만들고 싶었기 때문입니다. 하지만 당근마켓은 한국에서만 서비스를 하고 있어서 다국어를 고려할 필요가 없습니다. 이럴 때는 wordpiece보다는 mecab과 같이 한국어에 맞게 만들어진 형태소 분석기를 사용하는 것이 더 좋은 경우가 많습니다. mecab은 다음 링크를 통해 볼 수 있습니다. 설치하는 것이 살짝 까다로운데 가이드를 잘 따라가면 설치가 됩니다(mecab-ko-dic도 설치해야 합니다). Python으로 사용해야 하므로 mecab-python도 설치해야 합니다.  
 ...  
@@ -52,6 +67,8 @@ last_modified_at: 2020-09-16
 | Supervised | [KoNLP](https://konlpy-ko.readthedocs.io/ko/v0.4.3/) | 은전한닢, 꼬꼬마, 한나눔, Okt, 코모란 등 5개 오픈소스 형태소 분석기를 파이썬 환경에서 사용할 수 있도록 인터페이스를 통일한 한국어 자연어 처리 패키지 |
 | Unsupervised | [SoyNLP](https://github.com/lovit/soynlp) |  형태소 분석, 품사 판별 등을 지원하는 파이썬 기반 한국어 자연어 처리 패키. 하나의 문장 혹은 문서에서보다는 어느 정도 규모가 있으면서 동질적인 문서 집합(Homogeneous Documents)에서 잘 작동함 |
 | Unsupervised | [SentencePiece](https://github.com/google/sentencepiece) | 구글에서 분석한 subword segmentation으로, BPE, Unigram, WordPiece 등을 지원 |
+
+SentencePiece, soynlp는 띄어쓰기에 영향을 많이 받으므로 이를 미리 고쳐주는 작업이 필요하다.
 
 # Lemmatization, stemming
 
@@ -72,7 +89,7 @@ last_modified_at: 2020-09-16
 
 [어간 추출(Stemming) and 표제어 추출(Lemmatization)](https://settlelib.tistory.com/57)
 
-밑의 논문은 한국어 sub word representation에 대한 연구이다.
+밑의 논문은 한국어 subword representation에 대한 연구이다.
 
 [Subword-level Word Vector Representations for korean](https://catsirup.github.io/ai/2020/03/12/subword-level-word-vector-representations-for-korean.html)
 
@@ -119,7 +136,10 @@ PLM을 학습시킬 여력이 안되는 경우엔 울며 겨자먹기로 TF-IDF 
 엄청나게 성능이 향상하는 것은 아니지만, 어쨋든 fine-tuning의 문제도 있고, 성능이 올라간 것은 사실이기 때문에 PLM을 쓰는게 좋다는 생각이 들긴 한다. 한번 쓰고 버릴 것도 아니니까...
 
 
-# Task에 따라 전처리 및 feature extraction과정이 달라지나?
+# Task에 따라 전처리과정이 달라지나?
+
+NLP에는 정말 다양한 task가 있다. 예를들어 relevant한 문서를 검색하기 위해 BM25를 사용하거나 (IR) LDA와 같은 topic modeling을 이용하여 clustering을 이용하고, BERT같은 LM에 올리는 작업 등이 있다.
+그렇다면 **각 task에 따라 전처리 파이프라인을 다르게 구성해야 하나?**
 
 **IR**
 
@@ -131,8 +151,3 @@ https://arxiv.org/abs/1905.09217v1
 
 
 If you are working with basic NLP techniques like BOW, Count Vectorizer or TF-IDF(Term Frequency and Inverse Document Frequency) then removing stopwords is a good idea because stopwords act like noise for these methods. If you working with LSTM’s or other models which capture the semantic meaning and the meaning of a word depends on the context of the previous text, then it becomes important not to remove stopwords.
-
-
-# 날짜, 돈, 사람이름 등은 어떻게 전처리를 해야하나?
-
-Entity recognition이랑 비슷하지만, 이를 전처리 단계에서 신경써주어야 하는 의문이 든다.
