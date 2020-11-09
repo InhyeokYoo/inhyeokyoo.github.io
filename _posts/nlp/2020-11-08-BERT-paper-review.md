@@ -36,7 +36,7 @@ last_modified_at: 2020-11-08
     - *ULMFiT*
 - 이에는 sentence-level task (e.g. language inference), paraphrasing, QA, NER 등이 있음
 
-*Semi-supervised sequence learning*: 이 논문은 2015년도에 나온 논문인데, unlabeld data를 이용하여 sequence learning을 진행한 논문이다. 일반적인 LM ($p(x _t|x _1, ..., x _{t-1})$)과 sequence autoencoder를 써서 괜찮은 결과를 뽑아냈다는 논문이다. 지금와서 생각해보면 그냥 그런거 같은데, 2015년에 나온걸 감안하면 세대를 앞서갔다는 느낌도 든다. 원문은 [다음](https://arxiv.org/pdf/1511.01432.pdf)을 참고.
+*Semi-supervised sequence learning*: 이 논문은 2015년도에 나온 논문인데, unlabeld data를 이용하여 sequence learning을 진행한 논문이다. 일반적인 LM ($p(x _t \rvert x _1, ..., x _{t-1})$)과 sequence autoencoder를 써서 괜찮은 결과를 뽑아냈다는 논문이다. 지금와서 생각해보면 그냥 그런거 같은데, 2015년에 나온걸 감안하면 세대를 앞서갔다는 느낌도 든다. 원문은 [다음](https://arxiv.org/pdf/1511.01432.pdf)을 참고.
 {: .notice--info}
 
 *ULMFiT*: 앞선 GPT-1에서 보았던 discriminative fine-tuning을 제안한 논문이다. 이 논문은 general-domain corpus에 대해 pre-train하고, target task에 대한 data에 대해 discriminative fine-tuning과 slanted triangular learning rates를 이용하여 fine-tuning을 진행한 뒤, classifier를 gradual unfreezing, discriminative fine-tuning, slanted triangular learning rates를 이용하며 fine-tuning한다.
@@ -49,7 +49,7 @@ last_modified_at: 2020-11-08
 - (2). fine-tuning approach
     - 최소한의 task-specific parameter만을 도입하고, downstream에 대해 모든 parameter를 그냥 fine-tuning하는 것
     - GPT-1이 대표적
-- 이러한 두 가지 방법은 pre-training에서 같은 objective function (아마도 $p(x _t | x _1, ..., x _{t-1})$)을 공유하고, unidirectional language model을 통해 일반적인 language representation을 학습한다.
+- 이러한 두 가지 방법은 pre-training에서 같은 objective function (아마도 $p(x _t \rvert x _1, ..., x _{t-1})$)을 공유하고, unidirectional language model을 통해 일반적인 language representation을 학습한다.
 
 - 본 논문에서는 이러한 방법이 pre-trained representation의 능력을, 특히 fine-tuning 방법에서, 제약시킨다고 본다.
     - 가장 큰 제약은 일반 LM이 단방향이라는 것이고, 이는 pre-training에서 사용할 수 있는 모델의 선택지를 제한한다
