@@ -71,5 +71,15 @@ last_modified_at: 2020-11-08
         - 다양한 task-specific architecture를 압도함
     - (3). BERT는 11개의 NLP task에 대해 SOTA를 달성함
 
-*독립적으로 학습한 left-to-right/right-to-left의 얕은 concatenation*: 살짝 헷갈렸는데, ELMo의 경우엔 forward/backward LSTM parameter $\theta$를 공유하지 않는다. 즉, 따로따로 학습한 이후에 얘네 둘을 concat한다.
+*독립적으로 학습한 left-to-right/right-to-left의 얕은 concatenation*: 살짝 헷갈렸는데, ELMo의 경우엔 forward/backward LSTM parameter $\theta$를 공유하지 않는다. 즉, 따로따로 학습한 이후에 얘네 둘을 concat한다. 원문은 다음과 같다. "This is also in contrast to Peters et al. (2018a), which uses a shallow concatenation of independently trained left-to-right and right-to-left LMs."
 {: .notice--info}
+
+# 2. Related work
+
+pre-training general lan-guage representation에는 긴 역사가 있으니, 간략하게 널리 사용되는 방법만 살펴보기만 하겠다.
+
+## 2.1. Unsupervised Feature-based Approaches
+
+- 폭 넓게 사용 가능한 representation을 학습하는 것은 neural/non-neural 모두에게 매우 중요한 영역이었음
+    - word2vec, Glove가 neural approach의 대표적인 연구
+- 
