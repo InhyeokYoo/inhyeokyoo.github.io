@@ -18,14 +18,14 @@ last_modified_at: 2020-11-08
 
 # 0. Abstract
 
-- 본 논문에선 새로운 language representation BERT (**B**idirectional **E**ncoder **R**epresentations  from **T**ransformers)를 소개 
-    - 최근의 language representation (GPT-1, ELMO) 와는 다르게, BERT는 left/right context 모두를 unlabeled data로부터 동시에 (jointly conditioning) 사전학습 (pre-train) 할 수 있도록 설계되
+- 본 논문에선 새로운 language representation BERT (**B**idirectional **E**ncoder **R**epresentations  from **T**ransformers)를 소개한다. 
+    - 최근의 language representation (e.g., GPT-1, ELMO) 와는 달리, BERT는 left/right context 모두를 unlabeled data로부터 동시에 (jointly conditioning) 사전학습 (pre-train) 할 수 있도록 설계
     - 이 결과로 단지 하나의 output layer를 추가하여 fine-tuning 하는 것만으로 다양한 downstream task (Q.A, language inference)에서 SOTA를 달성할 수 있었다.
-- 자세한 결과로는
-    - GLUE score는 80.5%
-    - MultiNLI는 86.7%의 정확도
-    - SQuAD v1.1 QA는 F1 test를 93.2
-    - SQuAD v2.0 QA는 F1 test를 83.1
+- 다음과 같은 결과를 얻었다고 함
+    - GLUE score: 80.5%
+    - MultiNLI: 86.7%
+    - SQuAD v1.1: F1 test 93.2
+    - SQuAD v2.0: F1 test를 83.1
 
 # 1. Introduction
 
@@ -90,9 +90,10 @@ last_modified_at: 2020-11-08
         - 다른 pre-training task에 대해 unlabeled data를 사용하여 학습
     - fine-tuning
         - pre-trained parameter로 initialize한 후, downstream task 수행하여 parameter를 fine-tuning
-- 밑의 figure 1은 본 모델에서의 Q.A. 예시임
+- 밑의 Figure 1은 본 모델에서의 Q.A. 예시임
 
-![figure 1](https://user-images.githubusercontent.com/47516855/98545193-77048f80-22d8-11eb-8ed7-c240cc273c51.png){: .align-center}
+![Figure 1](https://user-images.githubusercontent.com/47516855/98634518-c0c69780-2323-11eb-820b-20663a1ac8fa.png)
+{: .align-center}
 
 - BERT의 독특한 특징은 다른 task에 대해서도 같은 구조를 유지하고 있다는 것
 
@@ -129,8 +130,57 @@ last_modified_at: 2020-11-08
     - 모든 토큰에 문장 A에 속하는지, B에 속하는지를 학습한 embedding을 더하는 방법
 - Figure 1에서 볼 수 있듯, input embedding을 $E$, special token [CLS]의 마지막 hidden state를 $ C \in \mathbb R^H$로, i번째 인풋 토큰을 $ T _i \in \mathbb R^H$로 표현
 - 토큰의 표현은 token, segment, position embedding의 합으로 구성
-    - 이는 다음 그림인 figure 2에 잘 나와있음
+    - 이는 다음 그림인 Figure 2에 잘 나와있음
 
 ![Figure 2](https://user-images.githubusercontent.com/47516855/98550274-3fe5ac80-22df-11eb-9b2e-a18b49868953.png)
 
 ## 3.1. Pre-training BERT
+
+- ELMo나 GPT-1과는 다르게 left-to-right나 right-to-left LM같은 전통적인 모델을 사용하진 않음.
+- 대신 두 개의 unsupervised task를 이용하여 pre-train함
+- 이번 step은 앞선 Figure 1의 왼쪽 그림에 속함
+
+**Task #1: Masked LM**
+
+- 직관적으로 생각해보면 deep bidirectional model이 left-to-right model (GPT-1)이나 left-to-right/right-to-left의 shallow concatenation (ELMo)보다는 더욱 강력할 것이고, 이는 매우 그럴듯한 생각이다
+- 불행하게도, *standard conditional LM은 오직 left-to-right이나 right-to-left로만 학습할 수 있다*
+    - 왜냐면 bidirectional conditioning은 각 단어들로 하여금 **간접적으로** 각 단어를 볼 수 있게하고,
+    - *model은 multi-layer에서 target word를 명확하게 예측*하기 때문임
+- Deep bidirectional representation을 학습하기 위해서는, input 토큰에 일부에 임의로 mask를 씌운 후, 이 토큰이 무엇인지를 예측함
+    - 이를 "masked LM" (MLM) 이라고 부름
+    - 다른 문헌에서는 종종 Cloze task라고도 부름
+- 이 경우 masked token에 해당하는 마지막 hidden vector가 입력되어 vocabulary에 대해 softmax를 계산하게 됨
+    - 실험에서는 각 sequence의 15%가 (WordPiece token) 랜덤으로 mask
+    - DAE가 전체 input을 복원하는 반면, 본 논문은 단순히 masked token을 예측하기만 함
+- 그러나 이런 pre-train과 fine-tuning 사이에는 mismatch가 존재함
+    - 왜냐면 [MASK] 토큰은 fine-tuning 단계에서 등장하지 않기 때문
+    - 이를 보완하기 위해 항상 mask된 단어를 [MASK] 토큰으로 변경하는 대신,
+        - (1). 80%의 확률로 [MASK]로 변경하고,
+        - (2). 10%의 확률로 임의의 토큰으로 변경,
+        - (3). 10%의 확률로 그대로 냅둠
+    - 그 후 $T _i$는 cross entropy loss를 통해 원래의 token을 예측하는데 사용됨
+- 이에 대한 다양한 실험 결과는 Appendix C.2 참고
+
+본문에서 *standard conditional LM은 오직 left-to-right이나 right-to-left로만 학습할 수 있다*고 밝히고 있는데, 왜 그런지 이해가 안 된다. ELMo의 경우 parameter sharing을 하진 않지만 여튼 bidirectional한거 같고, 다양한 literature에도 bidirectional한 경우가 있는 것 같은데...
+{: .notice--danger}
+
+**TASK #2: Next Sentence Prediction (NSP)**
+
+- N.L.I.나 .Q.A. 같은 downstream task는 두 문장의 **관계**에 대한 이해가 필요함
+    - 그러나 안타깝게도 이는 language modeling을 이용해 직접적으로 파악할 순 없음
+- 이러한 관계를 이해하기 위해 이진화 된(binarized) next sentence prediction task를 pre-train함
+    - 이는 어떠한 monolingual corpus라도 이로부터 생성이 가능
+- 각 pre-training example에 대해 sentence A와 B를 선택할 때,  절반의 확률로 B가 실제로 A 다음에 오는 경우이고 (*IsNext*로 label), 나머지 절반은 corpus로부터 추출한 random sentence가 된다 (*NotNext*로 label)
+- Figure 1에서 $C$는 next sentence prediction으로 쓰임 (빨간색 네모)
+    - 최종 모델은 NSP에서 97%-98%를 달성
+- 굉장히 단순한 작업임에도 불구하고 QA와 NLI에서 매우 유용함을 증명함
+    - vector $C$는 fine-tuning이 아닐 경우 유용하지 않음. 이는 NSP를 위해 학습되는 요소기 때문.
+    - Section 5.1에서 확인
+- NSP task는 Jernite et al. (2017)와 Logeswaran  and  Lee  (2018)의 representation-learning objective와 관련이 깊음
+    - *이전 연구들은 오직 sentence embedding만 transfer하여 downstream task로 진행*
+    - *반면 BERT는 end-task model paramter를 초기화하기 위해 모든 parameter를 transfer함*
+
+무슨 말인지 잘 이해가 안 된다. 예상하기로는 이전 연구들은 embedding vector만 얻어서 downstream task를 진행하는 반면, BERT는 pre-trained model의 모든 parameter를 fine-tuning한다는 의미로 보인다.
+{: .notice--info}
+
+# 5.1. Effect of Pre-training Tasks
