@@ -14,9 +14,13 @@ use_math: true
 last_modified_at: 2020-11-08
 ---
 
-이번 시간엔 시대를 풍미했던 SOTA모델 BERT에 대해 알아보자. 원문은 [다음 링크](https://arxiv.org/abs/1810.04805)에서 확인할 수 있다.
+이번 시간엔 NLP pre-trained model의 서막을 알린 BERT에 대해 알아보자. 원문은 [다음 링크](https://arxiv.org/abs/1810.04805)에서 확인할 수 있다.
 
-# 0. Abstract
+# 0. Contribution
+
+
+
+# Abstract
 
 - 본 논문에선 새로운 language representation BERT (**B**idirectional **E**ncoder **R**epresentations  from **T**ransformers)를 소개한다. 
     - 최근의 language representation (e.g., GPT-1, ELMO) 와는 달리, BERT는 left/right context 모두를 unlabeled data로부터 동시에 (jointly conditioning) 사전학습 (pre-train) 할 수 있도록 설계
@@ -180,7 +184,7 @@ last_modified_at: 2020-11-08
     - *이전 연구들은 오직 sentence embedding만 transfer하여 downstream task로 진행*
     - *반면 BERT는 end-task model paramter를 초기화하기 위해 모든 parameter를 transfer함*
 
-무슨 말인지 잘 이해가 안 된다. 예상하기로는 이전 연구들은 embedding vector만 얻어서 downstream task를 진행하는 반면, BERT는 pre-trained model의 모든 parameter를 fine-tuning한다는 의미로 보인다.
+무슨 말인지 명확하게 이해가 가질 않는데, 예상하기로는 이전 연구들은 embedding vector만 얻어서 downstream task를 진행하는 반면, BERT는 pre-trained model의 모든 parameter를 fine-tuning한다는 의미로 보인다.
 {: .notice--info}
 
 # 5.1. Effect of Pre-training Tasks
