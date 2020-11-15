@@ -34,11 +34,17 @@ NLP 관련 굵직한 논문들을 읽고, 정리하고 구현하였습니다. �
 - [구현 이슈](/project/nlp/elmo-issue/)
 - [구현]()
 
-## 4. GPT-1 (10.09.2020 - )
+## 4. GPT-1 (10.10.2020 - )
 
 - [Review](/project/nlp/gpt1-review/)
+- [구현 이슈](https://github.com/InhyeokYoo/NLP/issues/1)
+- [구현](https://github.com/InhyeokYoo/NLP/tree/master/papers/5.GPT-1)
+
+## 5. BERT (11.07.2020 - )
+
+- [review](/project/nlp/bert-review/)
 - [구현 이슈]
-- [구현]()
+- [구현]
 
 # CS224N (October 2020 - )
 

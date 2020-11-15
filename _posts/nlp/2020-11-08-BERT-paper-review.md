@@ -11,54 +11,58 @@ tags:
   - Language Modeling
 
 use_math: true
-last_modified_at: 2020-11-08
+last_modified_at: 2020-11-12
 ---
 
 이번 시간엔 NLP pre-trained model의 서막을 알린 BERT에 대해 알아보자. 원문은 [다음 링크](https://arxiv.org/abs/1810.04805)에서 확인할 수 있다.
 
-# 0. Contribution
+우선 논문을 읽고 궁금증과 이에 대한 설명/해석을 적었다. 다음은 논문을 읽으면서 생긴 궁금증이다.
 
+- 왜 BERT가 대단한가?
+    - bidirectional이 그렇게 대단한가?
+        - unidirectional은 안 좋은가?
+        - 이전 논문들은 왜 시도를 안(못) 했지?
+- 왜 GPT는 decoder를 썻지?
+- encoder-decoder 둘 다는 안 되나?
+- GPT와의 성능 차이: encoder vs. MLM vs. NSP ?
 
-
-# Abstract
-
-- 본 논문에선 새로운 language representation BERT (**B**idirectional **E**ncoder **R**epresentations  from **T**ransformers)를 소개한다. 
-    - 최근의 language representation (e.g., GPT-1, ELMO) 와는 달리, BERT는 left/right context 모두를 unlabeled data로부터 동시에 (jointly conditioning) 사전학습 (pre-train) 할 수 있도록 설계
-    - 이 결과로 단지 하나의 output layer를 추가하여 fine-tuning 하는 것만으로 다양한 downstream task (Q.A, language inference)에서 SOTA를 달성할 수 있었다.
-- 다음과 같은 결과를 얻었다고 함
-    - GLUE score: 80.5%
-    - MultiNLI: 86.7%
-    - SQuAD v1.1: F1 test 93.2
-    - SQuAD v2.0: F1 test를 83.1
 
 # 1. Introduction
 
-- Language modeling pre-training은 다양한 NLP task에서 효과적임을 보임
-    - GPT-1
-    - ELMo
-    - *Semi-supervised sequence learning*
-    - *ULMFiT*
-- 이에는 sentence-level task (e.g. language inference), paraphrasing, QA, NER 등이 있음
+Language modeling pre-training은 다양한 NLP task에서 효과적임을 보여왔다. 이에 대표적인 예로는,
+- GPT-1
+- ELMo
+- *Semi-supervised sequence learning*<sup>1</sup>
+- *ULMFiT*<sup>2</sup>
+등이 있다. 이는 language inference, *paraphrasing*<sup>3</sup>과 같이 문장들을 일부분이 아닌 전체적으로 분석하여 이들 사이의 관계를 예측하는 **sentence-level task**와, name entity recognition (NER), question answering(QA)와 같이 모델이 token 단위로 fine-grained output을 내는 **token-level task**을 포함한다.
 
-*Semi-supervised sequence learning*: 이 논문은 2015년도에 나온 논문인데, unlabeld data를 이용하여 sequence learning을 진행한 논문이다. 일반적인 LM ($p(x _t \rvert x _1, ..., x _{t-1})$)과 sequence autoencoder를 써서 괜찮은 결과를 뽑아냈다는 논문이다. 지금와서 생각해보면 그냥 그런거 같은데, 2015년에 나온걸 감안하면 세대를 앞서갔다는 느낌도 든다. 원문은 [다음](https://arxiv.org/pdf/1511.01432.pdf)을 참고.
+*1. Semi-supervised sequence learning*: 이 논문은 2015년도에 나온 논문인데, unlabeld data를 이용하여 sequence learning을 진행한 논문이다. 일반적인 LM ($p(x _t \rvert x _1, ..., x _{t-1})$)과 sequence autoencoder를 써서 괜찮은 결과를 뽑아냈다는 논문이다. 지금 생각해보면 그냥 그렇지만, 2015년에 나온걸 감안하면 세대를 앞서갔다는 느낌도 든다. 원문은 [다음](https://arxiv.org/pdf/1511.01432.pdf)을 참고.
 {: .notice--info}
 
-*ULMFiT*: 앞선 GPT-1에서 보았던 discriminative fine-tuning을 제안한 논문이다. 이 논문은 general-domain corpus에 대해 pre-train하고, target task에 대한 data에 대해 discriminative fine-tuning과 slanted triangular learning rates를 이용하여 fine-tuning을 진행한 뒤, classifier를 gradual unfreezing, discriminative fine-tuning, slanted triangular learning rates를 이용하며 fine-tuning한다.
+*2. ULMFiT*: 앞선 GPT-1에서 보았던 discriminative fine-tuning을 제안한 논문이다. 이 논문은 general-domain corpus에 대해 pre-train하고, target task에 대한 data에 대해 discriminative fine-tuning과 slanted triangular learning rates를 이용하여 fine-tuning을 진행한 뒤, classifier를 gradual unfreezing, discriminative fine-tuning, slanted triangular learning rates를 이용하며 fine-tuning한다고 한다.
 {: .notice--info}
 
-- pre-trained language representation을 downstream task에 적용하는 것은 두 가지가 있음
-- (1). feature-based
-    - pre-trained representation을 포함하는 task-specific architecture를 추가적인 feature로 이용하는 것 
-    - ELMo가 그 예시인데, ELMo에서 LM representation과 embedding을 concat해서 사용하는 것을 생각하면 된다.
-- (2). fine-tuning approach
-    - 최소한의 task-specific parameter만을 도입하고, downstream에 대해 모든 parameter를 그냥 fine-tuning하는 것
-    - GPT-1이 대표적
-- 이러한 두 가지 방법은 pre-training에서 같은 objective function (아마도 $p(x _t \rvert x _1, ..., x _{t-1})$)을 공유하고, unidirectional language model을 통해 일반적인 language representation을 학습한다.
+*3. paraphrasing*: paraphrase를 생성하거나 탐지하는 작업을 말한다. 근데 위키피디아에서는 QA도 paraphrasing이라고 설명하고 있다.
+{. :notice--info}
 
-- 본 논문에서는 이러한 방법이 pre-trained representation의 능력을, 특히 fine-tuning 방법에서, **제약**시킨다고 본다.
-    - 가장 큰 제약은 일반 LM이 **단방향**이라는 것이고, 이는 pre-training에서 사용할 수 있는 **모델의 선택지를 제한**한다
+pre-trained language representation을 downstream task에 적용하는 방법은 두 가지가 있다고 한다.
+
+**1. feature-based**
+
+pre-trained representation을 **추가적인 feature**로 이용하는 **task-specific architecture**를 사용하는 방법이다. ELMo가 그 대표적인 예시이다. 다음은 ELMo 논문의 3.3장에서 발췌한 내용이다.
+
+> Given a pre-trained biLM and a supervised architecture for a target NLP task, it is a simple processto use the biLM to improve the task model.  Wesimply  run  the  biLM  and  record  all  of  the  layerrepresentations  for  each  word.   Then,  we  **let the end task model learn a linear combination of these representations**, as described below.
+
+**2. fine-tuning approach**
+
+최소한의 task-specific parameter만을 도입하는 모델이다. downstream에 대해 단순히 모든 parameter를 fine-tuning한다. 이에는 GPT-1이 대표적이다. ([리뷰 보러가기](/project/nlp/gpt1/)) 
+
+이 두 가지 방법은 pre-training에서 같은 objective function ($p(x _t \rvert x _1, ..., x _{t-1})$)을 공유하고, unidirectional language model을 통해 일반적인 language representation을 학습한다.
+
+그러나 논문에서는 이러한 방법이 pre-trained representation의 능력을, 특히 fine-tuning 방법에서, **제약**시킨다고 보고 있다 (We argue).
+- 가장 큰 제약은 일반적인 LM이 **단방향**이라는 것이고, 이로 인해 pre-training에서 사용하는 **모델의 선택지를 제한**한다고 본다.
     - 예를 들어 GPT의 경우엔 left-to-right architecture (transformer decoder)를 사용하였는데, 이는 subsquence mask로 인해 오직 **이전의 token**에만 self-attnetion이 가능하다.
-    - 이러한 제약은 sentence-level에선 *sub-optimal*이고, token-level task (e.g. QA)와 같이 양방향(bidirectional)의 정보를 이용하는 것이 중요한 task에선 매우 치명적임
+- 이러한 제약은 sentence-level에선 *sub-optimal*이고, token-level task (e.g. QA)와 같이 양방향 (bidirectional)의 정보를 이용하는 것이 중요한 task에선 매우 치명적이다.
 
 *sub-optimal*: 그냥 차선책이라는 뜻인지 아니면 다른 뜻이 있는지 궁금하다. 차선책이라 쓰였다면, sentence-level에선 bidirectional이 제일 optimal하고, unidirectional은 sub-optimal하다는 의미이다.
 {: .notice--danger}

@@ -9,6 +9,7 @@ toc: true
 
 자연어처리와 CS 지식, algorithm 등 개인적으로 공부하고 진행했던 project 모음집입니다.
 
+---
 
 # NLP
 
@@ -36,7 +37,7 @@ NLP 관련 굵직한 논문들을 읽고, 정리하고 구현하는 활동입니
 
 ## 데이터 과학자를 위한 문답집 (July 2020 - )
 
-[데이터 과학자와 데이터 엔지니어를 위한 인터뷰 문답집](http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9791190665230&orderClick=LOA&Kc=) **1장 Feature Engineering**을 읽고 개인적인 공부를 기록하였습니다. 
+[데이터 과학자와 데이터 엔지니어를 위한 인터뷰 문답집](http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9791190665230&orderClick=LOA&Kc=)을 읽고 개인적인 공부를 기록하였습니다. 
 
 [link](/project/DS-interview/)
 

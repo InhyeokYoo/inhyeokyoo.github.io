@@ -65,7 +65,7 @@ $$
 - LSTM의 parameter ($\overrightarrow \Theta _{LSTM}, \leftrightarrow \Theta _{LSTM}$)는 분리를 유지
 - 방향사이의 weight를 공유한다는 점을 제외하면 전체적으로 Peters et al. (2017)와 유사함
 
-## 3.2. EMLo
+## 3.2. ELMo
 
 ELMo는 biLM의 중간 레이어의 표현의 *task-specific*한 조합이다. 
 - 즉, 중간 중간 layer결과물을 combine한다는 뜻
@@ -94,7 +94,7 @@ $$
 
 ## 3.3 Using biLMs for supervised NLP tasks
 
-NLP task을 위한 supervised model과 pre-trained biLM이 주어졌을 때, biLM이 task를 향상시키도록 만드는 것은 간단하다. 그냥 biLM을 돌린다음에, 각 단어에 대한 레이어의 모든 표현을 기록하기만 하면 된다. 그 후, end task model로 하여금 이러한 표현을 통해 linear combination을 배우게끔 만들면 된다. 그 과정은 다음과 같다.
+target NLP task을 위한 supervised구조와 pre-trained biLM이 주어졌을 때, biLM이 task model을 향상시키도록 만드는 것은 간단하다. 그냥 biLM을 돌린다음에, 각 단어에 대한 레이어의 모든 표현을 기록하기만 하면 된다. 그 후, end task model로 하여금 이러한 표현을 통해 linear combination을 배우게끔 만들면 된다. 그 과정은 다음과 같다.
 - 그냥 biLM을 LM으로 쓰겠다는 이야기
 - biLM을 freeze하고, ELMo vector $\textrm{ELMo}^{task} _k$를 $x _k$와 concat
 - ELMo$[\mathbf x _k; \textrm{ELMo}^{task} _k]$은 새로운 representation이 됨
