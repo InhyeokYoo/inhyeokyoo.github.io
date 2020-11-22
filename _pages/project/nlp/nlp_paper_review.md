@@ -17,12 +17,12 @@ NLP 관련 굵직한 논문들을 읽고, 정리하고 구현하였습니다. �
 ## 1. Attention
 
 - [구현 이슈](/project/nlp/attention-issue/)
-- [구현]()
+- [구현](https://github.com/InhyeokYoo/NLP/tree/master/papers/1.Attention)
 
 ## 2. Self-attention
 
 - [구현 이슈](/project/nlp/transformer-issue/)
-- [구현]()
+- [구현](https://github.com/InhyeokYoo/NLP/tree/master/papers/3.Transformer)
 
 ## 3. Beam Search Optimization (중도포기)
 
@@ -32,7 +32,7 @@ NLP 관련 굵직한 논문들을 읽고, 정리하고 구현하였습니다. �
 
 - [Review](/project/nlp/elmo-review/)
 - [구현 이슈](/project/nlp/elmo-issue/)
-- [구현]()
+- [구현](https://github.com/InhyeokYoo/NLP/tree/master/papers/4.ELMo)
 
 ## 4. GPT-1 (10.10.2020 - )
 

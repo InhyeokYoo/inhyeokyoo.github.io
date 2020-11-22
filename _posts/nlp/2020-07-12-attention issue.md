@@ -13,7 +13,7 @@ use_math: true
 last_modified_at: 2020-07-12
 ---
 
-포트폴리오 용으로 Attention을 구현하던 중 헷갈리는 개념을 정리하였다. 원본은 [https://stackoverflow.com/questions/62444430/implementing-attention/62445044#62445044](https://stackoverflow.com/questions/62444430/implementing-attention/62445044#62445044%5D) 을 참고하면 된다. 구현 repo는 [다음](https://github.com/InhyeokYoo/NLP/tree/master/papers/1.%20Attention)을 참고.
+포트폴리오 용으로 Attention을 구현하던 중 헷갈리는 개념을 정리하였다. 원본은 [https://stackoverflow.com/questions/62444430/implementing-attention/62445044#62445044](https://stackoverflow.com/questions/62444430/implementing-attention/62445044#62445044%5D) 을 참고하면 된다. 구현 repo는 [다음](https://github.com/InhyeokYoo/NLP/tree/master/papers/1.Attention)을 참고.
 
 ## 1. Decoder의 초기 hidden state $s_0$는 어떤 값인가??
 
