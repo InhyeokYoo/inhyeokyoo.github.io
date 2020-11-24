@@ -42,7 +42,7 @@ Language modeling pre-training은 다양한 NLP task에서 효과적임을 보�
 *2. ULMFiT*: 앞선 GPT-1에서 보았던 discriminative fine-tuning을 제안한 논문이다. 이 논문은 general-domain corpus에 대해 pre-train하고, target task에 대한 data에 대해 discriminative fine-tuning과 slanted triangular learning rates를 이용하여 fine-tuning을 진행한 뒤, classifier를 gradual unfreezing, discriminative fine-tuning, slanted triangular learning rates를 이용하며 fine-tuning한다고 한다.
 {: .notice--info}
 
-*3. paraphrasing*: paraphrase를 생성하거나 탐지하는 작업을 말한다. 근데 위키피디아에서는 QA도 paraphrasing이라고 설명하고 있다.
+*3. paraphrasing*: paraphrase를 생성하거나 탐지하는 작업을 말한다. 위키피디아에서는 QA도 paraphrasing이라고 설명하고 있는데도 불구하고 BERT에서 QA가 token-level task인 이유는 각 token-level에 대해서 정답의 시작점과 끝점의 index를 찾기 때문이다.
 {. :notice--info}
 
 pre-trained language representation을 downstream task에 적용하는 방법은 두 가지가 있다고 한다.
