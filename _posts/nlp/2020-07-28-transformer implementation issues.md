@@ -217,3 +217,13 @@ Transformer에선 inference시에만 하는 것으로 추정된다. (명확하�
         - $\alpha=0,\beta=0$이면, 일반적인 beam search
   - 논문에선 length penalty $\alpha=0.6$로 설정
   - coverage penalty는 사용하지 않은 것으로 보임
+
+
+# 추가자료: Convnet as Feedforward
+
+원문에는 feedforward 대신 convolution filter를 2개 중첩할 수도 있다는 이야기가 있다.
+
+> While the linear transformations are the same across different positions, they use different parameters from layer to layer. Another way of describing this is as two convolutions with kernel size 1.
+
+그러나 [이 글](http://docs.likejazz.com/bert/)을 보면 꼭 그렇지도 않은것으로 보인다. 다만 특별한 task에 따라 kernel size를 다르게 하면 성능이 올라가는 것으로 보인다. [다음](https://medium.com/@kolloldas/building-the-mighty-transformer-for-sequence-tagging-in-pytorch-part-i-a1815655cd8)에선 다음과 같이 설명하고 있다.
+> In fact for the sequence tagging task we use convolutions instead of fully connected layers. A filter of width 3 allows interactions to happen with adjacent time steps to improve performance. The implementation in PyTorch is straightforward:
