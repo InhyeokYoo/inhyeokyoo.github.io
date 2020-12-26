@@ -335,7 +335,7 @@ SQuAD v2.0에서는 v1.1를 확장시킨 방법을 사용한다. 2.0 버전에�
 
 이 경우 TriviaQA는 사용하지 않고, 2에폭과 48 배치, 5e-5의 learning rate를 사용한다.
 
-![image](https://user-images.githubusercontent.com/47516855/103153473-14a61680-47d4-11eb-8935-39a688f854d5.png)
+![image](https://user-images.githubusercontent.com/47516855/103153473-14a61680-47d4-11eb-8935-39a688f854d5.png){: .align-center}
 
 그 결과 이전 시점의 SOTA보다 5.1높은 F1 score를 달성했다.
 
@@ -349,7 +349,7 @@ Task specific parameter는 오직 [CLS] 토큰에 곱해지는 벡터 하나로,
 
 파인튜닝에서 3개의 에폭, 2e-5의 learning rate, 16의 배치를 사용했고, 저자들의 baseline인 ESIM+ELMo를 27.1%, GPT를 8.3% 상회하였다.
 
-![image](https://user-images.githubusercontent.com/47516855/103153713-e3c6e100-47d5-11eb-8ad2-d9a9ba0d23fc.png)
+![image](https://user-images.githubusercontent.com/47516855/103153713-e3c6e100-47d5-11eb-8ad2-d9a9ba0d23fc.png){: .align-center}
 
 우선 SWAG은 하나의 문장과 네 개의 보기로 되어 있는 것으로 보인다. 이에 대해 matrix가 아닌 vector를 곱하여 4 x 1의 logit을 얻는다. 이에 대해 softmax를 통과시키고, 정답을 고른다. [출처](https://github.com/google-research/bert/issues/38)
 {: .notice--info}
@@ -372,7 +372,7 @@ Task specific parameter는 오직 [CLS] 토큰에 곱해지는 벡터 하나로,
 SQuAD의 경우 직관적으로 LTR이 더 낮은 성능을 보일 것이라고 예상할 수 있다. 이는 token-level hidden state가 오른쪽의 문맥을 볼 수 없기 때문이다 (LTR).
 이를 확인하기 위해 추가적으로 BiLSTM을 쌓은 모델을 비교해보았고, SQuAD를 향상시키는 결과를 가져왔다 (파랑). 그러나 여전히 bidirectional 보다는 낮은 것을 확인할 수 있다. BiLSTM은 오히려 GLUE에 대해 성능 저하를 가져왔다.
 
-![image](https://user-images.githubusercontent.com/47516855/103154554-5e462f80-47db-11eb-94df-3d5ac290df74.png)
+![image](https://user-images.githubusercontent.com/47516855/103154554-5e462f80-47db-11eb-94df-3d5ac290df74.png){: .align-center}
 
 또한, ELMO처럼 LTR과 RTL 따로 학습시킬 수는 있으나 이는 단점이 있는데,
 - 두배 더 expensive하고,
@@ -386,7 +386,7 @@ SQuAD의 경우 직관적으로 LTR이 더 낮은 성능을 보일 것이라고 
 
 아래 표는 이에 대한 결과이다. 보면 모델이 커질수록 모든 실험에 대해 좋은 결과를 보임을 알 수 있고, MRPC와 같이 적은 데이터 셋에도 잘 동작한다. 또한, 이전 연구들에 비해 상대적으로 큼에도 불구하고 상당한 향상을 이뤄냈다.
 
-![image](https://user-images.githubusercontent.com/47516855/103154666-2d1a2f00-47dc-11eb-8922-64c9ba0f82d2.png)
+![image](https://user-images.githubusercontent.com/47516855/103154666-2d1a2f00-47dc-11eb-8922-64c9ba0f82d2.png){: .align-center}
 
 트랜스포머는 (L=6,  H=1024,  A=16)의 100M 파라미터를 갖고 있고, 문헌에서 찾아낸 가장 큰 트랜스포머는 (L=64,  H=512,  A=2)의 235M 파라미터이다. 반면 BERT_BASE는 110M 파라미터이고, BERT_LARGE는 340M 파라미터를 갖는다.
 
@@ -414,7 +414,7 @@ BERT의 인풋은 대소문자 상관있는 (case-preserving) WordPiece 모델�
 
 이로서 BERT는 두 가지 방법 모두에 효과적임을 파악할 수 있다.
 
-![image](https://user-images.githubusercontent.com/47516855/103155413-08758580-47e3-11eb-91b8-04f03a872be6.png)
+![image](https://user-images.githubusercontent.com/47516855/103155413-08758580-47e3-11eb-91b8-04f03a872be6.png){: .align-center}
 
 
 # Appendix
@@ -423,8 +423,27 @@ BERT의 인풋은 대소문자 상관있는 (case-preserving) WordPiece 모델�
 
 ## A.4  Comparison of BERT, ELMo ,and OpenAI GPT
 
+여기서는 BERT, ELMo, GPT의 차이에 대해 다루도록 하겠다. 이들 구조의 차이점은 아래 그림에 잘 나타나있다. 한 가지 짚고 넘어갈 점은, 아키텍쳐 외에도 BERT와 GPT는 fine-tuning approach지만, ELMo는 feature-based approach라는 차이가 있다.
+
+![image](https://user-images.githubusercontent.com/47516855/103156160-49709880-47e9-11eb-89e6-886dda9f86ff.png){: .align-center}
+
+BERT와 가장 비교할만한 것은 GPT이다. GPT는 LTR transformer LM으로 큰 데이터 셋에 대해 학습했다. BERT의 디자인은 의도적으로 GPT를 참고하였는데, 이는 두 개의 차이를 최소화하여 비교하기 위함이다.
+
+가장 큰 차이점은 bi-directionality와 pre-training과정이지만, GPT와 BERT가 학습하는 것에도 차이가 있다.
+- GPT는 BookCorpus를 학습한 반면 BERT는 위키피디아도 추가로 학습
+- GPT는 [SEP]와 [CLS]를 fine-tuning시에만 사용하는 반면 BERT는 둘 모두와 sentence A/B embedding 모두 pre-train 부터 사용
+- GPT는 32,000 단어에 대해 1M step을 학습하지만, BERT는 128,000 단어에 대해 1M step을 학습
+- GPT의 learning rate는 파인튜닝시 5e-5로 고정되어 있지만 BERT는 task마다 다르게 적용
+
+이러한 영향을 분리하여 실험하기 위해 [Effect of Pre-training Tasks](/project/nlp/bert-review/##Effect of Pre-training Tasks)에서 ablation experiment를 진행하였고, 그 결과 성능 향상의 주역은 MLM/NSP와 bidirecionality임을 확인하였다.
+
 ## C.1 Effect of Number of Training Steps
 
 ![image](https://user-images.githubusercontent.com/47516855/103097541-f234c180-464a-11eb-854b-07f9b423ec66.png){: .align-center}
 
-위는 MNLI에 대한 표인데
+위는 MNLI에 대한 결과로, k step에 대한 pre-training으로부터 fine-tuning한 결과이다. 이는 다음과 같은 질문에 대답할 수 있게 해준다.
+
+1. 질문: BERT가 fine-tuning accuracy를 달성하기 위해 실제로 큰 pre-training (128,000words/batch  *  1,000,000  steps)가 필요한가?
+- 답변: 그렇다. 500k와 1M을 비교해보면 BERT_BASE는 1.0%의 성능 향상을 이뤄냈다.
+2. 질문: 모든 단어가 아닌 15%의 단어에 대해서만 MLM을 진행하여 LTR보다 더 느리게 수렴하는가?
+- 답변: MLM은 LTR보다 늦게 수렴한다. 그러나 정확도 측면에서보면 MLM은 LTR을 즉시 추월하기 시작한다.
