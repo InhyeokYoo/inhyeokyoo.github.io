@@ -57,8 +57,14 @@ BooksCorpus는 [허깅페이스](https://huggingface.co/datasets/bookcorpus)를 
 ...
 torchtext’s datasets were incompatible with DataLoader and Sampler in torch.utils.data, or even duplicated that code (e.g. torchtext.data.Iterator, torchtext.data.Batch). Basic inconsistencies confused users. For example, many struggled to fix the data order while using Iterator (issue #828), whereas with DataLoader, users can simply set shuffle=False to fix the data order.
 
-
+여기서 문제는 `torchtext.data.Field`, `torchtext.data.Example`도 같이 없어지기 때문에 이를 대체할 코드가 필요하다는 점이다. 앞선 torchtext repo에는 이와 관련된 튜토리얼 자료를 모두 대체해놨다.
 
 
 ## Masked language model
 
+Issues:
+- PAD를 통해 batch로 묶어야 함
+    - sentenceA, B가 나뉘어야 하는데, 얘네들은 각 각 256씩으로 해야하나?
+    - PAD는 누가하나? collate_fn?
+        - 누가 맡지? Dataset? DataLoader?
+    - torch를 보면 동시에 학습하지 않는 것처럼 보이는데?
