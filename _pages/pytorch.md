@@ -6,4 +6,4 @@ author_profile: true
 taxonomy: PyTorch
 ---
 
-Posts regarding PyTorch 
+Posts regard of PyTorch 

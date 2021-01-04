@@ -1,5 +1,5 @@
 ---
-title:  "pytorch로 BERT 구현하기"
+title:  "pytorch로 BERT 구현하기 (작성 중)"
 excerpt: "BERT 구현 및 issue 정리"
 toc: true
 toc_sticky: true

@@ -1,5 +1,5 @@
 ---
-title:  "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding review (작성 중)"
+title:  "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding review"
 excerpt: "BERT Paper review"
 toc: true
 toc_sticky: true
@@ -10,7 +10,7 @@ categories:
 tags:
   - Language Modeling
 use_math: true
-last_modified_at: 2020-11-12
+last_modified_at: 2020-12-26
 ---
 
 이번 시간엔 NLP pre-trained model의 서막을 알린 BERT에 대해 알아보자. 원문은 [다음 링크](https://arxiv.org/abs/1810.04805)에서 확인할 수 있다.
