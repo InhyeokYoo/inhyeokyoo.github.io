@@ -28,4 +28,4 @@ embedded space에서 거리는 object의 유사도를 잘 보존할 수 있어�
 # 참고
 
 - [Digging Deeper into Metric Learning with Loss Functions](https://towardsdatascience.com/metric-learning-loss-functions-5b67b3da99a5)
-- 
+- [Deep Metric Learning with Angular Loss (Want et al. 2017)](https://arxiv.org/pdf/1708.01682.pdf)
