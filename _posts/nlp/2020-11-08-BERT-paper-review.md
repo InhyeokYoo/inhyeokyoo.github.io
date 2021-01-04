@@ -315,7 +315,7 @@ BERT_LARGE는 모든 테스크에 대해 BERT_BASE를 굉장히 압도하는 것
 
 ## SQuAD v1.1
 
-앞서 그림에서 확인했듯, QA의 question (sentence A)과 passage (sentence B)는 하나의 sequence로 묶는다. 여기서는 오직 start vector $S \in mathbb R^H$와 end vector $E \in mathbb R^H$만을 도입한다.
+앞서 그림에서 확인했듯, QA의 question (sentence A)과 passage (sentence B)는 하나의 sequence로 묶는다. 여기서는 오직 start vector $S \in \mathbb R^H$와 end vector $E \in \mathbb R^H$만을 도입한다.
 
 i번째 단어가 answer span이 될 확률은 $T _i$와 $S$, $E$의 dot product와 softmax를 통해 결정되며 ($P _i = \frac{e^{S \cdot T _i}}{\sum _j e^{S \cdot T _j}}$), 따라서 i번째부터 j번째까지의 candidate span의 점수는 $S \cdot T _i + E \cdot T _j $가 된다. 그리고 이 중 $ j \geq i$를 만족하는 maximum score가 prediction으로 사용된다.
 
@@ -331,7 +331,7 @@ BERT는 탑 리더보드에 대해 앙상블의 경우 1.5 (초록색), 단일 �
 
 SQuAD v2.0에서는 v1.1를 확장시킨 방법을 사용한다. 2.0 버전에서는 정답이 없는 것도 포함되어 있으므로, 정답이 없는 문제의 answer span의 시작과 끝을 [CLS] 토큰에 할당한다. 따라서 probability space는 [CLS] 토큰의 위치를 포함하도록 확장된다.
 
-예측의 경우 no-answer span $ s _{null} = S \cdot C + E \cdot C $과 가장 높은 non-null span $\hat{s} _{i, j} = max _{j \geqi}  S \cdot T _i + E \cdot T _j $를 비교한다. $ \hat{s} _{i, j} > s _{null} + \tau $인 경우에만 non-null로 예측하고, $\tau$는 Dev set에 대해 F1 score를 최고로 하는 threshold가 된다.
+예측의 경우 no-answer span $ s _{null} = S \cdot C + E \cdot C $과 가장 높은 non-null span $\hat{s} _{i, j} = \max _{j \geq i}  S \cdot T _i + E \cdot T _j $를 비교한다. $ \hat{s} _{i, j} > s _{null} + \tau $인 경우에만 non-null로 예측하고, $\tau$는 Dev set에 대해 F1 score를 최고로 하는 threshold가 된다.
 
 이 경우 TriviaQA는 사용하지 않고, 2에폭과 48 배치, 5e-5의 learning rate를 사용한다.
 
