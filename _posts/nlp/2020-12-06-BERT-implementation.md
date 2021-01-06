@@ -1,6 +1,6 @@
 ---
-title:  "pytorch로 BERT 구현하기 (작성 중)"
-excerpt: "BERT 구현 및 issue 정리"
+title:  "pytorch로 BERT 구현하기"
+excerpt: "BERT를 직접 구현하며 헷갈리는 것들을 살펴보자"
 toc: true
 toc_sticky: true
 permalink: /project/nlp/bert-issue/
@@ -8,10 +8,12 @@ categories:
   - NLP
   - PyTorch
 tags:
-
+- Implementation
 use_math: true
 last_modified_at: 2020-12-06
 ---
+
+# Intro
 
 [이전 시간](/project/nlp/bert-review/)에는 BERT에 대해 공부해보았다. 이번에는 이를 구현해보도록 하자.
 

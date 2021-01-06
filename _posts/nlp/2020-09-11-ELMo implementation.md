@@ -1,6 +1,6 @@
 ---
-title:  "Deep contextualized word representations (ELMo) 구현 Issue"
-excerpt: "PyTorch ELMo 구현 이슈 정리"
+title:  "ELMo: Deep contextualized word representations 구현 Issue"
+excerpt: "PyTorch로 ELMo를 구현해보자"
 toc: true
 toc_sticky: true
 permalink: /project/nlp/elmo-issue/
