@@ -6,6 +6,7 @@ toc_sticky: true
 
 categories:
   - PyTorch
+  - Deep Learning
 tags:
   - RNN
 use_math: true
