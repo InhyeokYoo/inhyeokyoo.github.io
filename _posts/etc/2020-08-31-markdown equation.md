@@ -62,26 +62,44 @@ $$
 
 | Greek Letter | Markdown |
 | :---: | :---: |
-| $\alpha$ | \alpha |
+| $\alpha$ | \alpha | 
 | $\theta$ | \theta |
 | $\Theta$ | \Theta |
 
 ## 폰트
 
-| 폰트 | Markdown |
-| :---: | :---: |
-| $\mathcal x$, $\mathcal X$ | \mathcal x, \mathcal X |
-| $\mathbb R$ | \mathbb R |
-
-
-
-# Vector
-
-| 방법 | Markdown | 결과 |
+| 폰트 | Markdown | 사용법 |
 | :---: | :---: | :---: |
-| 화살표 | $\vec x$ | \vec x|
-| 화살표 | $\overrightarrow x$, $\overleftarrow x$ | \overrightarrow x, \overrleftarrow x |
-| 굵은 표시 | $\mathbf x $ | \mathbf x |
+| $\mathcal X$ | \mathcal X | 집합 표현 |
+| $\mathbb R$ | \mathbb R | 차원 표현 |
+| $\mathbf x $ | \mathbf x |  굵은 표시 | 
+| $\pbm x $ | \pbm x | 굵은 표시 (이탤릭) |
+
+# 선형대수
+
+vector와 matrix는 다음과 같이 사용한다
+
+$$
+\begin{bmatrix} 0 & \cdots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \cdots & 0 \end{bmatrix}
+$$
+
+```latex
+\begin{bmatrix} 
+0 & \cdots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \cdots & 0 
+\end{bmatrix}
+```
+
+한 row에서 다음 row로 넘어갈 때는 \\\를, column을 이동할 때는 &를 사용한다.
+
+
+| 폰트 | Markdown | 사용법 |
+| :---: | :---: | :---: |
+| $\vec x$ | \vec x| 벡터 (화살표) | 
+| $\overrightarrow x$, $\overleftarrow x$ | \overrightarrow x, \overrleftarrow x | 벡터 (화살표) |
+| $\bm x^\intercal$ | \bm x^\intercal | transpose |
+
+
+
 
 
 # Sums and Intergrals
@@ -108,7 +126,7 @@ $$
 |$\iiint$ |	\iiint|
 |$\idotsint$ | 	\idotsint |
 |$\sum_{\substack{0<i<m \\ 0<j<n}} P(i, j)$  |	\sum_{\substack{0<i<m \\ 0<j<n}} P(i, j) |
-|$\int\limits_a^b$ |	\int\limits_a^b |
+|$\int \limits_a^b$ |	\int \limits_a^b |
 
 # Reference
 
