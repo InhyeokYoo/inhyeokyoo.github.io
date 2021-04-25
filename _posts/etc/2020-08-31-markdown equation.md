@@ -13,7 +13,7 @@ last_modified_at: 2020-08-31
 
 Markdown을 통해 Github pages를 작성하다 보니 수식을 입력하는게 생각보다 까다롭다. Colab에선 이러지 않았는데... 따라서 직접 사용하고 정리해보는 Markdown 수식을 작성해보았다. 본 post는 기본적으로 markdown에 대한 이해가 어느정도 있는 상태에서 사용할 것을 권장한다. 기본적인 자료는 구글링하면 쉽게 구할 수 있으니 한 번 찾아보자.
 
-# 정렬
+## 정렬
 
 `\begin{align}`과 `\end{align}`을 사용하면 **정렬이 오른쪽**으로 된다. 따라서 `&`를 통해 어디서부터 시작할지 정해주면 잘 작동하게 된다. 다음은 예시이다.
 
@@ -25,7 +25,7 @@ R _k = \{ x^LM _k, \overrightarrow {h^{LM} _{k, j}}, \overleftarrow {h^{LM} _{k,
 \end{align}
 $$
 
-```
+```latex
 \begin{align}
 R _k = \{ x^LM _k, \overrightarrow {h^{LM} _{k, j}}, \overleftarrow {h^{LM} _{k, j}} \lvert j=1, ..., L\} \\
 = \{ h^{LM} _{k, j} \lvert j=0, ..., L \},
@@ -43,7 +43,7 @@ R _k &= \{ x^LM _k, \overrightarrow {h^{LM} _{k, j}}, \overleftarrow {h^{LM} _{k
 \end{align}
 $$
 
-```
+```latex
 $$
 \begin{align}
 R _k &= \{ x^LM _k, \overrightarrow {h^{LM} _{k, j}}, \overleftarrow {h^{LM} _{k, j}} \lvert j=1, ..., L\} \\
@@ -52,11 +52,25 @@ R _k &= \{ x^LM _k, \overrightarrow {h^{LM} _{k, j}}, \overleftarrow {h^{LM} _{k
 $$
 ```
 
+## Numbering
+
+`\tag`를 사용하면 식에 넘버링을 할 수 있다.
+
+$$
+x := f(x) \tag{1}
+$$
+
+```latex
+$$
+x := f(x) \tag{1}
+$$
+```
+
 보다시피 $R _k$옆에 &을 넣어줘서 다음부터는 $=$부터 정렬이 되게끔 만들었다.
 
-# 문자열
+## 문자열
 
-## Greek Letter
+### Greek Letter
 
 그리스 문자는 escape sequence에 알파벳을 써주면 작성할 수 있다. 대문자의 경우는 첫 글자를 Capital로 시작한다.
 
@@ -66,14 +80,14 @@ $$
 | $\theta$ | \theta |
 | $\Theta$ | \Theta |
 
-## 폰트
+### 폰트
 
 | 폰트 | Markdown | 사용법 |
 | :---: | :---: | :---: |
 | $\mathcal X$ | \mathcal X | 집합 표현 |
 | $\mathbb R$ | \mathbb R | 차원 표현 |
 | $\mathbf x $ | \mathbf x |  굵은 표시 | 
-| $\pbm x $ | \pbm x | 굵은 표시 (이탤릭) |
+| $\pmb x $ | \pmb x | 굵은 표시 (이탤릭) |
 
 # 선형대수
 
@@ -96,7 +110,10 @@ $$
 | :---: | :---: | :---: |
 | $\vec x$ | \vec x| 벡터 (화살표) | 
 | $\overrightarrow x$, $\overleftarrow x$ | \overrightarrow x, \overrleftarrow x | 벡터 (화살표) |
-| $\bm x^\intercal$ | \bm x^\intercal | transpose |
+| $pmb x ^\intercal$ | \pbm x^\intercal | transpose |
+| $\boldsymbol{A}$ | \boldsymbol{A} | matrix |
+| $\textbf{A}$ | \textbf{A} | matrix |
+| $\pmb{A}$ | \pmb{A} | matrix |
 
 
 
