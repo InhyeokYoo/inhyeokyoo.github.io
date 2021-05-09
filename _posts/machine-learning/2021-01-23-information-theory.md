@@ -178,6 +178,8 @@ D _{KL} (p \rvert \rvert q) = KL(p \rvert \rvert q) & = H(p, q) - H(p)
 \end{align}
 $$
 
+교차엔트로피의 정의와 크게 다른 것이 없어보이는데, 최적화의 관점에서 보면 그렇다.
+
 쿨백-라이블러 발산의 주요 특징은 다음과 같다:
 - $D _{KL} (p \rvert \rvert q)$는 항상 양수
 - $D _{KL} (p \rvert \rvert q) \neq D _{KL} (q \rvert \rvert p)$
@@ -223,20 +225,24 @@ $$
 
 $$
 \begin{align}
-H(p) & = \sum _x p(x) \log (1/p(x)) 
-&= \sum _x p(x) \log (\frac{\rvert \mathcal X \rvert}{p(x) \rvert\mathcal X \rvert})
-&= \log \mathcal X - \sum _x p(x) \log (\frac{p(x)}{\frac{1}{\rvert\mathcal X \rvert}})
-&= \log \mathcal X - D _{KL}(p \rvert \rvert unif))
+H(p) & = \sum _x p(x) \log (1/p(x))  \\
+&= \sum _x p(x) \log (\frac{\rvert \mathcal X \rvert}{p(x) \rvert\mathcal X \rvert})  \\
+&= \log \mathcal X - \sum _x p(x) \log (\frac{p(x)}{\frac{1}{\rvert\mathcal X \rvert}})  \\
+&= \log \mathcal X - D _{KL}(p \rvert \rvert unif))  \\
 \end{align}
 $$
 
+### Interpretation of KL Divergence
+
 그외에도 KL 발산은 다음과 같이 해석할 수 있다.
-- **베이지안 관점에서** 이전의 확률분포 $q(x)$에서 사후 확률 분포 $p(x)$로 belief를 수정했을 때 얻을 수 있는 정보의 양
+- **베이지안 관점에서**보면, $D _{KL}(p \rvert \rvert q)$는 
+사전 확률분포 $q(x)$에서 사후 확률 분포 $p(x)$로 확률(belief)을 수정했을 때 얻을 수 있는 정보의 양을 의미한다. 즉, $p$를 근사하기 위해 $q$를 사용했을 때 잃는 정보의 양이다.
     - 달리 표현하면, $p$대신 $q$가 쓰였을 때 얻는 information gain
-- **머신러닝 관점에서** true distribution $p$를 근사하기 위해 $q$를 사용했을 때 잃는 정보의 양
+- **머신러닝 관점에서** $D _{KL}(p \rvert \rvert q)$는 종종 $p$대신 $q$가 사용되었을 때의 **정보이득(information gain)**으로 불린다. 
+주로 $p$는 관측된 데이터의 진짜 분포, $q$는 $p$를 근사하는데 사용하는 모델, 가설 등을 의미한다.
 
 
-이를 딥러닝 관점에서 생각하면, true distribution은 $y$이고, 이에 대한 estimation은 $\hat y$가 된다. 따라서 KL 발산은 다음과 같은 식이 될 것이다.
+이를 딥러닝 관점에서 생각하면, 진짜 분포는 $y$이고, 이에 대한 estimation은 $\hat y$가 된다. 따라서 KL 발산은 다음과 같은 식이 될 것이다.
 
 $$
 -(\sum y _j \log \hat y) - ( \sum y \log y )
@@ -293,3 +299,4 @@ $$
 - 1 bit = distinct between two states
 - 1 nat = the amount of information gained by observing an event of probability $\frac{1}{e}$
 - Entropy = Average information
+- 
