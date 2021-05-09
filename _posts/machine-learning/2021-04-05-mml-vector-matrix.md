@@ -1,5 +1,5 @@
 ---
-title:  "머신러닝을 위한 수학: Vector, Matrix"
+title:  "머신러닝을 위한 수학 정리: Vector, Matrix"
 toc: true
 toc_sticky: true
 permalink: /machine-learning/linear-algebra1
@@ -10,7 +10,7 @@ tags:
   - vector
   - matrix
 use_math: true
-last_modified_at: 2021-04-15
+last_modified_at: 2021-05-09
 ---
 
 산업공학도로서 부끄러운 이야기지만 딥러닝, 머신러닝에서 사용하는 수학적인 개념에 대해 헷갈리는 경우가 꽤나 자주있다. 지방대다 보니 학부과정에서 그냥 넘어가는 경우도 있고, 공부를 잘하는 편이 아니기 때문에 내가 까먹은 것도 있지만, 어쨌든간에 석사학위를 보유하고 있는 엔지니어로서 참으로 부끄러운 일이라고 생각한다. 본 포스트는 이러한 문제점을 해결하고 나 스스로 레퍼런스로 삼을만한 것을 만들기 위해 기획하였다. 기본적인 선형대수학부터 통계, 정보이론, 최적화 등 딥러닝과 머신러닝 전반적으로 다루는 수학적인 개념에 대해 다룰 것이다. 본 문서는 [mml](https://mml-book.github.io/book/mml-book.pdf)을 참고하여 정리하였다. 누군가에게 본 책이나 개념을 설명하는 것이 아닌, 내가 모르는 것을 정리하고 참고하기 위함이므로 반드시 원문을 보며 참고하길 추천한다.
@@ -137,8 +137,14 @@ $$
 > 
 >![image](https://user-images.githubusercontent.com/47516855/115409545-cdcda800-a22c-11eb-932b-9f15d34a62ea.png){: .align-center}{: width="700"}
 >
-> 이때 left-nullspace는 오직 영벡터만을 포함한다. 열벡터가 매우 많기 때문에 $\boldsymbol b$는 항상 열공간 위에 존재한다. 그렇기 때문에 $\boldsymbol A \boldsymbol x = \boldsymbol b $의 해가 존재한다. 그러나 셀 수 없이 많은 해가 존재한다. 이는 complete solution이 particular solution과 Homogeneous Solution의 합으로 이루어지기 때문이다.
-
+> 이때 left-nullspace는 오직 영벡터만을 포함한다. 열벡터가 매우 많기 때문에 $\boldsymbol b$는 항상 열공간 위에 존재한다. 그렇기 때문에 $\boldsymbol A \boldsymbol x = \boldsymbol b $의 해가 존재한다. 그러나 셀 수 없이 많은 해가 존재한다. 이는 complete solution이 particular solution과 Homogeneous Solution의 합으로 이루어지기 때문이다. (앞선 케이스에서는 null space가 영벡터인 경우)
+>
+> ### $r = m < n $
+> 가장 일반적인 경우이다. 이 경우 $C(A)$에 $\boldsymbol b$가 존재할 경우 infinite many solution을, 없을 경우 해를 갖지 않는다.
+>
+>![image](https://user-images.githubusercontent.com/47516855/116277446-6f6e6f80-a7c0-11eb-8f2a-84e0728aac0a.png){: .align-center}{: width="700"}
+>
+> 출처: [[선형대수학] 선형연립방정식(Ax = b)의 해 구하기.txt](https://bskyvision.com/271?category=619292)
 
 
 ## Vectors
@@ -200,11 +206,16 @@ $$
 
 이는 선형독립인 벡터들은 중복이 없다는 것과 마찬가지이며, 만약 하나를 제거한다면 우리는 무엇인가를 잃게 된다.
 
-*Remark.* 다음 성질들은 벡터가 linearly independent한지 파악하는데 도움이 된다.
+<div class="notice" markdown="1">
+*Remark.* 다음 성질들은 벡터가 linearly independent한지 파악하는데 도움이 된다. 
+
 - k 개의 벡터는 무조건 선형독립이거나, 선형독립이 아니다. 세번째 옵션은 없다.
 - vector $\boldsymbol x _1, \cdots, \boldsymbol x _k$중 하나라도 0벡터라면, linearly dependent하다. 두 벡터가 같은 경우에도 이는 성립한다.
 - 오직 trivial solution ($\lambda _i = 0$)만 있다면, vector $ x _1, \cdots x _k$는 linearly independent하다.
 - Linearly dependent한 경우 span하는데에 있어 불필요한 vector가 있다는 것을 의미한다.
+</div>
+
+
 
 ## Basis and Rank
 
@@ -212,38 +223,38 @@ $$
 
 벡터공간 $V$에 대해, 우리가 특별하게 관심을 갖는 것은 어떤 특정한 벡터의 집합 $\mathcal A$로, 이의 선형조합을 통해 어떠한 $\boldsymbol v \in V$를 얻을 수 있다.
 
-**Definition 2.13** (Generating set and span)
+**Definition 2.13** (Generating set and span(생성원))
 
 어떤 벡터공간 $V = ( \mathcal V, +, \cdot)$과 집합 $\mathcal A = \{\boldsymbol x _1, \cdots,  \boldsymbol x _k \} \subseteq \mathcal V$을 고려해보자. 만일 $\boldsymbol v \in \mathcal V$가 $\{\boldsymbol x _1, \cdots,  \boldsymbol x _k \}$의 선형조합으로 표현될 경우, $\boldsymbol{A}$를 $V$에 대한 **generating set**이라 한다. $\mathcal A$의 linear combination으로 만들어지는 집합을 **span** of $\mathcal A$라 하고, $\mathcal A$가 vector space $V$로 span한 것을 $V=\text{span}(\mathcal A)$ 혹은 $V=\text{span}[\boldsymbol x _1, \cdots,  \boldsymbol x _k]$ 로 표현한다.
 
----
-
 Generating set은 벡터공간을 span하는 벡터의 집합이다. 즉, 해당 vector들의 linear combination은 generating set의 모든 vector를 표현할 수 있다. 이제 더욱 구체적으로 가장 작은 generating set에 대해 살펴보자.
 
+**Definition 2.14** (Basis(기저))
 
-**Definition 2.14** (Basis)
+Vector space $V=(\mathcal V, +, \cdot )$, set of vectors $\mathcal{A} =  \subseteq \mathcal V$를 고려해보자. $\mathcal V$의 generating set $\mathcal{A}$는 $V$를 span하는 더 작은 집합 $\tilde{\mathcal A} \subseteq \mathcal A \subseteq \mathcal V$이 존재하지 않으면 **minimal**하다고 한다. 모든 선형독립인 generating set은 minimal하고, 이를 $V$의 **basis(기저)**라 한다.
 
-- Vector space $V=(V, +, \cdot )$, set of vectors $\boldsymbol{A} = (\boldsymbol x _1, \cdots \boldsymbol x _k) \subseteq V$ 일 때, 모든 vector $\boldsymbol v \in V$는 $\boldsymbol{A}$에 대한 linear combination으로 표현 가능하다.
-    - 이 때, $\boldsymbol{A}$를 $V$에 대한 **generating set**이라 한다.
-- 
-    - 즉, generating set은 vector space를 span한 vector의 집합으로, 
-- Vector space $V=(V, +, \cdot )$, set of vectors $\boldsymbol{A} = (\boldsymbol x _1, \cdots \boldsymbol x _k) \subseteq V$ 일 때, $V$에 대한 generating set $\boldsymbol{A}$보다 작은 집합이 없다면, $\boldsymbol{A}$는 $V$에서 생성된 모든 linearly independent한 vector의 집합 (maximal independent set)이며, $V$의 basis (minimal spanning set, minimal generating set)이라 한다.
-- Vector space $V=(V, +, \cdot )$, set of vectors $\mathcal B \subseteq V, \mathcal B \neq \emptyset, \mathcal B = \textrm{basis of } V$ 일 때, 모든 vector $\boldsymbol x \in V$는 $\mathcal B$에 대한 linear combination이고, 각각의 linear combination은 유일하다.
+$V=(V, +, \cdot)$, set of vectors $\mathcal B \subseteq V, \mathcal B \neq \emptyset$ 일 때 아래의 명제들은 동치이다.
+- $\mathcal B$는 $V$의 기저이다.
+- $\mathcal B$는 minimal generating set이다.
+- $\mathcal B$는 $V$의 선형독립인 벡터의 집합이다. 즉, 어떠한 벡터를 더하면, 이 집합은 더 이상 선형독립이 아니다.
+- 모든 vector $\boldsymbol x \in V$는 $\mathcal B$의 linear combination이고, 각각의 linear combination은 유일하다.
 
-여기서 주의할 점은 다음과 같다:
-- basis는 유일하지 않다. 즉, 수 많은 basis가 있고, 각 각의 basis는 서로 다르다.
-- 유한한 차원의 vector space의 차원은 basis vector의 수이며, $V$의 subspace $U$에 대해 $\textrm{dim}(U) \leq \textrm{dim}(V)$이고, $U = V$ 일때, $\textrm{dim}(U) = \textrm{dim}(V)$이 성립한다
-- 직관적으로 vector space의 차원은 vector space 상의 독립적인 방향의 수이다.
-- Vector space의 차원은 반드시 vector element의 수와 동일한 것은 아니다.
+*Remark*. basis는 유일하지 않다. 즉, 수 많은 basis가 있고, 각 각의 basis는 서로 다르다.
+{: .notice}
+
+여기서는 오직 유한한 차원만을 다루며, 이 경우 vector space의 차원은 basis vector의 수이며, 이를 $\textrm{dim}(V)$라 쓴다. $V$의 subspace $U$에 대해 $\textrm{dim}(U) \leq \textrm{dim}(V)$이고, $U = V$ 일때, $\textrm{dim}(U) = \textrm{dim}(V)$이 성립한다. 직관적으로 vector space의 차원은 vector space 상의 독립적인 방향의 수이다.
+
+*Remarks*. Vector space의 차원은 반드시 vector element의 수와 동일한 것은 아니다.
+{: .notice}
 
 ### Rank
 
-$\boldsymbol{A} \in \mathbb R^{m \times n}$의 linearly independent column의 수와 linearly independent row의 수는 같고, 이를 rank라 하며, $\textrm{rk}(\boldsymbol{A})$로 표현한다.
+$\boldsymbol{A} \in \mathbb R^{m \times n}$의 linearly independent column의 수와 linearly independent row의 수는 같고, 이를 **rank**라 하며, $\textrm{rk}(\boldsymbol{A})$로 표현한다.
 
-특징  
-- $\textrm{rk}(\boldsymbol{A})$ = $\textrm{rk}(\boldsymbol{A}^\intercal)$
+행렬의 랭크는 중요한 성질이 있다.  
+- $\textrm{rk}(\boldsymbol{A})$ = $\textrm{rk}(\boldsymbol{A}^\intercal)$. 즉, column rank와 row rank는 같다.
 - $\boldsymbol{A} \in \mathbb R^{m \times n}$의 column은 subspace $U \in \mathbb R^m$을 span하고, $\textrm{dim}(U)$는 $\textrm{rk} (\boldsymbol{A})$와 같다.
-    - 이 subspace는 추후에 image 혹은 range (치역)로 부를 것이다.
+    - 이 subspace는 추후에 **image** 혹은 **range(치역)**로 부를 것이다.
     - $\boldsymbol{A}$의 basis는 gaussian elimination을 통해 알 수 있다.
 - $\boldsymbol{A}^\intercal \in \mathbb R^{m \times n}$의 row는 subspace $W \in \mathbb R^n$을 span하고, $\textrm{dim}(W)$는 $\textrm{rk} (\boldsymbol{A})$와 같다.
     - 이는 $\boldsymbol{A}^\intercal$의 gaussian elimination을 통해 알 수 있다.
@@ -276,15 +287,14 @@ $$
 
 머지않아 linear mapping을 matrix로 표현하는 방법을 배울 것이다. matrix로 표현하는 경우, 이를 **matrix representation (행렬 표현)**이라 한다.
 
-**Definition 2.16** (Injective, Surjective, Bijective)
+**Definition 2.16** (Injective(단사), Surjective(전사), Bijective(전단사))
 
 임의의 집합 $\mathcal V, \mathcal W$에 대한 mapping $\Phi: \mathcal V \to \mathcal W$을 고려해보자. 그러면 $\Phi$는,
-- **Injective(one-to-one, 단사)**: $\Phi(\boldsymbol x) = \Phi(\boldsymbol y) $이면, $\boldsymbol x = \boldsymbol y$
+- **Injective(one-to-one, 단사)**: $\Phi(\boldsymbol x) = \Phi(\boldsymbol y) $이면, $\boldsymbol x = \boldsymbol y$. 즉, $\text{Im}(f) =Y$이다.
     - 만일 $\Phi$가 subjective하면, $\Phi$를 이용해 $\mathcal V$를 이동시켜 $\mathcal W$의 모든 요소를 나타낼 수 있다. 
 - **Subjective(onto, 전사)**: $\Phi(\mathcal V) = \mathcal W $
-    - Bijective $\Phi$는 되돌려질 수 있다 (undone). 즉, $\Phi(\boldsymbol x)$를 다시 $\boldsymbol x$로 보내는 linear mapping $\Psi: \mathcal W \rightarrow \mathcal V$가 존재한다. (i.e. $\Psi \circ \Phi (\boldsymbol x) = \boldsymbol x$)
-        - mapping $\Psi$는 $\Phi$의 inverse라 하고, $\Phi^{-1}$로 표현한다.
 - **Bijective(one-to-one correspondence, 전단사)**: Injective and Subjective
+    - Bijective $\Phi$는 되돌려질 수 있다 (undone). 즉, $\Phi(\boldsymbol x)$를 다시 $\boldsymbol x$로 보내는 linear mapping $\Psi: \mathcal W \rightarrow \mathcal V$가 존재한다. (i.e. $\Psi \circ \Phi (\boldsymbol x) = \boldsymbol x$) 이러한 mapping $\Psi$는 $\Phi$의 inverse라 하고, $\Phi^{-1}$로 표현한다.
 
 > 아래 그림은 injective, surjective, bijective에 대한 그림이다.
 > 
@@ -293,25 +303,27 @@ $$
 이와 같은 정의를 이용하여, vector space $V, W$ 사이 linear mapping에 대한 특수한 경우를 살펴보자
 - **Isomorphism(동형사상)** : $\Phi: V \rightarrow W$ linear and bijective
     - 따라서 $V$에서의 vector addition과 scalar multiplication은 $W$의 연산으로 완전히 전환되어 계산할 수 있다.
+    - $T(c \boldsymbol v _1 + \boldsymbol v _2) = cT(\boldsymbol v _1) + T(\boldsymbol v _2)$
 - **Endomorphism(자기사상)** : $\Phi: V \rightarrow V$ linear
     - 즉, 시작과 끝이 같다 (정의역=공역)
 - **Automorphism(자기동형사상)** : $\Phi: V \rightarrow V$ linear and bijective
 - $\textrm{id}_V: V \rightarrow V, \boldsymbol x \rightarrow \boldsymbol v$를 $V$의 **identity mapping (항등 사상, identity automorphism)**이라 한다.
 
-
 **Theorem 2.17**
-
 유한한 차원의 vector space $V, W$에 대해 $\textrm{dim} (V) = \textrm{dim} (W)$과 isomorphic (동형)는 동치이다 (iff).
+{: .notice--info}
 
-따라서 차원이 같은 vector space 내에 linear, bijective mapping이 존재한다. 즉, 차원이 같은 vector space는 같은 것이며, 적절한 변환을 통해 손실없이 변환된다는 뜻이다. 이때 이러한 mapping을 $V$와 $W$사이의 isomorphsm이라고 부른다.  
+Theorem 2.17 차원이 같은 vector space 내에 linear, bijective mapping이 존재한다는 것을 이야기한다. 즉, 차원이 같은 vector space는 같은 것이며, 적절한 변환을 통해 손실없이 변환된다는 뜻이다. 이때 이러한 mapping을 $V$와 $W$사이의 isomorphism이라고 부른다.  
+
 이는 또한 $\mathbb R^{m \times n}$과 $\mathbb R^{mn}$을 같은 차원으로 취급하게 해주며, 이에도 역시 linear, bijective mapping이 존재한다
 
->  이 두 집합을 완전히 동일하게 취급하고 둘 중에서 보다 이해하기 쉬운 집합을 이용하여 이해하기 어려운 집합을 분석한다.
-
+<div class="notice" markdown="1">
 *Remark.* vector space $V, W, X$를 고려해보자. 그러면,
 - linear mapping $\Phi: V \rightarrow W$과 $\Psi: W \rightarrow  X$에 대해 mapping $\Psi \circ \Phi: V \rightarrow  X$ 또한 linear하다.
 - $\Phi: V \rightarrow W$이 isomorphic하면, $\Phi^{-1}: W \rightarrow V$ 또한 isomorphic하다.
 - $\Phi: V \rightarrow W$과 $\Psi: W \rightarrow  X$이 linear하면, $\Phi + \Psi$, $\lambda \Phi$ 또한 linear하다.
+</div>
+
 
 ## Matrix Representation of Linear Mappings
 
@@ -335,105 +347,184 @@ $$
 \in \mathbb R^n
 $$
 
-Coordinates를 봤을 때 basis vector는 킬로미터, 분, 초와 같은 일종의 단위로 작용한다.  
 N차원 vector space $V$, $V$의 ordered basis $B$, $\Phi: \mathbb R^n \rightarrow V$인 mapping $\Phi$가 있을 때, n차원 실수 공간의 단위 벡터 $(e _1, \cdots, e _n)$은 $\Phi$에 의해 $(b _1, b _2, \cdots, b _n)$로 mapping된다.
 
-*Remark.* 어떤 n차원 vector space와 ordered basis $B$에 대해 mapping $\Phi: \mathbb R^n \to V$, \Phi(\boldsymbol e _i) = \boldsymbol b _i, i = 1, \cdots, n$,는 linear하고 (또한 Theorem 2.17 때문에 isomorphic하다)
+> 예를 들어 $(-3, 5)$는 $-3\boldsymbol e _1 + 5\boldsymbol e _2$로 표현이 가능하다. 그러나 이를 ordered basis로 표현한다면 기저는 무시하고 그 앞의 스칼라로만 표현할 수 있다.
 
-**Definition 2.19** (Transformation Matrix)
+*Remark.* 어떤 n차원 vector space와 ordered basis $B$에 대해 mapping $\Phi: \mathbb R^n \to V, \Phi(\boldsymbol e _i) = \boldsymbol b _i, i = 1, \cdots, n$,는 linear하고, 또한 Theorem 2.17 때문에 isomorphic하다.
+{: .notice}
+
+그러면 이제 우리는 finite-dimensional vector spaces간의 선형사상들과 행렬들을 명시적으로 연결할 준비가 되었다. 
+
+**Definition 2.19** (Transformation Matrix(변환행렬))
 
 Vector space $V, W$가 있고, 그에 대한 ordered basis $B, C$가 각각 있을 때, $\Phi : V \rightarrow W$인 $\Phi$가 있으면, $C$로 $\Phi (b _j)$를 다음과 같이 unique하게 표현할 수 있다.
+
 $$
-\Phi (b _j) = \alpha _{1j} \boldsymbol c _j + \cdots + \alpha _{mj}\boldsymbol c _j = \sum ^m _{i=1} \alpha _{ij}\boldsymbol c _i
+\Phi (b _j) = \alpha _{1j} \boldsymbol c _j + \cdots + \alpha _{mj}\boldsymbol c _j = \sum ^m _{i=1} \alpha _{ij}\boldsymbol c _i \tag{2.92}
 $$
 
 이때 모든 j에 대해 $\alpha$를 모으면 **transformation matrix** $\boldsymbol{A} _\Phi (i, j) = \alpha _{ij}$를 만들 수 있다.
 
+
 ## Basis change
 
-Vector space $V$의 basis $B$와, basis가 mapping된 $\tilde B$가 있고, vector space $W$의 basis $C$와 이의 mapping $\tilde C$가 있을 때, mapping $\Phi: V \rightarrow W$가 B, C의 변화에 따라 변화한다.
+이제 $V, W$의 basis가 변화할 때 $\Phi: V \rightarrow W$의 transformation matrix가 어떻게 변화하는지 자세히 살펴보자. $V, W$에 대해 각기 두개의 ordered basis를 살펴보자:
 
-Basis change:  
-Vector space $V, W$와 각각의 basis $B, C$와 linear mapping $\Phi: V \rightarrow W$가 있을 때, 다음과 같은 $B$를 $\hat B$로, $C$를 $\tilde C$로 transformation하는 matrix를 각각 $S, T$라고 하면, 다음 식을 통해 $\tilde \boldsymbol{A} _\Phi$를 구할 수 있다.
-
-Equivalence:  
-$\tilde \boldsymbol{A} = T^{-1} \boldsymbol{A} \boldsymbol{S}$인 regular matrix $S \in \mathbb R^{n \times n}$와 $T \in \mathbb R^{m \times m}$이 존재하면 두 matrix $\boldsymbol{A}, \tilde \boldsymbol{A} \in \mathbb R^{m \times m}$은 서로 **equivalent**하다고 한다.
-
-Similarity:  
-$\tilde \boldsymbol{A} = S^{-1}\boldsymbol{A}S$인 regular matrix $S \in \mathbb R^{n \times n}$가 존재하면, 두 matrix $\boldsymbol{A}, \tilde \boldsymbol{A} \in \mathbb R^{n \times n}$은 서로 **similar**하다고 한다.
-
-Similar matrix는 항상 equivalent하지만, equivalent matrix는 항상 similar하지 않다 (similar $\subset$ equivalent)
-
-## Image and Kernel
-
-Kernel (핵):  
-Vector space $V$ 안에 있는 subset이 vector space W로 mapping될 때, $0 _w$가 되는 vector space다. 즉, 
 $$
-\textrm{ker} (\Phi) := \Phi^{-1}(0 _W) = {\boldsymbol v \in V: \Phi(\boldsymbol v) = 0 _W}
-$$
-
-Image:  
-Vector space $V$ 전체가 vector space W의 어떤 subset으로 mapping되는 경우이다. 즉, 
-$$
-\textrm{Im} (\Phi) := \Phi^(V) = {\boldsymbol w \in W \rvert \exists \boldsymbol v \in V: \Phi(\boldsymbol v) = \boldsymbol w}
-$$
-
-![image](https://user-images.githubusercontent.com/47516855/114015685-ef31aa00-98a4-11eb-9368-beb7bb4e8df3.png){: .align-center}{: width="500"}
-
-위 그림은 image와 kernel을 나타낸 것으로, $\Phi$는 $\textrm{ker} (\Phi) = \{ 0 \}$인 경우에만 injective하다.
-
-Remark Null Space and Column Space  
-$\boldsymbol{A} \in \mathbb R^{m \times n}$과 linear mapping $\Phi : \mathbb R^n \rightarrow \mathbb R^m$이 있을 때 다음이 성립한다.
-- $\boldsymbol{A}$를 $\boldsymbol{A}$의 column vector로 표현해 $\boldsymbol{A} = [a _1, \cdots, a _n]$으로 나타내면 다음 식이 성립한다: $\textrm{Im} (\Phi)=\{ \boldsymbol{A} \boldsymbol x: \boldsymbol x \in \mathbb R^n = \{ \sum^n _{i=1} x _i a _i : x _1, \cdots , x _n \in \mathbb R\} = \textrm{span}[a _1, \cdots, a _n] \subseteq \mathbb R^m$
-    - Image는 $\boldsymbol{A}$의 column vector의 span이다
-- $\textrm{rk}(\boldsymbol{A})=\textrm{dim}(\textrm{Im}(\Phi))$이다
-- Kernel/null space인 $\textrm{ker} (\Phi)$는 $\boldsymbol{A} \boldsymbol x = 0 $과 같은 homogeneous system of linear equation의 **일반해**이다.
-- kernel은 matrix column space의 subspace이다.
-
-Rank-Nullity Theorem  
-Vector space $V, W$와 $\Phi: V \rightarrow W$에 대해 다음이 성립한다.
-$$
-\textrm{dim}(\textrm{ker}(\Phi)) + \textrm{dim}(\textrm{Im}(\Phi)) = \textrm{dim}(V)
-$$
-이때 위의 rank-nullity theorem에 대해 다음과 같은 성질이 있다:
-- $\textrm{dim}(\textrm{Im}(\Phi)) < \textrm{dim}(V)$이면, $\textrm{ker}(\Phi)$가 non-trivial하다. 즉, kernel이 0 이외의 값을 갖고, $\textrm{dim}(\textrm{ker}(\Phi))$가 1이상이다.
-- $\textrm{dim}(V) = \textrm{dim}(W)$이면, $\Phi$는 injective, surjective, bijective하다.
-
-## Affine space
-
-> Vector space $V$와 $x _0 \in V, U \subseteq V$가 있을 때, 다음 $L$을 $V$의 affine space라한다.
-> 
-> $$
 \begin{align}
-L &= x _0 + U := {x _0 + u : u \in U} \\
-&= \{ \boldsymbol v \in V \rvert \exists \boldsymbol u \in U: \boldsymbol v = x _0 + \boldsymbol u\} \subseteq V
+B=(\boldsymbol b _1, \boldsymbol b _2, \cdots, \boldsymbol b _n), \tilde{B}=(\tilde{\boldsymbol b _1}, \tilde{\boldsymbol b _2}, \cdots, \tilde{\boldsymbol b _n}) \tag{2.98} \\
+C=(\boldsymbol c _1, \boldsymbol c _2, \cdots, \boldsymbol c _n), \tilde{C}=(\tilde{\boldsymbol c _1}, \tilde{\boldsymbol c _2}, \cdots, \tilde{\boldsymbol c _n}) \tag{2.99}
 \end{align}
 $$
 
-위와 같은 subset을 **affine subspace** 혹은 **linear manifold**라고 한다. $U$는 direction/direction space라 하고, $x _0$는 support point라고 한다. SVM에서는 이러한 subspace를 hyperplane이라고 부른다.  
-이때 $x _0 \notin U$이면 affine space에 0이 포함되지 않았으므로 affine space는 linear subspace가 아니게되고, 따라서 affine subspace를 V의 subspace라고 할 수 없다.  
-\boldsymbol{A}ffine space는 주로 parameter를 이용해 많이 표현된다. k-dimensional affine space인 $L = x _0 + U$가 있을 때, $(b _1, b _2, \cdots, b _n)$를 $U$의 ordered basis라 하면, affine space 내의 원소 $\boldsymbol x$는 다음과 같이 directional vector $\boldsymbol b$와 parameter $\lambda$를 이용해 표현할 수 있다.
+또한, $\boldsymbol{A} _\Phi \in \mathbb R^{m \times n}$를 기저 $B, C$에 대한 사상의 변환 행렬이라하자. 마찬가지로 $\tilde{\boldsymbol{A}} _\Phi \in \mathbb R^{m \times n}$를 기저 $\tilde{B}, \tilde{C}$에 대한 사상의 변환 행렬이라하자. 다음을 통해 어떻게 $A와 \tilde A$가 연결되어 있는지, 즉, $B, C$로부터 $\tilde{B}, \tilde{C}$로의 basis change를 수행하여 어떻게 $\boldsymbol{A}$를 $\tilde{\boldsymbol{A}}$로 변환할 수 있는지 살펴보도록 한다.
+
+*Remarks.* identity mapping $\text{id}_v$에 대해 서로 다른 coordinate representation을 생각해보자. 이는 즉, $(\boldsymbol{e _1}, \boldsymbol{e _2})$에 대한 좌표를 $(\boldsymbol{b _1}, \boldsymbol{b _2})$로 mapping하는 것으로 이해할 수 있다. 기저와 이에 대응하는 벡터의 표현의 변화를 통해, 이런 새로운 기저를 통해 변환 행렬을 더욱 간략하게 만들어 직관적인 계산을 하게 만들 수 있다.
+{: .notice}
+
+이 다음에 어떤 기저에 대한 좌표 벡터를 다른 기저에 대한 좌표 벡터로 변환하는 사상에 대해 살펴볼 것이다. 우선 주요 결론을 먼저 기술하고, 이후 이에 대한 설명을 이어가도록 하겠다.
+
+**Theorem 2.20** (Basis Change)  
+앞선 예제와 마찬가지로 vector space $V, W$와 각각의 ordered basis $B, C$와 linear mapping $\Phi: V \rightarrow W$를 생각해보자.    
+$$
+\begin{align}
+B=(\boldsymbol b _1, \boldsymbol b _2, \cdots, \boldsymbol b _n), \tilde{B}=(\tilde{\boldsymbol b _1}, \tilde{\boldsymbol b _2}, \cdots, \tilde{\boldsymbol b _n}) \tag{2.103} \\
+C=(\boldsymbol c _1, \boldsymbol c _2, \cdots, \boldsymbol c _n), \tilde{C}=(\tilde{\boldsymbol c _1}, \tilde{\boldsymbol c _2}, \cdots, \tilde{\boldsymbol c _n}) \tag{2.104}
+\end{align}
+$$  
+$B, C$에 대한 $\Phi$의 변환행렬 $\boldsymbol A _\Phi$, 그리고 이에 대응하는 $\tilde B, \tilde C$에 대한 $\tilde{\boldsymbol{A} _\Phi}$이 다음과 같이 주어졌을 때,  
+$$
+\tilde{\boldsymbol{A _\Phi}} = \boldsymbol{T^{-1}} \boldsymbol{A _\Phi} \boldsymbol{S} \tag{2.105}
+$$  
+$\boldsymbol{S}$는 $\text{id} _V$의 변환행렬로, $\tilde B$에 대한 좌표를 $B$로 맵핑한다. 또한, $\boldsymbol{T}$는 $\text{id} _W$의 변환행렬로, $\tilde C$에 대한 좌표를 $C$로 맵핑한다.
+{: .notice--info}
+
+![image](https://user-images.githubusercontent.com/47516855/117107051-ef499a80-adbb-11eb-92b0-87a70e0826a8.png){: .align-center}{: width="500"}
+
+위 그림은 다음을 설명한다. 어떤 homomorphism $\Phi: V \to W$와 $V$의 ordered basis $B, \tilde{B}$, $W$의 ordered basis $C, \tilde{C}$를 생각해보자. Mapping $\Phi _{CB}$는 $B$의 기저벡터를 $C$의 기저벡터의 선형조합으로 map한다. 우리가 ordered basis $B, C$에 대한 $\Phi _{CB}$의 변환행렬 $\boldsymbol{A _{\Phi _{CB}}}$를 안다고 가정하자. $V$의 $B$를 $\tilde{B}$로, $W$의 $C$를 $\tilde{C}$로 기저변환을 수행하면, 이에 대응하는 변환행렬 $\tilde{\boldsymbol{A}} _{\Phi _{CB}}$를 다음과 같이 결정할 수 있다. 우선 선형변환 $\Psi _{B\tilde{B}}: V \to V$의 행렬표현을 찾을 수 있다. 이는 새로운 기저 $\tilde{B}$에 대한 좌표를 **이전** 기저 $B$ (V)에 대한 (유일한) 좌표로 map할 수 있다. 그러면 $\Phi _{CB}$의 변환행렬 $\boldsymbol{A} _{\Phi}: V \to W$를 이용하여 V의 이전 기저에 대한 좌표를 $W$ 내의 $C$에 대한 좌표로 변환할 수 있다. 마지막으로, 선형사상 $\Xi _{\tilde{C}C}: W \to W$를 이용하여 $C$에 대한 좌표를 $\tilde{C}$로 map하게 된다. 그러므로 선형사상 $\Phi _{\tilde{C}\tilde{B}}$를 **이전** 기저를 포함하는 선형사상의 조합으로 표현할 수 있다.
+
+$$
+\Phi _{\tilde{C}\tilde{B}} = \Xi _{\tilde{C}C} \circ \Phi _{CB} \circ \Psi _{B\tilde{B}} = \Xi ^{-1} _{C\tilde{C}} \circ \Phi _{CB} \circ \Psi _{B\tilde{B}} \tag{2.114}
+$$
+
+구체적으로, $\Psi _{B\tilde{B}}=\text{id} _V$ $\Xi _{C\tilde{C}} = \text{id} _W$를 사용한다. 즉, 벡터들을 자기 자신으로 맵핑하지만, basis가 달라지게 된다.
+
+**Definition 2.21** (Equivalence)
+
+$\tilde{\boldsymbol{A}} = \boldsymbol{T^{-1}} \boldsymbol{A} \boldsymbol{S}$인 regular matrix $S \in \mathbb R^{n \times n}$와 $T \in \mathbb R^{m \times m}$이 존재하면 두 matrix $\boldsymbol{A}, \tilde{\boldsymbol{A}} \in \mathbb R^{m \times m}$은 서로 **equivalent**하다고 한다.
+
+**Definition 2.22** (Similarity)
+
+$\tilde{\boldsymbol{A}} = S^{-1}\boldsymbol{A}S$인 regular matrix $S \in \mathbb R^{n \times n}$가 존재하면, 두 matrix $\boldsymbol{A}, \tilde{\boldsymbol{A}} \in \mathbb R^{n \times n}$은 서로 **similar**하다고 한다.
+
+*Remarks.* Similar matrix는 항상 equivalent하지만, equivalent matrix는 항상 similar하지 않다 (similar $\subset$ equivalent)
+{: .notice}
+
+> 뭔가 말이 어렵다. 간단하게 설명하자면 각각의 vector space마다 basis가 다른 경우를 생각해보자. 어떤 벡터를 여러 공간에서 표현할 때, 서로의 기저가 다르므로 단순하게 벡터의 값만으론 같은 벡터를 표현하기 어려울 것이다 (선형변환을 통해 기저벡터가 변화하므로). 이러한 동일성을 유지하는 것이 이러한 basis change의 핵심 개념이라고 생각하면 된다. 
+
+## Image and Kernel
+
+선형사상의 Image와 kernel은 subspace로, 특정 중요한 성질을 갖고있다. 다음을 통해 이를 살펴보자.
+
+**Definition 2.23** (Image and Kernel).
+
+$\Phi: V \to W$에 대해, Kernel (핵)/null sapce(영공간)은 다음과 같이 정의된다.
+
+$$
+\textrm{ker} (\Phi) := \Phi^{-1}(\boldsymbol 0 _W) = \{\boldsymbol v \in V: \Phi(\boldsymbol v) = \boldsymbol 0 _W\} \tag{2.122}
+$$
+
+Image(상)/range(치역)은 다음과 같다.  
+
+$$
+\textrm{Im} (\Phi) := \Phi (V) = \{\boldsymbol w \in W \rvert \exists \boldsymbol v \in V: \Phi(\boldsymbol v) = \boldsymbol w\}
+$$
+
+직관적으로 kernel은 Vector space $V$ 안에 있는 subset이 vector space W로 mapping될 때, $0 _w$가 되는 vector space다. Image는 vector space $V$의 벡터가 vector space W의 어떤 subset으로 mapping되는 경우이다. 이에 대한 그림이 아래에 있다.
+
+![image](https://user-images.githubusercontent.com/47516855/114015685-ef31aa00-98a4-11eb-9368-beb7bb4e8df3.png){: .align-center}{: width="500"}
+
+<div class="notice" markdown="1">
+*Remarks.* 선형사상 $\Phi: V \to W$를 생각해보자.
+- 언제나 $\Phi(\boldsymbol 0 _V)=\boldsymbol 0 _W$가 성립한다. 그러므로 $\boldsymbol 0 _V \in \textrm{ker} (\Phi)$가 성립한다. 특히 null space는 절대로 빈 공간이 될 수 없다.
+- $\textrm{Im} (\Phi) \subseteq W$는 $W$의 subspace이다.
+- $\Phi$는 $\textrm{ker} (\Phi) = \{\boldsymbol 0 \}$인 경우에만 injective하다.
+</div>
+
+<div class="notice" markdown="1">
+*Remark*. (Null Space and Column Space). $\boldsymbol{A} \in \mathbb R^{m \times n}$과 linear mapping $\Phi : \mathbb R^n \to \mathbb R^m, \boldsymbol x \mapsto \boldsymbol A \boldsymbol x$이 있을 때 다음이 성립한다.
+- $\boldsymbol{A}$를 $\boldsymbol{A}$의 column vector로 표현해 $\boldsymbol{A} = [a _1, \cdots, a _n]$으로 나타내면 다음 식이 성립한다.
+
+    $$
+    \begin{align}
+    \textrm{Im} (\Phi) &=\{ \boldsymbol{A} \boldsymbol x: \boldsymbol x \in \mathbb R^n = \{ \sum^n _{i=1} x _i a _i : x _1, \cdots , x _n \in \mathbb R\} \tag{2.124a} \\
+    &= \textrm{span}[a _1, \cdots, a _n] \subseteq \mathbb R^m \tag{2.124b}
+    \end{align}
+    $$
+- 즉, image는 $\boldsymbol{A}$의 column vector의 span이다. 이는 **column space**라 부른다. 따라서 column space (image)는 $\mathbb R^m$의 subspace이다 ($m$은 matrix의 "높이")
+- $\textrm{rk}(\boldsymbol{A})=\textrm{dim}(\textrm{Im}(\Phi))$이다
+- Kernel/null space인 $\textrm{ker} (\Phi)$는 $\boldsymbol{A} \boldsymbol x = 0 $과 같은 homogeneous system of linear equation의 **일반해**이다.
+- kernel은 $\mathbb R^n$의 subspace이다. ($n$은 matrix의 "가로"이다.)
+- Kernel은 column들 간의 관계에 집중한다. 이를 이용하여 한 column을 다른 column의 선형조합으로 나타낼 수 있는지, 어떻게 나타내는지 결정할 수 있다.
+</div>
+
+**Theorem 2.24** (Rank-Nullity Theorem(차원정리))  
+Vector space $V, W$와 $\Phi: V \rightarrow W$에 대해 다음이 성립한다.  
+$$
+\textrm{dim}(\textrm{ker}(\Phi)) + \textrm{dim}(\textrm{Im}(\Phi)) = \textrm{dim}(V) \tag{2.129}
+$$
+{: .notice--info}
+
+rank-nullity theorem은 또한 **linear mapping의 주요 이론**이라고도 부른다. 다음은 rank-nullity theorem와 직접적인 연관이 있다.
+- $\textrm{dim}(\textrm{Im}(\Phi)) < \textrm{dim}(V)$이면, $\textrm{ker}(\Phi)$가 non-trivial하다. 즉, kernel이 0 이외의 값을 갖고, $\textrm{dim}(\textrm{ker}(\Phi))$가 1이상이다.
+- $\textrm{dim}(V) = \textrm{dim}(W)$이면, $\Phi$는 injective, surjective, bijective하다. 이는 $\textrm{Im}(\Phi) \subseteq W$이기 때문이다.
+
+> 앞서 선형시스템의 해는 special solution과 homogeneous solution의 합으로 이루어져 있다고 하였다. 행렬은 선형사상과 isomorphism관계에 있기 때문에 이는 선형사상에서도 똑같이 적용된다. Rank-Nullity theorem은 이에 대한 관계를 나타내는 것이다.
+
+
+## Affine space
+
+이제 원점에서 떨어진 공간들을 살펴보자. 즉, 이는 더이상 부분공간이 아니게 된다. 더 나아가 이러한 affine space 사이 사상의 성질을 간략하게 논의해보자.
+
+### Affine subspace
+
+**Definition 2.25** (Affine Subspace).
+
+Vector space $V$와 $x _0 \in V$와 V의 subspace $U \subseteq V$가 있을 때, 다음 부분집합 $L$을 $V$의 **affine space** 혹은 $V$의 **linear manifold**라한다.
+
+$$
+\begin{align}
+L &= \boldsymbol x _0 + U := {\boldsymbol x _0 + \boldsymbol u : u \in U} \tag{2.130a}\\
+&= \{\boldsymbol v \in V \rvert \exists \boldsymbol u \in U: \boldsymbol v = \boldsymbol x _0 + \boldsymbol u\} \subseteq V \tag{2.130b}
+\end{align}
+$$
+
+$U$는 **direction/direction space**라 하고, $x _0$는 **support point**라고 한다. 이후 SVM에서는 이러한 subspace를 hyperplane이라고 부를 것이다.  
+
+이때 $x _0 \notin U$이면 affine space에 0이 포함되지 않았으므로 affine space는 linear subspace (vector space)가 아니게되고, 따라서 affine subspace를 V의 subspace라고 할 수 없다.  
+
+Affine space는 주로 parameter를 이용해 많이 표현된다. k-dimensional affine space인 $L = \boldsymbol x _0 + U$가 있을 때, $(\boldsymbol b _1, \boldsymbol b _2, \cdots, \boldsymbol b _n)$를 $U$의 ordered basis라 하면, affine space 내의 원소 $\boldsymbol x$는 다음과 같이 directional vector $\boldsymbol b$와 parameter $\lambda$를 이용해 표현할 수 있다.
+
 $$
 \boldsymbol x = x _0 + \lambda _1 b _1 + \cdots + \lambda _k b _k
 $$
 
+### Affine mapping
+
 Linear mapping과 마찬가지로 affine mapping은 두 affine space 사이의 변환을 나타낸다. 
 
-\boldsymbol{A}ffine mapping  
-Vector space $V, W$와 $\Phi: V \rightarrow W, \alpha \in W$가 있을 때, affine mapping은 다음과 같이 나타낼 수 있다.
-$$
-\varphi: V \rightarrow W
-\boldsymbol x \mapsto \boldsymbol a + \Phi (x)
-$$
-여기서 벡터 $\boldsymbol a$를 **translation vector** of $\varphi$라고 부른다.
+**Definition 2.26** (Affine Mapping)
 
-특징
+Vector space $V, W$와 $\Phi: V \rightarrow W, \alpha \in W$가 있을 때, $V$에서 $W$로의 **affine mapping**은 다음과 같이 나타낼 수 있다.
+
+$$
+\begin{align}
+\varphi: V \rightarrow W \tag{2.132} \\ 
+\boldsymbol x \mapsto \boldsymbol a + \Phi (x) \tag{2.133}
+\end{align}
+$$
+여기서 벡터 $\boldsymbol a$를 $\varphi$의 **translation vector** 라고 부른다.
 - 모든 affine mapping  $\varphi: V \rightarrow W$는 linear mapping $\Phi: V \rightarrow W$와 translation $\tau: W \rightarrow W$로 이루어진다. $$\varphi$에 대해 $\Phi, \tau$는 unique하게 정해지고, $\tau \circ \Phi$로 표현할 수 있다.
 - 두 affine mapping은 서로 결합해도 여전히 affine mapping이다.
 - affine mapping은 변환 전후의 dimension, parallism 같은 기하학적인 구조를 그대로 유지시킨다.
-
-## Appendix A: Fundamental Subspace
-
-### Column Space and Null Space 
-
-$C(\boldsymbol A)$: Coulmn space. 모든 열의 선형결합을 포함.
