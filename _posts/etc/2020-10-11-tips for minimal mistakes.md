@@ -59,17 +59,6 @@ $type-size-8: 0.625em !default; // ~10px
 **중요한 노트:** 조금 더 중요한 문구는 `{: .notice--primary}`를 통해 사용할 수 있다.
 {: .notice--primary}
 
-<div class="notice--primary" markdown="1">
-**중요한 노트와 코드블록:** 조금 더 중요한 문구와 함께 코드를 사용하는 것은 아래 코드블록을 통해 사용할 수 있다.
-
-```html
-<div class="notice--primary" markdown="1">
-**중요한 노트와 코드블록:** 조금 더 중요한 문구와 함께 코드를 사용하는 것은 아래 코드블록을 통해 사용할 수 있다.
-
-// 이하 코드블록
-```
-</div>
-
 **정보 안내:** 정보 안내는 `{: .notice--info}`를 이용한다.
 {: .notice--info}
 
@@ -82,6 +71,20 @@ $type-size-8: 0.625em !default; // ~10px
 **성공 안내:** 성공 안내는 `{: .notice--success}`를 이용한다.
 {: .notice--success}
 
+**블록으로 감싸기**: 리스트나 수학공식과 같이 본 notice를 같이 쓸 수 있다.
+
+<div class="notice--primary" markdown="1">
+**중요한 노트와 코드블록:** 조금 더 중요한 문구와 함께 코드를 사용하는 것은 아래 코드블록을 통해 사용할 수 있다.
+
+```html
+<div class="notice--primary" markdown="1">
+**중요한 노트와 코드블록:** 조금 더 중요한 문구와 함께 코드를 사용하는 것은 아래 코드블록을 통해 사용할 수 있다.
+
+// 이하 코드블록
+
+</div>
+```
+</div>
 
 # Image
 
