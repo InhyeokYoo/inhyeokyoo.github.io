@@ -385,20 +385,27 @@ $$
 
 이 다음에 어떤 기저에 대한 좌표 벡터를 다른 기저에 대한 좌표 벡터로 변환하는 사상에 대해 살펴볼 것이다. 우선 주요 결론을 먼저 기술하고, 이후 이에 대한 설명을 이어가도록 하겠다.
 
+<div class="notice--info" markdown="1">
+
 **Theorem 2.20** (Basis Change)  
-앞선 예제와 마찬가지로 vector space $V, W$와 각각의 ordered basis $B, C$와 linear mapping $\Phi: V \rightarrow W$를 생각해보자.    
+앞선 예제와 마찬가지로 vector space $V, W$와 각각의 ordered basis $B, C$와 linear mapping $\Phi: V \rightarrow W$를 생각해보자.
+
 $$
 \begin{align}
 B=(\boldsymbol b _1, \boldsymbol b _2, \cdots, \boldsymbol b _n), \tilde{B}=(\tilde{\boldsymbol b _1}, \tilde{\boldsymbol b _2}, \cdots, \tilde{\boldsymbol b _n}) \tag{2.103} \\
 C=(\boldsymbol c _1, \boldsymbol c _2, \cdots, \boldsymbol c _n), \tilde{C}=(\tilde{\boldsymbol c _1}, \tilde{\boldsymbol c _2}, \cdots, \tilde{\boldsymbol c _n}) \tag{2.104}
 \end{align}
-$$  
-$B, C$에 대한 $\Phi$의 변환행렬 $\boldsymbol A _\Phi$, 그리고 이에 대응하는 $\tilde B, \tilde C$에 대한 $\tilde{\boldsymbol{A} _\Phi}$이 다음과 같이 주어졌을 때,  
+$$
+
+$B, C$에 대한 $\Phi$의 변환행렬 $\boldsymbol A _\Phi$, 그리고 이에 대응하는 $\tilde B, \tilde C$에 대한 $\tilde{\boldsymbol{A} _\Phi}$이 다음과 같이 주어졌을 때,
+
 $$
 \tilde{\boldsymbol{A _\Phi}} = \boldsymbol{T^{-1}} \boldsymbol{A _\Phi} \boldsymbol{S} \tag{2.105}
 $$  
+
 $\boldsymbol{S}$는 $\text{id} _V$의 변환행렬로, $\tilde B$에 대한 좌표를 $B$로 맵핑한다. 또한, $\boldsymbol{T}$는 $\text{id} _W$의 변환행렬로, $\tilde C$에 대한 좌표를 $C$로 맵핑한다.
-{: .notice--info}
+
+</div>
 
 ![image](https://user-images.githubusercontent.com/47516855/117107051-ef499a80-adbb-11eb-92b0-87a70e0826a8.png){: .align-center}{: width="500"}
 
