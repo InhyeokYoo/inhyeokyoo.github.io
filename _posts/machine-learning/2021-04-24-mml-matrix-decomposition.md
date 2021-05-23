@@ -9,7 +9,7 @@ tags:
   - vector
   - matrix
 use_math: true
-last_modified_at: 2021-04-24
+last_modified_at: 2021-05-20
 ---
 
 본 포스트는 머신러닝에 필요한 선형대수 및 확률과 같은 수학적 개념을 정리한 포스트이다. 본 문서는 [mml](https://mml-book.github.io/book/mml-book.pdf)을 참고하여 정리하였다. 누군가에게 본 책이나 개념을 설명하는 것이 아닌, 내가 모르는 것을 정리하고 참고하기 위함이므로 반드시 원문을 보며 참고하길 추천한다.
@@ -125,11 +125,11 @@ $\lambda \in \mathbb R$을 $\boldsymbol A$의 **eigenvalue**, $\boldsymbol x \in
 
 다음의 명제들은 동치이다.
 - $\lambda$는 $\boldsymbol A \in \mathbb R^{n \times n}$의 eigenvalue이다.
-- $\boldsymbol A \boldsymbol x = \lambda \boldsymbol x$ 혹은 $(\boldsymbol A - \lambda \boldsymbol I)\boldsymbol x=0$이 non-trivial solution을 갖으면, $x \in \mathbb R^n \setminus \{0\}$가 존재한다.
+- $\boldsymbol A \boldsymbol x = \lambda \boldsymbol x$ 혹은 $(\boldsymbol A - \lambda \boldsymbol I)\boldsymbol x=0$이 non-trivial solution을 갖으면, $x \in \mathbb R^n \setminus \{ 0 \}$가 존재한다.
 - $\text{rk}(\boldsymbol A - \lambda \boldsymbol I) < n $
 - $\text{det}(\boldsymbol A - \lambda \boldsymbol I) = 0$
 
-> Eigenvalue와 eigenvector가 의미하는 것은 결국 어떤 벡터($\boldsymbol x$)를 선형변환($\boldsymbol A$)했을 때, 크기만 변할 뿐 원래벡터($\boldsymbol x$)와 평행한 벡터가 존재하느냐이다. 여기서 eigenvalue는 변한 크기가 된다.
+> Eigenvalue와 eigenvector가 의미하는 것은 결국 어떤 벡터($\boldsymbol x$)를 선형변환($\boldsymbol A$)했을 때, 크기만 변할 뿐 원래벡터($\boldsymbol x$)와 평행한 벡터가 존재하느냐이다. 여기서 eigenvalue는 변한 크기(scaling factor)가 된다.
 
 > 식 (4.25)를 다시쓰면 $(\boldsymbol A -  \lambda) \boldsymbol x = \boldsymbol 0$가 된다. 이를 성립하기 위해서는 non-trivial solution을 갖아야 하고, 즉, 이의 행렬식은 0이 되어야 유의미한 $\lambda$를 찾을 수 있다 (행렬식이 0이 아닐 경우 어떠한 $\lambda$에 대해서도 $\boldsymbol x=0$에 대해서 위가 성립하게 된다.)
 
@@ -164,7 +164,8 @@ $$
 > \text{det}(\boldsymbol A -  \lambda \boldsymbol I)= c _0 + c _1 \lambda + c _2 \lambda^2 + \cdots + c _{n-1} \lambda^{n-1} +  -1^n \lambda^n
 > $$ 
 >
-> 대수학의 기본정리에 의해, 특성방정식은 복소수를 포함하여 m개의 근을 갖는다. 여기서 근이 중근일 경우, 고윳값은 중복을 포함하여 구해지게 된다. 앞서 식을 다시 중근을 포함하여 나타내게 되면, >
+> 대수학의 기본정리에 의해, 특성방정식은 복소수를 포함하여 m개의 근을 갖는다. 여기서 근이 중근일 경우, 고윳값은 중복을 포함하여 구해지게 된다. 앞서 식을 다시 중근을 포함하여 나타내게 되면,
+> 
 > $$
 > \begin{align}
 > \text{det}(\boldsymbol A -  \lambda \boldsymbol I)= c (\lambda - \lambda _1)^{a _1} (\lambda - \lambda _2)^{a _2} \cdots (\lambda - \lambda _k)^{a _k} \\
@@ -200,6 +201,12 @@ $\lambda$가 $\boldsymbol A \in \mathbb R^{n \times n}$의 고윳값이면, 이�
 
 - Similar matrix는 같은 고윳값을 같는다. 따라서 선형 변환 $\Phi$는 이의 transformation matrix의 기저에 상관없이 eigenvalue를 갖는다. 이러한 특성은 eigenvalue를 determinant, trace와 함께 linear mapping의 특성을 나타내는 key parameter로 만들어준다. (basis change에 invariant)
 - symmetric, positive definite matrix는 항상 양의 실수인 eigenvalue를 갖는다.
+
+> 마지막 성질을 통해 우리는 symmetric, positive definite matrix의 새로운 판별법을 알 수 있다. 이는 또한 다음과 동치이다.
+>
+> $\boldsymbol Q^{\intercal} = \boldsymbol Q$이면, SPD $\boldsymbol A$에 대해 $\boldsymbol S = \boldsymbol Q \boldsymbol A \boldsymbol Q^{\intercal}$도 SPD이다. 
+> 
+> 이는 이 둘은 닮음이기 때문에 성립한다.
 
 **Definition 4.11.**
 
@@ -244,8 +251,10 @@ $\boldsymbol{A _5} = \begin{bmatrix} 1 & 1/2 \\\\ 1/2 & 1 \end{bmatrix}$는 늘�
 ![image](https://user-images.githubusercontent.com/47516855/118514507-8ffe6980-b76f-11eb-91f9-4a5661edbe24.png){: .align-center}{: width="500"}
 
 
-**Theorem 4.12.** $\boldsymbol A \in \mathbb R^{n \times n}$의 서로다른 n개의 고유벡터 $\boldsymbol x _1, \cdots, \boldsymbol x _n$는 서로 linearly independent하다.
+**Theorem 4.12.** $\boldsymbol A \in \mathbb R^{n \times n}$의 서로 다른 n개의 고유벡터 $\boldsymbol x _1, \cdots, \boldsymbol x _n$는 서로 linearly independent하다.
 {: .notice--info}
+
+> 대부분은 $n$개의 선형독립인 고유벡터를 갖는다. 이때는 고윳값의 중복이 없다. 반대로 고윳값이 중복되는 경우가 있다. 그렇다고 이 둘이 반드시 linearly dependent하다는 뜻은 아니다.
 
 본 정리가 의미하는 것은 어떤 행렬의 서로다른 n개의 고유벡터는 $\mathbb R^n$차원을 형성한다는 것이다.
 
@@ -260,7 +269,7 @@ non-defective matrix $\boldsymbol A \in \mathbb R^{n \times n}$는 반드시 n�
 
 **Theorem 4.14.**
 
-$\boldsymbol A \in \mathbb R^{n \times n}$에 대해 항상 sysmetric, positive semidefinite matrix $\boldsymbol S \in \mathbb R^{n \times n}$를 다음과 같이 얻을 수 있다.
+$\boldsymbol A \in \mathbb R^{m \times n}$에 대해 항상 sysmetric, positive semidefinite matrix $\boldsymbol S \in \mathbb R^{n \times n}$를 다음과 같이 얻을 수 있다.
 
 $$
 \boldsymbol S := \boldsymbol A^{\intercal} \boldsymbol A \tag{4.36}
@@ -365,9 +374,13 @@ Cholesky decompostion는 또한 행렬식을 매우 효율적으로 계산하게
 
 앞서 $\boldsymbol P$의 역행렬이 존재하여 $\boldsymbol D = \boldsymbol P^{-1} \boldsymbol A \boldsymbol P$가 성립하면 $\boldsymbol A, \boldsymbol D$는 닮음 행렬이라고 하였다. 더욱 구체적으로 $\boldsymbol A$가 대각 행렬 $\boldsymbol D$와 닮았음은 $\boldsymbol D$에 대각 성분에 $\boldsymbol A$의 eigenvalue를 포함하고 있음을 살펴보게 될 것이다.
 
+> 좀 더 자세히 살펴보자. if $\boldsymbol A \boldsymbol x = \lambda \boldsymbol x$ then, $(\boldsymbol B \boldsymbol A \boldsymbol B^{-1}) (\boldsymbol B \boldsymbol x) = \boldsymbol B \boldsymbol A \boldsymbol x = \boldsymbol B \lambda \boldsymbol x = \lambda (\boldsymbol B \boldsymbol x)$. 즉, $\boldsymbol A$와 $\boldsymbol B \boldsymbol A \boldsymbol B^{-1}$는 similar이다. 이 관계를 통해 $\boldsymbol B \boldsymbol A \boldsymbol B^{-1}$와 $\boldsymbol A$의 고윳값이 같음을 알 수 있다.
+>
+> 이는 $\boldsymbol A$가 너무커서 특성다항식을 구하기가 어려울 때 쉬운 $\boldsymbol B$를 찾는 것으로 대신 구할 수 있다. 이 때, $\boldsymbol B \boldsymbol A \boldsymbol B^{-1}$는 가능한한 triangular matrix로 만든다. 이의 고윳값은 대각성분을 통해 구할 수 있기 때문이다.
+
 **Definition 4.19** (Diagonalizable).
 
-행렬 $\boldsymbol A \in \mathbb R^{n \times n}$가 대각행렬과 닮으면 **diagonalizable**이라고 한다. 즉, $\boldsymbol D = \boldsymbol P^{-1} \boldsymbol A \boldsymbol P$가 성립하는  $\boldsymbol P \in \mathbb R^{n \times n}$가 존재한다.
+행렬 $\boldsymbol A \in \mathbb R^{n \times n}$가 대각행렬과 닮으면 **diagonalizable**이라고 한다. 즉, $\boldsymbol D = \boldsymbol P^{-1} \boldsymbol A \boldsymbol P$가 성립하는 $\boldsymbol P \in \mathbb R^{n \times n}$가 존재한다.
 
 다음을 통해 대각행렬 $\boldsymbol A \in \mathbb R^{n \times n}$가 똑같은 선형사상에 대해 다른 basis로 표현하는 방법이라는 것을 살펴볼 것이다. 또한 이는 $\boldsymbol A$의 고유벡터로 이루어진 basis이다.
 
@@ -426,6 +439,17 @@ $\boldsymbol P \in \mathbb R^{n \times n}$이고, $\boldsymbol D$는 대각행�
 위 정리는 spectral theorem 4.15로부터 바로 도출된다. 또한 spectral theorem은 $\mathbb R^n$의 eigenvector로 이루어진 ONB를 찾을 수 있음을 말해준다. 이를 통해 $\boldsymbol P$는 orthogonal matrix로 $\boldsymbol P \boldsymbol A \boldsymbol P^{\intercal}$를 만족함을 보일 수 있다.
 
 *Remark*. 행렬의 Jordan normal form은 defective matrix에 대한 decomposition을 제공하나, 본 책에서 다루는 범위를 벗어나므로 생략한다.
+
+> 본 책에서 다루지 않는 성질을 이야기해보자. 앞서 배운 기하적 중복도와 대수적 중복도가 같으면 대각화가 가능하다.
+>
+> 1. Eigenvectors (geometric): There are non-zero solutions to $\boldsymbol A \boldsymbol x = \lambda \boldsymbol x$
+> 2. Eigenvalues (algebraic): The determinant of $\boldsymbol A - \lambda \boldsymbol I$ is zero
+>
+> $$
+> \text{algebraic multiplicity} \geq \text{geometric multiplicity}
+> $$
+> 
+> 등호는 diagonalizable일 때 성립한다.
 
 ### Geometric Intuition for the Eigendecomposition
 
@@ -500,7 +524,7 @@ SVD는 이에 해당하는 선형변환를 세 가지 요소로 분해하는 것
 표준기저 $B, C$에 대한 선형변환 $\Phi: \mathbb R^n \to \mathbb R^m$의 변환행렬을 생각해보자. 또한, 또 다른 기저 $\tilde B$ of $\mathbb R^n$, $\tilde C$ of $\mathbb R^m$도 있다고하자. 그러면,
 
 1. 행렬 $\boldsymbol V$는 정의역 $\mathbb R^n$에서 $\tilde B$로부터 $B$까지의 기저 변환을 수행한다 (좌상단 그림의 빨간색/오렌지색 벡터 $\boldsymbol v _1, \boldsymbol v _2$). $\boldsymbol V^{\intercal} = \boldsymbol V^{-1}$는 $B$에서 $\tilde B$로의 기저 변환을 수행한다. 빨간색과 오랜지색 벡터가 이제는 기저벡터와 같은 방향으로 정렬된 것을 확인할 수 있다.
-2. $\tilde B$로 바뀐 좌표계에서, $\boldsymbol \Sigma$는 새로운 좌표계를 singular value $\simg _i$를 통해 스케일한다 (그리고 차원을 더하거나 삭제함). 즉, $\boldsymbol \Sigma$는 $\tilde B$와 $\tilde C$에 대한 transformation matrix $\Phi$이다. 이는 $e _1 - e _2$평면에서 늘려진 빨간색/오랜지색 벡터이고, 3차원에 임베딩된 것을 확인할 수 있다.
+2. $\tilde B$로 바뀐 좌표계에서, $\boldsymbol \Sigma$는 새로운 좌표계를 singular value $\sigma _i$를 통해 스케일한다 (그리고 차원을 더하거나 삭제함). 즉, $\boldsymbol \Sigma$는 $\tilde B$와 $\tilde C$에 대한 transformation matrix $\Phi$이다. 이는 $e _1 - e _2$평면에서 늘려진 빨간색/오랜지색 벡터이고, 3차원에 임베딩된 것을 확인할 수 있다.
 3. $\boldsymbol U$는 공역 $\mathbb R^m$에서, $\tilde C$로부터 $\mathbb R^m$의 표준기저로의 basis change를 수행한다. 이는 빨간색/오랜지색 벡터의 회전으로 표현되어 있다.
 
 SVD는 기저변환을 정의역과 공역 둘 다에서 표현한다. 이는 고유값분해가 같은 벡터공간에서 같은 기저변환을 적용하고 되돌리는 것과는 대조적이다. SVD를 특별하게 만드는 것은 이러한 두 개의 기저가 특이값 행렬 $\boldsymbol \Sigma$에 읳해 동시에 연결되기 때문이다.
@@ -571,7 +595,7 @@ SPD 행렬의 SVD는 이의 고윳값분해와 같아지는 것을 확인할 수
 
 먼저 right singular vectors $\boldsymbol v_1, \cdots, \boldsymbol v_n \in \mathbb R^m$의 orthonomal set을 구성하고, left singular vectors $\boldsymbol u_1, \cdots, \boldsymbol u_n \in \mathbb R^n$의 orthonomal set을 구성해보자. 그후에 이 둘을 연결하고, 변환 $\boldsymbol A$ 이후에도 $\boldsymbol v _i$의 orthogonality가 유지됨을 보일 것이다. 이는 상 $\boldsymbol A \boldsymbol v _i$가 orthogonal vector의 집합을 형성한다는 점에서 중요하다. 그리고 이 상을 scalar factor, 즉, singular value를 통해 normalize할 것이다.
 
-Spectral theorem에 의해 대칭행렬의 고윳값은 ONB가 된다. 이를 우리는 대각화할 수 있다. 또한, theorem 4.14를 통해 우리는 항상 symmetric, positive semidefinte 행렬 $\boldsymbol A^{\intercal} \boldsymbol A \in mathbb R^{n \times n}$을 만들 수 있다. 따라서 우리는 언제나 $\boldsymbol A^{\intercal} \boldsymbol A$를 대각화 할 수 있고 다음을 얻을 수 있다.
+Spectral theorem에 의해 대칭행렬의 고윳값은 ONB가 된다. 이를 우리는 대각화할 수 있다. 또한, theorem 4.14를 통해 우리는 항상 symmetric, positive semidefinte 행렬 $\boldsymbol A^{\intercal} \boldsymbol A \in \mathbb R^{n \times n}$을 만들 수 있다. 따라서 우리는 언제나 $\boldsymbol A^{\intercal} \boldsymbol A$를 대각화 할 수 있고 다음을 얻을 수 있다.
 
 $$
 \boldsymbol A^{\intercal} \boldsymbol A = \boldsymbol P \boldsymbol D \boldsymbol P^{\intercal} = \boldsymbol P 
