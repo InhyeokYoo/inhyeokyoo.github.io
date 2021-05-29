@@ -1,6 +1,6 @@
 ---
 title: "Fucking Lazy"
-permalink: /categories/Fucking Lazy/
+permalink: /categories/Fucking-Lazy/
 layout: category
 author_profile: true
 taxonomy: Fucking Lazy
