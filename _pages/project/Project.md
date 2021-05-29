@@ -33,6 +33,13 @@ NLP 관련 굵직한 논문들을 읽고, 정리하고 구현하는 활동입니
 
 ---
 
+# Mathmatics for Machine Learning
+
+Mathmatics for machine learning의 수학파트 공부내용입니다.
+
+- [책 바로가기](https://mml-book.com)
+- [link](/project/mml/)
+
 # Interview
 
 ## 데이터 과학자를 위한 문답집 (July 2020 - )
