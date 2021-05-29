@@ -1,7 +1,7 @@
 # main links
 main:
   - title: "Home"
-    url: /home/
+    url: /
   - title: "About author"
     url: /about/
   - title: "Resume"
@@ -10,6 +10,8 @@ main:
     url: /project/
   - title: "Category"
     url: /categories/
+  - title: "TIme Arxiv"
+    url: /home/
   # - title: "Sample Collections"
   #   url: /collection-archive/
   # - title: "Sitemap"
