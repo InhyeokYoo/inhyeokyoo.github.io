@@ -6,7 +6,7 @@ toc_sticky: true
 categories:
   - Machine Learning
 tags:
-  - Information Theory
+  - information theory
 use_math: true
 last_modified_at: 2021-01-23
 ---

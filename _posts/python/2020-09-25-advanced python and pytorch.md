@@ -1,6 +1,7 @@
 ---
 title:  "고오급 Python을 위한 정리글 (작성 중)"
 excerpt: "Elegant Code for Python"
+permalink: /python/advanced-python/
 toc: true
 toc_sticky: true
 

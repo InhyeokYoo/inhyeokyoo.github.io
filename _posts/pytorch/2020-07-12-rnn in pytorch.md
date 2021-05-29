@@ -1,14 +1,12 @@
 ---
 title:  "PyTorch RNN"
 excerpt: "PyTorch RNN 이용하면서 중요한 점을 공유해보자"
+permalink: /pytorch/rnn/
 toc: true
 toc_sticky: true
-
 categories:
   - PyTorch
   - Deep Learning
-tags:
-  - RNN
 use_math: true
 last_modified_at: 2020-07-12
 ---

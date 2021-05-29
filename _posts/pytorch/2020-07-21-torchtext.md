@@ -3,11 +3,10 @@ title:  "Torch text 살펴보기 (아직 작성 중)"
 excerpt: ""
 toc: true
 toc_sticky: true
-
+permalink: /pytorch/torchtext/
 categories:
+  - PyTorch
   - Torchtext
-tags:
-  - Need to complete
 use_math: true
 last_modified_at: 2020-09-21
 ---

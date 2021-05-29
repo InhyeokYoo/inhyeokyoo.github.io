@@ -3,10 +3,9 @@ title:  "PyTorch tensor method 정리"
 excerpt: "PyTorch tensor의 유용한 메소드에 대해 알아보자"
 toc: true
 toc_sticky: true
-
+permalink: /pytorch/tensor-manipulation/
 categories:
   - PyTorch
-
 use_math: true
 last_modified_at: 2020-08-18
 ---
