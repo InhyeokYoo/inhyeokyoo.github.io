@@ -86,6 +86,23 @@ $type-size-8: 0.625em !default; // ~10px
 ```
 </div>
 
+## Notice 폰트 사이즈 변경하기
+
+`_sass/minimal-mistakes/_notices.scs`에서 변경할 수 있다.
+
+```css
+@mixin notice($notice-color) {
+  margin: 2em 0 !important;  /* override*/
+  padding: 1em;
+  color: $dark-gray;
+  font-family: $global-font-family;
+  font-size:  10 !important; /* <-- 변경 */
+  text-indent: initial; /* override*/
+  background-color: mix(#fff, $notice-color, 90%);
+  border-radius: $border-radius;
+  box-shadow: 0 1px 1px rgba($notice-color, 0.25);
+```
+
 # Image
 
 ## Image alignment
