@@ -116,9 +116,6 @@ $$
 | $\pmb{A}$ | \pmb{A} | matrix |
 
 
-
-
-
 # Sums and Intergrals
 
 | Symbol | 	Script |
