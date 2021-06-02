@@ -10,7 +10,7 @@ tags:
   - vector
   - calculus
 use_math: true
-last_modified_at: 2021-05-29
+last_modified_at: 2021-06-01
 ---
 
 많은 머신러닝 알고리즘은 목적함수를 모델 파라미터에 대해 최적화하며, 모델이 얼마나 데이터를 잘 설명하는지를 조정한다. 좋은 파라미터를 찾는 것은 최적화 문제 (Section 8.2/8.3)이라 부른다. 이는 첫번째로는 linear regression (Chapter 9)에서 curve-fitting 문제와 선형 가중치 파라미터를 최적화하여 우도를 최대화하는데 사용한다. 두번째로는 차원 축소, 데이터 압축을 위한 auto-encoder로, reconstruction error를 최소화한다. 마지막은 데이터 분포를 모델링하는 Gaussian mixture model로 (Chapter 11), 위치와 모양에 대한 각 mixuture component의 파라미터를 최적화하여 우도를 최대화한다.
@@ -475,11 +475,11 @@ $$
 
 행렬은 선형변환으로 표현할 수 있기 때문에, $\mathbb R^{m \times n}$과 $\mathbb R^{mn}$사이에 vector-space isomorphism (linear, invertible mapping)이 존재한다는 사실을 이용할 수 있다. 따라서 앞선 행렬을 $mn$, $pq$의 벡터로 다시 표현할 수 있다. 이러한 $mn$ 벡터를 이용한 gradient는 사이즈 $mn \times pq$의 Jacobian을 결과로 얻게 된다. 다음 그림은 본 두개의 접근법을 나타낸다.
 
-![image](https://user-images.githubusercontent.com/47516855/120071263-64fa0b00-c0c9-11eb-9d76-6d4033b28df2.png){: .align-center}{:width="600"}
+![image](https://user-images.githubusercontent.com/47516855/120342931-3b441c80-c333-11eb-8877-435eca33ff83.png){: .align-center}{:width="550"}
 
 ## Useful Identities for Computing Gradients
 
-다음을 통해 머신러닝에서 자주 쓰이는, 유용한 gradient의 목록을 보도록 하겠다. 여기서 $\text{tr}(\cdot)$은 trach로, $\text{det}(\cdot)$는 determinant로, \boldsymbol f(\boldsymbol X)^{-1}$은 $\boldsymbol f(\boldsymbol X)$의 inverse로 사용한다.
+다음을 통해 머신러닝에서 자주 쓰이는, 유용한 gradient의 목록을 보도록 하겠다. 여기서 $\text{tr}(\cdot)$은 trach로, $\text{det}(\cdot)$는 determinant로, $\boldsymbol f(\boldsymbol X)^{-1}$은 $\boldsymbol f(\boldsymbol X)$의 inverse로 사용한다.
 
 ![image](https://user-images.githubusercontent.com/47516855/120076122-02136e80-c0df-11eb-9d2f-79520ffe08ed.png){: .align-center}{:width="500"}
 
@@ -607,7 +607,12 @@ $$
 f(\boldsymbol x) \approx f(\boldsymbol x _0) + (\boldsymbol \nabla _{\boldsymbol x} \boldsymbol f)(\boldsymbol x _0)(\boldsymbol x - \boldsymbol x _0) \tag{5.148}
 $$
 
-여기서 $(\boldsymbol \nabla _{\boldsymbol x} \boldsymbol f)(\boldsymbol x _0)$는 $\boldsymbol x$에 대한 $f$의 gradient로, $\boldsymbol x _0$에서 값이 측정되었다. 원래의 함수는 직선으로 근사되고, 근사된 선은 일부분에서만 정확하고 $\boldsymbol x _0$에서 벗어날 수록 값이 멀어진다. 식 (5.148)은 $\boldsymbol x _0$에서$f$의 다변수에 대한 테일러 급수 전개의 특수한 경우로, 오직 앞의 두개의 항만 고려하는 경우이다. 다음을 통해 더욱 일반적인 경우를 살펴보고, 이를 통해 더 나은 근사값을 계산하도록 해보자.
+여기서 $(\boldsymbol \nabla _{\boldsymbol x} \boldsymbol f)(\boldsymbol x _0)$는 점 $\boldsymbol x _0$에서의 $\boldsymbol x$에 대한 $f$의 gradient이다. 이는 아래의 그림을 통해 확인할 수 있다.
+
+![image](https://user-images.githubusercontent.com/47516855/120343892-0c7a7600-c334-11eb-95bb-7bbd395dc529.png){: .align-center}{:width="600"}
+
+
+원래의 함수는 직선으로 근사되었다. 근사된 선은 일부분에서만 정확하고 $\boldsymbol x _0$에서 벗어날 수록 값이 멀어지는 걸 확인할 수 있다. 위 식 (5.148)은 $\boldsymbol x _0$에서 $f$의 다변수에 대한 테일러 급수의 특수한 경우로, 오직 앞의 두개의 항만 고려하는 경우이다. 다음을 통해 더욱 일반적인 경우를 살펴보고, 이를 통해 더 나은 근사값을 계산하도록 해보자.
 
 <div class="notice--warning" markdown="1">
 
@@ -628,9 +633,11 @@ $$
 f(\boldsymbol x) = \sum^\infty _{k=0} \frac{D^k _{\boldsymbol x} f(\boldsymbol x _0)}{k!} \boldsymbol \delta^k \tag{5.151}
 $$
 
-$D^k _{\boldsymbol x} f(\boldsymbol x _0)$는 $f$를 $\boldsymbol x$에 대해 미분한 값에 $\boldsymbol x _0$를 대입하여 얻어낸 $k$번째 (전)미분값이 된다. ($D^k _{\boldsymbol x} f(\boldsymbol x _0)$ is the $k$-th (total) derivative of $f$ with respect to $\boldsymbol x$, eval-uated at $\boldsymbol x _0$.)
+$D^k _{\boldsymbol x} f(\boldsymbol x _0)$는 점 $\boldsymbol x _0$에서 $f$를 $\boldsymbol x$에 대해 $k$번째 (전)미분값이 된다. ($D^k _{\boldsymbol x} f(\boldsymbol x _0)$ is the $k$-th (total) derivative of $f$ with respect to $\boldsymbol x$, eval-uated at $\boldsymbol x _0$.)
 
 </div>
+
+> 앞서 정의한 테일러 급수를 다변수에 대해 다시 정의한 것이라 보면 된다. 따라서 terminology를 다시 재정의하였다.
 
 <div class="notice--warning" markdown="1">
 
@@ -643,7 +650,7 @@ T _n(\boldsymbol x) = \sum^n _{k=0} \frac{D^k _{\boldsymbol x} f(\boldsymbol x _
 $$
 </div>
 
-(5.151)과 (5.152)에서 $\boldsymbol \delta^k$라는 약간 조잡한 표기법을 사용했는데, 이는 벡터 $\boldsymbol x \in \mathbb R^D$에 대해 $D >1, k >1$에서 정의되지 않는다. 여기서 $D^k _{\boldsymbol x} f$와 $\boldsymbol \delta^k$는 $k$-차원의 tensor이다. $k$차원의 텐서 $\boldsymbol \delta^k \in \mathbb R^{\underbrace{D \times D \times \cdots \times D} _{k\text{ times}}}$는 $k$겹의 외적을 통해 계산된다. 외적은 $\otimes$로 표현한다.
+(5.151)과 (5.152)에서 $\boldsymbol \delta^k$라는 약간 조잡한 표기법을 사용했는데, 이는 벡터 $\boldsymbol x \in \mathbb R^D$에 대해 $D >1, k >1$에 대해 아직 정의하지 않았다. 여기서 $D^k _{\boldsymbol x} f$와 $\boldsymbol \delta^k$는 $k$-차원의 tensor이다. $k$차원의 텐서 $\boldsymbol \delta^k \in \mathbb R^{\overbrace{D \times D \times \cdots \times D} _{k\text{ times}}}$는 $k$번 외적을 통해 계산된다. 외적은 $\otimes$로 표현한다.
 
 $$
 \begin{align}
@@ -654,7 +661,7 @@ $$
 
 아래 그림은 이에 대한 도식화이다.
 
-![image](https://user-images.githubusercontent.com/47516855/120209847-1c2d8800-c26a-11eb-9efb-0f5f068357ce.png){: .align-center}{:width="500"}
+![image](https://user-images.githubusercontent.com/47516855/120209847-1c2d8800-c26a-11eb-9efb-0f5f068357ce.png){: .align-center}{:width="700"}
 
 일반적으로 우리는 테일러 급수를 통해 다음과 같은 식을 얻을 수 있다.
 
@@ -686,4 +693,4 @@ $$
 \mathbb E _{\boldsymbol x}[f(\boldsymbol x)] = \int f(\boldsymbol x)p(\boldsymbol x) d \boldsymbol x \tag{5.181}
 $$
 
-$p(\boldsymbol x)$가 심지어 매우 편리한 형태 (e.g. 가우시안)라도, 이러한 적분형태는 해석적으로 풀기 쉽지 않다. $f$의 테일러 급수 전개는 근사해를 구하는 방법 중 하나이다. $p(\boldsymbol x) = \mathcal N(\boldsymbol \mu, \boldsymbol \Sigma)$라 가정하자. 그러면 first-order Taylor series expansion은 $\boldsymbol \mu$ 근처에서 지역적으로 비선형 함수 $f$를 선형화한다. 선형함수에 대해서는 평균과 공분산을 정확하게 계산할 수 있다 (Section 6.5) 참고. 이러한 성질은 **extended Kalman filter**에서 매우 잘 이용된다. 적분을 근사하는 또 다른 deterministic 방법으로는 **unscented transform**으로, gradient나 **Laplace approximation**을 필요로 하지 않는다.
+$p(\boldsymbol x)$가 심지어 매우 편리한 형태 (e.g. 가우시안)라도, 이러한 적분형태는 해석적으로 풀기 쉽지 않다. $f$의 테일러 급수는 근사해를 구하는 방법 중 하나이다. $p(\boldsymbol x) = \mathcal N(\boldsymbol \mu, \boldsymbol \Sigma)$라 가정하자. 그러면 first-order Taylor series expansion은 $\boldsymbol \mu$ 근처에서 지역적으로 비선형 함수 $f$를 선형화한다. 선형함수에 대해서는 평균과 공분산을 정확하게 계산할 수 있다 (Section 6.5) 참고. 이러한 성질은 **extended Kalman filter**에서 매우 잘 이용된다. 적분을 근사하는 또 다른 deterministic 방법으로는 **unscented transform**으로, gradient나 **Laplace approximation**을 필요로 하지 않는다.
