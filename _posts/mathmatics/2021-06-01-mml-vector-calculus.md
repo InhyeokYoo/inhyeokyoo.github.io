@@ -464,7 +464,7 @@ $$
 
 > 아래는 스칼라 벡터, 벡터, 행렬에 대해 미분한 결과를 나타낸 것이다.
 >
-> ![image](https://user-images.githubusercontent.com/47516855/119852475-491c2b00-bf4a-11eb-9577-c3184d0598ae.png){: .align-center}{:width="500"}
+> ![image](https://user-images.githubusercontent.com/47516855/119852475-491c2b00-bf4a-11eb-9577-c3184d0598ae.png){: .align-center}{:width="550"}
 >
 > 출처: [다크 프로그래머: 벡터 미분과 행렬 미분](https://darkpgmr.tistory.com/141)
 
@@ -476,13 +476,13 @@ $$
 
 행렬은 선형변환으로 표현할 수 있기 때문에, $\mathbb R^{m \times n}$과 $\mathbb R^{mn}$사이에 vector-space isomorphism (linear, invertible mapping)이 존재한다는 사실을 이용할 수 있다. 따라서 앞선 행렬을 $mn$, $pq$의 벡터로 다시 표현할 수 있다. 이러한 $mn$ 벡터를 이용한 gradient는 사이즈 $mn \times pq$의 Jacobian을 결과로 얻게 된다. 다음 그림은 본 두개의 접근법을 나타낸다.
 
-![image](https://user-images.githubusercontent.com/47516855/120342931-3b441c80-c333-11eb-8877-435eca33ff83.png){: .align-center}{:width="550"}
+![image](https://user-images.githubusercontent.com/47516855/120342931-3b441c80-c333-11eb-8877-435eca33ff83.png){: .align-center}{:width="650"}
 
 ## Useful Identities for Computing Gradients
 
 다음을 통해 머신러닝에서 자주 쓰이는, 유용한 gradient의 목록을 보도록 하겠다. 여기서 $\text{tr}(\cdot)$은 trach로, $\text{det}(\cdot)$는 determinant로, $\boldsymbol f(\boldsymbol X)^{-1}$은 $\boldsymbol f(\boldsymbol X)$의 inverse로 사용한다.
 
-![image](https://user-images.githubusercontent.com/47516855/120076122-02136e80-c0df-11eb-9d2f-79520ffe08ed.png){: .align-center}{:width="500"}
+![image](https://user-images.githubusercontent.com/47516855/120076122-02136e80-c0df-11eb-9d2f-79520ffe08ed.png){: .align-center}{:width="600"}
 
 ## Backpropagation and Automatic Differentiation
 
@@ -534,7 +534,7 @@ $$
 \boldsymbol L (\boldsymbol \theta) = \|\boldsymbol y - \boldsymbol f _K(\boldsymbol \theta, \boldsymbol x) \|^2 \tag{5.114}
 $$
 
-여기서 theta는 $\boldsymbol \theta = {\boldsymbol A _0, \boldsymbol b _0, \cdots, \boldsymbol A _{K-1}, \boldsymbol b _{K-1}}$이다.
+여기서 theta는 $\boldsymbol \theta = \\{\boldsymbol A _0, \boldsymbol b _0, \cdots, \boldsymbol A _{K-1}, \boldsymbol b _{K-1} \\}$이다.
 
 Parameter set $\boldsymbol \theta$에 대한 gradient를 얻기 위해 $L$을 파라미터 $\boldsymbol \theta _j = \\{\boldsymbol A _j, \boldsymbol b _j \\}$에 대해 편미분한 것 과 같다. 이를 모든 레이어에 대해 체인룰을 적용할 수 있다.
 
@@ -662,7 +662,7 @@ $$
 
 아래 그림은 이에 대한 도식화이다.
 
-![image](https://user-images.githubusercontent.com/47516855/120209847-1c2d8800-c26a-11eb-9efb-0f5f068357ce.png){: .align-center}{:width="700"}
+![image](https://user-images.githubusercontent.com/47516855/120209847-1c2d8800-c26a-11eb-9efb-0f5f068357ce.png){: .align-center}{:width="800"}
 
 일반적으로 우리는 테일러 급수를 통해 다음과 같은 식을 얻을 수 있다.
 
