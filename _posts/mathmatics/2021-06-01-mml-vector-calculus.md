@@ -456,11 +456,8 @@ $$
 
 > 스칼라, 벡터, 행렬이 나오다보니 슬슬 헷갈리기 시작한다. 아래는 위키피디아에서 가져온 자료로, 함수와 변수의 형태에 따른 미분의 결과값이다.
 >
-> |  | Scalar $y$ | Column vector $\boldsymbol y$ (size m×1)  |  Matrix $\boldsymbol Y$ (size m×n)  |
-> | :-----: | :----- | :----- | :----- |
-> | Scalar $x$ | $\frac{\partial y}{\partial x}$ (Scalar) |  $\frac{\partial \boldsymbol y}{\partial x}$ (m-dimensional column vector)  |  $\frac{\partial \boldsymbol Y}{\partial x}$ (m×n matrix)  |
-> | Column vector $\boldsymbol x$ (size n×1) | $\frac{\partial y}{\partial \boldsymbol x}$ (n-dimensional row vector) |  $\frac{\partial \boldsymbol y}{\partial \boldsymbol x}$ (m×n matrix)  |  $\frac{\partial \boldsymbol Y}{\partial \boldsymbol x}$  |
-> | Matrix $\boldsymbol X$ (size p×q) | $\frac{\partial y}{\partial \boldsymbol X}$ (q×p matrix) |  $\frac{\partial \boldsymbol y}{\partial \boldsymbol X}$  |  $\frac{\partial \boldsymbol Y}{\partial \boldsymbol X}$  |
+> ![image](https://user-images.githubusercontent.com/47516855/120656228-660eac00-c4be-11eb-8d4b-678a387c010d.png){: .align-center}{:width="800"}
+
 
 > 아래는 스칼라 벡터, 벡터, 행렬에 대해 미분한 결과를 나타낸 것이다.
 >
@@ -476,7 +473,7 @@ $$
 
 행렬은 선형변환으로 표현할 수 있기 때문에, $\mathbb R^{m \times n}$과 $\mathbb R^{mn}$사이에 vector-space isomorphism (linear, invertible mapping)이 존재한다는 사실을 이용할 수 있다. 따라서 앞선 행렬을 $mn$, $pq$의 벡터로 다시 표현할 수 있다. 이러한 $mn$ 벡터를 이용한 gradient는 사이즈 $mn \times pq$의 Jacobian을 결과로 얻게 된다. 다음 그림은 본 두개의 접근법을 나타낸다.
 
-![image](https://user-images.githubusercontent.com/47516855/120342931-3b441c80-c333-11eb-8877-435eca33ff83.png){: .align-center}{:width="650"}
+![image](https://user-images.githubusercontent.com/47516855/120342931-3b441c80-c333-11eb-8877-435eca33ff83.png){: .align-center}{:width="800"}
 
 ## Useful Identities for Computing Gradients
 
