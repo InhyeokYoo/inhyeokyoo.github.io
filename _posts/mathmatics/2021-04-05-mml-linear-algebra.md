@@ -5,6 +5,7 @@ toc_sticky: true
 permalink: /project/mml/Linear-Algebra/
 categories:
   - Mathmatics
+  - Machine Learning
 tags:
   - linear algebra
   - vector

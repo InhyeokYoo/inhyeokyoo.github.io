@@ -4,6 +4,7 @@ toc: true
 toc_sticky: true
 permalink: /project/mml/Analytics-Geometry/
 categories:
+  - Mathmatics
   - Machine Learning
 tags:
   - linear algebra
