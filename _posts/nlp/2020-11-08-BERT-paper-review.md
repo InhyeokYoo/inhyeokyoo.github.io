@@ -282,7 +282,7 @@ GLUE에는 다음과 같은 데이터가 포함되어 있다.
 - Textual entailment: text와 hypothesis를 읽고, text를 통해 hypothesis가 진실임을 추론하면 entailment, 아니라면 contradiction, 둘 다 추론할 수 없으면 neutral이 됨
 
 | task | 설명 |
-| :--- | :--- |
+| :------ | :--- |
 | [Multi-Genre Natural Language Inference (MNLI)](https://nlp.stanford.edu/projects/snli/) | 다양한 장르에 대해 크라우드 소싱을 통해 얻은 라지스케일의 entailment classification task이다. 한 쌍의 문장에 대해, 두 번째 문장이 entailment인지, contradiction인지, neutral인지 분류하는 문제 |
 | QQP (Quora Question Pairs) | Quora에 올라온 질문들이 의미적으로 비슷한지 분류하는 문제 |
 | QNLI (Question Natural Language Inference) |  Stanford  Question  Answering Dataset의 이진분류 버전으로, positive example (question, sentence) 쌍은 올바른 정답을 포함하고 있고, negative example (question, sentence) 쌍은 정답이 없다. 원래 Stanford  Question  Answering Dataset은 question-paragraph 쌍으로, paragraph내 sentence 중 하나는 이에 대한 정답을 갖고 있다. QNLI는 이 paragraph를 여러 sentence로 나눈 버전 |
