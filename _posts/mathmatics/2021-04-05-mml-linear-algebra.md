@@ -592,6 +592,6 @@ $$
 
 </div>
 
-- 모든 affine mapping  $\varphi: V \rightarrow W$는 linear mapping $\Phi: V \rightarrow W$와 translation $\tau: W \rightarrow W$로 이루어진다. $$\varphi$에 대해 $\Phi, \tau$는 unique하게 정해지고, $\tau \circ \Phi$로 표현할 수 있다.
+- 모든 affine mapping  $\varphi: V \rightarrow W$는 linear mapping $\Phi: V \rightarrow W$와 translation $\tau: W \rightarrow W$로 이루어진다. $\varphi$에 대해 $\Phi, \tau$는 unique하게 정해지고, $\tau \circ \Phi$로 표현할 수 있다.
 - 두 affine mapping은 서로 결합해도 여전히 affine mapping이다.
 - affine mapping은 변환 전후의 dimension, parallism 같은 기하학적인 구조를 그대로 유지시킨다.
