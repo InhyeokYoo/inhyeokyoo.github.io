@@ -809,7 +809,7 @@ $\boldsymbol A \in \mathbb R^{m \times n}$이 rank $r$을 갖고, $\boldsymbol B
 
 $$
 \begin{align}
-\hat{\boldsymbol{A}}(k) := \text{argmin} _{text{rk}(\boldsymbol B)=k} \| \boldsymbol{A} - \boldsymbol{B} \| _2, \tag{4.94} \\
+\hat{\boldsymbol{A}}(k) := \text{argmin} _{\text{rk}(\boldsymbol B)=k} \| \boldsymbol{A} - \boldsymbol{B} \| _2, \tag{4.94} \\
 \| \boldsymbol{A} - \hat{\boldsymbol{A}}(k) \| _2 = \sigma _{k+1} \tag{4.95}
 \end{align}
 $$
@@ -842,7 +842,7 @@ $$
 \| \boldsymbol{A} - \boldsymbol{x} \| _2 \leq \| (\boldsymbol{A} - \boldsymbol{B}) \| _2 \| \boldsymbol{x} \| _2 < \sigma _{k+1} \|\boldsymbol x\| _2 \tag{4.99}
 $$
 
-그러나 $\| \boldsymbol{A} - \boldsymbol{x} \| _2 \geq \sigma _{k+1} \|\boldsymbol x\| _2$인 $(k+1)$의 부분공간이 존재하면, 이는 행렬 $ \boldsymbol{A}$의 right-singular vector $ \boldsymbol v _j, j \leq k+1$로 span한다. 이러한 두 공간의 차원을 합치면 $n$보다 크게 되는데, 이는 두 공간에 non-zero vector가 있음을 의미한다. 이는 앞서 살펴본 rank-nullity theorem과 모순된다.
+그러나 $\| \boldsymbol{A} - \boldsymbol{x} \| _2 \geq \sigma _{k+1} \|\boldsymbol x\| _2$인 $(k+1)$의 부분공간이 존재하면, 이는 행렬 $ \boldsymbol{A}$의 right-singular vector $ \boldsymbol v _j,~ j \leq k+1$로 span한다. 이러한 두 공간의 차원을 합치면 $n$보다 크게 되는데, 이는 두 공간에 non-zero vector가 있음을 의미한다. 이는 앞서 살펴본 rank-nullity theorem과 모순된다.
 
 The  Eckart-Young  theorem는 SVD를 이용하여 rank-$r$ 행렬의 차원을 rank-$k$차원의 행렬로 줄일 수 있음을 말해준다. 행렬의 rank-$k$ approximation은 손실압축으로 생각할 수 있다. 이는 머신러닝 분야의 이미지 처리, 노이즈 필터링, ill-posed probability의 정규화 등에서 확인할 수 있다. 또한 이는 Chapter 10의 PCA에서 중요한 역할을 하게된다.
 
