@@ -13,5 +13,5 @@ MML 정리글입니다.
 - [3. Analytics Geometry](/project/mml/Analytics-Geometry/)
 - [4. Matrix Decomposition](/project/mml/Matrix-Decomposition/)
 - [5. Vector Calculus](/project/mml/Vector-Calculus/)
-- [6. Probability and Distributions]
-- [Continuous Optimization]
+- [6. Probability and Distributions](/project/mml/Probability-and-Distributions/)
+- [7. Continuous Optimization]
