@@ -11,7 +11,7 @@ tags:
   - Language Modeling
   - BERT
 use_math: true
-last_modified_at: 2021-06-22
+last_modified_at: 2021-06-23
 ---
 
 ## 들어가며
