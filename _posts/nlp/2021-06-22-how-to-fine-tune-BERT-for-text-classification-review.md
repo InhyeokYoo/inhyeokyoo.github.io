@@ -62,23 +62,22 @@ Multi-task learning은 이와 관련된 또 다른 갈레길로 볼 수 있다. 
 **[Rei (2017)](https://arxiv.org/abs/1704.07156)의 architecture**
 {: .text-center}
 
-![image](https://user-images.githubusercontent.com/47516855/122870245-61743f80-d368-11eb-83d8-2e26ff956198.png){: .align-center}{: width="800"}
+![image](https://user-images.githubusercontent.com/47516855/122870245-61743f80-d368-11eb-83d8-2e26ff956198.png){: .align-center}{: width="900"}
 
 **[Liu et al. (2018)](https://arxiv.org/abs/1709.04109)의 architecture**
 {: .text-center}
 
-![image](https://user-images.githubusercontent.com/47516855/122870892-3807e380-d369-11eb-877f-dd143cb3b9b0.png){: .align-center}{: width="800"}
+![image](https://user-images.githubusercontent.com/47516855/122870892-3807e380-d369-11eb-877f-dd143cb3b9b0.png){: .align-center}{: width="900"}
 
 [Liu et al. (2019)](https://arxiv.org/abs/1901.11504)은 [Liu et al. (2015)](https://www.aclweb.org/anthology/N15-1092/)의 모델에 BERT를 합친 MT-DNN을 제안하였다. MT-DNN은 아래 그림의 shared layer를 shared text encoding layer로 사용한 모델이다.
 
 **MT-DNN**
 {: .text-center}
-![image](https://user-images.githubusercontent.com/47516855/122871536-2246ee00-d36a-11eb-9b16-98cf5e393ca4.png){: .align-center}{: width="700"}
+![image](https://user-images.githubusercontent.com/47516855/122871536-2246ee00-d36a-11eb-9b16-98cf5e393ca4.png){: .align-center}{: width="900"}
 
 Multi-task learning은 매번 처음부터 학습해야되기 때문에 비효율적이고, 대부분 task-specific objective functions를 신중하게 설정해야 한다 ([Chen et al., 2017](https://arxiv.org/abs/1711.02257)). 그러나 공유되는 pretrained model을 전부 사용하는 multi-task BERT fine-tuning을 사용하여 이러한 문제를 해결할 수 있다.
 
 ## 3. BERT for Text Classification
- font-family: "",
 BERT-base model은 12개의 transformer encoder 블록과 self-attention head, 768의 hidden size를 갖는다. BERT는 512개의 토큰을 input으로 취하고, sequence의 representation을 내뱉는다. Sequence는 한 개 이상의 segment로 구성되어 있고, squence의 첫번째 token은 항상 <span style="font-family:Courier New">[CLS]</span>로 이는 classification embedding을 포함한다. 또 다른 special token인 <span style="font-family:Courier New">[SEP]</span>는 segment를 분리하는데 이용한다.
 
 BERT는 텍스트 분류에서 첫번째 토큰인 <span style="font-family:Courier New">[CLS]</span>의 마지막 hidden state $\boldsymbol h$를 전체 sequence에 대한 representation으로 취급한다. 그리고 간단한 softmax classifier가 BERT의 맨 위에 추가되고, label $c$일 확률을 계산한다.
@@ -122,7 +121,7 @@ $$
 
 여기서 $\eta^l$은 $l$번째 레이어의 learning rate이다.
 
-본 연구는 base learning rate를 $\eta^L$로 설정하고, $\eta^{k-1} = \ksi \cdot \eta^k$로 설정한다. 여기서 $\ksi$는 decay factor로 1 이하의 값을 갖는다.  $\ksi < 1$일 경우 하위 레이어는 상위 레이어보다 낮은 learning rate를 갖는다.  $\ksi =1$일 경우 모든 레이어는 같은 learning rate를 갖는다. 이는 일반적은 SGD와 같아진다. 이에 대해서는 추후에 Sec 5.3에서 다시 보도록 한다.
+본 연구는 base learning rate를 $\eta^L$로 설정하고, $\eta^{k-1} = \xi \cdot \eta^k$로 설정한다. 여기서 $\xi$는 decay factor로 1 이하의 값을 갖는다.  $\xi < 1$일 경우 하위 레이어는 상위 레이어보다 낮은 learning rate를 갖는다.  $\xi =1$일 경우 모든 레이어는 같은 learning rate를 갖는다. 이는 일반적은 SGD와 같아진다. 이에 대해서는 추후에 Sec 5.3에서 다시 보도록 한다.
 
 ### 4.2 Further Pre-training
 
@@ -147,7 +146,7 @@ Multi-task Learning는 여러개의 연관있는 supervised task로부터 얻은
 
 연구의 방법론을 평가하기 위해 널리 사용되는 8개의 데이터셋을 사용하였다. 데이터셋은 다양한 수의 문서와 길이, 그리고 감성분석, 질문 분류, 토픽 분류와 같은 일반적인 텍스트 분류 작업을 포함한다. 이에 대한 설명은 아래 테이블에 소개되어있다.
 
-![image](https://user-images.githubusercontent.com/47516855/122887629-0ea48300-d37c-11eb-90b5-b9cef8dd10f9.png){: .align-center}{: width="800"}
+![image](https://user-images.githubusercontent.com/47516855/122887629-0ea48300-d37c-11eb-90b5-b9cef8dd10f9.png){: .align-center}{: width="900"}
 
 **Sentiment analysis:** binary film review IMDb dataset ([Maas et al., 2011](https://www.aclweb.org/anthology/P11-1015/))와  [Zhang et al.(2015)](https://dl.acm.org/doi/10.5555/2969239.2969312)이 사용한 Yelp review dataset의 binary and five-class version을 사용하였다.
 
@@ -177,7 +176,7 @@ Fine-tuning에서는 4개의 TITAN Xp GPU와 24 batch를 사용하여 GPU 메모
 
 > Slanted Triangular Learning Rates (STLR) is a learning rate schedule which first linearly increases the learning rate and then linearly decays it, which can be seen in Figure to the right. It is a modification of Triangular Learning Rates, with a short increase and a long decay period.
 >
-> ![image](https://paperswithcode.com/media/methods/new_lr_plot_tNtxBIM.jpg){: .align-center}{: width="400"}
+> ![image](https://paperswithcode.com/media/methods/new_lr_plot_tNtxBIM.jpg){: .align-center}{: width="600"}
 >
 > [Papers with code - Slanted Triangular Learning Rates](https://paperswithcode.com/method/slanted-triangular-learning-rates#)
 
@@ -200,7 +199,7 @@ BERT에서 다루는 최대 문장 길이는 512이다. BERT에 text classificat
 
 Table 2는 위 방법에 대한 효율성을 나타낸 것이다. Truncation methods 중 **head+tail**이 제일 좋은 것으로 나타났다. 따라서 앞으로의 실험에서도 이 방법을 통해 문장을 자르도록 한다.
 
-![image](https://user-images.githubusercontent.com/47516855/123041037-bb8c0800-d42f-11eb-941d-d2ab83f7e83b.png){: .align-center}{: width="300"}
+![image](https://user-images.githubusercontent.com/47516855/123041037-bb8c0800-d42f-11eb-941d-d2ab83f7e83b.png){: .align-center}{: width="500"}
 
 #### 5.3.2 Features from Different layers
 
@@ -208,7 +207,7 @@ Table 2는 위 방법에 대한 효율성을 나타낸 것이다. Truncation met
 
 아래 Table 3은 레이어 별 fine-tuning의 성능을 나타낸다. BERT의 마지막 레이어의 성능이 제일 좋으므로, 앞으로의 실험에서도 이를 사용한다.
 
-![image](https://user-images.githubusercontent.com/47516855/123041277-1291dd00-d430-11eb-9bb1-582d79325b57.png){: .align-center}{: width="300"}
+![image](https://user-images.githubusercontent.com/47516855/123041277-1291dd00-d430-11eb-9bb1-582d79325b57.png){: .align-center}{: width="500"}
 
 
 #### 5.3.3 Catastrophic Forgetting
@@ -217,13 +216,13 @@ Catastrophic forgetting (McCloskey and Cohen, 1989)은 새로운 지식을 학�
 
 다른 learning rate를 이용하여 BERT를 fine-tuning하였고, error rate에 대한 learning curve는 Figure 2에 나와있다.
 
-![image](https://user-images.githubusercontent.com/47516855/123043306-0fe4b700-d433-11eb-8450-921341d7fa12.png){: .align-center}{: width="700"}
+![image](https://user-images.githubusercontent.com/47516855/123043306-0fe4b700-d433-11eb-8450-921341d7fa12.png){: .align-center}{: width="900"}
 
 2e-5와 같은 낮은 learning rate에서는 catastrophic forgetting이 일어나는 것을 확인하였다. 반대로 높은 learning rate에서는 수렴하는데 실패한다.
 
 #### 5.3.4 Layer-wise Decreasing Layer Rate
 
-Table 4는 다른 learning rate와 decay factor에 대한 성능을 나타낸 표이다 (식 (2) 참고). 하위 레이어에 낮은 learning rate를 할당하는 것은 BERT를 fine-tuning하는데 효과적이며, 적절한 세팅값은 $\ksi=0.95, \text{lr}=2.0-5$로 밝혀졌다.
+Table 4는 다른 learning rate와 decay factor에 대한 성능을 나타낸 표이다 (식 (2) 참고). 하위 레이어에 낮은 learning rate를 할당하는 것은 BERT를 fine-tuning하는데 효과적이며, 적절한 세팅값은 $\xi=0.95, \text{lr}=2.0-5$로 밝혀졌다.
 
 ![image](https://user-images.githubusercontent.com/47516855/123044096-30614100-d434-11eb-9340-09337dbfef05.png){: .align-center}{: width="400"}
 
@@ -235,7 +234,7 @@ Supervised learning을 통해 BERT를 fine-tuning하는 것 외에도 BERT의 ML
 
 따라서 with-in task further training에 대해 먼저 진행하도록 한다. 여러 스텝으로 나누어 학습을 진행하고, 텍스트 분류 작업을 진행한다. 
 
-![image](https://user-images.githubusercontent.com/47516855/123045932-76b79f80-d436-11eb-9d81-434200d4695c.png){: .align-center}{: width="300"}
+![image](https://user-images.githubusercontent.com/47516855/123045932-76b79f80-d436-11eb-9d81-434200d4695c.png){: .align-center}{: width="500"}
 
 Figure 3에서 볼 수 있듯, further pre-training이 BERT의 target task에 유용한 것을 알 수 있다. 가장 좋은 성능은 100K training step에서 달성하였다.
 
@@ -246,7 +245,7 @@ target task에 대한 training data에다가, 추가적으로 같은 도메인�
 
 Table 5에서 볼 수 있듯, 거의 모든  further pre-training 모델이 원본 BERT(w/o pretrain)보다 더 좋은 성능을 보이는 것을 확인하였다.
 
-![image](https://user-images.githubusercontent.com/47516855/123046546-3278cf00-d437-11eb-8ff3-a60e8314bc94.png){: .align-center}{: width="700"}
+![image](https://user-images.githubusercontent.com/47516855/123046546-3278cf00-d437-11eb-8ff3-a60e8314bc94.png){: .align-center}{: width="900"}
 
 일반적으로  in-domain pretraining은 within-task pretraining보다 더 나은 성능을 보인다. 작은 샘플 수를 갖는 sentence-level TREC dataset에서는 within-task pre-training가 성능을 저하시키는 것으로 나타났으며, Yah. A. corpus을 활용한 in-domain pre-training에서는 TREC에서 좋은 결과를 보였다.
 
@@ -278,7 +277,7 @@ biLSTM에 self-attention을 활용한 모델([Lin et al., 2017](https://arxiv.or
 
 Table 7은 multi-task fine-tuning에 대한 결과를 보여주며, 그 효능을 증명한다. 그러나 multi-task fine-tuning이 BERT-CDPT의 Yelp P.와 AG에는 큰 도움이 되지 않는 것으로 보인다 (BERT-CDPT-MFiT-FiT).
 
-![image](https://user-images.githubusercontent.com/47516855/123054399-c64e9900-d43f-11eb-936d-b1b1f83418a3.png){: .align-center}{: width="300"}
+![image](https://user-images.githubusercontent.com/47516855/123054399-c64e9900-d43f-11eb-936d-b1b1f83418a3.png){: .align-center}{: width="500"}
 
 BERT-CDPT가 이미 풍부한 domain-specific information를 포함하고 있기 때문에 Multi-task fine-tuning과 cross-domain pre-training은 서로 대체할 수 있는 방법으로 보인다. 또한, multi-task learning는 연관된 텍스트 분류 subtask의 일반성을 향상시키기에 필수적이지는 않은 것으로 보인다.
 
@@ -286,7 +285,7 @@ BERT-CDPT가 이미 풍부한 domain-specific information를 포함하고 있기
 
 pre-trained 모델의 장점 중 하나는 작은 데이터를 갖고있는 task도 학습할 수 있다는 점이다. 본 연구에서 다른 데이터셋에 대한 BERT-FiT과 BERT-ITPT-FiT의 성능을 평가하였으며, IMDb training data의 일부를 선택하여  BERT-FiT와 BERTITPT-FiT를 학습하였다. 이 결과는 Figure 4에 나와있다.
 
-![image](https://user-images.githubusercontent.com/47516855/123055285-af5c7680-d440-11eb-9668-44ba1073c7b5.png){: .align-center}{: width="300"}
+![image](https://user-images.githubusercontent.com/47516855/123055285-af5c7680-d440-11eb-9668-44ba1073c7b5.png){: .align-center}{: width="500"}
 
 본 실험결과를 통해 BERT가 작은 데이터에도 매우 좋은 성능향상을 이끌어낸다는 것을 증명하였다. Further pre-trained BERT는 오로지 0.4%의 학습 데이터를 이용하여 성능을 더 이끌어낼 수 있었다 (error rate 17.29% → 9.23%).
 
@@ -294,7 +293,7 @@ pre-trained 모델의 장점 중 하나는 작은 데이터를 갖고있는 task
 
 이번에는 BERT<sub><span style="font-family:Courier New">LARGE</span></sub>에서도 비슷한 결과를 낼 수 있는지 실험하였다. BERT<sub><span style="font-family:Courier New">LARGE</span></sub>에 대해 Tesla-V100-PCIE 32G GPU, 24 batch, 128의 최대 문장길이, 120K training steps을 통해 further pre-train을 진행하였고, target task classifier BERT fine-tuning에 대해서는 24 batch, 4대의 Tesla-V100-PCIE 32G GPUs, 512 최대 문장 길이를 통해 BERT<sub><span style="font-family:Courier New">LARGE</span></sub>를 사용하였다.
 
-![image](https://user-images.githubusercontent.com/47516855/123060877-1597c800-d446-11eb-9b51-4d37a1989d9a.png){: .align-center}{: width="300"}
+![image](https://user-images.githubusercontent.com/47516855/123060877-1597c800-d446-11eb-9b51-4d37a1989d9a.png){: .align-center}{: width="500"}
 
 Table 8에서 볼 수 있듯, ULMFiT은 BERT<sub><span style="font-family:Courier New">BASE</span></sub>에 비해 대부분 좋은 성능을 보였지만, BERT<sub><span style="font-family:Courier New">LARGE</span></sub>에 대해서는 그렇지 않았다. 그러나 the task-specific further pre-training에 대해서는 BERT<sub><span style="font-family:Courier New">BASE</span></sub>가 ULMFiT보다 좋은 성능을 내었다.  task-specific further pre-training에 대해 BERT<sub><span style="font-family:Courier New">LARGE</span></sub>를 fine-tuning한 결과 SOTA를 달성할 수 있었다.
 
