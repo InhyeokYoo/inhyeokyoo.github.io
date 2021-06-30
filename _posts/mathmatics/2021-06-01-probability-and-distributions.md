@@ -10,7 +10,7 @@ tags:
   - probability
   - distributions
 use_math: true
-last_modified_at: 2021-06-02
+last_modified_at: 2021-06-25
 ---
 
 넓게보면 확률은 불확실성에 대한 연구라 할 수 있다. 확률은 어떤 사건이 일어나는 비율 혹은 사건에 대한 믿음(belief)의 정도라 할 수 있다. 그러면 이러한 확률을 이용하여 어떤 실험(experiment)에서 무엇인가가 일어날 기회를 측정할 수 있다. 앞선 챕터들에서 언급했듯, 데이터 내의 불확실성과 머신러닝 모델 내의 불확실성, 모델의 결과에 대한 불확실성을 측정할 때가 있다. 이를 측정하는 것은 **random variable(확률변수)**에 대한 개념을 필요로 한다. 확률변수란 임의의 실험에 대한 결과를 우리가 관심있는 성질들의 집합으로 연결하는 것이다. 이러한 확률변수와 연관있는 것은 특정한 결과가 일어날 확률을 측정하는 함수로, 우리는 이를 **확률 분포**라 부른다.
@@ -69,7 +69,7 @@ last_modified_at: 2021-06-02
 > 
 > 주사위를 굴리는 실험에 대해,
 > - Sample space: $S=\\{1, 2, 3, 4, 5, 6\\}$
-> - Sample(\omega):  $1, 2, 3, 4, 5, 6$
+> - Sample($\omega$):  $1, 2, 3, 4, 5, 6$
 > - Event space: $\Sigma = \text{Even}, \text{Odd}, \text{Prime}, \text{Divisible by 2} , \text{etc.}$
 > - Event: $\varnothing, \\{1\\}, \\{2\\}, \cdots $
 
@@ -80,6 +80,8 @@ last_modified_at: 2021-06-02
 > [출처: 확률 변수](https://adioshun.gitbooks.io/statics-with-r/content/probability/random-variance.html)
 
 하나의 사건에 대한 확률은 반드시 구간 $[0, 1]$안에 있어야하고, sample space $\Omega$내에 모든 outcome에 대한 확률의 합은 반드시 1이 되야한다. 즉, $P(\Omega)=1$가 되야한다. 우리는 주어진 확률 공간 $(\Omega, \mathcal A, P)$에 대해, 이를 통해 현실세계의 현상을 모델링해야 한다. 머신러닝에서는 종종 명시적으로 확률 공간을 표현하는 대신 관심있는 것에 대한 확률을 측정하길 원한다. 이를 $\tau$라 표현하겠다. 이 책에서 $\tau$를 **target space**라 부를 것이고, $\tau$의 원소를 상태(states)라 부를 것이다.
+
+> 쉽게 생각하자. 우리가 동전 두 개를 던져 앞면이 나오는 것에 관심이 있다면, 확률변수 $X$는 동전이 나오는 갯수 $0, 1, 2$를 갖을 수 있고, 이는 곧 여기서 말하는 state가 된다.
 
 우리는 어떤 함수 $X: \Omega \to \tau$를 도입할 것이다. 이 함수는 $\Omega$의 원소(outcome)를 취하여 우리의 관심사 $x$($\tau$내 원소)의 양(quantity)을 반환한다. 이러한 맵핑을 **random variable(확률변수)**라 부른다.
 
@@ -129,7 +131,7 @@ $$
 
 </div>
 
-이 계산에서 우리는 $X$의 outcome에 대한 확률과, $\Omega$내 sample의 확률이라는 두 개의 다른 개념을 동일시하여 사용하였다. 예를들어, (6.7)에서 $P(X=0) = P((£, £))$로 표현하였다. 어떤 확률변수 $X: \Omega \to \tau$와 subset $S \subseteq \tau$를 생각해보자. $S$는 예를들어 두 개의 동전을 던졌을 때 얻을 수 있는 앞면의 갯수와 같은 것이다. $X^{-1}(S)$를 $X$에 의한 $S$의 pre-image(원상)이라고 해보자 (즉, $\Omega$의 원소의 집합이 $X$에 의해 $S$로 맵핑되는 것을 의미한다: $\\{\omega \in \Omega: X(\omega) \in S \\}$). 확률변수 $X$를 통해 $\Omega$내의 사건으로부터의 확률의 전이를 이해하는 방법 중 하나는 $S$의 pre-image로부터의 확률과 이를 연결시키는 것이다. $S \subseteq \tau$에 대해, 다음과 같은 notation을 얻는다.
+이 계산에서 우리는 확률변수 $X$의 결과에 대한 확률과($P(X=0)$), $\Omega$내 sample의 확률($P((£, £))$)이라는 두 개의 다른 개념을 동일시하여 사용하였다. 어떤 확률변수 $X: \Omega \to \tau$와 subset $S \subseteq \tau$를 생각해보자. $S$는 두 개의 동전을 던졌을 때 나오는 앞면의 갯수와 같은 것을 의미한다. $X^{-1}(S)$를 $X$에 의한 $S$의 pre-image(원상)이라고 해보자 (즉, $\Omega$의 원소의 집합이 $X$에 의해 $S$로 맵핑되는 것을 의미한다: $\\{\omega \in \Omega: X(\omega) \in S \\}$). 확률변수 $X$를 통해 sample space $\Omega$내의 event로부터의 확률의 변환을 이해하는 방법 중 하나는 $S$의 pre-image에 대한 확률과 이를 연결시키는 것이다. $S \subseteq \tau$에 대해, 다음과 같은 notation을 얻는다.
 
 $$
 P _X(S) = P(X \in S) = P(X^{-1}(S)) = P(\{\omega \in \Omega: X(\omega) \in S \}) \tag{6.8}
@@ -245,7 +247,7 @@ $$
 
 ## Sum Rule, Product Rule, and Bayes’ Theorem
 
-확률이론은 logical reasoning의 연장선으로 생각할 수 있다. 확률모형은(Section 8.4) ML methods를 설계하는데 있어 원칙적 기반을 제공한다. 한번 우리가 데이터에 대한 불확실성에 대응하는 확률분포와 우리의 문제를 정의하고 나면, 곧 이에는 오직 두 가지 기본적인 규칙밖에 없다는 것이 밝혀지게 된다. 이는 sum rule과 product rule이다.
+확률이론은 logical reasoning의 연장선으로 생각할 수 있다. Philosophical issue에서 보았던 것처럼, 여기서 제시된 확률규칙은 필요조건을 채우기 위해 자연스럽게 등장하는 것이다. 확률모형은(Section 8.4) ML methods를 설계하는데 있어 원칙적 기반을 제공한다. 한번 우리가 데이터에 대한 불확실성에 대응하는 확률분포와 우리의 문제를 정의하고 나면, 곧 이에는 오직 두 가지 기본적인 규칙밖에 없다는 것이 밝혀지게 된다. 이는 sum rule과 product rule이다.
 
 식 (6.9)를 다시 살펴보도록 하자. $p(\boldsymbol x, \boldsymbol y)$는 두 확률변수의 joint distribution이다. 분포 $p(\boldsymbol x)$와 $p(\boldsymbol y)$는 이에 해당하는 marginal distribution이 되고, $p(\boldsymbol y \rvert \boldsymbol x)$는 conditional distribution이 된다. 앞서 살펴봤던 연속/이산확률변수의 주변/조건부 확률의 정의로부터 확률이론에서 기본적인 규칙이 되는 두 가지 규칙을 보일 수 있게된다.
 
@@ -277,16 +279,22 @@ Product rule은 "모든 두 개의 확률변수로 이루어진 모든 joint dis
 머신러닝과 베이지안 통계학에서 관측된 확률변수가 주어질 때 (즉, 데이터), 종종 관측되지 않은(latent) 확률변수를 추론해야할 때가 있다. 우리에게 관측되지 않은 확률변수 $\boldsymbol x$에 대한 어떤 사전지식(prior knowledge) $p(\boldsymbol x)$과 확률변수 $\boldsymbol x$와 $\boldsymbol y$사이에서 관측된 어떤 관계 $p(\boldsymbol y \rvert \boldsymbol x)$가 있다고 가정하자. 만일 우리가 $\boldsymbol y$를 관측하면, 베이즈 정리를 이용하여 관측값 $\boldsymbol y$가 주어졌을 때에  $\boldsymbol x$에 대한 결론을 얻을 수 있다. **Bayes' theorem(베이즈 이론)**은 (6.22)로부터 다음과 같은 식을 바로 도출할 수 있다.
 
 $$
-\overbrace{p(\boldsymbol x, \boldsymbol y)}^{\text{posterior}} = \frac{\overbrace{p(\boldsymbol y \rvert \boldsymbol x)}^{\text{likelihood}} \overbrace{p(\boldsymbol x)}^{\text{prior}}}{\underbrace{p(\boldsymbol y)} _{\text{evidence}}} \tag{6.23}
+\overbrace{p(\boldsymbol x \lvert \boldsymbol y)}^{\text{posterior}} = \frac{\overbrace{p(\boldsymbol y \rvert \boldsymbol x)}^{\text{likelihood}} \overbrace{p(\boldsymbol x)}^{\text{prior}}}{\underbrace{p(\boldsymbol y)} _{\text{evidence}}} \tag{6.23}
 $$
 
-(6.23)에서 $p(\boldsymbol x)$는 **prior(사전확률)**로, 어떠한 데이터를 관측하기도 전에 latent variable $\boldsymbol x$에 대한 우리의 주관적인 사전지식을 내포한다. 우리는 어떠한 그럴듯한 prior라도 선택할 수 있지만, 가능한 모든 $\boldsymbol x$에 대해 prior가 nonzero pdf(or pmf)를 갖게해야 한다.
+> 베이지안 통계에서 확률은 **주장에 대한 신뢰도**를 의미한다. 예를들어 동전의 앞면이 나올 확률이 50%라 할 때, 빈도주의적 관점은 100번 동전을 던지면 50번은 앞면이 나오는 것으로 해석한다. 베이지안 관점은 동전의 앞면이 나왔다는 주장의 신뢰도가 50%라고 해석한다.
 
-**Likelihood(우도)** $p(\boldsymbol y \rvert \boldsymbol x)$는 $\boldsymbol x$와 $\boldsymbol y$가 얼마나 연관되어있는지를 나타내고, 이산확률분포의 경우 잠재 변수 $\boldsymbol x$를 알고 있을 때 data $\boldsymbol y$의 확률이 된다. 여기서 한가지 집고 넘어갈 것은 우도는 $\boldsymbol x$에 대한 분포가 아니라 오직 $\boldsymbol y$의 영향을 받는 분포라는 것이다. $p(\boldsymbol y \rvert \boldsymbol x)$는 "($\boldsymbol y$가 주어졌을 때) $\boldsymbol x$의 우도"로 부르거나, $\boldsymbol x$가 주어졌을 때 $\boldsymbol y$의 확률이라 부르지만, 절대로 $\boldsymbol y$의 우도라고 부르지는 않는다.
+(6.23)에서 $p(\boldsymbol x)$는 **prior(사전확률)**로, 어떠한 데이터를 관측하기전에 latent variable $\boldsymbol x$에 대한 주관적인 사전지식을 의미한다. 어떤 그럴듯한 prior라도 선택할 수 있지만, 가능한 모든 $\boldsymbol x$에 대해 prior가 nonzero pdf(or pmf)를 갖게해야 한다.
+
+> 사전확률은 초기에 갖는 **믿음의 정도**로 해석한다.
+
+**Likelihood(우도)** $p(\boldsymbol y \rvert \boldsymbol x)$는 $\boldsymbol x$와 $\boldsymbol y$가 얼마나 연관되어있는지를 나타내고, 이산확률분포의 경우 잠재 변수 $\boldsymbol x$를 알고 있을 때 data $\boldsymbol y$의 확률이 된다. 여기서 한가지 집고 넘어갈 것은 우도는 $\boldsymbol x$에 대한 분포가 아니라 오직 $\boldsymbol y$의 영향을 받는 분포라는 것이다. $p(\boldsymbol y \rvert \boldsymbol x)$는 "($\boldsymbol y$가 주어졌을 때) $\boldsymbol x$의 우도"로 부르거나, $\boldsymbol x$가 주어졌을 때 $\boldsymbol y$의 확률이라 부르지, 절대로 $\boldsymbol y$의 우도라고 부르지는 않는다는 것이다.
 
 *우도는 또한 종종 "measurement model"이라고 불리기도 한다.*
 
-**Posterior(사후확률)** $p(\boldsymbol x \rvert \boldsymbol y)$는 베이즈 통계학에서 *quantity of interest*라 불리는 것인데, 이는 정확히 우리가 관심있는 것을 표현한 것이기 때문이다. 이는 곧 $\boldsymbol y$를 관측하고나서 $\boldsymbol x$에 대해 알게되는 것이 된다.
+**Posterior(사후확률)** $p(\boldsymbol x \rvert \boldsymbol y)$는 베이즈 통계학에서 *quantity of interest*라 불리는 것인데, 이는 정확히 우리가 관심있는 것을 표현한 것이기 때문이다. 이는 $\boldsymbol y$(evidence)를 관측하고나서 $\boldsymbol x$에 대해 알게되는 것이 된다.
+
+>  사후확률은 evidence($y$)에 의해 설명되는 **믿음의 정도**이다.
 
 다음과 같은 quantity는 **marginal likelihood/evidence**라 불린다.
 
@@ -303,6 +311,8 @@ $$
 예를 들어 강화학습에서 Deisenroth et al. 2015는 plausible transition functions의 완전 사후확률분포가 매우 빠른 학습(data/sample efficient)을 가능케 했으며, 사후확률의 최댓값을 이용하는 방법은 일관되게 안 좋은 결론을 도출하였다. 따라서 완전 사후확률분포는 downstream task에서 매우 유용하다고 할 수 있다. 이는 Chapter 9의 linear regression의 맥락에서 다시 살펴보도록 하겠다.
 
 </div>
+
+> 기본적으로 어떤 함수가 distribution이 되기 위해서는 함수를 적분하였을 때 적분값이 정확히 1이 되어야 하는데, 이것을 만족시키기 위한 neural network 구조는 제약될 수밖에 없다. 즉, 우리는 neural network의 output이 임의의 확률값이 되기를 바라는데, 보통은 그런 neural network를 잡는 것이 불가능하다. 따라서 neural network의 output을 potential function으로 하고, 그 output을 적절하게 softmax 등으로 normalize하면 확률로 만들 수 있다.
 
 ## Summary Statistics and Independence
 
@@ -343,7 +353,7 @@ $$
 \mathbb E _X[g(\boldsymbol x)] = 
 \begin{bmatrix}
   \mathbb E _{X _1}[g(x _1)] \\
-  vdots \\
+  \vdots \\
   \mathbb E _{X _D}[g(x _D)]
 \end{bmatrix} \in \mathbb R^D \tag{6.30}
 $$
@@ -352,7 +362,7 @@ $$
 
 </div>
 
-Definition 6.3은 notation $\mathbb E _X$를 pdf(연속분포)에 대한 적분 혹은 모든 state에 대한 합(이산분포)을 하는 연산으로 정의하고 있다. Mean에 대한 정의(Definition 6.4)는 기댓값에 대한 특수한 경우로, $g$가 identity function인 경우에 얻어진다.
+Definition 6.3은 $\mathbb E _X$를 pdf(연속분포)에 대한 적분 혹은 모든 state에 대한 합(이산분포)을 하는 연산으로 정의하고 있다. Mean에 대한 정의(Definition 6.4)는 기댓값에 대한 특수한 경우로, $g$가 identity function인 경우에 얻어진다.
 
 <div class="notice" markdown="1">
 
@@ -372,7 +382,7 @@ $$
 $$
 \mathbb E _{X _d}[x _d] := 
 \begin{cases}
-    \int _{\mathcal X} x _d, p(x _d) \text{d}x _d  & \quad \text{if } X \text{ is a continuous random variable} \\
+    \int _{\mathcal X} x _d p(x _d) \text{d}x _d  & \quad \text{if } X \text{ is a continuous random variable} \\
     \sum _{x _i \in \mathcal X} x _i p(x _d = x _i)       & \quad \text{if } X \text{ is discrete random variable}
 \end{cases} \tag{6.32}
 $$
@@ -381,7 +391,11 @@ $$
 
 </div>
 
-차원이 하나인 경우, "average"에 대한 직관적인 표현법은 mean 외에도 **median**과 **mode**가 있다. Median은 값들을 정렬했을 때 "중앙"에 있는 값이다. 이러한 개념은 연속적인 값일 때 cdf(Definition 6.2)에서는 0.5가 된다. asymmetric하거나 긴 꼬리가 달린 분포의 경우 median은 mean값보다는 사람의 직관에 가까운 값을 제공해준다. 또한, 이상치에 대해 덜 민감하다. 더 높은 차원에서 median을 측정하는것은 값을 정렬한다는 개념이 없기 때문에 자명하지가 않다(non-trivial). 
+차원이 하나인 경우, "average"에 대한 직관적인 표현법은 mean 외에도 **median**과 **mode**가 있다. Median은 값들을 정렬했을 때 "중앙"에 있는 값이다. 이러한 개념은 연속적인 값일 때 cdf(Definition 6.2)에서는 0.5가 된다. asymmetric하거나 긴 꼬리가 달린 분포의 경우 median은 mean값보다는 사람의 직관에 가까운 값을 제공해준다. 또한, 이상치에 대해 덜 민감하다. 더 높은 차원에서 median을 측정하는것은 값을 정렬한다는 개념이 없기 때문에 자명하지가 않다(non-trivial).
+
+> Average과 mean의 차이
+>
+> Average는 data의 중심에 있는 값을 의미한다. Average는 일상용어인 반면, mean은 수학적 용어이다.
 
 Mode는 가장 빈번하게 등장하는 값으로, 이산확률변수에서는 등장횟수로, 연속확률변수에서는 density $p(\boldsymbol x)$의 값이 튀는(peak) 것으로 정의된다. 특정한 density $p(\boldsymbol x)$는 하나 이상의 mode값을 갖을 수 있으며, 또한 차원이 높을 경우 매우 큰 mode를 갖을 수 있다. 따라서 어떤 분포의 모든 mode를 찾는 것은 계산하기 어려울 수 있다.
 
@@ -483,7 +497,7 @@ Covariance/correlation은 두 개의 확률변수가 어떻게 연관되었는�
 
 ### Empirical Means and Covariances
 
-앞장에서 본 정의들은 종종 **population mean and covariance**라 불린다. 이는 모집단에 대한 실제 통계량를 가르키기 때문이다. 머신러닝에서는 데이터의 경험적인 관측으로부터 배워야 한다. 어떤 확률변수 $X$를 고려해보자. 모집단의 통계량으로부터 경험적 통계량의 실현값(realization)으로 가기 위해서는 두 가지 개념적인 단계가 있다. 우선, 유한한 데이터셋($N$ 사이즈)가 있어서 유한한 갯수의 동일한 확률변수 $X _1, \cdots, X _N$에 대한 함수인 경험적인 통계량을 만드는 것이다. 두번째로 데이터를 관측하고, 각 확률변수에 대한 실현 $x _1, \cdots, x _N$을 보고 경험적 통계량을 적용하는 것이다.
+앞장에서 본 정의들은 종종 **population mean and covariance**라 불린다. 이는 모집단에 대한 실제 통계량를 가르키기 때문이다. 머신러닝에서는 데이터의 관측으로부터 배워야 할 때가 있다. 어떤 확률변수 $X$를 고려해보자. 모집단의 통계량으로부터  empirical statistics의 실현값(realization)으로 가기 위해서는 두 가지 개념적인 단계가 있다. 우선, 유한한 데이터셋($N$ 사이즈)가 있어서 유한한 갯수의 동일한 확률변수 $X _1, \cdots, X _N$에 대한 함수인  empirical statistics을 만드는 것이다. 두번째로 데이터를 관측하고, 각 확률변수에 대한 실현 $x _1, \cdots, x _N$을 보고  empirical statistics을 적용하는 것이다.
 
 구체적으로 mean(Definition 6.4)에 대해, 특정한 데이터셋이 주어졌을 때 mean에 대한 추정치(estimate)를 얻을 수 있고, 이는 **empirical mean** 혹은 **sample mean**이라 부른다. 이는 covariance에 대해서도 똑같이 적용된다.
 
@@ -529,10 +543,10 @@ $$
 
 위 식은 $x _i$와 $x^2 _i$를 한번에 계산할 수 있기 때문에 위와는 달리 한번에 계산할 수 있다. 그러나 이러한 방법을 사용하면 numerically unstable하다. raw-score formula for variance는 머신러닝에서 bias-variance trade off를 계산하는데 유용하게 사용된다.
 
-분산을 이해하는 세번째 방법은 관측의 모든 쌍의 차이를 더하는 것이다. 확률변수 $X$의 실현인 어떤 샘플 $x _1, \cdots, \x _N$를 생각해보자. 그리고 이에대한 $(x _i, x _j)$쌍의 차이의 제곱을 계산해보자. 제곱을 펼쳐보면 $N^2$의 쌍의 차이의 합이 관측치의 표본분산을 이루는 것을 확인할 수 있다.
+분산을 이해하는 세번째 방법은 관측의 모든 쌍의 차이를 더하는 것이다. 확률변수 $X$의 실현인 어떤 샘플 $x _1, \cdots, x _N$를 생각해보자. 그리고 이에대한 $(x _i, x _j)$쌍의 차이의 제곱을 계산해보자. 제곱을 펼쳐보면 $N^2$의 쌍의 차이의 합이 관측치의 표본분산을 이루는 것을 확인할 수 있다.
 
 $$
-\frac{1}{N^2} \sum^N _{i, j=1} (x _i - x _j)^2 = 2 \left [ \frac{1}{N} \sum^N _{i=1} x^2 _i - (\frac{1}{N} \sum^N _{i=1} x _i)^2 \right ] \tag{6.45}
+\frac{1}{N^2} \sum^N _{i, j=1} (x _i - x _j)^2 = 2 \left[ \frac{1}{N} \sum^N _{i=1} x^2 _i - (\frac{1}{N} \sum^N _{i=1} x _i)^2 \right] \tag{6.45}
 $$
 
 이 식을 살펴보면 아까 보았던 raw-score formula (6.44)의 2배가 되는 것을 볼 수 있다. 이는 pairwise distance ($N^2$개)의 합을 평균과의 거리의 합($N$개)으로 표현할 수 있다는 뜻이다. 기하학적으로 이는 pairwise distance와, 점들의 집합의 평균으로부터 점들까지의 거리가 같다는 뜻이다. Computation의 측면으로는, mean을 계산(합 안에 $N$개의 term)한 다음 분산을 계산(다시 합 안에 $N$개의 term)하여 $N^2$ term을 갖는 식((6.45)의 좌변)을 얻을 수 있다는 뜻이다.
@@ -545,10 +559,10 @@ states $\boldsymbol x, \boldsymbol y \in \mathbb R^D$를 갖는 확률변수 $X,
 
 $$
 \begin{align}
-\mathbb E[\boldsymbol x + \boldsymbol y] = \mathbb E[\boldsymbol x] + \mathbb E[\boldsymbol y] \tag{6.46} \\
-\mathbb E[\boldsymbol x - \boldsymbol y] = \mathbb E[\boldsymbol x] - \mathbb E[\boldsymbol y] \tag{6.47} \\
-\mathbb V[\boldsymbol x + \boldsymbol y] = \mathbb V[\boldsymbol x] + \mathbb V[\boldsymbol y] + \text{Cov}[\boldsymbol x, \boldsymbol y] + \text{Cov}[\boldsymbol y, \boldsymbol x] \tag{6.48} \\
-\mathbb V[\boldsymbol x - \boldsymbol y] = \mathbb V[\boldsymbol x] + \mathbb V[\boldsymbol y] - \text{Cov}[\boldsymbol x, \boldsymbol y] - \text{Cov}[\boldsymbol y, \boldsymbol x] \tag{6.49}
+\mathbb E[\boldsymbol x + \boldsymbol y] &= \mathbb E[\boldsymbol x] + \mathbb E[\boldsymbol y] \tag{6.46} \\
+\mathbb E[\boldsymbol x - \boldsymbol y] &= \mathbb E[\boldsymbol x] - \mathbb E[\boldsymbol y] \tag{6.47} \\
+\mathbb V[\boldsymbol x + \boldsymbol y] &= \mathbb V[\boldsymbol x] + \mathbb V[\boldsymbol y] + \text{Cov}[\boldsymbol x, \boldsymbol y] + \text{Cov}[\boldsymbol y, \boldsymbol x] \tag{6.48} \\
+\mathbb V[\boldsymbol x - \boldsymbol y] &= \mathbb V[\boldsymbol x] + \mathbb V[\boldsymbol y] - \text{Cov}[\boldsymbol x, \boldsymbol y] - \text{Cov}[\boldsymbol y, \boldsymbol x] \tag{6.49}
 \end{align}
 $$
 
@@ -556,8 +570,8 @@ mean과 (co)varaince는 확률변수의 affine transformation을 수행할 때 �
 
 $$
 \begin{align}
-\mathbb E _Y[\boldsymbol y] = \mathbb E _X[\boldsymbol A \boldsymbol x + \boldsymbol b] =  \boldsymbol A \mathbb E _X[\boldsymbol x] + \boldsymbol b = \boldsymbol A \boldsymbol \mu + \boldsymbol b \tag{6.50} \\
-\mathbb V _Y[\boldsymbol y] = \mathbb V _X[\boldsymbol A \boldsymbol x + \boldsymbol b] =  \mathbb V _X[\boldsymbol A \boldsymbol x] = \boldsymbol A \mathbb V _X[ \boldsymbol x] \boldsymbol A^\intercal =
+\mathbb E _Y[\boldsymbol y] &= \mathbb E _X[\boldsymbol A \boldsymbol x + \boldsymbol b] =  \boldsymbol A \mathbb E _X[\boldsymbol x] + \boldsymbol b = \boldsymbol A \boldsymbol \mu + \boldsymbol b \tag{6.50} \\
+\mathbb V _Y[\boldsymbol y] &= \mathbb V _X[\boldsymbol A \boldsymbol x + \boldsymbol b] =  \mathbb V _X[\boldsymbol A \boldsymbol x] = \boldsymbol A \mathbb V _X[ \boldsymbol x] \boldsymbol A^\intercal =
 \boldsymbol A \boldsymbol \Sigma + \boldsymbol A^\intercal \tag{6.51} \\
 \end{align}
 $$
@@ -566,10 +580,10 @@ $$
 
 $$
 \begin{align}
-\text{Cov}[\boldsymbol x, \boldsymbol y] = \mathbb E [\boldsymbol x (\boldsymbol A \boldsymbol x + \boldsymbol b)^\intercal] - \mathbb E [\boldsymbol x] \mathbb E [\boldsymbol A \boldsymbol x + \boldsymbol b]^\intercal \tag{6.52a} \\
-= \mathbb E [\boldsymbol x] \boldsymbol b^\intercal + \mathbb E [\boldsymbol x \boldsymbol x^\intercal] \boldsymbol A^\intercal - \boldsymbol \mu \boldsymbol b^\intercal - \boldsymbol \mu \boldsymbol \mu^\intercal \boldsymbol A^\intercal \tag{6.52b} \\
-\boldsymbol \mu \boldsymbol b^\intercal - \boldsymbol \mu \boldsymbol b^\intercal + (\mathbb E [\boldsymbol x \boldsymbol x^\intercal] - \boldsymbol \mu \boldsymbol \mu^\intercal) \boldsymbol A^\intercal \tag{6.52c} \\
-\stackrel{6.38}{=} \boldsymbol \Sigma \boldsymbol A^\intercal \tag{6.52d}
+\text{Cov}[\boldsymbol x, \boldsymbol y] &= \mathbb E [\boldsymbol x (\boldsymbol A \boldsymbol x + \boldsymbol b)^\intercal] - \mathbb E [\boldsymbol x] \mathbb E [\boldsymbol A \boldsymbol x + \boldsymbol b]^\intercal \tag{6.52a} \\
+&= \mathbb E [\boldsymbol x] \boldsymbol b^\intercal + \mathbb E [\boldsymbol x \boldsymbol x^\intercal] \boldsymbol A^\intercal - \boldsymbol \mu \boldsymbol b^\intercal - \boldsymbol \mu \boldsymbol \mu^\intercal \boldsymbol A^\intercal \tag{6.52b} \\
+&= \boldsymbol \mu \boldsymbol b^\intercal - \boldsymbol \mu \boldsymbol b^\intercal + (\mathbb E [\boldsymbol x \boldsymbol x^\intercal] - \boldsymbol \mu \boldsymbol \mu^\intercal) \boldsymbol A^\intercal \tag{6.52c} \\
+& \stackrel{6.38}{=} \boldsymbol \Sigma \boldsymbol A^\intercal \tag{6.52d}
 \end{align}
 $$
 
@@ -606,7 +620,6 @@ $$
 
 $$
 p(\boldsymbol x, \boldsymbol y \rvert \boldsymbol z) = p(\boldsymbol x \rvert \boldsymbol z) p(\boldsymbol y \rvert \boldsymbol z) \quad \text{for all } \boldsymbol z \in \mathbb Z \tag{6.55}
-
 $$
 
 여기서 $\mathbb Z$는 확률변수 $Z$의 state에 대한 집합이다. $Z$가 주어졌을 때 $X$가 $Y$에 대해 conditionally independent하다는 것은 $X ⫫ Y \rvert Z$로 쓴다.
@@ -647,8 +660,8 @@ covariance는 symmetric, positive definite하고, 각 argument에 대해 linear�
 
 $$
 \begin{align}
-\text{Cov}[x, x] = 0 \iff x =0 \\
-\text{Cov}[\alpha x + z, y] = \alpha \text{Cov}[x, y] + \text{Cov}[z, y] ~ \text{for } \alpha \in \mathbb R
+\text{Cov}[x, x] &= 0 \iff x =0 \\
+\text{Cov}[\alpha x + z, y] &= \alpha \text{Cov}[x, y] + \text{Cov}[z, y] ~ \text{for } \alpha \in \mathbb R
 \end{align}
 $$
 
@@ -663,7 +676,7 @@ $$
 두 확률변수 $X, Y$사이의 각도 $\theta$에 대해서는,
 
 $$
-\cos \theta = \frac{\langle X, Y \rangle}{\| X \| \| Y \|} = frac{\text{Cov}[x, y]}{\sqrt{\mathbb V[x] \mathbb V[y]}} \tag{6.61}
+\cos \theta = \frac{\langle X, Y \rangle}{\| X \| \| Y \|} = \frac{\text{Cov}[x, y]}{\sqrt{\mathbb V[x] \mathbb V[y]}} \tag{6.61}
 $$
 
 를 얻는다. 이는 correlation이 된다. 이는 즉, 상관관계를 기하학적으로 두 확률변수에 대한 각도로 볼 수 있다는 뜻이다. 지난시간에 $X \perp Y \iff \langle X, Y \rangle = 0$임을 살펴보았다. 이 뜻은 확률변수에서 $X$와 $Y$가 orthogonal함과 $\text{Cov}[x, y]=0$은 동치라는 뜻이다. 즉, 이는 uncorrelated를 의미한다. 아래 그림에 이에 대한 설명이 나와있다.
@@ -679,7 +692,7 @@ Gaussian distribution은 가장 널리 연구된 확률분포로, 연속확률�
 단변량 확률변수에 대해 가우스 분포는 다음과 같은 밀도함수를 갖는다.
 
 $$
-p(x \rvert \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left ( - \frac{(x-\mu)^2}{2 \sigma^2} \right ) \tag{6.62}
+p(x \rvert \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( - \frac{(x-\mu)^2}{2 \sigma^2} \right) \tag{6.62}
 $$
 
 **multivariate  Gaussian  distribution**는 **mean** vector $\boldsymbol \mu$와 **covariance matrix** $\boldsymbol \Sigma$를 통해 특성화되고, 다음과 같이 정의된다.
@@ -701,7 +714,7 @@ mean이 0이고 동일한 covariance를 갖을 경우 ($\boldsymbol x=0, \boldsy
 이제 다변량 확률변수의 일반적인 경우에 대해 marginalization과 conditioning을 만들어보자. 이에 대해 처음접하게 되어 헷갈리는 경우, 두 개의 단변량 확률변수를 대신하여 고려할 것을 권한다. $X, Y$가 서로 다른 차원을 갖는다고 가정하자. 확률의 합법칙과 조건부에 대한 영향을 파악하기 위해, 명시적으로 concatenated states $[\boldsymbol x^\intercal, \boldsymbol y^\intercal]$에 대한 가우스분포를 다음과 같이 표현하겠다.
 
 $$
-p(\boldsymbol x, \boldsymbol y) = \mathcal N \left ( 
+p(\boldsymbol x, \boldsymbol y) = \mathcal N \left( 
   \begin{bmatrix}
     \boldsymbol \mu _x \\ \boldsymbol \mu _y 
   \end{bmatrix}
@@ -710,7 +723,7 @@ p(\boldsymbol x, \boldsymbol y) = \mathcal N \left (
     \boldsymbol \Sigma _{xx} & \boldsymbol \Sigma _{xy} \\
     \boldsymbol \Sigma _{yx} & \boldsymbol \Sigma _{yy}
   \end{bmatrix}
-\right ) \tag{6.64}
+\right) \tag{6.64}
 $$
 
 여기서 $\boldsymbol \Sigma _{xx} = \text{Cov}[\boldsymbol x, \boldsymbol x]$와 $\boldsymbol \Sigma _{yy} = \text{Cov}[\boldsymbol y, \boldsymbol y]$는 $\boldsymbol x, \boldsymbol y$의 marginal covariance matrix이다. $\boldsymbol \Sigma _{xy} = \text{Cov}[\boldsymbol x, \boldsymbol y]$는 $\boldsymbol x, \boldsymbol y$의 cross-covariance matrix이다.
@@ -838,29 +851,457 @@ multivariate Gaussian의 경우 이 과정은 다음의 세 단계를 거친다.
 2. Box-M ̈uller transform와 같은 non-linear transformation을 통해 단변량 가우스분포를 sample
 3. 다변량 standard normal로부터 sample을 얻기 위해 이러한 sample을 대조
 
-일반적인 경우 (mean이 nonzero이고 covariance가 identity matrix가 아닐 때) 가우스 확률변수의 linear transformation 성질을 이용한다. $\boldsymbol \mu$와 covariance matrix \Sigma$를 갖는 다변량 가우스 분포로부터 어떤 샘플 $\boldsymbol x _i, i=1, \dotsc, n$을 생성하는데 관심이 있다고 하자. 그러면 multivariate standard normal로부터 샘플을 생성하여 이를 구성할 것이다.
+일반적인 경우 (mean이 nonzero이고 covariance가 identity matrix가 아닐 때) 가우스 확률변수의 linear transformation 성질을 이용한다. $\boldsymbol \mu$와 covariance matrix $\Sigma$를 갖는 다변량 가우스 분포로부터 어떤 샘플 $\boldsymbol x _i, i=1, \dotsc, n$을 생성하는데 관심이 있다고 하자. 그러면 multivariate standard normal로부터 샘플을 생성하여 이를 구성할 것이다.
 
 multivariate normal $\mathcal N(\boldsymbol \mu, \boldsymbol \Sigma)$로부터 샘플을 얻기 위해, 가우스 확률변수에 대한 linear transformation의 성질을 이용할 수 있다. 만약 $\boldsymbol x \sim \mathcal N(\boldsymbol 0, \boldsymbol I)$이라면, $\boldsymbol y = \boldsymbol A \boldsymbol x$이고, 이는 mean $\boldsymbol \mu$와 공분산 행렬 $\boldsymbol A \boldsymbol A^\intercal = \boldsymbol \Sigma$를 갖는 가우스 분포임을 알 수 있다. $\boldsymbol A$는 공분산 행렬의 Cholesky decomposition (Section 4.3)을 이용하면 쉽게 구할 수 있다. Cholesky decomposition의 장점은 $\boldsymbol A$가 삼각행렬로, 연산에 있어 용이하다는 점이다.
 
+## Conjugacy and the Exponential Family
+
+통계책에서 발견한 "이름이 붙은" 확률분포들은 특정 현상을 모델링하기 위해 발견되었다. 확률분포들은 복잡한 방법으로 서로 연관되어 있다. 이러한 확률분포들은 컴퓨터가 없던 시절 연필과 종이를 통해 통계학자들에 의해 발견되었다. 그렇다면 지금과 같은 컴퓨터가 발달된 시대에 이런것들이 과연 어떤 의미를 갖을까? 이전 section에서 inference에서 필요로하는 많은 연산들이 가우스 분포일 경우 편리하게 계산되는 것을 확인하였다. 이 시점에서 머신러닝 맥락에서 사용하는 확률분포를 다루기 위한 필요조건(desiderata)를 회상해보자.
+
+1. 확률규칙(e.g. 베이즈 규칙)을 적용할 때 어떠한 "closure property"가 있다. 여기서 closure란 어떠한 연산을 적용하면 그 결과 또한 같은 유형의 객체를 반환한다는 것이다.
+2. 데이터를 수집할수록, 분포를 묘사하기 위해 더 많은 파라미터가 필요하지 않게된다.
+3. 우리는 데이터로부터 학습하는 것에 관심이 있다. 따라서 근사하게 작동하는 파라미터를 추론하길 원한다.
+
+이러한 형태의 분포의 종류를 **exponential family(지수족)**이라 부른다. 지수족은 좋은 일반화를 제공하면서 동시에 적절한 연산량과 추론하기 좋은 성질을 갖고 있다. 지수족을 소개하기에 앞서, "이름이 붙은" 세 가지의 확률분포를 추가로 살펴보자. 이는 베르누이 분포, 이항 분포, 베타 분포이다.
+
+> 본 포스트는 예제를 번역하진 않지만, 책에서는 예제를 통해 이 분포들을 소개하고 있으므로 번역하도록 한다.
+
+<div class="notice--success" markdown="1">
+
+**Example 6.8**  
+
+**Bernoulli  distribution(베르누이 분포)**는 state $x \in \\{0, 1\\}$를 갖는 하나의 이진 확률변수 $X$에 대한 분포이다. 이는 $X=1$일 때의 확률을 의미하는 하나의 파라미터 $\mu \in [0, 1]$를 통해 표현할 수 있다. 베르누이 분포 $\text{Ber}(\mu)$는 다음과 같이 정의된다.
+
+$$
+\begin{align}
+p(x \rvert \mu) &= \mu^x(1-\mu)^{1-x}, x \in \{0, 1 \} \tag{6.92} \\
+\mathbb E[x] &= \mu \tag{6.93} \\
+\mathbb V[x] &= \mu(1-\mu) \tag{6.94}
+\end{align}
+$$
+
+</div>
+
+베르누이 분포의 예시로는 동전을 던저 "앞면"이 나오는 확률을 모델링하는 것이다.
+
+<div class="notice--success" markdown="1">
+
+**Example 6.9 (Binomial Distribution)**  
+
+**Binomial Distribution(이항 분포)**는 베르누이 분포를 정수에 대해 일반화한 것이다. 이항분포는 $N$번의 시행에서 $X=1$이 $m$번 발생할 확률을 설명하는 것이다. 이항분포 $\text{Bin}(N, \mu)$는 다음과 같이 정의된다.
+
+$$
+\begin{align}
+p(m \rvert N, \mu) &= 
+  \begin{array}{c}
+      N \\
+      m
+  \end{array} 
+\mu^m(1-\mu)^{N-x}, x \in \{0, 1 \} \tag{6.95} \\
+\mathbb E[m] &= N \mu \tag{6.96} \\
+\mathbb V[m] &= N \mu(1-\mu) \tag{6.97}
+\end{align}
+$$
+
+</div>
+
+이항분포의 예시로는 우리가 앞면이 나올 확률이 $\mu$인 $N$개의 동전 던지기에서 $m$개의 "앞면"을 관찰할 확률이 있다.
+
+<div class="notice--success" markdown="1">
+
+**Example 6.10 (Beta Distribution)**
+
+**Beta Distribution(베타 분포)**는 연속확률변수 $\mu \in [0, 1]$에 대한 분포이다. 이는 이진사건의 확률을 나타날 때 유용하다(e.g. 베르누이 분포의 모수). 베타분포 $\text{Beta}(\alpha, \beta)$는 두개의 파라미터 $\alpha >0, \beta >0$에 의해 기술되며 다음과 같이 정의한다.
+
+$$
+\begin{align}
+p(\mu \lvert \alpha , \beta) &= \frac{\Gamma (\alpha + \beta)}{\Gamma (\alpha) \Gamma (\beta)} \mu^{\alpha - 1} (1 - \mu)^{\beta - 1}  \tag{6.98} \\
+\mathbb E[\mu] &= \frac{\alpha}{\alpha + \beta}, \mathbb V[\mu] = \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)} \tag{6.99} \\
+\end{align}
+$$
+
+여기서 $\Gamma(\cdot)$은 감마함수로, 다음과 같이 정의된다.
+
+$$
+\begin{align}
+\Gamma(t) &:= \int^{\infty}_{0} x^{t-1} \exp(-x)dx, t>0 \tag{6.100} \\
+\Gamma(t+1) &= t \Gamma(t) \tag{6.101}
+\end{align}
+$$
+
+감마함수는 베타 분포를 normalize하는데 사용한다.
+
+아래 그림은 베타분포에 대한 예시이다.
+
+![image](https://user-images.githubusercontent.com/47516855/123550118-fd59dd00-d7a6-11eb-898a-fd4ffcaf9f92.png){: .align-center}{:width="400"}
 
 
+베르누이 분포를 정수에 대해 일반화한 것이다. 이항분포는 $N$번의 시행에서 $X=1$이 $m$번 발생할 확률을 설명하는 것이다. 이항분포 $\text{Bin}(N, \mu)$는 다음과 같이 정의된다.
 
-\boldsymbol \mu
-\mathbb E
-\mathbb V
+</div>
 
-\mathcal N(\boldsymbol \mu, \boldsymbol \Sigma)
+직관적으로 $\alpha$는 확률밀도를 1로 이동한다. 반면 $\beta$는 확률밀도를 0으로 이동한다. 베타분포의 파라미터에는 몇몇 특별한 케이스가 존재한다 (Murphy, 2012)
+- $\alpha=1, \beta=1$이면, 균등분포 $\mathcal U[0, 1]$을 얻는다.
+- $\alpha,\beta<1$이면, 0과 1에서 최빈값을 갖는 bimodal distribution(다봉분포)를 얻는다.
+- $\alpha,\beta>1$이면, unimodal을 얻는다.
+- $\alpha,\beta>1$이고, $\alpha=\beta$이면, 개구간 $[0, 1]$에서 분포는 unimodal, symmetric, centered하다. 즉 최빈값과 평균을 $\frac{1}{2}$로 얻는다.
 
-\boldsymbol \Sigma
+### Conjugacy
 
-p(\boldsymbol x, \boldsymbol y)
-
-{: .align-center}{:width="400"}
+베이즈 이론 (6.23)에 따라, posterior은 prior과 likelihood의 곱에 비례한다. prior을 설명하는 것은 두 가지 이유에서 까다롭다. 첫번째는 우리가 어떠한 데이터를 보기도 전에 우리의 지식을 담고 있어야 하기 때문에 어렵다. 두번째로는 posterior distribution을 해석적으로 계산하는게 불가능하기 때문이다. 그러나 몇몇 prior은 계산하기 용이한데, 이는 conjugate prior(켤레사전분포)라 부른다.
 
 <div class="notice--warning" markdown="1">
 
+**Definition 6.13** (Conjugate Prior).
+
+posteior가 prior와 같은 형태/타입이라면, prior가 likelihood function에 대한 **conjugate(켤레)**라 부른다.
 
 </div>
+
+Conjugacy(켤레쌍)은 특히나 유용한데, 이는 prior distribution의 파라미터를 업데이트하여 posterior distribution을 대수적으로 계산할 수 있기 때문이다.
+
+*Remark.* 기하학적으로 conjugate prior은 likelihood와 같은 distance structure를 유지한다.
+{: .notice}
+
+Conjugate prior에 대한 구체적인 예시를 소개한다. 아래 예제 6.11은 이항분포(이산확률변수에 대해 정의)와 베타분포(연속확률변수에 대해 정의)를 다루고 있다.
+
+<div class="notice--success" markdown="1">
+
+**Example 6.11 (Beta-Binomial Conjugacy)**.
+
+이항분포를 따르는 확률변수 $x \sim \text{Bin}(N, \mu)$를 고려해보자.
+
+$$
+p(x \rvert N, \mu) =
+\begin{array}{c}
+  N \\
+  x
+\end{array} = \mu^x(1-\mu)^{N-x}, x=0, 1, \dotsc, N \tag{6.102}
+$$
+
+위 식은 $\mu$가 "앞면"이 나올 확률일 때, $N$개의 동전던지기에서 $x$개의 "앞면"을 얻을 확률이다. 파라미터 $\mu$를 베타 사전확률로 대입하면, $\mu \sim \text{Beta}(\alpha, \beta)$가 되고,
+
+$$
+p(\mu \rvert \alpha, \beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha, \beta)} \mu^{\alpha-1}(1-\mu)^{\beta - 1} \tag{6.103}
+$$
+
+outcome $x=h$인 것을 관측했을 때, 즉, $N$번의 동전던지기에서 $h$개의 앞면을 관측했을 경우, $\mu$에 대한 posterior distribution은 다음과 같이 계산된다.
+
+$$
+\begin{align}
+p(\mu \rvert x=h, N, \alpha, \beta) & \propto p(x \rvert N, \mu) p(\mu \rvert \alpha, \beta) \tag{6.104a} \\
+& \propto \mu^h(1-\mu)^{N-h} \mu^{\alpha - 1}(1-\mu)^{\beta - 1} \tag{6.104b} \\
+&=\mu^{h+\alpha-1}(1-\mu)^{(N-h) + \beta - 1} \tag{6.104c} \\
+&= \text{Beta}(h+\alpha, N-h+\beta) \tag{6.104d}
+\end{align}
+$$
+
+즉, posterior distribution은 beta distribution을 prior로 사용하고, 베타분포는 binomial likelihood function에서의 파라미터 $\mu$에 대한 conjugate이다.
+
+</div>
+
+<div class="notice--success" markdown="1">
+
+**Example 6.12 (Beta-Bernoulli Conjugacy).**
+
+$x \in \\{0, 1\\}$를 파라미터 $\theta \in [0, 1]$을 갖는 베르누이 분포를 따른다고 해보자. 따라서 $p(x=1 \rvert \theta)=\theta$가 된다. 또한 이는 $p(x\rvert \theta) = \theta^x(1-\theta)^{1-x}$로 표현할 수 있다. $\theta$가 베타 분포를 따른다고 해보자. 즉, $p(\theta \rvert \alpha, \beta) \propto \theta^{\alpha-1}(1-\theta)^{\beta -1}$이 된다.
+
+베타분포와 베르누이분포를 곱하면, 다음을 얻는다.
+
+$$
+\begin{align}
+p(\theta \rvert x, \alpha, \beta) &= p(x \rvert \theta) p(\theta \rvert \alpha, \beta) \tag{6.105a} \\
+& \propto \theta^x(1-\theta)^{1-x} \theta^{\alpha - 1}(1-\theta)^{\beta - 1} \tag{6.105b} \\
+&=\theta^{\alpha + x -1}(1-\theta)^{\beta+(1-x)-1} \tag{6.105c} \\
+& \propto p(\theta \rvert \alpha + x, \beta + (1 - x)) \tag{6.105d}
+\end{align}
+$$
+
+마지막 줄은 파라미터 $(\alpha_x, \beta+(1-x))$를 갖는 베타분포가 된다.
+</div>
+
+아래 Table 6.2는 확률 모델링에서 사용되는 likelihood의 파라미터에 대한 conjugate prior을 나타낸다. 
+
+![image](https://user-images.githubusercontent.com/47516855/123652177-08744200-d867-11eb-8dba-8432cfa50ce6.png){: .align-center}{:width="600"}
+
+Multinomial, inverse Gamma, inverse Wishart, Dirichlet 등에 대한 분포도 다른 책에서 찾아볼 수 있다.
+
+베타분포는 이항분포와 베르누이 분포에서 사용되는 파라미터 $\mu$에 대한 conjugate prior로 사용된다. Gaussian likelihood function에 대해서는 평균에 대해 Gaussian prior을 conjugate로 놓을 수 있다. 위 테이블에서 가우스 분포가 두번 등장하는 이유는 단변량인 경우와 다변량에 대해 다르게 사용하기 때문이다. 단변량의 경우 분산에서 inverse Gamma를 사용하고, 다변량일 경우 Wishart distribution을 covariance에 대한 prior로 사용한다. 디리슐레 분포는 multinomial likelihood function에 대한 conjugate prior가 된다.
+
+### Sufficient Statistics
+
+확률변수의 통계량이 확률변수에 대한 deterministic function이라는 것을 떠올려보자. 예를들어 $\boldsymbol x = [x_1, \dotsc, x_N]^\intercal$이 단변량 가우스 확률변수의 벡터라 했을 때 (즉, $x _n \sim \mathcal(\mu, \sigma^2)$), 표본평균 $\hat{\mu}=\frac{1}{N}(x _1 + \dotsb +x _N)$은 통계량이 된다. Ronald Fisher경이 발견한 **충분통계량**은 어떤 분포에서 얻은 데이터로부터 가능한 모든 정보를 포함하고 있는 통계량이다. 다른말로하면, 충분통계량은 모수를 추론하는데 필요한 모든 정보를 담고있어 분포를 표현하는데 충분한 통계량을 의미한다.
+
+$\theta$에 의해 parameterize된 분포에 대해, $X$가 알려지지않은 $\theta _0$가 주어졌을 때, 어떠한 분포 $p(x \rvert \theta _0)$를 따른다고 하자. 만약 통계량이 $\theta _0$에 대해 가능한 모든 통계량에 대한 정보를 갖고 있을 때, 어떤 벡터 $\phi(x)$는 $\theta _0$에 대한 충분통계량이라고 부른다. "가능한 모든 정보를 갖고있다"는 것을 수학적으로 쓰면, $\theta$가 주어졌을 때 $x$의 확률이 $\theta$에 의존하지 않는 부분과 오직, $\phi(x)$를 통해 $\theta$에 의존하는 부분이 인수가 된다는 것을 말한다. 이는 Fisher-Neyman factorization theorem을 통해 공식화할 수 있다.
+
+<div class="notice--info" markdown="1">
+
+**Theorem 6.14** (Fisher-Neyman). $X$를 pdf $p(x \rvert \theta)$라 하자. 그러면 통계량 $\phi(x)$가 $\theta$에 대한 충분통계량임과 $p(x \rvert \theta)$을 다음과 같이 쓸 수 있음은 동치이다(iff).
+
+$$
+p(x \rvert \theta) = h(x)g _\theta(\phi(x)) \tag{6.106}
+$$
+
+여기서 $h(x)$는 $\theta$에 독립적인 분포이며, $g _\theta$는 충분통계량 $\phi(x)$를 통해 $\theta$에 의존하는 모든 정보를 포함한다.
+
+</div>
+
+만약 $p(x \rvert \theta)$가 $\theta$에 독립적이라면, $\phi(x)$는 어떠한 함수 $\phi$에 대해서도 자명하게 충분통계량이다. 더욱 흥미로운 케이스는 $p(x \rvert \theta)$가 $x$가 아닌 $\phi(x)$에만 의존하는 경우이다. 이 경우 $\phi(x)$는 $\theta$에 대한 충분통계량이다.
+
+머신러닝에서는 유한한 수의 샘플만을 다룬다. 베르누이분포와 같은 간단한 분포를 생각해보면, 파라미터를 추정하는데 오직 작은 수의 샘플만이 필요할 것이다. 반대로 알려지지 않은 어떠한 분포에서 얻은 데이터가 있을 때, 이러한 데이터를 잘 설명하는 분포를 찾고 싶을 수도 있을 것이다. 여기서 자연스럽게 떠오르는 질문은 만일 우리가 데이터를 더 관측할 경우 분포를 설명하기 위해 더 많은 파라미터 $\theta$가 필요한지이다. 
+
+일반적으로 정답은 그렇다 이며, 이는 non-parametric statistics라는 이름으로 연구되고 있다. 이에 대한 반대 질문은 어떤 분포가 유한한 차원의 충분통계량을 갖고 있는가이다. 즉, 이를 설명하기 위해 필요한 파라미터의 수가 증가하는 경우이다. 대답은 이어지는 exponential faimly에서 다루도록 한다.
+
+### Exponential Family
+
+(연속/이산 확률변수에 대한) 분포를 생각할 때, 세 가지의 가능한 추상화 단계(abstraction level)이 있다. 첫 단계(가장 구체적인)단계에서, 고정된 파라미터를 갖고 이름이 있는 분포를 다룰 수 있다. 예를 들어 단변량 가우스 분포 $\mathcal N(0, 1)$은 평균 0과 unit variance를 갖는다. 머신러닝에서는 종종 추상화의 두번째 단계를 사용하는데, 이는 parametric form(단변량 가우스 분포)을 고정하고, 데이터로부터 이러한 파라미터를 추정하는 것이다. 예를들어 가우스 분포의 평균과 분산을 모르므로, MLE를 사용하여 최적의 파라미터를 추정하는 것이다. Chapter 9에서 linear regression을 다룰 때 이를 살펴볼 것이다. 마지막 추상화 단계는 분포의 족(family)를 생각하는 것이다. 그리고 이 책에서는 exponential family(지수족)을 생각해볼 것이다. 단변량 가우스 분포도 지수족의 일종이다. 앞서 본 Table 6.2의 "이름이 붙은" 모델들을 포함하여 널리 사용되는 통계 모델들은 지수족의 일종이다. 이들은 하나의 개념으로 통합될 수 있다.
+
+**Exponential family(지수족)**는 확률분포의 일종으로, $\boldsymbol \theta \in \mathbb R^D$에 의해 parameterize되어 있고, 다음과 같은 형태를 갖는다.
+
+$$
+p(\boldsymbol x \rvert \boldsymbol \theta) = h(\boldsymbol x) \exp (\langle \boldsymbol \theta, \boldsymbol \phi(\boldsymbol x) \rangle - A(\boldsymbol \theta)) \tag{6.107}
+$$
+
+$\boldsymbol \phi(\boldsymbol x)$는 충분통계량의 벡터이다. 일반적으로 어떠한 내적이든 식 (6.107)처럼 쓸 수 있으며, 여기서는 엄밀성을 위하여 dot product $\langle \boldsymbol \theta, \boldsymbol \phi(\boldsymbol x) \rangle = \boldsymbol \theta^\intercal \boldsymbol \phi(\boldsymbol x)$를 사용하겠다. 특히 Fisher-Neyman theorem (Theorem 6.14)에서 지수족의 형태는 기본적으로 $g _\theta(\boldsymbol \phi(x))$의 형태임을 일러둔다.
+
+인수 $h(\boldsymbol x)$는 내적항안에 충분통계량의 벡터 $\boldsymbol \phi(\boldsymbol x)$에 $\log h(\boldsymbol x)$를 더함으로써 흡수되게 만들 수 있으며, 그 결과 이에 해당하는 파라미터 $\theta _0 = 1$을 제약하게 된다. $A(\boldsymbol \theta)$ 항은 확률분포의 영역/합이 1이 되게 만드는 normalization constant이며, **log-partition function**으로 부른다. 이 없이는 확률분포가 되지 않는다. 지수족에 대해 직관적으로 좋은 표현법은 이 두 항을 무시하고 지수족을 다음과 같은 확률분포로 생각하는 것이다.
+
+$$
+p(\boldsymbol x \rvert \boldsymbol \theta) \propto \exp (\boldsymbol \theta^\intercal \boldsymbol \phi(\boldsymbol x)) \tag{6.108}
+$$
+
+이러한 형태의 parameterization에 대해, $\boldsymbol \theta$는 **natural parameters**라고 부른다. 첫눈에봤을 때 지수족은 평범한 변환으로 보인다. 그러나 이는 $\boldsymbol \phi(\boldsymbol x)$ 내 데이터에 대한 정보를 추출하여 편리한 모델링과 효율적인 계산을 가능토록 한다.
+
+<div class="notice--success" markdown="1">
+
+**Example 6.13 (Gaussian as Exponential Family).**
+
+단변량 가우스 분포 $\mathcal N(mu, \sigma^2)$을 생각해보자. $\boldsymbol \phi(x)= \begin{bmatrix} x \\ x^2 \end{bmatrix}$라 하자. 그러면 지수족의 정의에 의하여,
+
+$$
+p(x \rvert \boldsymbol \theta) \propto \exp (\theta _1 x + \theta _2 x^2) \tag{6.109}
+$$
+
+가 된다. 다음과 같이 $\boldsymbol \theta$를 세팅하고,
+
+$$
+\boldsymbol \theta = \begin{bmatrix} \frac{\mu}{\sigma^2} & -\frac{1}{2\sigma^2} \end{bmatrix}^\intercal \tag{6.110}
+$$
+
+식 (6.109)에 대입하면 다음을 얻는다.
+
+$$
+p(x \rvert \boldsymbol \theta) \propto \exp \left ( \frac{\mu x}{\sigma^2} -\frac{x^2}{2\sigma^2} \right ) \propto \exp \left( -\frac{1}{2\sigma^2}(x-\mu)^2 \right ) \tag{6.111}
+$$
+
+따라서 가우스 분포는 충분통계량 $\phi(x) = \begin{bmatrix} x \\ x^2 \end{bmatrix}$을 갖는 지수족의 일종이며, natural parameter는 식 (6.110)의 $\boldsymbol \theta$로 주어진다.
+
+</div>
+
+
+<div class="notice--success" markdown="1">
+
+**Example 6.14 (Bernoulli as Exponential Family).**
+
+베루느이 분포를 다시 한번 떠올려보자.
+
+$$
+p(x \rvert \mu) = \mu^x(1-\mu)^{1-x}, x \in \\{0, 1 \\} \tag{6.112}
+$$
+
+이는 지수족의 형태로 쓸 수 있다.
+
+$$
+\begin{align}
+p(x \rvert \mu) &= \exp [\log (\mu^x(1-\mu)^{1-x})] \tag{6.113a} \\
+&= \exp [x \log \mu + (1-x) \log (1-\mu)] \tag{6.113b} \\
+&= \exp [x \log \mu -x \log (1-\mu) + \log (1-\mu)] \tag{6.113c} \\
+&= \exp [x \log \frac{\mu}{1 - \mu}  + \log (1-\mu)] \tag{6.113d} \\
+\end{align}
+$$
+
+마지막 줄 (6.113d)는 식 (6.107)에서 다음의 것들을 통해서 도출될 수 있다.
+
+$$
+\begin{align}
+h(x) &= 1 \tag{6.114} \\
+\theta &= \log \frac{\mu}{1-\mu} \tag{6.115} \\
+\phi(x) &= x \tag{6.116} \\
+A(\theta) &= -\log(1-\mu) = \log(1 + \exp(\theta)) \tag{6.117}
+\end{align}
+$$
+
+$\theta$와 $\mu$의 관계는 다음과 같이 invertible하다.
+
+$$
+\mu = \frac{1}{1 + \exp(-\theta)} \tag{6.118}
+$$
+
+식 (6.118)의 관계는 식(6.117)에서 오른쪽 등식을 얻는데 사용된다.
+
+</div>
+
+*Remarks*. 원래의 베르누이 분포의 파라미터 $\mu$와 natural parameter $\theta$의 관계는 **sigmoid** 혹은 로지스틱 함수로 알려져있다. $\mu \in (0, 1)$, $\theta \in \mathbb R$을 관측하면, 시그모이드 함수는 실수값을 $(0, 1)$의 값으로 압축한다. 이러한 성질은 머신러닝에서 로지스틱 회귀를 사용하거나 뉴럴 넷에서 비선형 활성화함수를 사용하는데 유용하다.
+{: .notice}
+
+특정 분포(e.g. Table 6.2)의 conjugate distribution의 parametric form을 찾는게 종종 어려울 수 있다. 지수족은 이를 쉽게 해결할 수 있다. 확률변수 $X$가 지수족 (6.107)이라 하자.
+
+$$
+p(\boldsymbol x \rvert \boldsymbol \theta) = h(\boldsymbol x) \exp (\langle \boldsymbol \theta, \boldsymbol \phi(\boldsymbol x) \rangle - A(\boldsymbol \theta)) \tag{6.119}
+$$
+
+모든 지수족은 conjugate prior를 갖는다.
+
+$$
+p(\boldsymbol x \rvert \boldsymbol \theta) = h _c (\boldsymbol \theta) \exp 
+\left ( 
+  \left \langle
+    \begin{bmatrix}
+      \gamma _1 \\ \gamma _2
+    \end{bmatrix} ,
+    \begin{bmatrix}
+      \boldsymbol \theta \\ -A(\boldsymbol \theta)
+    \end{bmatrix}
+  \right \rangle
+- A _c (\boldsymbol \gamma) \right ) \tag{6.120}
+$$
+
+여기서 $\boldsymbol \gamma = \begin{bmatrix} \gamma _1 \\\\ \gamma _2 \end{bmatrix}$는 차원 $\text{dim}(\boldsymbol \theta) + 1$을 갖는다. Conjugate prior의 충분통계량은 $\begin{bmatrix} \boldsymbol \gamma \\\\ -A(\boldsymbol \theta) \end{bmatrix}$이 된다. 지수족에 대한 conjugate prior의 일반적 형태를 이용하여 특정 분포의 conjugate prior의 함수의 형태(functional form)로 유도할 수 있다.
+
+이전 장에서 설명했듯, 지수족의 주요 동기는 finite-dimensional  sufficient  statistics이다. 또한 conjugate distributions이 쓰기 쉽고, conjugate distributions 또한 지수족으로 오는 것도 한 몫한다. 추론의 관점에서 보면 MLE는 잘 동작하는데, 이는 충분통계량의 경험적 추정이 충분통계량의 모수에 대한 최적의 추정치이기 때문이다. 최적화 관점에서 보면 log-likelihood 함수가 concave하여 최적화를 쉽게한다 (Chapter 7)
+
+## Change of Variables/Inverse Transform
+
+알려진 분포가 매우 많은 것처럼 보이겠지만 실제로 이름이 붙은 함수들엔 제약이 많다. 그러므로 변환된 확률변수가 어떻게 분포하는지 이해하는 것은 유용할 것이다. 예를들어 $X$가 표준정규분포를 따른다고 해보자. 그렇다면 $X^2$는 무엇을 따르게 될까? 머신러닝에서 꽤나 흔한 예시를 살펴보자. $X _1, X _2$가 표준정규분포를 따른다고 해보자. $\frac{1}{2} (X _1 + X _2)$는 어떤 분포를 따르는가?
+
+위 예시의 분포를 알아내는 방법 중 하나는 두 확률변수 $X _1, X _2$의 평균과 분산을 알아낸뒤 합쳐버리는 것이다. 앞서 살펴보았듯 평균과 분산의 affine transformation의 결과는 또 다른 확률변수가 되기 때문이다. 그러나 이러한 변환에 따른 분포의 함수형태는 알아내기 어려울 수도 있다. 더욱이 비선형함수를 사용하여 닫힌형태로 나타나지 않는 경우도 있다.
+
+우리는 변환된 확률변수의 분포를 알아내는 두 가지 방법에 대해 살펴볼 것이다. 첫번째는 CDF의 정의를 직접 적용하는 방법이고, 두번째는 미적분의 연쇄법칙을 이용하는 change-of-variable(치환)이다. 치환은 변환에 의한 분포를 계산하는 "레시피"를 알려주기 때문에 널리 사용된다.
+
+이산확률변수의 변환은 직접인 방법으로 이해할 수 있다. 확률변수 $X$와 pmf $P(X=x)$, nvertible function $U(x)$가 있다고 하자. 어떤 변환 $Y := U(X)$와 pmf $P(Y=y)$가 있으면,
+
+$$
+\begin{align}
+P(Y=y) &= P(U(X)=y) \quad \text{transformation of interest} \tag{6.125a} \\
+&= P(X = U^{-1}(y)) \quad \text{inverse} \tag{6.125b}
+\end{align}
+$$
+
+여기서 $x = U^{-1}(y)$는 관측 가능하다. 그러므로 이산확률변수에 대해서 변환은 개별 사건을 직접 변화시킬 수 있다.
+
+### Distribution Function Technique
+
+CDF $F _X (x) = P(X \leq x)$를 미분하면 pdf $f(x)$가 된다는 사실을 이용하여 distribution function을 구할 수 있다. 확률변수 $X$와 함수 $U$에 대해, 확률변수 $Y := U(X)$의 pdf를 다음을 통해 구할 수 있다.
+
+1. cdf를 찾는다
+
+$$
+F _Y(y) = P(Y \leq y) \tag{6.126}
+$$
+
+2. cdf를 미분하여 pdf를 얻는다.
+
+$$
+f(y) = \frac{\text{d}}{\text{d}y}F _Y(y) \tag{6.127}
+$$
+
+확률변수의 정의역이 변환 $U$로 인해 변할 수 있다는 사실을 염두에 두자.
+
+<div class="notice--info" markdown="1">
+
+**Theorem 6.15.** [Theorem 2.1.10 in Casella and Berger (2002)] $X$를 strictly monotonic(강한 단조)인 cumulative distribution function을 갖는 연속확률변수라 하자. 그러면 다음과 같이 정의되는 확률변수 $Y$는 균등분포이다.
+
+$$
+Y := F _X (X) \tag{6.132}
+$$
+
+</div>
+
+Theorem 6.15은 **probability integral transform(확률적분변환)**으로 알려져있으며, 균등분포로부터 추출된 결과를 변환한  분포로부터 표본 추출 알고리즘을 도출하기 위해 사용한다. 이 알고리즘은 우선 균등분포로부터 표본을 생성한 뒤, inverse cdf를 통해 변환하고, 원하는 분포로부터 표본을 얻게된다. 확률적분변환은 표본이 특정 분포로부터 추출되었는지에 대한 가설을 검정하는데 사용된다. cdf에 대한 output이 균등분포를 제공한다는 점은 copula에 대한 기반이 되기도 한다.
+
+### Change of Variables
+
+distribution function을 사용하는 방법은 cdf를 정의하고 inverse, differentiation, integration의 성질을 이용한다. 이는 두 개의 사실에 기반한다.
+
+1. $Y$의 cdf를 $X$의 cdf로 변환할 수 있다.
+2. cdf를 미분하여 pdf를 얻을 수 있다.
+
+Theorem 6.16의 치환 접근법을 일반화하기 위해 단계적으로 살펴보자.
+
+단변량 확률변수 $X$와 **invertible** function $U$를 이용해 얻는 확률변수 $Y=U(X)$를 생각해보자. 확률변수 $X$는 states $x \in [a, b]$를 갖는다고 가정한다. cdf의 정의에 따라 다음을 얻는다.
+
+$$
+F _Y(y) = P(Y \leq y) \tag{6.134}
+$$
+
+우리는 확률변수에 대한 함수 $U$에 관심이 있으므로,
+
+$$
+P(Y \leq y) = P(U(X) \leq y) \tag{6.135}
+$$
+
+여기서 함수 $U$는 invertible하다고 가정하자. 구간에 대한 invertible function은 강한 증가/강한 감소함수가 된다. $U$가 강한증가일 경우, 이의 역함수 또한 강한증가함수가 된다. Inverse $U^{-1}$을 $P(U(X) \leq)$의 인자에 적용하여 다음을 얻는다.
+
+$$
+P(U(X) \leq y) = P(U(X)^{-1} U(X)) \leq U^{-1}(y) = P(X \leq U^{-1}(y)) \tag{6.136}
+$$
+
+가장 오른쪽 항은 $X$의 cdf에 대한 식이다. cdf를 pdf로 나타내면,
+
+$$
+P(X \leq U^{-1}(y)) = \int^{U^{-1}(y)} _a f(x) \text{d}x \tag{6.137}
+$$
+
+이제 $Y$의 cdf에 대한 식을 $x$로 나타내보자.
+
+$$
+F _Y(y) = \int^{U^{-1}(y)} _a f(x) \text{d}x \tag{6.138}
+$$
+
+pdf를 얻기 위해 위 식을 $y$에 대해 미분하면,
+
+$$
+f(y) = \frac{\text{d}}{\text{d}y} F _Y(y) = \frac{\text{d}}{\text{d}y} \int^{U^{-1}(y)} _a f(x) \text{d}x \tag{6.139}
+$$
+
+우변의 적분은 $x$에 대한 것이지만, 우리가 필요한 것은 $y$에 대한 적분이다. 치환적분을 이용하면,
+
+$$
+\begin{align}
+\int f(U^{-1}(y))U^{-1'}(y) \text{d}y = \int f(x) dx \quad \text{where } x=U^{-1}(y) \tag{6.140} \\
+\therefore f(y) = \frac{\text{d}}{\text{d}y} \int^{U^{-1}(y)} _a f _x (U^{-1}(y))U^{-1'}(y) \text{d}y \tag{6.141}
+\end{align}
+$$
+
+미분은 선형 연산자이고 아랫첨자는 $x$에 대한 함수임을 알려준다. 이를 다시쓰면,
+
+$$
+f(y) =  f _x ( U^{-1} (y)) \cdot \left ( \frac{\text{d}}{\text{d}y} U^{-1} (y) \right ) \tag{6.142}
+$$
+
+$U$를 강한증가함수가 아닌 강한감소함수로 사용할 경우 위 유도를 따르면 음수부호가 나오게된다. 두 경우에 대해 같은 결론을 얻기위해 절댓값을 취해주면,
+
+$$
+f(y) =  f _x (U^{-1}(y)) \cdot \left\lvert \frac{\text{d}}{\text{d}y} U^{-1}(y) \right\rvert \tag{6.143}
+$$
+
+이를 **change-of-variable  technique**이라 부른다. 항 $\left\lvert \frac{\text{d}}{\text{d}y} U^{-1}(y) \right\rvert$는 $U$를 적용했을 때의 단위 부피의 변화량을 의미한다.
+
+이제 다변량에도 이를 적용해보자. 다변량의 경우에는 절댓값을 적용하는 대신 자코비안 행렬을 이용한다. 자코비안 행렬은 편미분의 행렬이고 행렬식의 값이 0이 아닐 경우 이의 역행렬을 구할 수 있다.
+
+<div class="notice--info" markdown="1">
+
+**Theorem 6.16.** [Theorem 17.2 in Billingsley (1995)] $f(\boldsymbol x)$가 다변량 연속확률변수 $X$의 확률밀도의 값이라 하자. 벡터함수 $\boldsymbol y = U(\boldsymbol x)$가 미분가능하며 역행렬이 존재할 때, 이에 대응하는 $\boldsymbol y$의 값에 대해, $Y=U(X)$의 확률밀도는 다음으로 주어진다.
+
+$$
+f(\boldsymbol y) = f _{\boldsymbol x} (U^{-1}(\boldsymbol y)) \cdot \left \lvert \text{det} \middle ( \frac{\partial}{\partial \boldsymbol y} U^{-1}(\boldsymbol y) \middle ) \right \rvert  \tag{6.144}
+$$
+
+
+</div>
+
+이 장의 개념들은 Section 8.4의 확률모델과 Section 8.5의 그래프 모델을 설명하는데 사용될 것이다. 머신러닝에서 이를 직접적으로 활용하는 것을 Chapter 9(Linear regression)와 Chapter 11(Density Estimation with Gaussian MixtureModels)에서 보게 될 것이다.
 
 > 다음은 고전적 통계학과 베이즈 통계학의 차이를 나타낸 표이다.
 >
