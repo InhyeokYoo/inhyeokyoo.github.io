@@ -236,7 +236,7 @@ $$
 *Remark*. 추가적으로 이산확률분포에 관련된 교묘함이 숨겨져있다. State $z _1, \cdots, z _d$는 원칙적으로 어떠한 구조도 갖지 않는다. 즉, $z _1=\text{red}, z _2=\text{green}, z _3=\text{blue}$와 같이 비교할 수 있는 방법이 없다는 것이다. 그러나 머신러닝에서 이산적인 state는 숫자값을 취하게 된다 (e.g. $z _1=-1.1, z _2=0.3, z _3=1.5$). 그러면 우리는 이들 사이에 순서를 비교할 수 있게된다. 숫자값을 가정하는 Discrete states는 특히 유용한데, 이는 확률변수의 기댓값을 고려할 수 있게되기 때문이다.
 {: .notice}
 
-불행하게도 머신러닝 문헌들은 sample space $\Omega$, target space $\tau$, 확률변수 $X$를 구분하는 notation이나 명명법을 사용하지 않는다. 확률변수 $X$에 대해 가능한 모든 outcome의 집합의 원소 $x$에 대해(즉, $\x \in \tau$), $p(x)$는 확률변수 $X$가 outcome $x$를 갖을 확률을 표현한 것이다. 이산확률변수에 대해서 이는 $P(X=x)$로 쓰고, 이는 pmf로도 알려져있다. pmf는 종종 "분포"로 일컫어진다. 연속확률변수에 대해서, $p(x)$는 pdf라 불린다(종종 density로도 불림). 여기서 더 헷갈리게도, cdf $P(X \leq x)$는 종종 "분포"라 불린다.
+머신러닝 문헌에선 sample space $\Omega$, target space $\tau$, 확률변수 $X$를 구분하는 notation이나 명명법을 사용하지 않는다. 확률변수 $X$에 대해 가능한 모든 outcome의 집합의 원소 $x$에 대해($x \in \tau$), $p(x)$는 확률변수 $X$가 outcome $x$를 갖을 확률을 표현한 것이다. 이산확률변수에 대해서 이는 $P(X=x)$로 쓰고, 이는 pmf로도 알려져있다. pmf는 종종 "분포"로 일컫어진다. 연속확률변수에 대해서, $p(x)$는 pdf라 불린다(종종 density로도 불림). 여기서 더 헷갈리게도, cdf $P(X \leq x)$는 종종 "분포"라 불린다.
 
 본 챕터에서 우리는 notation $X$를 univariate/multivariate random variable을 가르키는데 사용할 것이고, state를 $x, \boldsymbol x$로 쓸 것이다. 이러한 명명법은 아래의 테이블에 요약해놓았다.
 
@@ -282,7 +282,11 @@ $$
 \overbrace{p(\boldsymbol x \lvert \boldsymbol y)}^{\text{posterior}} = \frac{\overbrace{p(\boldsymbol y \rvert \boldsymbol x)}^{\text{likelihood}} \overbrace{p(\boldsymbol x)}^{\text{prior}}}{\underbrace{p(\boldsymbol y)} _{\text{evidence}}} \tag{6.23}
 $$
 
-> 베이지안 통계에서 확률은 **주장에 대한 신뢰도**를 의미한다. 예를들어 동전의 앞면이 나올 확률이 50%라 할 때, 빈도주의적 관점은 100번 동전을 던지면 50번은 앞면이 나오는 것으로 해석한다. 베이지안 관점은 동전의 앞면이 나왔다는 주장의 신뢰도가 50%라고 해석한다.
+> 베이지안 통계에서 확률은 **주장에 대한 신뢰도**를 의미한다. 예를들어 동전의 앞면이 나올 확률이 50%라 할 때, 빈도주의적 관점은 100번 동전을 던지면 50번은 앞면이 나오는 것으로 해석한다. 베이지안 관점은 동전의 앞면이 나왔다는 주장의 신뢰도가 50%라고 해석한다. 아래는 고전적 통계학과 베이즈 통계학의 차이를 나타낸 표이다.
+>
+> ![](https://i.imgur.com/xc23ScH.png){: .align-center}{:width="400"}
+>
+> [출처: 베이지안 통계 정의 및 비교](https://adioshun.gitbooks.io/statics-with-r/content/bayesian/basics-comparison.html)
 
 (6.23)에서 $p(\boldsymbol x)$는 **prior(사전확률)**로, 어떠한 데이터를 관측하기전에 latent variable $\boldsymbol x$에 대한 주관적인 사전지식을 의미한다. 어떤 그럴듯한 prior라도 선택할 수 있지만, 가능한 모든 $\boldsymbol x$에 대해 prior가 nonzero pdf(or pmf)를 갖게해야 한다.
 
@@ -894,10 +898,10 @@ $$
 $$
 \begin{align}
 p(m \rvert N, \mu) &= 
-  \begin{array}{c}
+  \left( \begin{array}{c}
       N \\
       m
-  \end{array} 
+  \end{array} \right)
 \mu^m(1-\mu)^{N-x}, x \in \{0, 1 \} \tag{6.95} \\
 \mathbb E[m] &= N \mu \tag{6.96} \\
 \mathbb V[m] &= N \mu(1-\mu) \tag{6.97}
@@ -974,10 +978,12 @@ Conjugate prior에 대한 구체적인 예시를 소개한다. 아래 예제 6.1
 
 $$
 p(x \rvert N, \mu) =
+\left( 
 \begin{array}{c}
   N \\
   x
-\end{array} = \mu^x(1-\mu)^{N-x}, x=0, 1, \dotsc, N \tag{6.102}
+\end{array} \right )
+= \mu^x(1-\mu)^{N-x}, x=0, 1, \dotsc, N \tag{6.102}
 $$
 
 위 식은 $\mu$가 "앞면"이 나올 확률일 때, $N$개의 동전던지기에서 $x$개의 "앞면"을 얻을 확률이다. 파라미터 $\mu$를 베타 사전확률로 대입하면, $\mu \sim \text{Beta}(\alpha, \beta)$가 되고,
@@ -1031,13 +1037,23 @@ Multinomial, inverse Gamma, inverse Wishart, Dirichlet 등에 대한 분포도 �
 
 ### Sufficient Statistics
 
-확률변수의 통계량이 확률변수에 대한 deterministic function이라는 것을 떠올려보자. 예를들어 $\boldsymbol x = [x_1, \dotsc, x_N]^\intercal$이 단변량 가우스 확률변수의 벡터라 했을 때 (즉, $x _n \sim \mathcal(\mu, \sigma^2)$), 표본평균 $\hat{\mu}=\frac{1}{N}(x _1 + \dotsb +x _N)$은 통계량이 된다. Ronald Fisher경이 발견한 **충분통계량**은 어떤 분포에서 얻은 데이터로부터 가능한 모든 정보를 포함하고 있는 통계량이다. 다른말로하면, 충분통계량은 모수를 추론하는데 필요한 모든 정보를 담고있어 분포를 표현하는데 충분한 통계량을 의미한다.
+확률변수의 통계량이 확률변수에 대한 deterministic function이라는 것을 떠올려보자. 예를들어 $\boldsymbol x = [x_1, \dotsc, x_N]^\intercal$이 단변량 가우스 확률변수의 벡터라 했을 때 (즉, $x _n \sim \mathcal N (\mu, \sigma^2)$), 표본평균 $\hat{\mu}=\frac{1}{N}(x _1 + \dotsb +x _N)$은 통계량이 된다. Ronald Fisher경이 발견한 **충분통계량**은 어떤 분포에서 얻은 데이터로부터 가능한 모든 정보를 포함하고 있는 통계량이다. 다른말로하면, 충분통계량은 모수를 추론하는데 필요한 모든 정보를 담고있어 분포를 표현하기 충분한 통계량을 의미한다.
+
+> 쉬운설명 1
+>
+> $X$로부터 모수에 대한 정보를 추론하는 과정에서 $X$는 모수에 대한 정보를 포함하는 부분과 포함하지 않는 부분을 동시에 가지고 있다. 따라서 $X$에서 $T(X)$로 데이터를 간추리는 작업이 필요한데, 그와 동시에 모수에 대한 정보를 잃지않고 모두 가지고 있도록 해줘야 한다. 이때 $T(X)$ $\theta$의 정보를 다 가지고 있으며, $T(X)$가 $\theta$와는 아무 연관이 없을 때 $T(X)를 $\theta$에 대한 충분통계량이라고 한다.
+>
+> 출처: [[수리통계학]충분통계량](https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=mj93m&logNo=221489187950)
+
+> 쉬운설명 2
+>
+> 확률 변수 $X$가 모수가 $p$인 베르누이 분포를 따른다고 하자. 이 때, 우리는 100개의 Sample을 $X _1, \dotsc, X _100$을 가지고 있다. $X _1, \dotsc, X _100$을 모두 사용해서 모수 $p$를 예측할 수 있지만, 단지 $X _1$부터 $X _100$까지 전부 더한 값 하나로도 모수 $p$를 예측할 수 있다. 두 말할 나위없이 두 방법 중 후자의 방법을 이용하는게 더욱 효율적이다. 하지만 여기서 중요한 것은, $X _1$부터 $X _100$까지 전부 더한 값이 실제로 100개의 추정량을 다 사용하는 것과 비교하여, $p$를 예측할만한 설명력이 있는가이다. 만약 설명력을 충분하게 갖추었다고 생각되면 '충분통계량'으로 정의된다.
 
 $\theta$에 의해 parameterize된 분포에 대해, $X$가 알려지지않은 $\theta _0$가 주어졌을 때, 어떠한 분포 $p(x \rvert \theta _0)$를 따른다고 하자. 만약 통계량이 $\theta _0$에 대해 가능한 모든 통계량에 대한 정보를 갖고 있을 때, 어떤 벡터 $\phi(x)$는 $\theta _0$에 대한 충분통계량이라고 부른다. "가능한 모든 정보를 갖고있다"는 것을 수학적으로 쓰면, $\theta$가 주어졌을 때 $x$의 확률이 $\theta$에 의존하지 않는 부분과 오직, $\phi(x)$를 통해 $\theta$에 의존하는 부분이 인수가 된다는 것을 말한다. 이는 Fisher-Neyman factorization theorem을 통해 공식화할 수 있다.
 
 <div class="notice--info" markdown="1">
 
-**Theorem 6.14** (Fisher-Neyman). $X$를 pdf $p(x \rvert \theta)$라 하자. 그러면 통계량 $\phi(x)$가 $\theta$에 대한 충분통계량임과 $p(x \rvert \theta)$을 다음과 같이 쓸 수 있음은 동치이다(iff).
+**Theorem 6.14** (Fisher-Neyman). $X$를 pdf $p(x \rvert \theta)$라 하자. 그러면 통계량 $\phi(x)$가 $\theta$에 대한 충분통계량이 되기 위한 필요충분조건은 $p(x \rvert \theta)$을 다음과 같이 분해할 수 있는것이다.
 
 $$
 p(x \rvert \theta) = h(x)g _\theta(\phi(x)) \tag{6.106}
@@ -1047,7 +1063,7 @@ $$
 
 </div>
 
-만약 $p(x \rvert \theta)$가 $\theta$에 독립적이라면, $\phi(x)$는 어떠한 함수 $\phi$에 대해서도 자명하게 충분통계량이다. 더욱 흥미로운 케이스는 $p(x \rvert \theta)$가 $x$가 아닌 $\phi(x)$에만 의존하는 경우이다. 이 경우 $\phi(x)$는 $\theta$에 대한 충분통계량이다.
+만약 $p(x \rvert \theta)$가 $\theta$에 독립적이라면, $\phi(x)$는 어떠한 함수 $\phi$에 대해 자명한 충분통계량이다. \$p(x \rvert \theta)$가 $x$ 자기자신이 아닌 $\phi(x)$에만 의존하는 경우이다. 이 경우 $\phi(x)$는 $\theta$에 대한 충분통계량이다.
 
 머신러닝에서는 유한한 수의 샘플만을 다룬다. 베르누이분포와 같은 간단한 분포를 생각해보면, 파라미터를 추정하는데 오직 작은 수의 샘플만이 필요할 것이다. 반대로 알려지지 않은 어떠한 분포에서 얻은 데이터가 있을 때, 이러한 데이터를 잘 설명하는 분포를 찾고 싶을 수도 있을 것이다. 여기서 자연스럽게 떠오르는 질문은 만일 우리가 데이터를 더 관측할 경우 분포를 설명하기 위해 더 많은 파라미터 $\theta$가 필요한지이다. 
 
@@ -1077,7 +1093,7 @@ $$
 
 **Example 6.13 (Gaussian as Exponential Family).**
 
-단변량 가우스 분포 $\mathcal N(mu, \sigma^2)$을 생각해보자. $\boldsymbol \phi(x)= \begin{bmatrix} x \\ x^2 \end{bmatrix}$라 하자. 그러면 지수족의 정의에 의하여,
+단변량 가우스 분포 $\mathcal N(\mu, \sigma^2)$을 생각해보자. $\boldsymbol \phi(x)= \begin{bmatrix} x \\\\ x^2 \end{bmatrix}$라 하자. 그러면 지수족의 정의에 의하여,
 
 $$
 p(x \rvert \boldsymbol \theta) \propto \exp (\theta _1 x + \theta _2 x^2) \tag{6.109}
@@ -1107,7 +1123,7 @@ $$
 베루느이 분포를 다시 한번 떠올려보자.
 
 $$
-p(x \rvert \mu) = \mu^x(1-\mu)^{1-x}, x \in \\{0, 1 \\} \tag{6.112}
+p(x \rvert \mu) = \mu^x(1-\mu)^{1-x}, x \in \{0, 1 \} \tag{6.112}
 $$
 
 이는 지수족의 형태로 쓸 수 있다.
@@ -1167,7 +1183,7 @@ p(\boldsymbol x \rvert \boldsymbol \theta) = h _c (\boldsymbol \theta) \exp
 - A _c (\boldsymbol \gamma) \right ) \tag{6.120}
 $$
 
-여기서 $\boldsymbol \gamma = \begin{bmatrix} \gamma _1 \\\\ \gamma _2 \end{bmatrix}$는 차원 $\text{dim}(\boldsymbol \theta) + 1$을 갖는다. Conjugate prior의 충분통계량은 $\begin{bmatrix} \boldsymbol \gamma \\\\ -A(\boldsymbol \theta) \end{bmatrix}$이 된다. 지수족에 대한 conjugate prior의 일반적 형태를 이용하여 특정 분포의 conjugate prior의 함수의 형태(functional form)로 유도할 수 있다.
+여기서 $\boldsymbol \gamma = \begin{bmatrix} \gamma _1 \\\\ \gamma _2 \end{bmatrix}$는 차원 $\text{dim}(\boldsymbol \theta) + 1$을 갖는다. Conjugate prior의 충분통계량은 $\begin{bmatrix} \boldsymbol \theta \\\\ -A(\boldsymbol \theta) \end{bmatrix}$이 된다. 지수족에 대한 conjugate prior의 일반적 형태를 이용하여 특정 분포의 conjugate prior의 함수의 형태(functional form)로 유도할 수 있다.
 
 이전 장에서 설명했듯, 지수족의 주요 동기는 finite-dimensional  sufficient  statistics이다. 또한 conjugate distributions이 쓰기 쉽고, conjugate distributions 또한 지수족으로 오는 것도 한 몫한다. 추론의 관점에서 보면 MLE는 잘 동작하는데, 이는 충분통계량의 경험적 추정이 충분통계량의 모수에 대한 최적의 추정치이기 때문이다. 최적화 관점에서 보면 log-likelihood 함수가 concave하여 최적화를 쉽게한다 (Chapter 7)
 
@@ -1241,10 +1257,10 @@ $$
 P(Y \leq y) = P(U(X) \leq y) \tag{6.135}
 $$
 
-여기서 함수 $U$는 invertible하다고 가정하자. 구간에 대한 invertible function은 강한 증가/강한 감소함수가 된다. $U$가 강한증가일 경우, 이의 역함수 또한 강한증가함수가 된다. Inverse $U^{-1}$을 $P(U(X) \leq)$의 인자에 적용하여 다음을 얻는다.
+여기서 함수 $U$는 invertible하다고 가정하자. 구간에 대한 invertible function은 강한 증가/강한 감소함수가 된다. $U$가 강한증가일 경우, 이의 역함수 또한 강한증가함수가 된다. $P(U(X) \leq y)$의 인자에 $U^{-1}$을 적용하여 다음을 얻는다.
 
 $$
-P(U(X) \leq y) = P(U(X)^{-1} U(X)) \leq U^{-1}(y) = P(X \leq U^{-1}(y)) \tag{6.136}
+P(U(X) \leq y) = P(U(X)^{-1} U(X) \leq U^{-1}(y)) = P(X \leq U^{-1}(y)) \tag{6.136}
 $$
 
 가장 오른쪽 항은 $X$의 cdf에 대한 식이다. cdf를 pdf로 나타내면,
@@ -1302,10 +1318,4 @@ $$
 </div>
 
 이 장의 개념들은 Section 8.4의 확률모델과 Section 8.5의 그래프 모델을 설명하는데 사용될 것이다. 머신러닝에서 이를 직접적으로 활용하는 것을 Chapter 9(Linear regression)와 Chapter 11(Density Estimation with Gaussian MixtureModels)에서 보게 될 것이다.
-
-> 다음은 고전적 통계학과 베이즈 통계학의 차이를 나타낸 표이다.
->
-> ![](https://i.imgur.com/xc23ScH.png){: .align-center}{:width="400"}
->
-> [출처: 베이지안 통계 정의 및 비교](https://adioshun.gitbooks.io/statics-with-r/content/bayesian/basics-comparison.html)
 
