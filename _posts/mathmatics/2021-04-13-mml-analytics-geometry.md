@@ -14,10 +14,9 @@ use_math: true
 last_modified_at: 2021-05-09
 ---
 
-[이전 포스트](/machine-learning/linear-algebra1/)에서는 matrix와 vector에 관한 내용을 살펴보았다. 이번에는 앞서 배운 개념을 기하학적으로 해석하여 직관적으로 이해하여 보자.
-
-본 포스트는 머신러닝에 필요한 선형대수 및 확률과 같은 수학적 개념을 정리한 포스트이다. 본 문서는 [mml](https://mml-book.github.io/book/mml-book.pdf)을 참고하여 정리하였다. 누군가에게 본 책이나 개념을 설명하는 것이 아닌, 내가 모르는 것을 정리하고 참고하기 위함이므로 반드시 원문을 보며 참고하길 추천한다.
-{: .notice--info}
+> [이전 포스트](/machine-learning/linear-algebra1/)에서는 matrix와 vector에 관한 내용을 살펴보았다. 이번에는 앞서 배운 개념을 기하학적으로 해석하여 직관적으로 이해하여 보자.
+> 
+> 본 포스트는 머신러닝에 필요한 선형대수 및 확률과 같은 수학적 개념을 정리한 포스트이다. 본 문서는 [mml](https://mml-book.github.io/book/mml-book.pdf)을 참고하여 정리하였다. 누군가에게 본 책이나 개념을 설명하는 것이 아닌, 내가 모르는 것을 정리하고 참고하기 위함이므로 반드시 원문을 보며 참고하길 추천한다.
 
 ## Norms
 
