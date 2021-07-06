@@ -13,6 +13,9 @@ use_math: true
 last_modified_at: 2021-06-25
 ---
 
+> 본 포스트는 머신러닝에 필요한 선형대수 및 확률과 같은 수학적 개념을 정리한 포스트이다. 본 문서는 [mml](https://mml-book.github.io/book/mml-book.pdf)을 참고하여 정리하였다. 누군가에게 본 책이나 개념을 설명하는 것이 아닌, 내가 모르는 것을 정리하고 참고하기 위함이므로 반드시 원문을 보며 참고하길 추천한다.
+
+
 넓게보면 확률은 불확실성에 대한 연구라 할 수 있다. 확률은 어떤 사건이 일어나는 비율 혹은 사건에 대한 믿음(belief)의 정도라 할 수 있다. 그러면 이러한 확률을 이용하여 어떤 실험(experiment)에서 무엇인가가 일어날 기회를 측정할 수 있다. 앞선 챕터들에서 언급했듯, 데이터 내의 불확실성과 머신러닝 모델 내의 불확실성, 모델의 결과에 대한 불확실성을 측정할 때가 있다. 이를 측정하는 것은 **random variable(확률변수)**에 대한 개념을 필요로 한다. 확률변수란 임의의 실험에 대한 결과를 우리가 관심있는 성질들의 집합으로 연결하는 것이다. 이러한 확률변수와 연관있는 것은 특정한 결과가 일어날 확률을 측정하는 함수로, 우리는 이를 **확률 분포**라 부른다.
 
 확률분포는 다른 개념을 위한 빌딩 블록으로, probabilistic modeling (Section 8.4), graphical models (Sec-tion 8.5), model selection (Section 8.6)에서 사용된다. 다음 챕터에서는 확률 공간에서 정의되는 세 개의 개념 (sample space, events, probability of an event)을 살펴볼 것이며, 이들이 확률변수와 어떻게 연관이 있는지 살펴볼 것이다. 여기서의 설명은 고의적으로 *대충 (hand wavy)* 설명하고 있는데, 이를 엄밀하게 설명하면 개념을 직관적으로 이해하는데 방해가 되기 때문이다. 이에 대한 전체적인 아웃라인은 아래 그림과 같다.
@@ -219,7 +222,7 @@ $$
 또한 cdf는 pdf $f(\boldsymbol x)$의 integral로 표현할 수 있다.
 
 $$
-F _X(\boldsymbol x) = \int^{x _1} _{-\infty} \cdots \int^{x _D} _{-\infty} f(z _1, \cdots, z _D)\text{d}z _1 \cdots \text{d}z _D \tag{6.18}
+F _X(\boldsymbol x) = \int^{x _1} _{-\infty} \cdots \int^{x _D} _{-\infty} f(z _1, \cdots, z _D)\mathrm{d}z _1 \cdots \mathrm{d}z _D \tag{6.18}
 $$
 
 *대응하는 pdf가 없는 cdf도 있다*
@@ -255,7 +258,7 @@ $$
 p(\boldsymbol x) = 
 \begin{cases}
     \sum _{\boldsymbol y \in \mathcal Y} p(\boldsymbol x, \boldsymbol y)       & \quad \text{if } \boldsymbol y \text{ is discrete}\\
-    \int _{\mathcal Y} p(\boldsymbol x, \boldsymbol y) \text{d}\boldsymbol y  & \quad \text{if } \boldsymbol y \text{ is continuous}
+    \int _{\mathcal Y} p(\boldsymbol x, \boldsymbol y) \mathrm{d}\boldsymbol y  & \quad \text{if } \boldsymbol y \text{ is continuous}
 \end{cases}
 \tag{6.20}
 $$
@@ -263,7 +266,7 @@ $$
 $\mathcal Y$는 확률변수 $Y$의 target space에 대한 state이다. 이 뜻은 우리가 확률변수 $Y$의 state $\boldsymbol y$의 집합을 모두 더한다는 뜻이다. Sum rule은 또한 **marginalization property**로 알려져 있다. Sum rule은 joint distribution을 marginal distribution으로 연결하는 역할을 한다. 일반적으로 joint distribution이 두 개 이상의 확률변수를 포함하고 있을 경우, sum rule은 확률변수의 어떠한 부분집합에도 적용할 수 있으며, 이 결과로 잠재적으로 하나 이상의 확률변수에 대한 marginal distribution을 얻게 된다. 좀 더 구체적으로, $\boldsymbol x = [x _1, \cdots, x _D]^\intercal$일 경우, sum rule을 반복하여 다음과 같은 marginal을 얻는다.
 
 $$
-p(x _i) = \int p(x _1, \cdots, x _D) \text{d}\boldsymbol x _{\setminus i} \tag{6.21}
+p(x _i) = \int p(x _1, \cdots, x _D) \mathrm{d}\boldsymbol x _{\setminus i} \tag{6.21}
 $$
 
 이때 sum/integrate는 모든 $x _i$를 제외한 모든 확률변수에 대해 진행한다. 식의 $\setminus i$가 바로 이를 나타내고, 이는 "$i$를 제외한 모든"으로 해석하면 된다.
@@ -303,7 +306,7 @@ $$
 다음과 같은 quantity는 **marginal likelihood/evidence**라 불린다.
 
 $$
-p(\boldsymbol y) := \int p(\boldsymbol y \rvert \boldsymbol x)p(\boldsymbol x) \text{d}\boldsymbol x = \mathbb E _X [p(\boldsymbol y \rvert \boldsymbol x)] \tag{6.27}
+p(\boldsymbol y) := \int p(\boldsymbol y \rvert \boldsymbol x)p(\boldsymbol x) \mathrm{d}\boldsymbol x = \mathbb E _X [p(\boldsymbol y \rvert \boldsymbol x)] \tag{6.27}
 $$
 
 우변은 다음장에서 정의할 기댓값을 사용한 것이다. 정의에 의해, marginal likelihood는 (6.23)의 분자를 잠재변수 $\boldsymbol x$에 대해 적분한다. 그러므로 marginal likelihood는 $\boldsymbol x$에 대해 독립적이고, posterior $p(\boldsymbol x \rvert \boldsymbol y)$가 normalize된다. 또한, 이는 prior $p(\boldsymbol x)$에 대한 expected likelihood로 해석할 수 있다. Posterior의 정규화를 넘어서 이는 추후 Section 8.6에서 배울 베이지안 모델 선택에서 중요한 역할을 한다. 여기에서는 적분 연산을 하게 되는데, 이로 인해 evidence가 계산되기 어려워진다.
@@ -333,7 +336,7 @@ $$
 **Definition 6.3** (Expected Value). 단변량 연속 확률변수 $X \sim p(x)$에 대한 어떤 함수 $g: \mathbb R \to \mathbb R$의 **Expected value(기댓값)**은 다음과 같이 주어진다.
 
 $$
-\mathbb E _X[g(x)] = \int _\mathcal X g(x)p(x)\text{d}x \tag{6.28}
+\mathbb E _X[g(x)] = \int _\mathcal X g(x)p(x)\mathrm{d}x \tag{6.28}
 $$
 
 마찬가지로 이산 확률변수 $X \sim p(x)$에 대한 함수 $g$의 기댓값은 다음으로 주어진다.
@@ -386,7 +389,7 @@ $$
 $$
 \mathbb E _{X _d}[x _d] := 
 \begin{cases}
-    \int _{\mathcal X} x _d p(x _d) \text{d}x _d  & \quad \text{if } X \text{ is a continuous random variable} \\
+    \int _{\mathcal X} x _d p(x _d) \mathrm{d}x _d  & \quad \text{if } X \text{ is a continuous random variable} \\
     \sum _{x _i \in \mathcal X} x _i p(x _d = x _i)       & \quad \text{if } X \text{ is discrete random variable}
 \end{cases} \tag{6.32}
 $$
@@ -409,9 +412,9 @@ Mode는 가장 빈번하게 등장하는 값으로, 이산확률변수에서는 
 
 $$
 \begin{align}
-\mathbb E _{X}[f(\boldsymbol x)] &= \int f(\boldsymbol x)p(\boldsymbol x)\text{d} \boldsymbol x \tag{6.34a} \\
-&= \int [a g(\boldsymbol x) + b h(\boldsymbol x)] p(\boldsymbol x) \text{d} \boldsymbol x \tag{6.34b} \\
-&= a \int g(\boldsymbol x) p(\boldsymbol x) \text{d} \boldsymbol x + b \int h(\boldsymbol x) p(\boldsymbol x)\text{d} \boldsymbol x \tag{6.34c} \\
+\mathbb E _{X}[f(\boldsymbol x)] &= \int f(\boldsymbol x)p(\boldsymbol x)\mathrm{d} \boldsymbol x \tag{6.34a} \\
+&= \int [a g(\boldsymbol x) + b h(\boldsymbol x)] p(\boldsymbol x) \mathrm{d} \boldsymbol x \tag{6.34b} \\
+&= a \int g(\boldsymbol x) p(\boldsymbol x) \mathrm{d} \boldsymbol x + b \int h(\boldsymbol x) p(\boldsymbol x)\mathrm{d} \boldsymbol x \tag{6.34c} \\
 & = a \mathbb E _{X}[g(\boldsymbol x)] + b \mathbb E _{X}[h(\boldsymbol x)] \tag{6.34d}
 \end{align}
 $$
@@ -477,7 +480,7 @@ $$
 (6.38c)의 $D \times D$ 행렬은 다변량 확률변수 $X$의 **covariance matrix**라 부른다. 공분산 행렬은 symmetric, positive, semidifinite하고, 데이터의 퍼짐의 정도를 말해준다. 대각성분에 대해서는 marginal에 대한 variance를 포함한다.
 
 $$
-p(x _i) = \int p(x _1, \cdots, x _D)\text{d}x _{\subset i} \tag{6.39}
+p(x _i) = \int p(x _1, \cdots, x _D)\mathrm{d}x _{\subset i} \tag{6.39}
 $$
 
 비대각성분은 **cross-covariance** 성분으로, $\text{Cov}[x _i, x _j] ~ \text{for} ~ i, j = 1, ..., D, i \neq j$로 나타낸다.
@@ -750,7 +753,7 @@ Joint Gaussian distribution $p(\boldsymbol x, \boldsymbol y)$(식 6.64 참고)�
 그 자체로 가우시안 분포이며, 식 (6.20)의 합법칙을 적용하여 계산한다.
 
 $$
-p(\boldsymbol x) = \int p(\boldsymbol x, \boldsymbol y) \text{d} \boldsymbol y = \mathcal N(\boldsymbol x \lvert \boldsymbol \mu _x, \boldsymbol \Sigma _{xx}) \tag{6.68}
+p(\boldsymbol x) = \int p(\boldsymbol x, \boldsymbol y) \mathrm{d} \boldsymbol y = \mathcal N(\boldsymbol x \lvert \boldsymbol \mu _x, \boldsymbol \Sigma _{xx}) \tag{6.68}
 $$
 
 이는 $p(\boldsymbol y)$에 대해서도 똑같이 적용된다. 직관적으로 (6.64)의 joint distribution을 보면 관심이 없는 변수는 전부 무시한다. 이는 위 Figure 6.9의 (b)에 나와있다.
@@ -1219,7 +1222,7 @@ $$
 2. cdf를 미분하여 pdf를 얻는다.
 
 $$
-f(y) = \frac{\text{d}}{\text{d}y}F _Y(y) \tag{6.127}
+f(y) = \frac{\mathrm{d}}{\mathrm{d}y}F _Y(y) \tag{6.127}
 $$
 
 확률변수의 정의역이 변환 $U$로 인해 변할 수 있다는 사실을 염두에 두자.
@@ -1266,43 +1269,43 @@ $$
 가장 오른쪽 항은 $X$의 cdf에 대한 식이다. cdf를 pdf로 나타내면,
 
 $$
-P(X \leq U^{-1}(y)) = \int^{U^{-1}(y)} _a f(x) \text{d}x \tag{6.137}
+P(X \leq U^{-1}(y)) = \int^{U^{-1}(y)} _a f(x) \mathrm{d}x \tag{6.137}
 $$
 
 이제 $Y$의 cdf에 대한 식을 $x$로 나타내보자.
 
 $$
-F _Y(y) = \int^{U^{-1}(y)} _a f(x) \text{d}x \tag{6.138}
+F _Y(y) = \int^{U^{-1}(y)} _a f(x) \mathrm{d}x \tag{6.138}
 $$
 
 pdf를 얻기 위해 위 식을 $y$에 대해 미분하면,
 
 $$
-f(y) = \frac{\text{d}}{\text{d}y} F _Y(y) = \frac{\text{d}}{\text{d}y} \int^{U^{-1}(y)} _a f(x) \text{d}x \tag{6.139}
+f(y) = \frac{\mathrm{d}}{\mathrm{d}y} F _Y(y) = \frac{\mathrm{d}}{\mathrm{d}y} \int^{U^{-1}(y)} _a f(x) \mathrm{d}x \tag{6.139}
 $$
 
 우변의 적분은 $x$에 대한 것이지만, 우리가 필요한 것은 $y$에 대한 적분이다. 치환적분을 이용하면,
 
 $$
 \begin{align}
-\int f(U^{-1}(y))U^{-1'}(y) \text{d}y = \int f(x) dx \quad \text{where } x=U^{-1}(y) \tag{6.140} \\
-\therefore f(y) = \frac{\text{d}}{\text{d}y} \int^{U^{-1}(y)} _a f _x (U^{-1}(y))U^{-1'}(y) \text{d}y \tag{6.141}
+\int f(U^{-1}(y))U^{-1'}(y) \mathrm{d}y = \int f(x) dx \quad \text{where } x=U^{-1}(y) \tag{6.140} \\
+\therefore f(y) = \frac{\mathrm{d}}{\mathrm{d}y} \int^{U^{-1}(y)} _a f _x (U^{-1}(y))U^{-1'}(y) \mathrm{d}y \tag{6.141}
 \end{align}
 $$
 
 미분은 선형 연산자이고 아랫첨자는 $x$에 대한 함수임을 알려준다. 이를 다시쓰면,
 
 $$
-f(y) =  f _x ( U^{-1} (y)) \cdot \left ( \frac{\text{d}}{\text{d}y} U^{-1} (y) \right ) \tag{6.142}
+f(y) =  f _x ( U^{-1} (y)) \cdot \left ( \frac{\mathrm{d}}{\mathrm{d}y} U^{-1} (y) \right ) \tag{6.142}
 $$
 
 $U$를 강한증가함수가 아닌 강한감소함수로 사용할 경우 위 유도를 따르면 음수부호가 나오게된다. 두 경우에 대해 같은 결론을 얻기위해 절댓값을 취해주면,
 
 $$
-f(y) =  f _x (U^{-1}(y)) \cdot \left\lvert \frac{\text{d}}{\text{d}y} U^{-1}(y) \right\rvert \tag{6.143}
+f(y) =  f _x (U^{-1}(y)) \cdot \left\lvert \frac{\mathrm{d}}{\mathrm{d}y} U^{-1}(y) \right\rvert \tag{6.143}
 $$
 
-이를 **change-of-variable  technique**이라 부른다. 항 $\left\lvert \frac{\text{d}}{\text{d}y} U^{-1}(y) \right\rvert$는 $U$를 적용했을 때의 단위 부피의 변화량을 의미한다.
+이를 **change-of-variable  technique**이라 부른다. 항 $\left\lvert \frac{\mathrm{d}}{\mathrm{d}y} U^{-1}(y) \right\rvert$는 $U$를 적용했을 때의 단위 부피의 변화량을 의미한다.
 
 이제 다변량에도 이를 적용해보자. 다변량의 경우에는 절댓값을 적용하는 대신 자코비안 행렬을 이용한다. 자코비안 행렬은 편미분의 행렬이고 행렬식의 값이 0이 아닐 경우 이의 역행렬을 구할 수 있다.
 
