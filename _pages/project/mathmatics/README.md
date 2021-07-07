@@ -14,4 +14,4 @@ MML 정리글입니다.
 - [4. Matrix Decomposition](/project/mml/Matrix-Decomposition/)
 - [5. Vector Calculus](/project/mml/Vector-Calculus/)
 - [6. Probability and Distributions](/project/mml/Probability-and-Distributions/)
-- [7. Continuous Optimization]
+- [7. Continuous Optimization](/project/mml/Continuous-Optimization/)
