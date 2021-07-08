@@ -160,8 +160,8 @@ $$
 
 $$
 \begin{align}
-\min \limits _{\boldsymbol x} & f(\boldsymbol x) \tag{7.17} \\
-\text{subject to} ~ & g _i(\boldsymbol x) \leq 0 ~ \text{for all} ~ i=1, \dotsc, m
+\min \limits _{\boldsymbol x} \quad & f(\boldsymbol x) \tag{7.17} \\
+\text{subject to} \quad & g _i(\boldsymbol x) \leq 0 ~ \text{for all} ~ i=1, \dotsc, m
 \end{align}
 $$
 
@@ -196,7 +196,7 @@ $$
 
 마지막 줄에서 모든 제약조건 $g _i (\boldsymbol x)$는 벡터 $\boldsymbol g (\boldsymbol x)$로 concat되고, Lagrange multiplier는 벡터 $\boldsymbol \lambda \in \mathbb R^m$이 된다.
 
-이제 Lagrangian duality에 대한 개념을 살펴보도록 하자. 일반적으로 최적화에서 duality란 변수 $\boldsymbol x$(primal variable이)에 대한 최적화 문제를 또 다른 변수 $\boldsymbol \lambda$(dual variable)에 대한 최적화 문제로 바꾸는 것을 말한다. 이 책에서는duality에 대해 Lagrangian duality와 Legendre-Fenchel duality(Section 7.3.3)의 두 가지 방법을 살펴보도록 하겠다.
+이제 Lagrangian duality에 대한 개념을 살펴보도록 하자. 일반적으로 최적화에서 duality란 변수 $\boldsymbol x$(primal variable이)에 대한 최적화 문제를 또 다른 변수 $\boldsymbol \lambda$(dual variable)에 대한 최적화 문제로 바꾸는 것을 말한다. 이 책에서는 duality에 대해 Lagrangian duality와 Legendre-Fenchel duality(Section 7.3.3)의 두 가지 방법을 살펴보도록 하겠다.
 
 <div class="notice--success" markdown="1">
 
@@ -204,8 +204,8 @@ $$
 
 $$
 \begin{align}
-\min \limits _{\boldsymbol x} & f(\boldsymbol x) \tag{7.17} \\
-\text{subject to} ~ & g _i(\boldsymbol x) \leq 0 ~ \text{for all} ~ i=1, \dotsc, m
+\min \limits _{\boldsymbol x} \quad & f(\boldsymbol x) \tag{7.21} \\
+\text{subject to} \quad & g _i(\boldsymbol x) \leq 0 \text{ for all } i=1, \dotsc, m
 \end{align}
 $$
 
@@ -224,7 +224,7 @@ $$
 
 <div class="notice" markdown="1">
 
-앞선 Optimization Using Gradient Descent에서 두 가지 전제가 있었다.
+*Remark.* 앞선 Optimization Using Gradient Descent에서 두 가지 전제가 있었다.
 
 첫번째는 **minimax inequality**로, 두 변수를 받는 어떠한 함수 $\varphi(\boldsymbol x, \boldsymbol y)$에 대해, 이의 maximin은 minimax보다 작다는 것이다. 즉,
 
@@ -240,7 +240,7 @@ $$
 
 좌변에서 $\boldsymbol y$에 대한 최댓값을 취하더라도 부등식은 유지되는데, 이는 모든 $\boldsymbol x$에 대해 성립하기 때문이다. 비슷하게 우변도 $\boldsymbol x$에 대해 최솟값을 취할 수 있다.
 
-두번째 개념은 **weak duality(약쌍대성)**로, 식 (7.23)을 통해 primal value가 항상 dual value보다 크거나 같음을 보일 수 있다. 이는 아래 식 (7.23)에 더욱 자세히 소개되어 있다.
+두번째 개념은 **weak duality(약쌍대성)**로, 이는 식 (7.23)을 통해 primal value가 항상 dual value보다 크거나 같음을 보일 수 있다. 이는 아래 식 (7.27)에 더욱 자세히 소개되어 있다.
 
 </div>
 
@@ -264,7 +264,7 @@ $$
 
 이는 **weak duality(약쌍대성)**으로 알려져있다. 우변의 안쪽 항은 dual objective function $\mathfrak D(\boldsymbol \lambda)$라 한다.
 
-제약조건을 갖던 원래의 최적화 문제와 반대로 $\min \limits _{\boldsymbol x \in \mathbb R^d} \mathfrak L (\boldsymbol x, \boldsymbol \lambda)$는 주어진 $\boldsymbol \lambda$에 대한  unconstrained  optimization 문제가 된다. 만일 $\min \limits _{\boldsymbol x \in \mathbb R^d} \mathfrak L (\boldsymbol x, \boldsymbol \lambda)$를 푸는 것이 쉽다면, 전체적인 문제도 풀기 쉬운 문제가 된다. 이는 식 (7.20b)에서 $\min \limits _{\boldsymbol x \in \mathbb R^d} \mathfrak L (\boldsymbol x, \boldsymbol \lambda)$이 $/boldsymbol \lambda$에 대한 affine임을 통해 알 수 있다. 그러므로 $\min \limits _{\boldsymbol x \in \mathbb R^d} \mathfrak L (\boldsymbol x, \boldsymbol \lambda)$은 $\boldsymbol \lambda$의 affine function에 대한 minimum이 되고, 따라서 $\mathfrak D (\boldsymbol \lambda)$는 $f(\cdot)$과 $g(\cdot)$의 형태에 상관없이 concave하다. 바깥쪽 항에 대한 문제(maximization over $\boldsymbol \lambda$)는 concave function에 대한 최대화 문제이므로 효율적으로 계산할 수 있다.
+제약조건을 갖던 원래의 최적화 문제와 반대로 $\min \limits _{\boldsymbol x \in \mathbb R^d} \mathfrak L (\boldsymbol x, \boldsymbol \lambda)$는 주어진 $\boldsymbol \lambda$에 대한  unconstrained  optimization 문제가 된다. 만일 $\min \limits _{\boldsymbol x \in \mathbb R^d} \mathfrak L (\boldsymbol x, \boldsymbol \lambda)$를 푸는 것이 쉽다면, 전체적인 문제도 풀기 쉬운 문제가 된다. 이는 식 (7.20b)에서 $\min \limits _{\boldsymbol x \in \mathbb R^d} \mathfrak L (\boldsymbol x, \boldsymbol \lambda)$이 $\boldsymbol \lambda$에 대한 affine임을 통해 알 수 있다. 그러므로 $\min \limits _{\boldsymbol x \in \mathbb R^d} \mathfrak L (\boldsymbol x, \boldsymbol \lambda)$은 $\boldsymbol \lambda$의 affine function에 대한 minimum이 되고, 따라서 $\mathfrak D (\boldsymbol \lambda)$는 $f(\cdot)$과 $g(\cdot)$의 형태에 상관없이 concave하다. 바깥쪽 항에 대한 문제(maximization over $\boldsymbol \lambda$)는 concave function에 대한 최대화 문제이므로 효율적으로 계산할 수 있다.
 
 $f(\cdot)$과 $g(\cdot)$가 미분가능하다고 가정하면, Lagrangian을 $\boldsymbol x$에 대해 미분함으로서 Lagrange dual problem을 찾을 수 있고, 이를 0으로 놓으면 최적해를 구할 수 있다. $f(\cdot)$과 $g(\cdot)$가 convex한 형태는 Section 7.3.1과 7.3.2에서 살펴볼 것이다.
 
@@ -274,8 +274,8 @@ $f(\cdot)$과 $g(\cdot)$가 미분가능하다고 가정하면, Lagrangian을 $\
 
 $$
 \begin{align}
-\min \limits _{\boldsymbol x} & f(\boldsymbol x) \\
-\text{subject to} ~ & g _i(\boldsymbol x) \leq 0 ~ \text{for all} ~ i=1, \dotsc, m  \tag{7.28} \\
+\min \limits _{\boldsymbol x} \quad & f(\boldsymbol x) \\
+\text{subject to} \quad & g _i(\boldsymbol x) \leq 0 ~ \text{for all} ~ i=1, \dotsc, m  \tag{7.28} \\
 &h _j(\boldsymbol x) = 0 ~ \text{for all}~ j=1, \dotsc, n
 \end{align}
 $$
@@ -302,7 +302,7 @@ $$
 
 Convex set은 집합 내의 어떠한 두 점을 연결한 점이 집합에 속하는 것을 의미한다. 다음의 Figure 7.5와 7.6은 convex set과 nonconvex set을 보여준다.
 
-![image](https://user-images.githubusercontent.com/47516855/124619592-bc06b300-deb3-11eb-9542-d45024a21fe8.png){: .align-center}{:width="300"}
+![image](https://user-images.githubusercontent.com/47516855/124619592-bc06b300-deb3-11eb-9542-d45024a21fe8.png){: .align-center}{:width="150"}
 
 <div class="notice--success" markdown="1">
 
@@ -317,7 +317,7 @@ $$
 *Remarks* **Concave function**은 convex function을 뒤집은 것이다.
 {: .notice}
 
-식 (7.28)에서 $g(\cdot)$과 $h(\cdot)$을 포함하는 제약조건은 함수를 스칼라 값으로 잘라 집합을 만든다. Convext function과 convex set의 또 다른 관계로는 convex function을 "채워서" 얻는 집합을 생각해보는 것이다. Convex function은 그릇같은 모양으로 여기다가 물을 채워넣는 것을 상상해보자. 이 결과로 채워진 집합이 나올것이며, 이는 convex function의 **epigraph**라고 하며, convex set이 된다.
+식 (7.28)에서 제약조건 $g(\cdot)$과 $h(\cdot)$은 함수를 잘라 집합을 만든다. Convext function과 convex set의 또 다른 관계로는 convex function을 "채워서" 얻는 집합을 생각해보는 것이다. Convex function은 그릇같은 모양으로 여기다가 물을 채워넣는 것을 상상해보자. 이 결과로 채워진 집합이 나올것이며, 이는 convex function의 **epigraph**라고 하며, convex set이 된다.
 
 만약 함수가 미분가능하다면, 이의 그레디언트 $\nabla _{\boldsymbol x}f(\boldsymbol x)$에 대한 convexity를 특정화할 수 있다. 함수 $f(\boldsymbol x)$가 convex이기 위한 필요충분조건은 어떠한 두 점$\boldsymbol x, \boldsymbol y$에 대해 다음을 만족하는 것이다.
 
@@ -334,9 +334,9 @@ $$
 
 $$
 \begin{align}
-\min \limits _{\boldsymbol x} & f(\boldsymbol x) \\
-\text{subject to} ~ & g _i(\boldsymbol x) \leq 0 ~ \text{for all} ~ i=1, \dotsc, m  \tag{7.38} \\
-&h _j(\boldsymbol x) = 0 ~ \text{for all}~ j=1, \dotsc, n
+\min \limits _{\boldsymbol x} \quad f(\boldsymbol x) \\
+\text{subject to} \quad & g _i(\boldsymbol x) \leq 0 ~ \text{for all } ~ i=1, \dotsc, m  \tag{7.38} \\
+&h _j(\boldsymbol x) = 0 ~ \text{for all }~ j=1, \dotsc, n
 \end{align}
 $$
 
@@ -356,14 +356,14 @@ $$
 여기서 $\boldsymbol A \in \mathbb R^{m \times d}$이며, $\boldsymbol b \in \mathbb R^m$이다. 이는 **linear program(선형계획법)**이라 한다. 이는 $d$개의 변수를 갖고 있고 $m$개의 선형 제약조건을 갖고 있다. Lagrangian은 다음과 같이 주어진다.
 
 $$
-\mathfrak L (\boldsymbol x, \boldsymbol \lambda) = \boldsymbol c^\intercal \boldsymbol x + \boldsymbol \lambda^\interacl (\boldsymbol A \boldsymbol x - \boldsymbol b) \tag{7.40}
+\mathfrak L (\boldsymbol x, \boldsymbol \lambda) = \boldsymbol c^\intercal \boldsymbol x + \boldsymbol \lambda^\intercal (\boldsymbol A \boldsymbol x - \boldsymbol b) \tag{7.40}
 $$
 
 여기서 $\boldsymbol \lambda \in \mathbb R^m$은 non-negative Lagrange multiplier로 이루어진 벡터이다. 이를 $\boldsymbol x$에 관하여 다시 써보면,
 
 $$
 \mathfrak L (\boldsymbol x, \boldsymbol \lambda) 
-= (\boldsymbol c + \boldsymbol A^\intercal + \boldsymbol \lambda)^\interacl \boldsymbol x - \boldsymbol \lambda \boldsymbol b \tag{7.41}
+= (\boldsymbol c + \boldsymbol A^\intercal + \boldsymbol \lambda)^\intercal \boldsymbol x - \boldsymbol \lambda \boldsymbol b \tag{7.41}
 $$
 
 $\mathfrak L (\boldsymbol x, \boldsymbol \lambda)$를 $\boldsymbol x$에 대해 미분하고 0으로 두면,
@@ -428,7 +428,7 @@ $$
 
 $$
 \begin{align}
-- \frac{1}{2} (\boldsymbol c + \boldsymbol A^\intercal \boldsymbol \lambda)^\intercal \boldsymbol Q^{-1} (\boldsymbol c + \boldsymbol A^\intercal \boldsymbol \lambda) - \boldsymbol \lambda^\intercal \boldsymbol b \tag{7.52} \\
+\max \limits _{\boldsymbol x \in \mathbb R^m} \quad & - \frac{1}{2} (\boldsymbol c + \boldsymbol A^\intercal \boldsymbol \lambda)^\intercal \boldsymbol Q^{-1} (\boldsymbol c + \boldsymbol A^\intercal \boldsymbol \lambda) - \boldsymbol \lambda^\intercal \boldsymbol b \tag{7.52} \\
 \text{subject to} \quad & \boldsymbol \lambda \geq 0
 \end{align}
 $$
@@ -437,7 +437,11 @@ $$
 
 ### Legendre-Fenchel Transform and Convex Conjugate
 
-Constrained Optimization and Lagrange Multipliers에서 살펴보았던 duality에 대해 제약 없이 살펴보도록 하자. Convex set에 대해 유용한 사실 중 하나는 이것이 이의 supporting hyperplane과 동일하게 표현될 수 있다는 것이다. hyperplane이 convex set을 가로지르고 한 면을 포함하면 이를 convex set의 **supporting hyperplane**이라고 부른다. 앞서 epigraph를 얻기 위해 convex function에 물을 넣었고, 그 결과가 convex set이라 하였다. 그러므로 Convex function 또한 이의 hyperplane을 통해 기술할 수 있다. 이에더해 supporting hyperplane이 convex function을 단순하게 접하기만 한다면, 이는 그 점에서의 함수의 접선이 된다. 함수에서 $\boldsymbol x _0$에서의 접선은 그레디언트 $\frac{\mathrm{d} f(\boldsymbol x)}{\mathrm{d}\boldsymbol x} \right \rvert _{\boldsymbol x = \boldsymbol x _0}$가 된다.
+Constrained Optimization and Lagrange Multipliers에서 살펴보았던 duality에 대해 제약 없이 살펴보도록 하자. Convex set에 대해 유용한 사실 중 하나는 이것이 이의 supporting hyperplane(받침 초평면)과 동일하게 표현될 수 있다는 것이다. hyperplane이 convex set을 가로지르고 한 면을 포함하면 이를 convex set의 **supporting hyperplane**이라고 부른다. 앞서 epigraph를 얻기 위해 convex function에 물을 넣었고, 그 결과가 convex set이라 하였다. 그러므로 Convex function 또한 이의 hyperplane을 통해 기술할 수 있다. 이에더해 supporting hyperplane이 convex function을 단순하게 접하기만 한다면, 이는 그 점에서의 함수의 접선이 된다. 함수에서 $\boldsymbol x _0$에서의 접선은 그레디언트 $\left. \frac{\mathrm{d} f(\boldsymbol x)}{\mathrm{d}\boldsymbol x} \right \rvert  _{\boldsymbol x = \boldsymbol x _0}$가 된다.
+
+> 아래는 supporting hyperplane에 대한 그림이다.
+>
+> ![](https://glossary.informs.org/ver2/mpgwiki/images/7/72/Supporting.jpg){: .align-center}{:width="400"}
 
 요약하면 convex set이 이의 supporting hyperplane을 통해 동일하게 표현할 수 있으므로, convex function 또한 supporting hyperplane의 그레디언트를 통해 표현할 수 있다. **Legendre transform(르장드르 변환)**은 이러한 개념을 공식으로 만든 것이다.
 
@@ -448,10 +452,12 @@ Constrained Optimization and Lagrange Multipliers에서 살펴보았던 duality�
 **Definition  7.4.** 함수 $f: \mathbb R^D \mapsto \mathbb R$의 **Convex conjugate**는 다음과 같이 정의된다.
 
 $$
-f^*(\boldsymbol s) = \text{sup} \limits _{\boldsymbol x \in \mathbb R^D} (\langle \boldsymbol s, \boldsymbol x \rangle - f(\boldsymbol x)) \tag{7.53}
+f^{*} (\boldsymbol s) = \text{sup} _{\boldsymbol x \in \mathbb R^D} (\langle \boldsymbol s , \boldsymbol x \rangle - f(\boldsymbol x)) \tag{7.53}
 $$
 
 </div>
+
+> 여기서 $\text{sup}$는 상한을 의미한다.
 
 여기서 정의한 convex conjugate는 $f$가 convex하거나 미분가능할 필요가 없다. 정의에선 일반적인 inner product를 사용하지만 앞으로는 dot product를 사용할 것이다.
 
@@ -485,26 +491,4 @@ Continuous optimization는 활발하게 연구되는 분야이며 여기서는 �
 
 duality and convex optimization에 대해서는 Boyd and Vanden-berghe (2004)의 책을 통해 강의와 슬라이드를 제공받을 수 있다. 더욱 수학적으로 다루기 위해서는  Bertsekas  (2009)을 보는게 좋으며, 최신 책을 보고 싶다면 이 분야에서 유명한 학자 Nesterov (2018)의 책을 보는 것이 좋다. Convex optimization은 convex analysis에 기반하며, convex function에 대해 핵심적인 결론에 대해 살펴보고 싶다면 Rock-afellar (1970), Hiriart-Urruty and Lemar ́echal (2001), Borwein andLewis (2006) 를 참고하자. Legendre–Fenchel transforms 또한 이 책들에서 다루고 있지만 초보자들에겐 Zia et al. (2009)을 추천한다. Convex optimization 분석에서 Legendre–Fenchel transform의 역할에 대해서는 survey 논문 Polyak (2016)을 보면 된다.
 
-
-
-
-
-
-
-
-
-
-
-\begin{align}
-\end{align}
-
-\mathbb R
-\boldsymbol x
-\mathfrak L (\boldsymbol x, \boldsymbol \lambda)
-
-{: .align-center}{:width="500"}
-
-<div class="notice--success" markdown="1">
-
-
-</div>
+> [Convex Conjugate에 대한 visualization](https://github.com/bikestra/bikestra.github.com/blob/master/notebooks/Convex%20Conjugates.ipynb?fbclid=IwAR2143vFu2bDYVBFSHQ-i_-YrY6NHfCaZ81o21q1ZgFKO9pj2ExU_P1EfzU)
