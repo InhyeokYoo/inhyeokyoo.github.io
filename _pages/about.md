@@ -6,7 +6,7 @@ layout: single
 
 ---
 
-![]({{site.url}}{{site.baseurl}}/assets/images/1530372896823.jpg){: width="450" height="800"}{: .align-center}
+![]({{site.url}}{{site.baseurl}}/assets/images/inhyeok_yoo.jpg){: width="450" height="800"}{: .align-center}
 
 안녕하세요. NLP가 하고 싶은 유인혁입니다.
 
