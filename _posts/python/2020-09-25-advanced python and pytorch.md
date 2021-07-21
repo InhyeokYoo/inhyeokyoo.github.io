@@ -9,7 +9,7 @@ categories:
   - PyTorch
   - Python
 tags:
-  - Fucking Lazy
+  - TODO
 use_math: true
 last_modified_at: 2020-09-25
 ---
