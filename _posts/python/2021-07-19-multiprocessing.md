@@ -21,8 +21,17 @@ https://zzaebok.github.io/python/python-multiprocessing/
 
 https://github.com/remzi-arpacidusseau/ostep-translations/blob/master/korean/README.md
 
-
 https://tutorialedge.net/python/python-multiprocessing-tutorial/
+
+https://soooprmx.com/concurrent-futures/
+
+https://data-newbie.tistory.com/231
+
+https://velog.io/@chan33344/%EB%8F%99%EC%8B%9C%EC%84%B1-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EB%B9%84%EB%8F%99%EA%B8%B0-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D
+
+https://yganalyst.github.io/data_handling/memo_17_parallel/
+
+
 
 Celery 는 Python 동시성 프로그래밍에서 가장 많이 사용하는 방법 중 하나이며, 분산 메시지 전달을 기반으로 동작하는 비동기 작업 큐(Asynchronous Task/Job Queue)이다.
 이는 Python Framework 라고도 하지만 보통 Worker라고 불린다.
