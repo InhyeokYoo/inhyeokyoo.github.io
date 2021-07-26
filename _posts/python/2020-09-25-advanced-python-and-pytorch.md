@@ -1,5 +1,5 @@
 ---
-title:  "고오급 Python을 위한 정리글 (작성 중)"
+title:  "[작성 중] 고오급 Python을 위한 정리글"
 excerpt: "Elegant Code for Python"
 permalink: /python/advanced-python/
 toc: true
@@ -9,7 +9,7 @@ categories:
   - PyTorch
   - Python
 tags:
-  - Fucking Lazy
+  - TODO
 use_math: true
 last_modified_at: 2020-09-25
 ---
