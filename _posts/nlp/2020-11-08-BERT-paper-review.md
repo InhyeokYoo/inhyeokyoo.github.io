@@ -31,15 +31,16 @@ last_modified_at: 2020-12-26
 # Pre-trained Language Model
 
 Language modeling pre-training은 다양한 NLP task에서 효과적임을 보여왔다. 이에 대표적인 예로는,
-- GPT-1 ([Review 보러가기](/project/nlp/gpt1/)
-- ELMo ([Review 보러가기](/project/nlp/elmo-review/)
+- GPT-1 ([Review 보러가기)](/project/nlp/gpt1/)
+- ELMo ([Review 보러가기)](/project/nlp/elmo-review/)
 - Semi-supervised sequence learning
 - ULMFiT ([다음](https://github.com/InhyeokYoo/CS224N/blob/main/week7/Modeling-contexts-of-use-Contextual-Representations-and-Pretraining.md#3-ulmfit-and-on-ward)을 참고)
 등이 있다. 
 
 이는 language inference, *paraphrasing*과 같이 문장들을 일부분이 아닌 전체적으로 분석하여 이들 사이의 관계를 예측하는 **sentence-level task**와, name entity recognition (NER), question answering(QA)와 같이 모델이 token 단위로 fine-grained output을 내는 **token-level task**을 포함한다.
 
-paraphrasing: paraphrase를 생성하거나 탐지하는 작업을 말한다. 위키피디아에서는 QA도 paraphrasing이라고 설명하고 있는데도 불구하고 BERT에서 QA가 token-level task인 이유는 각 token-level에 대해서 정답의 시작점과 끝점의 index를 찾기 때문이다.{: .notice--info}
+paraphrasing: paraphrase를 생성하거나 탐지하는 작업을 말한다. 위키피디아에서는 QA도 paraphrasing이라고 설명하고 있는데도 불구하고 BERT에서 QA가 token-level task인 이유는 각 token-level에 대해서 정답의 시작점과 끝점의 index를 찾기 때문이다.
+{: .notice--info}
 
 pre-trained language representation을 downstream task에 적용하는 방법은 두 가지가 있다.
 
