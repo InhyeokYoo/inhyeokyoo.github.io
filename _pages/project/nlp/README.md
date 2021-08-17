@@ -44,11 +44,11 @@ NLP 관련 굵직한 논문들을 읽고, 정리하고 구현하였습니다. �
 
 ## 6. GPT2
 
-- [review](/project/nlp/gpt2-review/)
-
 ## 7. GPT3
 
-- [review](/project/nlp/gpt3-review/)
+## 8. XLNet
+
+- [review](/project/nlp/XLNet-review/)
 
 # CS224N (2020 Oct - 2020 Dec)
 
