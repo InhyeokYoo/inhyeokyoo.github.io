@@ -91,12 +91,12 @@ Case 2는 **concurrently**하며 **simultaneously**하다.
 >
 > *병렬 시스템은 태스크를 동시에 실행한다.*
 
-## python에서의 예시
+## python에서의 예시: `threading`과 `multiprocessing`
 
 Python에선 동시성 프로그래밍을 위한 두 가지 모듈을 제공한다. 바로 `threading`과 `multiprocessing`이다.
 
 
-### `threading.Thread`
+### `threading`
 
 Python에서의 `threading.Thread`은 진정한 의미에서의 multi-threading이라 할 수 없다. 이는 Python의 Global Interpreter Lock (GIL) 때문이다.
 
@@ -104,9 +104,10 @@ GIL로 인해 파이썬에서는 하나의 process 내에서 여러개의 thread
 
 하지만 만약 수행하고자 하는 작업이 I/O bound job 이라면 이야기가 달라진다. 어떤 스레드가 I/O 를 수행하기 위해 block 되면 GIL을 반환하게 되고, 그 동안 다른 스레드가 실행될 수 있기 때문이다. 물론 복수의 스레드가 복수의 코어에서 병렬적으로 실행될 수 없다는 사실은 변함이 없지만, 하나의 스레드만 사용하여 여러 작업을 동시에 수행하고자 하는 경우에는 이 스레드가 block 이 되면 아무런 일도 하지 않게 되기 때문에 이런 경우에는 멀티스레딩을 사용할 가치가 충분히 있는것이다. 하지만 스레드는 직접 사용하기가 까다롭다. 경쟁상태(race condition)도 발생할 수 있고, 메모리 사용량과 context switching 측면에서도 비용이 비싸다.
 
-아래는 `threading.Thread`의 예제코드이다.
+`threading.Thread`를 사용하는 방법에는 두 가지가 있다. 하나는 클래스로 상속하는 것이고, 다른 하나는 `Thread` 객체에 함수를 집어넣어 활용하는 것이다.
 
 ```python
+# 1: threading.Thread를 상속하여 진행
 import threading
 import time
 
@@ -117,6 +118,7 @@ class Worker(threading.Thread):
         self.time = time
 
     def run(self):
+      # Override
         print("sub thread start ", threading.currentThread().getName())
         time.sleep(self.time)
         print("sub thread end ", threading.currentThread().getName())
@@ -137,9 +139,51 @@ print("main thread post job")
 print("main thread end")
 ```
 
+```python
+# 2: Thread에 함수를 넣어 실행
+import threading
+
+
+def run(sec):
+    print("sub thread start ", threading.currentThread().getName())
+    time.sleep(sec)
+    print("sub thread end ", threading.currentThread().getName())
+    
+print("main thread start")
+
+t1 = Thread(target=run, args=(3, ))   # sub thread 생성
+t1.start()    # sub thread의 run 메서드를 호출
+
+t2 = Thread(target=run, args=(5, ))   # sub thread 생성
+t2.start()    # sub thread의 run 메서드를 호출
+
+t1.join()   # thread가 작업을 완료할 때 까지 응답대기
+t2.join()   # thread가 작업을 완료할 때 까지 응답대기
+
+print("main thread post job")
+print("main thread end")
+```
+
+예제 코드에서 thread를 만든 후, `start`를 통해 실행시켜주었다. 그리고 `join`을 통해 각 스레드가 종료되기 전까지 대기하도록 하였다.
+
 이 결과 `t1`, `t2` thread가 작업을 완료하면 main thread가 동작한다. 대기시간이 3초로 더 짧은 `t1`에만 `join`을 걸어놓으면 `t2`의 완료여부에 상관없이 main thread는 종료된다.
 
-### `multiprocessing.Process`
+### `multiprocessing`
+
+Below information might help you understanding the difference between Pool and Process in Python multiprocessing class:
+
+Pool:    
+When you have junk of data, you can use Pool class. Only the process under execution are kept in the memory.
+I/O operation: It waits till the I/O operation is completed & does not schedule another process. This might increase the execution time.
+Uses FIFO scheduler.
+
+Process:    
+When you have a small data or functions and less repetitive tasks to do.
+It puts all the process in the memory. Hence in the larger task, it might cause to loss of memory.
+I/O operation: The process class suspends the process executing I/O operations and schedule another process parallel.
+Uses FIFO scheduler.
+
+#### `Process`
 
 이제 Process 에 대해서 살펴봅시다
 Process 는 Pool 과는 다르게 인수를 퐁당퐁당 건너서 제공하는 것은 아니고 그저 하나의 프로세스를 하나의 함수에 적당한 인자값을 할당 해주고(없어도 됩니다) 더이상 신경을 안씁니다.  예제를 보겠습니다.
@@ -154,7 +198,7 @@ Its used when function based parallelism is required, where I could define diffe
 
 
 
-### `multiprocessing.Pool`
+#### `Pool`
 
 > "A prime example of this is the Pool object which offers"
 > "a convenient means of parallelizing the execution of a function across"
@@ -169,21 +213,9 @@ Its used when function based parallelism is required, where I could define diffe
 
 It offers a convenient means of parallelizing the execution of a function across multiple input values, distributing the input data across processes i.e. data based parallelism. The following example demonstrates the common practice of defining such functions in a module so that child processes can successfully import that module.
 
-### `multiprocessing.Pool` vs. `multiprocessing.Process`
+## `concurrent.futures`
 
-Below information might help you understanding the difference between Pool and Process in Python multiprocessing class:
-
-Pool:    
-When you have junk of data, you can use Pool class.
-Only the process under execution are kept in the memory.
-I/O operation: It waits till the I/O operation is completed & does not schedule another process. This might increase the execution time.
-Uses FIFO scheduler.
-Process:    
-When you have a small data or functions and less repetitive tasks to do.
-It puts all the process in the memory. Hence in the larger task, it might cause to loss of memory.
-I/O operation: The process class suspends the process executing I/O operations and schedule another process parallel.
-Uses FIFO scheduler.
-
+추상화된 버전.
 
 
 
@@ -213,17 +245,11 @@ https://velog.io/@wltjs10645/Python-thread2
 
 https://www.toptal.com/python/beginners-guide-to-concurrency-and-parallelism-in-python
 
-https://gmlwjd9405.github.io/2018/09/14/process-vs-thread.html
+https://www.notion.so/Python-adv-Thread-a3a151a2507c42cfab85d8573f1ca513
 
-https://monkey3199.github.io/develop/python/2018/12/04/python-pararrel.html
+https://velog.io/@wltjs10645/Python-thread2
 
-https://wikidocs.net/69165
-
-https://hamait.tistory.com/833
-
-https://dojinkimm.github.io/python/2019/08/30/effective-python-6.html
-
-
+https://velog.io/@otzslayer/Ray%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%B4-Python-%EB%B3%91%EB%A0%AC-%EC%B2%98%EB%A6%AC-%EC%89%BD%EA%B2%8C-%ED%95%98%EA%B8%B0
 
 
 

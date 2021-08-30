@@ -24,3 +24,8 @@ last_modified_at: 2020-09-24
 [MLflow](https://mlflow.org/)
 
 [Model Serving in PyTorch](https://pytorch.org/blog/model-serving-in-pyorch/)
+
+[머신러닝 실험을 도와줄 Python Sacred 소개](https://zzsza.github.io/mlops/2019/07/21/python-sacred/)
+
+[Deploying scikit-learn Models at Scale](https://towardsdatascience.com/deploying-scikit-learn-models-at-scale-f632f86477b8)
+
