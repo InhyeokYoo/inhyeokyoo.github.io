@@ -110,7 +110,7 @@ $$
 | :---: | :---: | :---: |
 | $\vec x$ | \vec x| 벡터 (화살표) | 
 | $\overrightarrow x$, $\overleftarrow x$ | \overrightarrow x, \overrleftarrow x | 벡터 (화살표) |
-| $pmb x ^\intercal$ | \pbm x^\intercal | transpose |
+| $\pmb x ^\intercal$ | \pbm x^\intercal | transpose |
 | $\boldsymbol{A}$ | \boldsymbol{A} | matrix |
 | $\textbf{A}$ | \textbf{A} | matrix |
 | $\pmb{A}$ | \pmb{A} | matrix |
