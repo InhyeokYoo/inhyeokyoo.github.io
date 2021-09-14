@@ -127,8 +127,8 @@ $$
 
 BERT 모델은 일반적인 도메인 corpus에 대해 pre-train 된다. 영화 리뷰와 같은 특정한 도메인의 텍스트 분류에서는 BERT의 분포와 데이터 분포가 달라질 수 있다. 그러므로 domain-specific data에 대해 MLM/NSP를 further train해야한다. 여기서 세 가지의 pre-training 접근법이 사용된다.
 1. With-in task pre-training. BERT가 target task data에 대해 further training 된다.
-2. In-domain pre-training. pre-training data가 같은 도메인에서 얻어진다. 예를들어 여러가지 종류의 감성분석 작업이 있고, 이들의 분포가 비슷하다고 하자. 이 경우 우리는 이러한 데이터로부터 학습 데이터를 조합하여 BERT의 further pre-training을 수행할 수 있다.
-3. Cross-domain pre-training. pre-training data가 target task와 같음에 상관없이 얻어지는 것이다.
+2. In-domain pre-training. Pre-training data가 target task와 같은 도메인에서 얻어진다. 예를들어 여러가지 종류의 감성분석 작업이 있고, 이들의 분포가 비슷하다고 하자. 이 경우 우리는 이러한 데이터로부터 학습 데이터를 조합하여 BERT의 further pre-training을 수행할 수 있다.
+3. Cross-domain pre-training. Pre-training data가 target task의 도메인과 상관없이 얻어지는 것이다.
 
 이에 대해서는 Sec 5.4에서 자세히 살펴보도록 한다.
 
