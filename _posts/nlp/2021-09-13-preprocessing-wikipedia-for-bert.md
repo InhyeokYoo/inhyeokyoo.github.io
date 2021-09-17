@@ -102,180 +102,124 @@ for text in wiki.get_texts():
 따라서 아래와 같이 둘의 기능을 적절하게 섞어서 전처리기능을 만들어주었다. 마크업 문서 외에도 빈 괄호기호를 삭제해주는 등의 기능을 추가하였다.
 
 ```python
-from gensim import utils
+def tokenize(text):
+    FILE_COMPILE = re.compile("\[\[파일:.*?.*?\]\]")
+    CAT_COMPILE = re.compile("\[\[분류:.*?.*?\]\]")
+    LINK_COMPILE = re.compile("\[\[(?!파일|분류)(.*?)\|*(.*?)\]\]")
+    EMPTY_PARENTHESIS = re.compile(r"\([\s,]*\)")
+    MULTI_EMPTY_PARENTHESIS = re.compile("(,\s)+")
+    MISSING_LEAD_PARENTHESIS = re.compile("\(,\s+")
+    MISSING_TAIL_PARENTHESIS = re.compile(",\s+\)")
+    
+    DOC_START_PATTERN = re.compile("<doc .*?>")
+    EMPTY_SPACES = re.compile("[\t]")
+    
+    text = utils.decode_htmlentities(text)  # '&amp;nbsp;' --> '\xa0'
+    text = DOC_START_PATTERN.sub("", text)
+    text = MISSING_LEAD_PARENTHESIS.sub("(", text)
+    text = MISSING_TAIL_PARENTHESIS.sub(")", text)
+    text = MULTI_EMPTY_PARENTHESIS.sub("", text)
+    text = EMPTY_PARENTHESIS.sub("", text)
+    text = FILE_COMPILE.sub("", text)
+    text = CAT_COMPILE.sub("", text)
+    text = EMPTY_SPACES.sub("", text)
 
-RE_P0 = re.compile(r"<!--.*?-->", re.DOTALL | re.UNICODE)
-"""Comments."""
-RE_P1 = re.compile(r"<ref([> ].*?)(</ref>|/>)", re.DOTALL | re.UNICODE)
-"""Footnotes."""
-RE_P2 = re.compile(r"(\n\[\[[a-z][a-z][\w-]*:[^:\]]+\]\])+$", re.UNICODE)
-"""Links to languages."""
-RE_P5 = re.compile(r"\[(\w+):\/\/(.*?)(( (.*?))|())\]", re.UNICODE)
-"""Remove URL, keep description."""
-RE_P6 = re.compile(r"\[([^][]*)\|([^][]*)\]", re.DOTALL | re.UNICODE)
-"""Simplify links, keep description."""
-RE_P9 = re.compile(r"<nowiki([> ].*?)(</nowiki>|/>)", re.DOTALL | re.UNICODE)
-"""External links."""
-RE_P10 = re.compile(r"<math([> ].*?)(</math>|/>)", re.DOTALL | re.UNICODE)
-"""Math content."""
-RE_P11 = re.compile(r"<(.*?)>", re.DOTALL | re.UNICODE)
-"""All other tags."""
-RE_P12 = re.compile(r"(({\|)|(\|-(?!\d))|(\|}))(.*?)(?=\n)", re.UNICODE)
-"""Table formatting."""
-RE_P13 = re.compile(r"(?<=(\n[ ])|(\n\n)|([ ]{2})|(.\n)|(.\t))(\||\!)([^[\]\n]*?\|)*", re.UNICODE)
-"""Table cell formatting."""
-RE_P14 = re.compile(r"\[\[분류:[^][]*\]\]", re.UNICODE)
-"""Categories."""
-RE_P15 = re.compile(r"\[\[(파일:|이미지)[^]]*(\]\])", re.UNICODE)
-"""Remove File and Image templates."""
-RE_P17 = re.compile(
-    r"(\n.{0,4}((bgcolor)|(\d{0,1}[ ]?colspan)|(rowspan)|(style=)|(class=)|(align=)|(scope=))(.*))|"
-    r"(^.{0,2}((bgcolor)|(\d{0,1}[ ]?colspan)|(rowspan)|(style=)|(class=)|(align=))(.*))",
-    re.UNICODE,
-)
-RE_P18 = re.compile(r"\(\s*\)")
-"""Empty parenthesis"""
-
-# from gensim.wikicorpus.filter_wiki
-text = utils.to_unicode(text, "utf8", errors="ignore")
-text = utils.decode_htmlentities(text)  # '&amp;nbsp;' --> '\xa0'
-
-text = re.sub(RE_P2, "", text)  # remove the last list (=languages)
-# the wiki markup is recursive (markup inside markup etc)
-# instead of writing a recursive grammar, here we deal with that by removing
-# markup in a loop, starting with inner-most expressions and working outwards,
-# for as long as something changes.
-
-# text = wikicorpus.remove_file(text)
-for match in re.finditer(RE_P15, text):
-    m = match.group(0)
-    caption = m[:-2].split("|")[-1]
-    text = text.replace(m, caption, 1)
-
-iters = 0
-while True:
-    old, iters = text, iters + 1
-    text = re.sub(RE_P0, "", text)  # remove comments
-    text = re.sub(RE_P1, "", text)  # remove footnotes
-    text = re.sub(RE_P9, "", text)  # remove outside links
-    text = re.sub(RE_P10, "", text)  # remove math content
-    text = re.sub(RE_P11, "", text)  # remove all remaining tags
-    text = re.sub(RE_P14, "", text)  # remove categories
-    text = re.sub(RE_P5, "\\3", text)  # remove urls, keep description
-
-    text = re.sub(RE_P6, "\\2", text)  # simplify links, keep description only
-    # remove table markup
-    text = text.replace("!!", "\n|")  # each table head cell on a separate line
-    text = text.replace("|-||", "\n|")  # for cases where a cell is filled with '-'
-    text = re.sub(RE_P12, "\n", text)  # remove formatting lines
-    text = text.replace("|||", "|\n|")  # each table cell on a separate line(where |{{a|b}}||cell-content)
-    text = text.replace("||", "\n|")  # each table cell on a separate line
-    text = re.sub(RE_P13, "\n", text)  # leave only cell content
-    text = re.sub(RE_P17, "\n", text)  # remove formatting lines
-    text = text.replace(", ", "")
-
-    # remove empty mark-up
-    text = text.replace("[]", "")
-    # stop if nothing changed between two iterations or after a fixed number of iterations
-    if old == text or iters > 2:
-        break
-
-text = text.replace("[", "").replace("]", "")  # promote all remaining markup to plain text
-text = text.replace("\n", "")
-text = RE_P18.sub("", text)
+    for match in re.finditer(LINK_COMPILE, text):
+        m = match.group(0)
+        caption = m[:-2].split("|")[-1]
+        text = text.replace(m, caption, 1)
+    
+    return text
 ```
 
 ## BERT 학습용 데이터 생성
 
-구글에서 제공하는 [BERT](https://github.com/google-research/bert) 레포를 통해 손쉽게 pre-training 할 수 있다. 단, 문서와 문서 사이는 빈 공백으로 만들어야 하며, 각 line이 한 문장이 되어야 한다. 이는 `kss`를 통해 해결해주도록 한다.
+구글에서 제공하는 [BERT](https://github.com/google-research/bert) 레포를 통해 손쉽게 pre-training 할 수 있다. 단, 문서와 문서 사이는 빈 공백으로 만들어야 하며, 각 line이 한 문장이 되어야 한다. 이는 `kss`를 통해 해결해주도록 한다. MS에서 제공하는 blingfire도 사용해봤지만, 구분하지 못하는 문장이 많았다.
 
-이러한 과정을 전부 거친 코드는 아래와 같다. 문서가 너무 작거나 ($<5$) 빈 공백일 경우 전처리를 진행하지 않도록 만들어주었다.
+이러한 과정을 전부 거친 코드는 아래와 같다. 문서가 너무 작거나 빈 공백일 경우 전처리를 진행하지 않도록 만들어주었다.
 
 ```python
+import argparse
+import logging
+import re
+from pathlib import Path
+
+import kss
+from gensim import utils
+
+
 def tokenize(text):
-    RE_P0 = re.compile(r"<!--.*?-->", re.DOTALL | re.UNICODE)
-    """Comments."""
-    RE_P1 = re.compile(r"<ref([> ].*?)(</ref>|/>)", re.DOTALL | re.UNICODE)
-    """Footnotes."""
-    RE_P2 = re.compile(r"(\n\[\[[a-z][a-z][\w-]*:[^:\]]+\]\])+$", re.UNICODE)
-    """Links to languages."""
-    RE_P5 = re.compile(r"\[(\w+):\/\/(.*?)(( (.*?))|())\]", re.UNICODE)
-    """Remove URL, keep description."""
-    RE_P6 = re.compile(r"\[([^][]*)\|([^][]*)\]", re.DOTALL | re.UNICODE)
-    """Simplify links, keep description."""
-    RE_P9 = re.compile(r"<nowiki([> ].*?)(</nowiki>|/>)", re.DOTALL | re.UNICODE)
-    """External links."""
-    RE_P10 = re.compile(r"<math([> ].*?)(</math>|/>)", re.DOTALL | re.UNICODE)
-    """Math content."""
-    RE_P11 = re.compile(r"<(.*?)>", re.DOTALL | re.UNICODE)
-    """All other tags."""
-    RE_P12 = re.compile(r"(({\|)|(\|-(?!\d))|(\|}))(.*?)(?=\n)", re.UNICODE)
-    """Table formatting."""
-    RE_P13 = re.compile(r"(?<=(\n[ ])|(\n\n)|([ ]{2})|(.\n)|(.\t))(\||\!)([^[\]\n]*?\|)*", re.UNICODE)
-    """Table cell formatting."""
-    RE_P14 = re.compile(r"\[\[분류:[^][]*\]\]", re.UNICODE)
-    """Categories."""
-    RE_P15 = re.compile(r"\[\[(파일:|이미지)[^]]*(\]\])", re.UNICODE)
-    """Remove File and Image templates."""
-    RE_P17 = re.compile(
-        r"(\n.{0,4}((bgcolor)|(\d{0,1}[ ]?colspan)|(rowspan)|(style=)|(class=)|(align=)|(scope=))(.*))|"
-        r"(^.{0,2}((bgcolor)|(\d{0,1}[ ]?colspan)|(rowspan)|(style=)|(class=)|(align=))(.*))",
-        re.UNICODE,
-    )
-    RE_P18 = re.compile(r"\(\s*\)")
-    """Empty parenthesis"""
-
-    # from gensim.wikicorpus.filter_wiki
-    text = utils.to_unicode(text, "utf8", errors="ignore")
+    FILE_COMPILE = re.compile("\[\[파일:.*?.*?\]\]")
+    CAT_COMPILE = re.compile("\[\[분류:.*?.*?\]\]")
+    LINK_COMPILE = re.compile("\[\[(?!파일|분류)(.*?)\|*(.*?)\]\]")
+    EMPTY_PARENTHESIS = re.compile(r"\([\s,]*\)")
+    MULTI_EMPTY_PARENTHESIS = re.compile("(,\s)+")
+    MISSING_LEAD_PARENTHESIS = re.compile("\(,\s+")
+    MISSING_TAIL_PARENTHESIS = re.compile(",\s+\)")
+    
+    DOC_START_PATTERN = re.compile("<doc .*?>")
+    EMPTY_SPACES = re.compile("[\t]")
+    
     text = utils.decode_htmlentities(text)  # '&amp;nbsp;' --> '\xa0'
+    text = DOC_START_PATTERN.sub("", text)
+    text = MISSING_LEAD_PARENTHESIS.sub("(", text)
+    text = MISSING_TAIL_PARENTHESIS.sub(")", text)
+    text = MULTI_EMPTY_PARENTHESIS.sub("", text)
+    text = EMPTY_PARENTHESIS.sub("", text)
+    text = FILE_COMPILE.sub("", text)
+    text = CAT_COMPILE.sub("", text)
+    text = EMPTY_SPACES.sub("", text)
 
-    text = re.sub(RE_P2, "", text)  # remove the last list (=languages)
-    # the wiki markup is recursive (markup inside markup etc)
-    # instead of writing a recursive grammar, here we deal with that by removing
-    # markup in a loop, starting with inner-most expressions and working outwards,
-    # for as long as something changes.
-
-    # text = wikicorpus.remove_file(text)
-    for match in re.finditer(RE_P15, text):
+    for match in re.finditer(LINK_COMPILE, text):
         m = match.group(0)
         caption = m[:-2].split("|")[-1]
         text = text.replace(m, caption, 1)
-
-    iters = 0
-    while True:
-        old, iters = text, iters + 1
-        text = re.sub(RE_P0, "", text)  # remove comments
-        text = re.sub(RE_P1, "", text)  # remove footnotes
-        text = re.sub(RE_P9, "", text)  # remove outside links
-        text = re.sub(RE_P10, "", text)  # remove math content
-        text = re.sub(RE_P11, "", text)  # remove all remaining tags
-        text = re.sub(RE_P14, "", text)  # remove categories
-        text = re.sub(RE_P5, "\\3", text)  # remove urls, keep description
-
-        text = re.sub(RE_P6, "\\2", text)  # simplify links, keep description only
-        # remove table markup
-        text = text.replace("!!", "\n|")  # each table head cell on a separate line
-        text = text.replace("|-||", "\n|")  # for cases where a cell is filled with '-'
-        text = re.sub(RE_P12, "\n", text)  # remove formatting lines
-        text = text.replace("|||", "|\n|")  # each table cell on a separate line(where |{{a|b}}||cell-content)
-        text = text.replace("||", "\n|")  # each table cell on a separate line
-        text = re.sub(RE_P13, "\n", text)  # leave only cell content
-        text = re.sub(RE_P17, "\n", text)  # remove formatting lines
-        text = text.replace(", ", "")
-
-        # remove empty mark-up
-        text = text.replace("[]", "")
-        # stop if nothing changed between two iterations or after a fixed number of iterations
-        if old == text or iters > 2:
-            break
-    text = text.replace("[", "").replace("]", "")  # promote all remaining markup to plain text
-    text = text.replace("\n", "")
-    text = RE_P18.sub("", text)
-
-    if text == "":
-        return ""
-    if len(text.split()) <= 5:
-        return ""
-    text = kss.split_sentences(text)
+    
     return text
+
+def make_corpus(out_f):
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+
+    # empty doc handler
+    handler = logging.FileHandler("/creat_dataset.log")
+    handler.setLevel(logging.INFO)
+    logger.addHandler(handler)
+
+    # read text file
+    exceptions = []
+    with open(out_f, "a") as write_file:
+        for file in Path("/kowiki-20210901-pages-articles/").glob("**/wiki_*"):
+            logger.info(file)
+            with open(file, encoding="utf-8") as reader:
+                text_file = reader.read()
+                for i, doc in enumerate(text_file.split("</doc>")):
+                    try:
+                        sentences = tokenize(doc)
+                        if len(sentences) == 0:
+                            logger.info("Empty: "+doc+"\n")
+                            continue
+                        if len(sentences) < 2:
+                            logger.info("Less doc: "+doc+"\n")
+                            continue
+                        sentences = "\n".join(kss.split_sentences(sentences))
+                        write_file.write(sentences + "\n")
+                        if i % 10000 == 0:
+                            print(i)
+                    except:
+                        exceptions.append(doc)
+        print("Processing complete!")
+
+    with open("/exception_wiki.txt", "a") as write_file:
+        for line in exceptions:
+            write_file.write(line + "\n")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output_path", type=str, help="Location of output files")
+    args = parser.parse_args()
+    make_corpus(args.output_path)
 ```
+
+상황에 맞게 logger와 예외처리를 추가하면 될 것 같다.
