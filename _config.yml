@@ -260,9 +260,9 @@ defaults:
       path: ""
       type: posts
     values:
-      classes: wide
+      # classes: wide
       layout: single
-      author_profile: false
+      author_profile: true
       read_time: true
       comments: true
       share: true 
