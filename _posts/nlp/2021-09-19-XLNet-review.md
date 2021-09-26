@@ -9,7 +9,7 @@ categories:
 tags:
   - Language Modeling
 use_math: true
-last_modified_at: 2021-09-19
+last_modified_at: 2021-09-26
 ---
 
 ## 들어가며
@@ -269,9 +269,32 @@ Reccurence 구조가 추가되었으므로, 정방향/역방향 모두를 이용
 
 이하 다양한 NLP 태스크에 대한 설명은 직접 논문을 살펴보도록 하자.
 
+### Ablation Study
 
-\mathbf x
+다양한 특성을 갖는 4개의 데이터셋에 대해 XLNet의 design choice에 대한 ablation study를 수행하였다. 특히 다음의 세 가지 측면에 대해 초점을 맞추어 진행하였다.
+- Permutation language model의 objective의 효율성을 증명. 특히 DAE방법을 사용하는 BERT랑 비교를 진행.
+- backbone으로서의 Transformer-XL의 중요성
+- span-based prediction, bidirectional input pipeline, next-sentence prediction와 같은 implementation details의 필요성
 
-{: .align-center}{: width="700"}
+아래의 table 6은  XLNet-Base와 이에 implementation details을 추가한 것을 나타낸 것이다. 공정한 비교를 위해 모든 모델은 BERT의 하이퍼 파라미터와 같은 12-layer architecture와 Wikipedia BooksCorpus를 이용하여 학습하였다. 실험 결과는 5번의 실행값의 중앙값으로 보고하였다.
 
-{: .text-center}
+![image](https://user-images.githubusercontent.com/47516855/134807561-410595ca-fb9f-4079-923d-3968a1c3488b.png){: .align-center}{: width="400"}
+
+1-4 행을 보면 Transformer-XL과 permutation LM이 성능에 큰 영향을 주는 것을 확인할 수 있다. 또한, 행 5의 memory caching mechanism을 제거할 경우 성능이 급격하게 떨어지는 것을 확인하였으며, 행 6-7은 span-based prediction, bidirectional input pipeline 모두 성능에 영향을 미치는 것을 보여주었다. 마지막으로 BERT에서 제안한 next-sentence prediction이 성능 향상으로 연결되지는 않음을 확인하였다. 
+
+### Qualitative Analysis of Attention Patterns (Appendix A.6)
+
+이번에는 파인튜닝 없이 BERT와 XLNet의 attention pattern을 파악해보았다. 우선 아래의 Fig. 2와 같이 BERT와 XLNet 모두에서 관찰할 수 있는 공통적인 패턴을 발견하였다.
+
+![image](https://user-images.githubusercontent.com/47516855/134808336-72528305-06bc-4cf2-af83-e5de67d4f500.png){: .align-center}{: width="600"}
+
+아래는 XLNet에서만 발견한 3개의 패턴이다.
+
+![image](https://user-images.githubusercontent.com/47516855/134808733-ad36b54d-3c7e-4c31-b296-f38232a321da.png){: .align-center}{: width="600"}
+
+
+- (a). self-exclusion pattern: 자기 자신을 제외하고 나머지 토큰에 attention. Global information을 빠르게 모으기 위함으로 보임.
+- (b). Relative stride: query 위치에 **상대적으로** 떨어진 stride 간격에 attention함 (attends to positions every a few stride apart relative to the query position).
+- (c). One-side masked: lower-left masking과 유사하게 **상대적인** 오른쪽 절반(relative right half)에 attention하지 못함.
+
+XLNet만의 고유한 특성 모두 절대적인 위치보단 **상대적** 위치를 포함하고 있으며, XLNet의 **relative attention**의 개념을 잘 보여주고 있다. 이러한 고유한 특성이 XLNet의 성능에 이점이 되었으리라 추측하고, permutation LM objective은 비록 qualitative visualization은 불가능하지만 대부분의 contribution을 차지하고 있을 것으로 본다.
