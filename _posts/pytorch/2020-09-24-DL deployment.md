@@ -34,3 +34,5 @@ last_modified_at: 2020-09-24
 [AI service를 위한 현실적인 접근 방법 (2): Model Lightweight](https://moon-walker.medium.com/ai-service%EB%A5%BC-%EC%9C%84%ED%95%9C-%ED%98%84%EC%8B%A4%EC%A0%81%EC%9D%B8-%EC%A0%91%EA%B7%BC-%EB%B0%A9%EB%B2%95-2-model-lightweight-588c0d650af2)
 
 [AI service를 위한 현실적인 접근 방법 (3): Massive AI Inference](https://moon-walker.medium.com/ai-service%EB%A5%BC-%EC%9C%84%ED%95%9C-%ED%98%84%EC%8B%A4%EC%A0%81%EC%9D%B8-%EC%A0%91%EA%B7%BC-%EB%B0%A9%EB%B2%95-3-massive-ai-inference-94f75b0fc64f)
+
+[쏘카 딥러닝 모델 Serving 간단 구축기](https://tech.socarcorp.kr/data/2020/03/10/ml-model-serving.html)
