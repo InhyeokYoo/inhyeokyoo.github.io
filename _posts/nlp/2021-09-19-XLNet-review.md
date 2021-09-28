@@ -27,7 +27,7 @@ Unsupervised representation learning은 NLP 분야에서 엄청난 성공을 거
 
 AR LM은 corpus의 **probability density**, 즉, **문장이 완성될 확률**을 autoregressive model을 통하여 추정한다.
 
-수식을 사용하여 표기하면, 주어진 텍스트 열 $\mathbf x = (x _1 , \cdots, x _T)$에 대해, likelihood를 forward product $p(\mathbf x) = \prod ^T _{t=1} p(x _t, \rvert \mathbf x _{< t})$ 혹은 backward product $p(\mathbf x) = \prod ^{t=1} _T p(x _t, \rvert \mathbf x _{> t})$ 를 factorize한다.
+수식을 사용하여 표기하면, 주어진 텍스트 열 $\mathbf x = (x _1 , \cdots, x _T)$에 대해, likelihood를 forward product $p(\mathbf x) = \prod ^T _{t=1} p(x _t, \rvert \mathbf x _{< t})$ 혹은 backward product $p(\mathbf x) = \prod _{t=1} ^T p(x _t, \rvert \mathbf x _{> t})$ 를 factorize한다.
 
 그리고 다음과 같이 likelihood를 최대화하는 방식으로 pre-training을 진행한다.
 
