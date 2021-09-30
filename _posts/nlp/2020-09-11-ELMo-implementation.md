@@ -87,7 +87,7 @@ Dimension이 조금 헷갈리게 되어 있는데 정리하면 다음과 같다.
   - CNN의 결과 **2048**의 embedding vector를 얻게 되고, highway network를 통과해도 이는 변하지 않는다 (차원 보존). 이에 projection하여 **512** 차원을 갖게 된다.
 - LSTM:
   - > The final model uses L = 2 biLSTM layers with 4096 units and 512 dimension projections and a residual connection from the first to second layer.
-  - 이는 2-stacked LSTM에 bidirectional한 구조가 **4096**개의 parameter를 갖는다는 뜻이다. 또한, cell과 hidden 두 개의 state가 있으므로, LSTM의 output은 **1024**의 dimension을 갖아야 한다. 즉, $4096 / (n_layers * n_directions * 2)$ 이므로, LSTM의 output은 **512**가 된다. 논문에 언급된 loss항에 따라, 1024를 forward/backward로 나누어 더하면 **512**가 되는 구조이다.
+  - 이는 2-stacked LSTM에 bidirectional한 구조가 **4096**개의 parameter를 갖는다는 뜻이다. 또한, cell과 hidden 두 개의 state가 있으므로, LSTM의 output은 **1024**의 dimension을 갖아야 한다. 즉, $4096 / (\text{num_layers} * \text{num_directions} * 2)$ 이므로, LSTM의 output은 **512**가 된다. 논문에 언급된 loss항에 따라, 1024를 forward/backward로 나누어 더하면 **512**가 되는 구조이다.
 
 따라서 embedding과 각 LSTM의 결과는 **512**차원이 된다.
 
