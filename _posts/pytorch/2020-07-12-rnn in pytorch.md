@@ -89,3 +89,9 @@ RNN의 dropuout은 매 time step에서 layer에 적용된다. unfold를 해보�
 여기서 점선은 dropout이 적용되는 layer다.
 
 [(Gal and Ghahramani, 2016)](https://papers.nips.cc/paper/6241-a-theoretically-grounded-application-of-dropout-in-recurrent-neural-networks.pdf) 에 따르면, [variational dropout](https://becominghuman.ai/learning-note-dropout-in-recurrent-networks-part-1-57a9c19a2307)을 적용하는게 더 좋은 것으로 알려져 있는데, pytorch에선 구현이 안되어 있는 것으로 보인다.
+
+### Initial hidden state
+
+RNN의 맨 처음 hidden state는 영벡터로 초기화한 후 이를 학습하는 식으로 진행한다. Seq2seq이나 language model같이 initial state의 영향을 적게 받는 구조에서는 이러한 방법이 잘 통하지만, 몇몇 특별한 케이스에서는 특별한 전략을 고려하기도 한다.
+  
+[Zimmerman et al. (2012)](http://www.scs-europe.net/conf/ecms2015/invited/Contribution_Zimmermann_Grothmann_Tietz.pdf)에 따르면 잘못된 initial state를 RNN을 통과함에 따라 바로잡을 수 있도록 충분힌 time step이 포함되어야 한다고 한다. 혹은 initial state에 민감하지 않게 모델을 만드는 방법도 구사할 수 있는데, 이는 특정 noise term을 더하는 방식으로 구현한다.
