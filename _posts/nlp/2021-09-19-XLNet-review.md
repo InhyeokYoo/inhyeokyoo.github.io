@@ -189,7 +189,7 @@ Query representation은 contextual information $\mathbf x _{\mathbf z _{< t}}$�
 - $g^{(m)} _{z _t} ~ \gets ~ \text{Attention}(\mathbf Q = g ^{(m-1)} _{z _t}, \mathbf{KV} = \mathbf h^{(m-1)} _{\color{red}{\mathbf z _{<t}}}; \theta)$
 - $h^{(m)} _{z _t} ~ \gets ~ \text{Attention}(\mathbf Q = h ^{(m-1)} _{z _t}, \mathbf{KV} = \mathbf h^{(m-1)} _{\color{red}{\mathbf z _{\leq t}}}; \theta)$
 
-![image](https://user-images.githubusercontent.com/47516855/134289037-8573a4a3-b7b5-4804-b958-a8fde3fc82a1.png){: .align-center}{: width="700"}
+![image](https://user-images.githubusercontent.com/47516855/134289037-8573a4a3-b7b5-4804-b958-a8fde3fc82a1.png){: .align-center}{: width="800"}
 
 $\mathbf Q, \mathbf K, \mathbf V$는 query, key, value를 의미한다. Content representation은 일반적인 Transformer와 정확하게 일치하므로, fine-tuning 단계에서는 query stream을 떼어놓고 content stream만 Transformer-XL처럼 사용하게 된다. 마지막으로 가장 끝에 있는 query representation $g^{(M)} _{z _t}$를 사용하여 Eq. (4)를 계산하게 된다.
 
@@ -278,7 +278,7 @@ Reccurence 구조가 추가되었으므로, 정방향/역방향 모두를 이용
 
 아래의 table 6은  XLNet-Base와 이에 implementation details을 추가한 것을 나타낸 것이다. 공정한 비교를 위해 모든 모델은 BERT의 하이퍼 파라미터와 같은 12-layer architecture와 Wikipedia BooksCorpus를 이용하여 학습하였다. 실험 결과는 5번의 실행값의 중앙값으로 보고하였다.
 
-![image](https://user-images.githubusercontent.com/47516855/134807561-410595ca-fb9f-4079-923d-3968a1c3488b.png){: .align-center}{: width="400"}
+![image](https://user-images.githubusercontent.com/47516855/134807561-410595ca-fb9f-4079-923d-3968a1c3488b.png){: .align-center}{: width="700"}
 
 1-4 행을 보면 Transformer-XL과 permutation LM이 성능에 큰 영향을 주는 것을 확인할 수 있다. 또한, 행 5의 memory caching mechanism을 제거할 경우 성능이 급격하게 떨어지는 것을 확인하였으며, 행 6-7은 span-based prediction, bidirectional input pipeline 모두 성능에 영향을 미치는 것을 보여주었다. 마지막으로 BERT에서 제안한 next-sentence prediction이 성능 향상으로 연결되지는 않음을 확인하였다. 
 
@@ -286,11 +286,11 @@ Reccurence 구조가 추가되었으므로, 정방향/역방향 모두를 이용
 
 이번에는 파인튜닝 없이 BERT와 XLNet의 attention pattern을 파악해보았다. 우선 아래의 Fig. 2와 같이 BERT와 XLNet 모두에서 관찰할 수 있는 공통적인 패턴을 발견하였다.
 
-![image](https://user-images.githubusercontent.com/47516855/134808336-72528305-06bc-4cf2-af83-e5de67d4f500.png){: .align-center}{: width="600"}
+![image](https://user-images.githubusercontent.com/47516855/134808336-72528305-06bc-4cf2-af83-e5de67d4f500.png){: .align-center}{: width="800"}
 
 아래는 XLNet에서만 발견한 3개의 패턴이다.
 
-![image](https://user-images.githubusercontent.com/47516855/134808733-ad36b54d-3c7e-4c31-b296-f38232a321da.png){: .align-center}{: width="600"}
+![image](https://user-images.githubusercontent.com/47516855/134808733-ad36b54d-3c7e-4c31-b296-f38232a321da.png){: .align-center}{: width="800"}
 
 
 - (a). self-exclusion pattern: 자기 자신을 제외하고 나머지 토큰에 attention. Global information을 빠르게 모으기 위함으로 보임.
