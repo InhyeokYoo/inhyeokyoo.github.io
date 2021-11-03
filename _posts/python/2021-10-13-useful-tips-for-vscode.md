@@ -19,7 +19,7 @@ last_modified_at: 2021-10-28
 
 VScode로 디버깅하는 방법을 알아보자. 
 
-우선 좌측 메뉴바에서 실행 및 디버그(`Ctrl+<Shift>+D`)를 눌러보자. 그러면 `launch.json`파일 만들기를 할 수 있을 것이다. 아래의 형식처럼 이름(`name`)과 파이썬파일(`program`), argparse로 받는 인자(`args`)를 넣어주도록 하자. 나의 경우엔 wikipedia 데이터 파싱 코드를 디버깅해보았다.
+우선 좌측 메뉴바에서 실행 및 디버그(`Ctrl+<Shift>+D`)를 눌러보자. 그러면 `launch.json`파일 만들기를 할 수 있을 것이다. 아래의 형식처럼 이름(`name`)과 파이썬파일(`program`), argparse로 받는 인자(`args`)를 넣어주도록 하자. 나의 경우엔 wikipedia 데이터 파싱 코드를 디버깅해보았다. 또한, working directory를 세팅해야 되는 경우도 있으므로, 이를 `cwd`에다가 넣어주도록 하자
 
 ```json
 {
@@ -31,6 +31,7 @@ VScode로 디버깅하는 방법을 알아보자.
             "request": "launch",
             "program": "source_code/path/file_name.ext",
             "console": "integratedTerminal",
+            "cwd": "source_code/path/",
             "args": [
                 "--output_path",
                 "../datasets/pre-train/wiki.txt"
