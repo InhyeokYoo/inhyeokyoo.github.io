@@ -58,6 +58,10 @@ NLP 관련 굵직한 논문들을 읽고, 정리하고 구현하였습니다. �
 
 - [reveiw](/project/nlp/MASS-review/)
 
+### 11. BART
+
+- [reveiw](/project/nlp/BART-review/)
+
 ## CS224N (2020 Oct - 2020 Dec)
 
 NLP에 대한 기초를 한번 더 다질 겸 훑었습니다. 다른 스터디원분들과 함께 작업하였습니다. [Repo](https://github.com/InhyeokYoo/CS224N)
