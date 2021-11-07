@@ -11,19 +11,17 @@ use_math: true
 last_modified_at: 2021-01-23
 ---
 
-현재 계획했던 것보다 작성을 덜하였다. 아래는 앞으로 채워나갈 목록이다.
+## Introduction
+
+머신 러닝을 공부하다보면 정보이론에서 배우는 다양한 개념들이 등장한다. 이번 포스트에서는 머신 러닝에서 사용하는 정보이론의 개념을 살펴보도록 하자. 사실 내용이 방대하다 보니 본 포스트에서 다뤄야 할 내용보다 좀 덜 다룬 감이 있다. 아래는 이에 대해 조사한 내용이다.
 
 - [infomax](http://webmail.inb.uni-luebeck.de/~claussen/sysbio2012/infotheo.pdf)
 - MLE와의 관계
-    - https://glassboxmedicine.com/2019/12/07/connections-log-likelihood-cross-entropy-kl-divergence-logistic-regression-and-neural-networks/
-    - http://www.awebb.info/probability/2017/05/18/cross-entropy-and-log-likelihood.html
+    - [https://glassboxmedicine.com/2019/12/07/connections-log-likelihood-cross-entropy-kl-divergence-logistic-regression-and-neural-networks/](https://glassboxmedicine.com/2019/12/07/connections-log-likelihood-cross-entropy-kl-divergence-logistic-regression-and-neural-networks/)
+    - [http://www.awebb.info/probability/2017/05/18/cross-entropy-and-log-likelihood.html](http://www.awebb.info/probability/2017/05/18/cross-entropy-and-log-likelihood.html)
 - likelihood ratio의 관점
-    - https://hoya012.github.io/blog/cross_entropy_vs_kl_divergence/
-- 예시, 이들간의 관계 추가
+    - [https://hoya012.github.io/blog/cross_entropy_vs_kl_divergence/](https://hoya012.github.io/blog/cross_entropy_vs_kl_divergence/)
 
-## Introduction
-
-머신 러닝을 공부하다보면 정보이론에서 배우는 다양한 개념들이 등장한다. 이번 포스트에서는 머신 러닝에서 사용하는 정보이론의 개념을 살펴보도록 하자.
 
 ## Information
 
@@ -290,13 +288,3 @@ $$
 이는 $a$가 주어졌을 때 $x$에 대한 **사후분포 $p(x \rvert a)$**로부터 $x$에 대한 **사전확률 $p(x \rvert I)$의 쿨백-라이블러 발산**이다.
 
 정보이득의 기대값은 상호정보량 $I(X, A)$이고, 이는 확률변수 $A$의 상태를 학습함으로서 얻는 $X$의 엔트로피의 감소량이다.
-
-## Summary
-
-이를 정리하면 다음과 같다.
-
-- 1 bit = the amount of information gained by observing an event of probability $\frac{1}{2}$
-- 1 bit = distinct between two states
-- 1 nat = the amount of information gained by observing an event of probability $\frac{1}{e}$
-- Entropy = Average information
-- 

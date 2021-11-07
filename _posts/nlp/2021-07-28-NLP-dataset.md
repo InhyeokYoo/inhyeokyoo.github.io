@@ -60,5 +60,19 @@ popular NLI benchmarks.
 
 ![image](https://user-images.githubusercontent.com/47516855/128608942-b4f04400-5b17-4cbd-adaa-b7b10d48e170.png)
 
+## Generation task
+
+ abstractive question answering and summarization
+
+
+
+Reading comprehension
+
+Most current question answering datasets frame the task as reading comprehension where the question is about a paragraph or document and the answer often is a span in the document. The Machine Reading group at UCL also provides an overview of reading comprehension tasks.
+
+http://nlpprogress.com/english/question_answering.html#reading-comprehension
+
+
+
 데이터셋 구축 과정
 {: .text-center}
