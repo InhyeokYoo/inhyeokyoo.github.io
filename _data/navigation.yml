@@ -5,7 +5,7 @@ main:
   - title: "About author"
     url: /about/
   - title: "Resume"
-    url: /assets/cv.pdf
+    url: https://inhyeokyoo.notion.site/Inhyeok-Yoo-001ddcd115c4498d84744a2cbb2840fb
   - title: "Project"
     url: /project/
   - title: "Category"
