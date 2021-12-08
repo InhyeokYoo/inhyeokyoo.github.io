@@ -12,7 +12,7 @@ use_math: true
 last_modified_at: 2021-09-26
 ---
 
-## Introduction
+## 들어가며
 
 본 논문은 Facebook AI Research (FAIR)에서 연구한 RoBERTa로, BERT가 underfitting되어있음을 확인하고 NSP objective와 minor design등의 변경을 통해 성능향상을 이끌어낸 논문이다. 원문과 깃헙은 다음에서 확인할 수 있다.
 
@@ -20,6 +20,8 @@ last_modified_at: 2021-09-26
 - [Github repo (FAIRSEQ)](https://github.com/pytorch/fairseq/tree/main/examples/roberta)
 
 본 포스트의 순서는 논문의 순서와는 조금씩 다르며, 단순 번역보단 해설을 지향하였음을 미리 알린다. 따라서 디테일한 내용은 논문을 참고하길 권한다.
+
+## Introduction
 
 본 연구는 BERT에 대한 복제연구(replication study)로, **hyperparameter tuning과 학습 데이터의 양의 영향력을 평가**하는데 중점을 두었다. 본 연구를 통해 BERT가 **매우 undertraining** 되어있다는 사실을 알아냈으며, 이를 향상시키기 위한 방법으로 RoBERTa를 제안하도록 한다. 이는 BERT 이후의 모델들의 성능에 맞먹거나 능가하는 성능을 지녔다.
 
