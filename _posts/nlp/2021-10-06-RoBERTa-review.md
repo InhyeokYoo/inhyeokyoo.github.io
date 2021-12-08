@@ -58,7 +58,7 @@ last_modified_at: 2021-09-26
 
 ### Data
 
-BERT-style의 pretraining은 다량의 데이터에 크게 의존한다. [Baevski et al. (2019)](https://arxiv.org/abs/1903.07785)는 데이터의 사이즈를 키울수록 end-task의 성능이 올라감을 증명하였으며, 기존의 BERT보다 더욱 크고 다양한 데이터셋을 통해 학습시키는 노력들이 존재해왔다 ([Radford et al., 2019 (GPT-2)](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf); [Yang et al., 2019 (XLNet)](https://arxiv.org/abs/1906.08237), [리뷰 보기](/project/nlp/xlnet-review/); [Zellers et al., 2019](https://arxiv.org/abs/1905.12616)). 그러나 안타깝게도 여기에 사용된 모든 데이터가 공개되지는 않았기에 저자들은 ㅌ기존의 문헌들과 비교하기 적합한 양질의 데이터를 가능한 모으는데 집중했다고 한다.
+BERT-style의 pretraining은 다량의 데이터에 크게 의존한다. [Baevski et al. (2019)](https://arxiv.org/abs/1903.07785)는 데이터의 사이즈를 키울수록 end-task의 성능이 올라감을 증명하였으며, 기존의 BERT보다 더욱 크고 다양한 데이터셋을 통해 학습시키는 노력들이 존재해왔다 ([Radford et al., 2019 (GPT-2)](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf); [Yang et al., 2019 (XLNet)](https://arxiv.org/abs/1906.08237), [리뷰 보기](/project/nlp/xlnet-review/); [Zellers et al., 2019](https://arxiv.org/abs/1905.12616)). 그러나 안타깝게도 여기에 사용된 모든 데이터가 공개되지는 않았기에 저자들은 기존의 문헌들과 비교하기 적합한 양질의 데이터를 가능한 모으는데 집중했다고 한다.
 
 여기서는 다양한 사이즈와 도메인을 갖는 5개의 영어 corpus를 수집하였으며, 총 160GB의 텍스트 파일을 사용했다고한다.
 
@@ -170,7 +170,7 @@ GLUE에서는 두 가지의 fine-tuning으로 진행한다.
 그리고 Dev set에 대해 10 에폭만큼 학습시키고 early stopping을 이용하여 학습하였다. 나머지 하이퍼파라미터는 pretraining과 똑같이 유지한다. 성능평가는 5개의 모델을 random initialization을 통해 학습시킨 후, 이들의 중앙값으로 보고한다. 앙상블은 사용하지 않는다.
 
 두번째 세팅은 (*ensembles, test*)로, test set에 학습시킨 결과를 GLUE 리더보드에 있는 결과들과 비교한다. 대부분의 리더보드 제출결과가 multi-
-task finetuning을 쓴 것과는 다르게 여기서는 오로지 single-task finetuning만 사용한다. RTE, STS, MRPC의 경우엔 MNLI single-task model를 에서 fine-tuning하는게 RoBERTa를 fine-tuning하는 것보다 더 좋은 것으로 나타났다. 여기서는 좀 더 넓은 범위의 hyperparameter search를 진행하였고, 한 태스크 당 5-7개의 모델에 대해 앙상블을 사용하였다.
+task finetuning을 쓴 것과는 다르게 여기서는 오로지 single-task finetuning만 사용한다. RTE, STS, MRPC의 경우엔 MNLI single-task model에서 fine-tuning하는게 RoBERTa를 fine-tuning하는 것보다 더 좋은 것으로 나타났다. 여기서는 좀 더 넓은 범위의 hyperparameter search를 진행하였고, 한 태스크 당 5-7개의 모델에 대해 앙상블을 사용하였다.
 
 ![image](https://user-images.githubusercontent.com/47516855/136688036-df547cae-5e0b-4938-afc0-cf1af15e82fd.png){: .align-center}{: width="600"}
 
@@ -217,5 +217,3 @@ RACE는 지문과 질문, 그리고 네개의 보기를 주고 정답을 맞추�
 ## Conclusion
 
 본 논문을 통해 BERT를 학습하는 과정에서의 다양한 design choice를 실험하고 연구하였다. 이를 통해 BERT의 성능이 모델을 더 오래, 더 많은 배치를, 더 많은 데이터를 이용할 때 향상할 수 있음을 확인하였다. 또한, NSP 제거, 긴 문장에 대한 학습, dynamic masking과 같이 사전 연구들에서 무시되었던 design choice들 또한 모델의 성능을 높일 수 있음을 확인하였다. 이를 이용해 학습한 RoBERTa는 GLUE, RACE, SQuAD에서 SOTA를 달성하였다.
-
-{: .align-center}{: width="600"}
