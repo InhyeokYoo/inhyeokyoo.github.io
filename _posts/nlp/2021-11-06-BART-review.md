@@ -37,9 +37,9 @@ XLNet ([리뷰보기](/project/nlp/XLNet-review/))
 
 ![image](https://user-images.githubusercontent.com/47516855/134289037-8573a4a3-b7b5-4804-b958-a8fde3fc82a1.png){: .align-center}{: width="700"}
 
-[UNILM (Dong et al., 2019)](https://arxiv.org/pdf/1905.03197.pdf)과 같이 마스킹된 토큰이 이용하는 context를 다양한 형태로 구성하는 방법이 있다.
+[UniLM (Dong et al., 2019)](https://arxiv.org/pdf/1905.03197.pdf)과 같이 마스킹된 토큰이 이용하는 context를 다양한 형태로 구성하는 방법이 있다.
 
-UNILM
+UniLM
 {: .text-center}
 
 ![image](https://user-images.githubusercontent.com/47516855/140639448-c7d9b879-6697-4c0d-8ade-14fdd0e5f3c9.png){: .align-center}{: width="700"}
@@ -112,7 +112,7 @@ BART는 autoregressive 디코더도 포함하고 있기 때문에, abstractive q
 
 ### 3.4 Machine Translation
 
-본 논문에선 NMT에 대해서도 실험하였다. 디코더가 영어로 번역하는 성능을 향상시키기 위해 BART를 이용하였다. 이전 연구인 [Edunov et al. (2019)](https://arxiv.org/abs/1903.09722)에서는 *pre-trained encoder들을 통합(incorporating)하여* 모델 성능을 향상시킬수는 있지만, language model의 decoder로부터 얻는 이점은 제한된다고 밝힌바 있다.
+본 논문에선 NMT에 대해서도 실험하였다. 이전 연구인 [Edunov et al. (2019)](https://arxiv.org/abs/1903.09722)에서는 *pre-trained encoder들을 통합(incorporating)하여* 모델 성능을 향상시킬수는 있지만, language model의 decoder로부터 얻는 이점은 제한된다고 밝힌바 있다.
 
 여기서 통합(incorporating)이란, ELMo 스타일이나 LM의 아웃풋을 fine-tuning하는 전략을 의미한다.
 {: .notice--info}
@@ -124,13 +124,27 @@ BART는 autoregressive 디코더도 포함하고 있기 때문에, abstractive q
 
 구체적으로 설명하면, BART의 인코더단의 임베딩 레이어는 랜덤으로 초기화한 인코더로 교체하고, 새로운 인코더는 외국어를 BART가 영어로 de-noise하는 형태로 집어넣어 end-to-end로 학습하는 형태이다. 새로운 인코더는 BART의 vocab과 다른 형태의 vocab을 가질 수 있다.
 
-Source encoder의 경우 학습이 두 단계로 나뉘게 된다. 둘 모두 BART의 아웃풋으로부터 cross-entropy를 통해 얻어진다. 
+Source encoder의 경우 학습이 두 단계로 나뉘게 되며, 두 단계 모두 cross-entropy를 통해 학습을 진행한다.
 
 1. 대부분의 BART 파라미터를 고정한 채로 새로운 인코더와 BART의 positional embedding, BART 인코더의 첫번째 레이어의 self-attention input projection matrix를 학습.
 2. 작은 수의 iteration으로 BART 전체를 학습.
 
 ## 4 Comparing Pre-training Objectives
 
+BART는 pre-training과정에서 이전 연구들보다 훨씬 폭 넓은 noising scheme을 사용할 수 있다. 본 연구에선 base-size models (6 encoder and
+6 decoder layers, with a hidden size of 768)을 이용하여 nosing scheme을 비교하였다. 
+
+### 4.1 Comparison Objectives
+
+다양한 pre-training objectives가 제시되어왔지만, 학습데이터, 학습 리소스, 모델간의 구조적 차이, fine-tuning 전략이 다르기 때문에 이들간의 공정한 비교는 어렵다고 한다. 따라서 논문의 저자들은 이러한 pre-training objectives를 재구현하여 pre-training objective와 연관되지 않은 요소들을 가능한 통제하는 것에 목표를 두었다고 한다. 그러나 성능을 향상시킬 수 있는 learning rate나 layer normalisation에는 미미한 차이가 있다고 한다. BART와 비교하는 모델들은 다음과 같다.
+
+- Language Model: GPT와 비슷하게 left-to-right Transformer을 사용했다. 이는 BART에서 cross-attention을 제거한 decoder와 같다.
+- Permuted Language Model: XLNet과 마찬가지로 토큰 중 $1/6$개만 샘플링한 후, 이들의 임의의 배치를 autoregresively 생성하도록 하였다. 다른 모델과의 일관성을 위하여 relative positional embeddings이나 segments간의 attention은 구현하지 않았다고 한다.
+- Masked Language Model: BERT와 마찬가지로 15%의 토큰을 `[MASK]`로 대체하여 학습하도록 한다.
+- Multitask Masked Language Model: UniLM과 마찬가지로 masked laguage model에 추가로 self-attention masks를 학습한다. self-attention masks는 1/6는 left-to-right, 1/6는 right-to-left, 1/3은 마스킹 제외, 전체 토큰 중 첫번째 절반의 1/3도 마스킹 제외, 그 외 나머지는 left-to-right mask를 한다.
+- Masked Seq-to-Seq: MASS를 따라 토큰의 절반에 해당하는 span을 마스킹하고, seq2seq을 학습하여 이를 예측한다.
+
+Permuted LM, Masked LM, Multitask Masked LM을 학습할 때에는 XLNet의 two-stream attention을 이용, likelihood를 효율적으로 계산한다.
 
 
 
