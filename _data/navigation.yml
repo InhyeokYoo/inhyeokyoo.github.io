@@ -10,7 +10,7 @@ main:
     url: /project/
   - title: "Category"
     url: /categories/
-  - title: "TIme Arxiv"
+  - title: "Time Arxiv"
     url: /home/
   # - title: "Sample Collections"
   #   url: /collection-archive/
