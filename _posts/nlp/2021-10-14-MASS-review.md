@@ -1,5 +1,5 @@
 ---
-title:  "MASS:Masked Sequence to Sequence Pre-training for Language Generation review"
+title:  "MASS review"
 toc: true
 toc_sticky: true
 permalink: /project/nlp/MASS-review/
@@ -9,12 +9,12 @@ categories:
 tags:
   - Language Modeling
 use_math: true
-last_modified_at: 2021-11-27
+last_modified_at: 2022-03-03
 ---
 
 ## 들어가며
 
-MASS는 난징대학교와 Microsoft에서 개발한 lanuge model로, 2019년 ICML에 소개되었다. MASS는 기존의 language model이 encoder/decoder only 모델을 쓰는 것과는 달리, seq2seq 구조를 이용하여 효율적인 language generation task를 진행할 수 있게 해준다. MASS를 이용하여 논문의 저자들은 low-resource 환경에서의 번역, 요약, 대화의 세가지 generation task에서 SOTA를 달성하였다. 
+MASS (**Ma**sked **S**equence to **S**equence Pre-training for Language Generation)는 난징대학교와 Microsoft에서 개발한 lanuge model로, 2019년 ICML에 소개되었다. MASS는 기존의 language model이 encoder/decoder only 모델을 쓰는 것과는 달리, seq2seq 구조를 이용하여 효율적인 language generation task를 진행할 수 있게 해준다. MASS를 이용하여 논문의 저자들은 low-resource 환경에서의 번역, 요약, 대화의 세가지 generation task에서 SOTA를 달성하였다. 
 
 - [원문 보러가기](https://arxiv.org/pdf/1905.02450.pdf)
 - [MASS repository 보러가기](https://github.com/microsoft/MASS)
@@ -87,13 +87,13 @@ L(\theta; \mathcal X) &= \frac{1}{\lvert \mathcal X \rvert} \sum _{x \in \mathca
 \end{align} \tag{1}
 $$
 
-![image](https://user-images.githubusercontent.com/47516855/144746608-7851f009-4455-4dec-8d88-a18fbb682730.png){: .align-center}{: height="700"}
+![image](https://user-images.githubusercontent.com/47516855/144746608-7851f009-4455-4dec-8d88-a18fbb682730.png){: .align-center}{: height="400"}
 
 위 그림과 같이 input sequence가 8개이고, 이의 fragement가 $x _3 x _4 x _5 x _6$가 마스킹되었다고 하자. 모델은 마스킹된 $x _3 x _4 x _5 x _6$을 $x _3 x _4 x _5$만 주어진채로 예측한다. 디코더는 다른 위치에 대해서는 (즉, 인코더에서 마스킹하지 않은) $[\mathbb M]$을 인풋으로 취한다. 본 방법론은 어떠한 뉴럴네트워크 기반의 인코더-디코더 프레임워크에서도 동작하므로, seq2seq에서 가장 성능이 좋은 트랜스포머로 특정하여 실험을 진행하였다.
 
-![image](https://user-images.githubusercontent.com/47516855/146947499-407818fb-8947-49da-a42c-614bf83b1777.png){: .align-center}{: height="700"}
+![image](https://user-images.githubusercontent.com/47516855/146947499-407818fb-8947-49da-a42c-614bf83b1777.png){: .align-center}{: height="800"}
 
-![image](https://user-images.githubusercontent.com/47516855/146948230-2b297bed-388b-41d2-bccc-9265b57953f4.png){: .align-center}{: height="400"}
+![image](https://user-images.githubusercontent.com/47516855/146948230-2b297bed-388b-41d2-bccc-9265b57953f4.png){: .align-center}{: width="400"}
 
 
 위 그림처럼, BERT나 GPT는 MASS의 특별한 경우라고 볼 수 있다. 마스킹 길이를 나타내는 $k$를 어떻게 잡느냐에 따라, MASS는 BERT나 GPT가 될 수 있다. 비록 인코더-디코더 구조를 취하고는 있으나, BERT의 경우 디코더에 인풋이 없으므로 단순한 non-linear classifier로 취급할 수 있다. GPT의 경우에도 이와 비슷하다.
@@ -111,7 +111,8 @@ $$
 
 ### 4.1. MASS Pre-training
 
-**Model Configuration**  
+#### Model Configuration
+
 - Transformer
   - 6-layer encoder/decoder (1024 embedding)
   - hidden size (1024 embedding)
@@ -121,7 +122,8 @@ $$
   - XLM기반의 코드베이스로 진행
 - 다른 generation의 경우 영어로만 학습
 
-**Datasets**
+#### Datasets
+
 - 2007년부터 2017년의 WMT News Crawl datasets에서 추출한 monolingual data
   - 190M(English), 62M(French), 270M(German) 문장으로 구성
 - 루마니아어의 경우 pre-train단계에서 low-resource 환경을 테스트함
@@ -129,7 +131,8 @@ $$
 - 길이가 175이상이면 제거
 - source와 target에 대해 동시에 60000개의 subword를 만들어 학습
 
-**Pre-Training Details**
+#### Pre-Training Details
+
 - 연속된 토큰을 $[\mathbb M]$으로 치환
 - start position $u$는 임의로 설정
 - 토큰의 변환 확률은 BERT를 따름
@@ -147,42 +150,115 @@ low-resource 시나리오 또한 시뮬레이션하였고, NMT에서는 zero-res
 
 ### 4.2. Fine-Tuning on NMT
 
-**Experimental Setting**
-- unsupervised NMT의 경우 pre-trained model을 fine-tune할 bilingual data가 없으므로, pre-train 단계에서 사용한 monolingual data 활용함.
-- 학습시 back-translation을 이용하여 pseudo bilingual data를 생성한다. 이때 denoising auto-encoder는 사용하지 않는다.
+#### Experimental Setting
+
+- unsupervised NMT의 경우 pre-trained model을 fine-tune할 bilingual data가 없으므로, pre-train 단계에서 사용한 monolingual data 활용
+- 학습시 back-translation을 이용하여 pseudo bilingual data를 생성. 이때 denoising auto-encoder는 사용하지 않는다.
 -  Adam optimize with initial learning rate $10^{−4}$, the batch size is set as 2000 tokens for each GPU
 - evaluation 동안에는 English-French의 경우 *newstest2014*를, English-Romanian/English-German은 *newstest2016*에 대해 [multi-bleu.pl](https://github.com/moses-smt/mosesdecoder/blob/master/scripts/generic/multi-bleu.perl)을 이용하여 BLEU score를 계산함.
 
-**Results on Unsupervised NMT**  
+#### Results on Unsupervised NMT
 
 ![image](https://user-images.githubusercontent.com/47516855/148766211-f12f4e40-942c-4d46-8b8e-c65388b670e3.png){: .align-center}{: width="800"}
 
 실험에 대한 결과는 위 Table 2에 잘 나와있다.
 6개의 번역에 대해서 모두 좋은 성능을 내었다.
 XLM (Lample & Conneau, 2019)이 SOTA인데, 이는 MLM (masked language model)과 CLM (causal language model)을 사용하는 BERT like pre-training를 인코더와 디코더에서 활용하였다.
+MASS의 경우 이보다 더 좋은 것으로 나타났다
 
+#### Compared with Other Pre-training Methods
 
+이번 장에선 NLG에 대해 MASS와 다른 PLM을 비교한다.
+베이스라인은 *BERT+LM*으로, MLM으로 인코더를 학습한 후 디코더에서 일반적인 LM을 학습한 것이다.
+두번째 베이스라인은 *DAE*로, 단순하게 인코더와 디코를 denoising auto-encoder로 학습한 것이다.
+논문에선 이 둘을 (1) pre-train한 후 (2) XLM(DAE loss + back-translation)과 같은 fine-tunin 전략으로 (3) unsupervised translation pairs로 학습하였다.
+이 둘 모두 6-layer Transformer를 사용하였다.
 
+![image](https://user-images.githubusercontent.com/47516855/153705289-8069550a-9b60-4f15-b564-637bfff13472.png){: .align-center}{: width="500"}
 
+위 Table 3에서 볼 수 있듯, BERT+LM이 DAE를 능가하는 성능을 보였고, MASS는 BERT+LM을 능가하였다.
+DAE는 임의의 토큰들 혹은 인접한 토큰들을 마스킹하는 denoising 테크닉을 사용한다. 그러나 대부분의 인코더-디코더 어텐션 구조에서는 residual connection을 사용하기 때문에 디코더의 최상위 레이어에서는 인코더의 토큰 임베딩에 **직접적으로 연결**된다.
+따라서 이를 통해 마스크 되지 않은 토큰을 쉽게 학습한다.
+반면, DAE의 디코더에서는 모든 문장을 인풋으로 받기 때문에 LM처럼 다음 토큰을 예측하기 충분한 정보를 갖고 있다.
+따라서 **인코더에서 유의미한 정보를 추출**하기가 상대적으로 어렵다. 
 
+#### Experiments on Low-Resource NMT
 
+학습데이터가 부족한 low-resource 상황을 살펴보자.
+WMT14 영어-프랑스어에서는 10K의, WMT16 영어-독일어에서는 100K, WMT16 영어-루마니아어에서는 1M개의 문장쌍을 뽑아 실험을 진행한다.
+pre-training 단계에서 이전과 동일한 BPE를 사용하였고, 20,000스텝, Adam optimizer, $10^{-4}$의 학습률로 fine-tuning을 진행하였다. 
+평가는 이전의 unsupervised NMT 결과와 동일한 데이터를 사용하여 진행한다.
 
+![image](https://user-images.githubusercontent.com/47516855/153705793-2b5d56e2-2444-4983-8a5d-0fb0e3a390a6.png){: .align-center}{: width="900"}
 
+위 Figure 3는 이에 대한 결과로, MASS가 학습데이터가 부족한 시나리오에서도 잘 동작함을 의미한다.
 
+### 4.3. Fine-Tuning on Text Summarization
 
+#### Experiment Setting
 
-> For unsupervised NMT, we directly fine-tune the pre-trained model on monolingual data with back-translation loss (Lample et al., 2018), instead of using additional denoising auto-encoder loss as in Lample et al. (2018).
+요약 태스크에서 PLM은 10K, 100K, 1M, 3.8M의 Gigaword corpus로 fine-tuning한다.
+Gigaword corpus는 기사 본문과 제목으로 이루어져있고, 본문은 인코더에, 제목은 디코더에 넣어 요약 태스크를 학습한다.
+성능의 평가지표로는 ROUGE-1, ROUGE-2, ROUGE-L의 F1 score를 사용한다.
 
+#### Results
 
-back translation
+![image](https://user-images.githubusercontent.com/47516855/153706411-13f43263-c78c-4b79-9b60-099745f42ae6.png){: .align-center}{: width="400"}
 
-https://kh-kim.github.io/blog/2020/09/30/Back-Translation-Review.html
+Figure 4는 성능평가 결과이다.
+MASS는 일관적으로 베이스라인 성능을 압도하였으며, 이를 통해 MASS가 다양한 스케일에 대한 학습데이터가 부족한 시나리오에서도 효과적임을 증명하였다.
 
-https://dev-sngwn.github.io/2020-01-07-back-translation/
+#### Compared with Other Pre-Training Methods
 
-https://www.youtube.com/watch?v=htzBkroOLg4
+앞장과 마찬가지로 *BERT+LM*과 *DAE*에 대해서도 성능 비교를 진행한다.
+데이터는 3.8M의 요약데이터를 사용하였으며, 아래 표와 같이 좋은 성능을 보이고있다.
 
-https://arxiv.org/pdf/1804.07755.pdf
+![image](https://user-images.githubusercontent.com/47516855/153706494-9ef33653-a7b0-4d27-aafb-6b675c72ba2d.png){: .align-center}{: width="400"}
 
-{: .notice--info}
-{: .align-center}{: width="500"}
+### 4.4. Fine-Tuning on Conversational Response Generation
+
+#### Experimental Setting
+
+Conversational response generation는 대화에서 유연한 응답을 생성하는 태스크이다.
+여기서는 140K 이상의 데이터를 갖는 Cornell movie dialog corpus를 이용하였고, 무작위로 10K/20K 쌍을 뽑아 validation/test set으로 사용하였다.
+그 외 학습조건은 이전과 같고, perplexity를 사용하여 성능을 평가한다.
+
+#### Results
+
+실험은 임의로 선택한 10K쌍과 전체 110K쌍에 대해 진행하였다.
+아래의 Table 5에서 확인할 수 있듯 베이스라인보다 낮은 PPL을 보였다.
+
+![image](https://user-images.githubusercontent.com/47516855/153708553-d43e7a26-c54c-4748-9d24-c2e33d53fdd8.png){: .align-center}{: width="500"}
+
+#### Compared with Other Pre-Training Method
+
+마찬가지로 *BERT+LM*과 *DAE*에 대해 비교를 진행하였다.
+이 결과 또한 위의 Table 5에서 확인할 수 있다.
+
+### 4.5. Analysis of MASS
+
+#### Study of Different k
+
+마스킹(maksed fragment)의 길이 $k$는 중요한 하이퍼 파라미터로, 이에 따른 성능의 변화를 살펴보자.
+$k$는 전체 문장의 10%부터 90%까지 10% 단위로 진행하였으며, 추가로 $k=1$ (BERT)과 $k=m$ (GPT)을 살펴보았다.
+
+![image](https://user-images.githubusercontent.com/47516855/153708761-fa672fa7-7669-4cfd-b580-f4c684df6fd7.png){: .align-center}{: width="800"}
+
+첫번째로 살펴볼 것은 영어-프랑스어의 pre-training 모델이다. WMT의 newstest2013을 validation set으로 사용하였으며, 이에 따른 PPL은 Figure 5a(영어)와 5b(프랑스어)에 나와있다. 이는 pre-trained model이 k가 50%-70% 사이일 때 최고의 validation PPL을 보이고 있다. 
+
+Fine-tuning에서의 성능은 비지도 영어-프랑스어 번역에 대한 validation BLEU scores와 (Figure 5c), 텍스트 요약에서의 validation ROUGE scores (Figure 5d), conversational response generation에서의 validation PPL (Figure 5e)에서 확인할 수 있다.
+MASS는 약 50%의 마스킹을 진행하였을 때 최고의 성능을 내는 것을 확인하였다.
+
+$k=50$%는 인코더-디코더 사이의 균형을 잘 맞춰주는 값으로, 인코더나 디코더 내에서 **마스킹을 너무 많이** 한다면, 모델에 bias가 생겨 **마스킹이 덜 되는 인코더/디코더에 정보를 얻기 위해 의존**할 것이고, 이는 인코더-디코더 구조를 잘 이용해야하는 NLG 태스크에서 적절하지 않게된다. 극단적인 $k=1$ (BERT)나 $k=m$ (GPT) 둘다에서도 NLG는 좋은 성능을 보이지는 못하였다.
+
+#### Ablation Study of MASS
+
+MASS에서 제안하는 masked sequence to sequence pre-training 방법은 신중을 기해 다음의 두 가지를 디자인하였다.
+1. 인코더쪽에서 연속된 토큰을 마스킹하고 이를 디코더에서 예측한다. 이를 통해 개개의 토큰을 예측하는 것 보다 더 나은 language modeling capability를 얻는다.
+2. 인코더에서 마스킹되지 않았던 토큰을 디코더에서 마스킹한다. 이를 통해 이전 토큰에서의 정보를 이용하기보단 디코더가 인코더에서 정보를 추출하도록 만든다.
+
+첫번째 디자인에 대해서는 임의로 개개의 토큰을 마스킹하여 연속된 토큰을 마스킹하는 것의 성능을 알아보고 (Table 6의 *Discrete*), 두번째 디자인은 인코더에서 마스킹하지 않았던 토큰을 디코더에서 마스킹하는 대신 전부 집어넣는 방법이다 (Table 6의 *Feed*).
+
+![image](https://user-images.githubusercontent.com/47516855/153738927-d6f1bc52-fa31-4d9a-ba8f-29837e81a73f.png){: .align-center}{: width="500"}
+
+이들 모두 비지도 영어-프랑스어 번역에 대해 테스트하였으며, 이 결과 MASS의 유용함을 알 수 있다.
