@@ -129,8 +129,7 @@ stochastic prediction dropout은 하나의 아웃풋을 사용하기보단 multi
 
 여태까지의 복잡한 프로세스를 그림으로 나타내면 다음과 같다.
 
-![image](https://user-images.githubusercontent.com/47516855/167287269-18424840-350f-457b-b01a-97d2beb8801a.png)
-{: .align-center}{: width="700"}
+![image](https://user-images.githubusercontent.com/47516855/167287269-18424840-350f-457b-b01a-97d2beb8801a.png){: .align-center}{: width="700"}
 
 
 **Relevance Ranking Output:**
