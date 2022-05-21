@@ -133,7 +133,7 @@ PyTorch에는 `nn.LayerNorm`으로 구현되어 있다. 듣자하니 RNN에서�
 
 # Position-wise FFN에서 `inner-layer dimensionality`가 무엇인가?
 
-본문에 보면, **the inner-layer has dimensionality $d_{ff}=2048$이라고 되어 있다. FC가 2개 이므로, 처음에 있는 FC의 weight가 `[512 x 2048]`이고, ReLU를 거친 FC가 `[2048 x 512]` 인 것으로 보인다.
+본문에 보면, **the inner-layer has dimensionality $d_{ff}=2048$**이라고 되어 있다. FC가 2개 이므로, 처음에 있는 FC의 weight가 `[512 x 2048]`이고, ReLU를 거친 FC가 `[2048 x 512]` 인 것으로 보인다.
 
 # dropout은 어디에 사용되는가?
 
