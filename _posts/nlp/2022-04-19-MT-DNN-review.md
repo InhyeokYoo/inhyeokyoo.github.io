@@ -8,6 +8,7 @@ categories:
   - Paper Review
 tags:
   - Language Modeling
+  - Multi-task learning
 use_math: true
 last_modified_at: 2022-05-08
 ---
