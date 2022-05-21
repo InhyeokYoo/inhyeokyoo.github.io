@@ -14,7 +14,12 @@ last_modified_at: 2022-05-09
 
 ## 들어가며
 
-[논문](https://arxiv.org/abs/1909.11942)과 [깃허브](https://github.com/google-research/ALBERT)
+ALBERT는 parameter sharing을 통해 parameter의 양을 줄이면서 성능은 향상시킨 논문이다.
+이를 위하여 embedding layer를 분해하는 factorization하고, 모든 레이어의 파라미터를 공유하는 구조를 취하고 있다.
+더 작은 파라미터와 더 나은 성능을 보이지만, 그럼에도 불구하고 더 큰 구조로 인해 학습속도가 낮다는 단점이 있다.
+자세한 내용은 [논문](https://arxiv.org/abs/1909.11942)과 [깃허브](https://github.com/google-research/ALBERT)를 참고하자.
+
+## Introduction
 
 NLP에서 pre-training/fine-tuning scheme은 사실상의 표준이 되며 language representation learning 한계점의 돌파구가 되었다.
 이에는 워낙 많은 논문들이 있고, LM을 다루다보면 한번쯤은 보게 되는 Dai & Le, 2015; Radford et al., 2018; Devlin et al., 2019; Howard & Ruder, 2018 등이 있다.
@@ -74,7 +79,25 @@ T5는 대용량의 모델을 학습할 때 model parallelization을 사용하였
 
 ### CROSS-LAYER PARAMETER SHARING
 
+파라미터를 공유하는 연구는 이전에도 존재하였지만, 일반적인 Transformer구조에만 한정되고 pre-training/fine-tuning scheme에서는 연구된 바가 없다.
+본 논문에서의 발견과 다르게 Universal Transformer에서는 레이어 간 파라미터 공유가 LM과 주어-동사 일치 문제에서 더 나은 성능을 보임을 발견하였다.
+
+DEQ의 경우 Transformer를 이용, 특정 레이어에서 input/output embedding이 동일해지는 평형점에 도달할 수 있음을 보였다.
+
+
 ### SENTENCE ORDERING OBJECTIVES
+
+ALBERT는 두개의 연속된 segment의 순서를 맞추는 loss를 갖는다.
+이러한 담화 응집성(discourse coherence)과 관련된 연구도 여럿 존재한다.
+
+담화에서의 응집성(coherence: 텍스트에 포함되어 있는 내용들 간의 **의미적인 연결 관계**)와 결속성(cohesion: 텍스트에 포함되어 있는 요소(문장)들을 연결해 주는 **표면적인 언어 자질**) 널리 연구되어 왔으며, 이웃하는 segment를 연결해주는 현상 또한 연구되어 왔다.
+
+실제로 효과가 있다고 밝혀진 대부분의 objective는 대게 단순하다.
+Skip-thought/FastSent sentence embedding은 이웃하는 문장의 단어를 예측하는 방식으로 문장을 학습한다.
+또 다른 연구로는 바로 이웃하는 문장보다 더 나중 문장을 예측하거나 담화표지(discourse marker: 대화에서 특정한 역할을 해주는 것)를 예측하는 것이 있다.
+
+본 연구는 두 개의 연속하는 문장의 순서를 예측하는 방식으로 sentence embedding을 학습하는 Jernite et al. (2017)의 연구와 비슷하다.
+그러나 이러한 연구들과 ALBERT의 SOP의 가장 큰 차이는 문장 단위가 아니라 text segment 단위로 동작한다는 것이다.
 
 ## THE ELEMENTS OF ALBERT
 
@@ -158,17 +181,17 @@ BERT는 MLM과 NSP를 loss로 사용한다.
 NSP는 문장 쌍의 관계를 추론하는 NLI와 같은 downstream task에서 사용하기 위해 도입되었다.
 그러나 XLNet과 RoBERTa는 NSP의 영향이 없는 것을 밝혀냈고, 이를 제거하였다.
 
-본 논문에서는 NSP의 효과가 없는 이유가 MLM과는 다르게 어렵지 않은 task 때문이라고 짐작한다.
-NSP는 **topic prediction**과 **coherence prediction**을 하나의 task로 결합한 형태로 볼 수 있다.
-BERT의 NSP를 수행할 때, negative-example의 경우 다른 문서에서 가져오기 때문에 topic과 coherence 측면에서 일치하지 않는다. 
-그러나 topic prediction은 coherence prediction에 비해 학습하기 쉽고 MLM loss와 겹치는 부분이 있다.
+NSP의 효과가 없는 이유는 MLM과는 다르게 어렵지 않은 task 때문으로 짐작된다.
+NSP는 *토픽 예측(topic prediction)*과 *응집성 예측(coherence prediction)*을 하나의 task로 결합한 형태로 볼 수 있다. 
+이는 NSP를 수행할 때 negative-example의 경우 두 segment를 다른 문서에서 가져오기 때문에 토픽/응집성 측면에서 어울리지 않기 때문이다 (misaligned).
+그러나 토픽 예측은 응집성 예측에 비해 학습하기 쉽고 MLM loss와 겹치는 부분이 있다.
 
-본 논문의 저자들은 inter-sentence modeling이 language understanding의 중요한 측면 중 하나로 주장하지만, **coherence**에 더욱 기반을 둔 **Sentence-order prediction (SOP) loss**를 제안한다.
-SOP loss는 topic prediction을 제거하는 대신 inter-sentence coherence를 모델링한다.
+본 논문의 저자들은 문장 간 모델링(inter-sentence modeling)이 language understanding의 중요한 측면 중 하나로 주장하지만, **응집성**에 더욱 기반을 둔 **Sentence-order prediction (SOP) loss**를 제안한다.
+SOP loss는 토픽 예측을 제거하는 대신 문장 간 응집성(inter-sentence coherence)을 모델링한다.
 
 SOP loss는 positive examples (같은 문서에서 추출한 연속된 segment)는 BERT와 똑같은 테크닉을 사용하고, **negative examples은 똑같이 연속된 segment지만 순서가 뒤바뀐 것**을 사용한다.
-이를 통해 모델이 discourse-level coherence properties에 대한 finer-grained distinctions을 학습하도록 한다.
-추후 살펴보겠지만 이는 NSP는 SOP task를 풀 수 없으며 (즉, 더 쉬운 topic-prediction signal을 학습하며, SOP task에 대한 임의의 baseline 수준만 수행), 반면 SOP는 예측컨데 misaligned coherence cue를 분석하는 식으로 NSP task를 합리적인 수준에서 풀 수 있었다.
+이를 통해 모델이 문서수준에서의 응집성 속성에 대해 더욱 세분화된 차이점(finer-grained distinctions)을 학습하도록 한다.
+추후 살펴보겠지만 이는 NSP는 SOP task를 풀 수 없으며 (즉, 더 쉬운 토픽 예측의 신호를 학습하며, SOP task에 대한 임의의 baseline 수준만 수행), 반면 SOP는 예측컨데 불일치된 응집성의 단서 (misaligned coherence cue)를 분석하는 식으로 NSP task를 합리적인 수준에서 풀 수 있었다.
 이 결과 ALBERT는 일관적으로 multi-sentence encoding tasks에 대한 downstream task에 대한 성능 향상시킴을 확인하였다.
 
 ### MODEL SETUP
@@ -185,7 +208,138 @@ ALBERT-xxlarge의 경우 24레이어와 12레이어 모델의 성능에 차이�
 
 파라미터 효율성에 대한 향상은 ALBERT의 가장 중요한 이점이며, 이러한 이점을 정량화하기에 앞서 실험 과정을 더 살펴보도록 한다.
 
+## EXPERIMENTAL RESULTS
 
+### EXPERIMENTAL SETUP
 
+가능한 의미있는 비교를 위해 BERT와 동일한 configuration에다가 BookCorpus, Wikipedia 데이터를 통해 학습하여 baseline을 만든다.
+그래서 총 16GB의 텍스트 파일을 얻는다.
 
-{: .align-center}{: width="600"}
+입력 포맷은 [CLS] $x _1$ [SEP] $x _2$ [SEP]의 형태가 된다.
+여기서 $x _i$는 segment가 된다.
+최대 입력 길이는 512로 제한하며, 10%의 확률로 512보다 작은 임의의 문장들을 생성한다.
+BERT처럼 사전의 크기는 30,000을 사용하며, SentencePiece를 사용하여 만들었다.
+
+MLM에서 사용할 마스킹된 단어는 SpanBERT의 $n$-gram masking (span masking)을 사용한다.
+마스킹할 단어의 길이 $n$은 다음과 같은 확률로 구해진다.
+
+$$
+p(n) = \frac{1/n}{\sum^N _{k=1} 1/k}
+$$
+
+마스킹할 단어의 최대 길이는 3으로 설정한다.
+
+Batch size는 4096을 사용하며, 배치 사이즈가 크기 때문에 안정적으로 학습할 수 있는 LAMB optimizer (lr=0.00176)를 사용한다.
+LAMB optimizer에 대한 설명은 [다음](https://junseong.oopy.io/paper-review/lamb-optimizer)을 참고해보자.
+모든 모델은 특별한 언급이 없는 한 125,000 스텝으로 학습했다고 보면된다.
+
+### OVERALL COMPARISON BETWEEN BERT AND ALBERT
+
+이제 ALBERT design choice에 대한 영향력을 측정해보자. 
+파라미터 효율성에 대한 결과는 다음 테이블에 나와있다.
+
+![image](https://user-images.githubusercontent.com/47516855/169252012-068e04a5-7cf4-4231-90e3-1f7f6601f607.png){: .align-center}{: width="600"}
+
+BERT-large의 70%의 파라미터만으로 ALBERT-xxlarge는 BERT-large에 비해 굉장한 성능 향상을 보였다.
+Dev set에 대한 실험결과는 SQuAD v1.1 (+1.9%), SQuAD v2.0 (+3.1%), MNLI (+1.4%), SST-2 (+2.2%), RACE (+8.4%)로 나타났다.
+
+또한 같은 조건하에서 학습 시 데이터 쓰루풋(throughput)의 속도 차이도 굉장히 흥미로운데, 더 적은 communication과 연산으로도 더 높은 쓰루풋을 보였기 때문이다. 
+여기서 쓰루풋은 **특정 단위 시간 당 특정 데이터 양의 처리량**을 의미한다.
+BERT large를 baseline로 봤을 때 (1.0), ALBERT-large는 1.7배 빠른 속도를 보였고, ALBERT-xxlarge의 경우 더 큰 구조 때문에 약 3배 정도 느린 모습을 보여줬다.
+그러나 **파라미터의 양이 더 적음에도 불구하고** 학습 속도에 차이가 나는 이유는 논문에서 밝히지 않고 있다.
+
+### FACTORIZED EMBEDDING PARAMETERIZATION
+
+아래 테이블은 ALBERT base의 세팅에서 embedding size $E$의 변화에 따른 효과를 파악한 것이다.
+
+![image](https://user-images.githubusercontent.com/47516855/169636239-fc4115bb-813e-484c-8085-53739622ea4c.png){: .align-center}{: width="700"}
+
+BERT와 같이 파라미터를 공유하지 않는 경우 embedding size가 클 경우 더 좋은 성능을 보였으나 그 차이는 미미했다.
+
+ALBERT와 같이 파라미터를 공유하는 경우 embedding size 128으로 사용하는 것이 제일 좋은 성능을 보였다.
+이러한 결과에 기반하여 앞으로는 $E=128$로 세팅한다.
+
+### CROSS-LAYER PARAMETER SHARING
+
+아래 테이블은 다양한 레이어 간의 파라미터 공유에 대한 실험 결과이다.
+세팅은 ALBERT base 환경에 두 개의 embedding size를 사용한다 ($E=768, E=128$).
+
+마찬가지로 파라미터 공유/비공유 환경에서 비교를 진행하였고, 오직 attention parameter만 공유/FFN만 공유하는 실험을 추가하였다.
+
+![image](https://user-images.githubusercontent.com/47516855/169637637-074a22dc-257e-43ec-9e94-f801dc6e97f0.png){: .align-center}{: width="800"}
+
+모든 파라미터를 공유하는 경우 embedding size에 관계없이 성능이 하락하였으나 $E=128$일 때의 성능폭이 작았다.
+
+추가로 FFN-layer를 공유하는 경우 대부분 성능하락이 발생하였다.
+반면 attention layer만을 공유하는 경우 $E=128$일 때는 성능 하락이 발생하지 않았으며, $E=768$일 때는 약간의 하락이 발생하였다.
+
+이외에도 레이어 간 파라미터를 공유하는 방법이 있는데, $L$개의 레이어를 size $M$의 $N$ 그룹으로 나누어 각 size $M$의 그룹이 파라미터를 공유하는 것이다.
+실험결과 $M$이 작을수록 더 좋은 성능을 내었으나 파라미터도 급격하게 커지게 된다.
+ALBERT에서는 모든 파라미터 공유 (표의 all-shared)하는 것을 디폴트 세팅으로 잡았다.
+
+### SENTENCE ORDER PREDICTION (SOP)
+
+여기서는 none (XLNet, RoBERTa), NSP (BERT), SOP (ALBERT) 세 개의 문장 간 모델링에 대한 loss에 대해 비교실험(head-to-head)을 진행하였다.
+표의 intrinsic의 경우 SQuAD, RACE의 dev set에 대해 정확도를 측정하였다.
+이 경우 모델의 loss가 수렴하는지 확인하는 용도로 사용한 것이지 model selection 용도로 사용하진 않았다.
+
+Downstream evaluation의 경우 dev set에 대해 early stopping을 사용하였다.
+
+![image](https://user-images.githubusercontent.com/47516855/169638146-fafc93fd-578c-4479-aeee-d9a5005bfbd4.png){: .align-center}{: width="700"}
+
+Intrinsic tasks의 경우 NSP는 SOP에 대해 별 다른 효과를 보여주지 못하였다 (52.0%의 정확도로 아무것도 하지 않는 none과 비슷).
+이를 통해 NSP가 토픽의 변화에 대해서만 모델링한다고 결론낼 수 있었다.
+
+반면 SOP는 NSP에서 78.9%라는 상대적으로 높은 성능을 보였고, SOP에서는 86.5%를 달성하였다.
+이보다 더욱 중요한 것은 SOP의 경우 **multi-sentence encoding task에서 일관되게 성능 향상**을 보였다는 것이다.
+
+### WHAT IF WE TRAIN FOR THE SAME AMOUNT OF TIME?
+
+이번 파트는 상당히 흥미로운 부분인데, 저자들은 이에 추가로 **같은 시간동안 학습한 결과**를 비교하였다.
+앞선 Table 2에서 보여준 속도를 보면 BERT-large에 대한 데이터 쓰루풋이 ALBERT xx-large에 비해 3.17배 높은 것을 볼 수 있다.
+일반적으로 더 많이 학습시킬 수록 더 좋은 성능을 내기 때문에 여기서는 단순 데이터 쓰루풋 (즉, 학습 step 수)가 아닌 실제 학습 시간으로 성능을 비교하였다.
+
+BERT-large의 경우 400k step (34시간), ALBERT-xxlarge의 경우 125k step (32시간)를 학습시켰다.
+
+![image](https://user-images.githubusercontent.com/47516855/169639006-3edfeca8-3271-43b4-a84c-d2f3243a04f5.png){: .align-center}{: height="300"}
+
+ALBERT-large의 경우 BERT-large보다 평균 1.5% 높으며, RACE에서는 5.2% 향상된 결과를 보였다. 
+
+### ADDITIONAL TRAINING DATA AND DROPOUT EFFECTS
+
+이번에는 Wikpedia와 BookCorpus에 추가로 XLNet과 RoBERTa의 데이터를 사용해보겠다.
+
+![image](https://user-images.githubusercontent.com/47516855/169640354-52c54acf-85e3-460d-b0bc-649f69739868.png){: .align-center}{: width="600"}
+
+아래 그림의 a는 MLM에 대한 dev set 결과로, **데이터를 추가로 사용할 경우 성능이 크게 증가**하는 것을 확인할 수 있다.
+
+또한, 아래 표는 downstream task에서의 성능으로, SQuAD의 경우 위키피디아 기반으로 만들어져있기 때문에 out-of-domain의 문제로 제외하였다.
+
+![image](https://user-images.githubusercontent.com/47516855/169642502-d79c9f00-255a-4792-a998-491412786533.png)
+
+그 결과 1M step의 학습에도 불구하고 가장 큰 모델의 경우 **오버피팅하지 않는 것**을 확인하였다.
+따라서 모델의 용량을 더 크게 만들기 위해 dropout을 제거한 모델 (위 그림 Fig. 2b)을 살펴보았고, MLM에서 더 나은 성능을 보여주는 것을 확인하였다.
+
+CNN에서는 batch normalization과 dropout이 성능을 저하시킬 수 있다는 경험적/이론적 증거가 있는데, 본 논문은  large Transformer-based model에서도 dropout이 성능을 저하시킬 수 있다는 것을 밝혀낸 첫번째 논문이다.
+그러나 ALBERT의 기저는 Transformer의 특정한 종류이기 때문에 이러한 현상이 다른 Transformer 구조에서도 발견되는지에 대해서는 추가적인 실험이 필요할 것이다.
+
+### CURRENT STATE-OF-THE-ART ON NLU TASKS
+
+이번에는 추가 데이터를 활용하여 학습한 ALBERT와 SOTA를 비교해보자.
+크게 두 가지 세팅에서 비교를 하였는데, 하나는 단일 모델이고, 나머지 하나는 앙상블을 이용하였다.
+둘 모두 RoBERTa를 따라서 MNLI의 checkpoint에서 RTE, STS, MRPC 데이터를 fine-tuning하였다.
+앙상블 checkpoint의 경우 dev set 기준으로 6-17개 사이의 모델을 골라 만들었다.
+
+GLUE/RACE는 앙상블의 평균치로 결과를 보고하였으며, 12/24 layer 구조를 활용하였다.
+SQuAD의 경우 span에 대한 확률값의 평균을 사용하였다.
+
+결과보고는 RoBERTa와 같이 dev set에서 다섯번 돌린 결과의 중앙값으로 진행하였다.
+ALBERT의 경우 지금까지의 실험에서 최고의 환경만으로 구성하였다 (xxlarge, MLM + SOP loss, dropout 제거)
+
+![image](https://user-images.githubusercontent.com/47516855/169643004-979302ca-b54f-48cd-80f4-a30717467b87.png){: .align-center}{: width="800"}
+
+![image](https://user-images.githubusercontent.com/47516855/169643085-15c2e177-0596-488a-958a-c9c5a000ef3a.png){: .align-center}{: width="600"}
+
+단일/앙상블 모델 모두 SOTA에 비해 상당한 성능향상을 이끌어내었다.
+특히 RACE는 큰 폭으로 증가하였는데, 앙상블 모델이 이러한 MRC에 대해 특화된 구조이기 때문이다.
+단일 모델의 경우 SOTA 앙상블 모델에 비해서도 2.4% 상승한 모습을 볼 수 있다.
