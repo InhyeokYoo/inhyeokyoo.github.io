@@ -169,7 +169,7 @@ DEQ는 자연어처리 등 다양한 모델에서 실험하여 파라미터의 �
 
 ALBERT에서는 DEQ에서 **input/output embedding이 동일한**것과 다르게, L2 distances와 cosine similarity가 0으로 수렴하는 대신 진동하는 것을 찾아내었다.
 
-![image](https://user-images.githubusercontent.com/47516855/168418714-881fb7f3-7332-4a17-a3e2-3c24a881109b.png){: .align-center}{: width="700"}
+![image](https://user-images.githubusercontent.com/47516855/168418714-881fb7f3-7332-4a17-a3e2-3c24a881109b.png){: .align-center}{: width="550"}
 
 위 그림은 각 레이어의 input/output embedding에 대한 L2 distances와 cosine similarity 값을 나타낸 것이다.
 여기서 두 레이어의 값을 비교하기 위해 L2 distance를 사용한 것을 볼 수 있다.
@@ -220,7 +220,7 @@ ALBERT-xxlarge의 경우 24레이어와 12레이어 모델의 성능에 차이�
 
 입력 포맷은 [CLS] $x _1$ [SEP] $x _2$ [SEP]의 형태가 된다.
 여기서 $x _i$는 segment가 된다.
-최대 입력 길이는 512로 제한하며, 10%의 확률로 512보다 작은 임의의 문장들을 생성한다.
+최대 입력 길이는 512로 제한하며, BERT와 동일하게 10%의 확률로 512보다 작은 임의의 문장들을 샘플링한다.
 BERT처럼 사전의 크기는 30,000을 사용하며, SentencePiece를 사용하여 만들었다.
 
 MLM에서 사용할 마스킹된 단어는 SpanBERT의 $n$-gram masking (span masking)을 사용한다.
@@ -232,7 +232,7 @@ $$
 
 마스킹할 단어의 최대 길이는 3으로 설정한다.
 
-Batch size는 4096을 사용하며, 배치 사이즈가 크기 때문에 안정적으로 학습할 수 있는 LAMB optimizer (lr=0.00176)를 사용한다.
+Batch size는 4096을 사용하며, 배치 사이즈가 크기 때문에 안정적으로 학습할 수 있는 LAMB optimizer ($\text{lr} = 0.00176$)를 사용한다.
 LAMB optimizer에 대한 설명은 [다음](https://junseong.oopy.io/paper-review/lamb-optimizer)을 참고해보자.
 모든 모델은 특별한 언급이 없는 한 125,000 스텝으로 학습했다고 보면된다.
 
@@ -241,19 +241,19 @@ LAMB optimizer에 대한 설명은 [다음](https://junseong.oopy.io/paper-revie
 이제 ALBERT design choice에 대한 영향력을 측정해보자. 
 파라미터 효율성에 대한 결과는 다음 테이블에 나와있다.
 
-![image](https://user-images.githubusercontent.com/47516855/169252012-068e04a5-7cf4-4231-90e3-1f7f6601f607.png){: .align-center}{: width="600"}
+![image](https://user-images.githubusercontent.com/47516855/169252012-068e04a5-7cf4-4231-90e3-1f7f6601f607.png){: .align-center}{: width="700"}
 
 BERT-large의 70%의 파라미터만으로 ALBERT-xxlarge는 BERT-large에 비해 굉장한 성능 향상을 보였다.
 Dev set에 대한 실험결과는 SQuAD v1.1 (+1.9%), SQuAD v2.0 (+3.1%), MNLI (+1.4%), SST-2 (+2.2%), RACE (+8.4%)로 나타났다.
 
 또한 같은 조건하에서 학습 시 데이터 쓰루풋(throughput)의 속도 차이도 굉장히 흥미로운데, 더 적은 communication과 연산으로도 더 높은 쓰루풋을 보였기 때문이다. 
 여기서 쓰루풋은 **특정 단위 시간 당 특정 데이터 양의 처리량**을 의미한다.
-BERT large를 baseline로 봤을 때 (1.0), ALBERT-large는 1.7배 빠른 속도를 보였고, ALBERT-xxlarge의 경우 더 큰 구조 때문에 약 3배 정도 느린 모습을 보여줬다.
+BERT-large를 baseline로 봤을 때 (1.0), ALBERT-large는 1.7배 빠른 속도를 보였고, ALBERT-xxlarge의 경우 더 큰 구조 때문에 약 3배 정도 느린 모습을 보여줬다.
 그러나 **파라미터의 양이 더 적음에도 불구하고** 학습 속도에 차이가 나는 이유는 논문에서 밝히지 않고 있다.
 
 ### FACTORIZED EMBEDDING PARAMETERIZATION
 
-아래 테이블은 ALBERT base의 세팅에서 embedding size $E$의 변화에 따른 효과를 파악한 것이다.
+아래 테이블은 ALBERT-base의 세팅에서 embedding size $E$의 변화에 따른 효과를 파악한 것이다.
 
 ![image](https://user-images.githubusercontent.com/47516855/169636239-fc4115bb-813e-484c-8085-53739622ea4c.png){: .align-center}{: width="700"}
 
@@ -266,7 +266,7 @@ ALBERT와 같이 파라미터를 공유하는 경우 embedding size 128으로 �
 
 아래 테이블은 다양한 레이어 간의 파라미터 공유에 대한 실험 결과이다.
 
-세팅은 ALBERT base 환경에 두 개의 embedding size를 사용한다 ($E=768, E=128$).
+세팅은 ALBERT-base 환경에 두 개의 embedding size를 사용한다 ($E=768, E=128$).
 마찬가지로 파라미터 공유/비공유 환경에서 비교를 진행하였고, 오직 attention parameter만 공유/FFN만 공유하는 실험을 추가하였다.
 
 ![image](https://user-images.githubusercontent.com/47516855/169637637-074a22dc-257e-43ec-9e94-f801dc6e97f0.png){: .align-center}{: width="800"}
@@ -320,7 +320,7 @@ ALBERT-large의 경우 BERT-large보다 평균 1.5% 높으며, RACE에서는 5.2
 
 또한, 아래 표는 downstream task에서의 성능으로, SQuAD의 경우 위키피디아 기반으로 만들어져있기 때문에 out-of-domain의 문제로 제외하였다.
 
-![image](https://user-images.githubusercontent.com/47516855/169642502-d79c9f00-255a-4792-a998-491412786533.png)
+![image](https://user-images.githubusercontent.com/47516855/169642502-d79c9f00-255a-4792-a998-491412786533.png){: .align-center}{: width="550"}
 
 그 결과 1M step의 학습에도 불구하고 가장 큰 모델의 경우 **오버피팅하지 않는 것**을 확인하였다.
 따라서 모델의 용량을 더 크게 만들기 위해 dropout을 제거한 모델 (위 그림 Fig. 2b)을 살펴보았고, MLM에서 더 나은 성능을 보여주는 것을 확인하였다.
@@ -342,9 +342,9 @@ SQuAD의 경우 span에 대한 확률값의 평균을 사용하였다.
 결과보고는 RoBERTa와 같이 dev set에서 다섯번 돌린 결과의 중앙값으로 진행하였다.
 ALBERT의 경우 지금까지의 실험에서 최고의 환경만으로 구성하였다 (xxlarge, MLM + SOP loss, dropout 제거)
 
-![image](https://user-images.githubusercontent.com/47516855/169643004-979302ca-b54f-48cd-80f4-a30717467b87.png){: .align-center}{: width="800"}
+![image](https://user-images.githubusercontent.com/47516855/169643004-979302ca-b54f-48cd-80f4-a30717467b87.png){: .align-center}{: width="750"}
 
-![image](https://user-images.githubusercontent.com/47516855/169643085-15c2e177-0596-488a-958a-c9c5a000ef3a.png){: .align-center}{: width="600"}
+![image](https://user-images.githubusercontent.com/47516855/169643085-15c2e177-0596-488a-958a-c9c5a000ef3a.png){: .align-center}{: width="700"}
 
 단일/앙상블 모델 모두 SOTA에 비해 상당한 성능향상을 이끌어내었다.
 특히 RACE는 큰 폭으로 증가하였는데, 앙상블 모델이 이러한 MRC에 대해 특화된 구조이기 때문이다.
