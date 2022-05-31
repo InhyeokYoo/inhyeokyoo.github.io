@@ -14,23 +14,25 @@ last_modified_at: 2022-05-09
 
 ## 들어가며
 
-ALBERT는 parameter sharing을 통해 parameter의 양을 줄이면서 성능은 향상시킨 논문이다. 이를 위하여 embedding layer를 분해하는 factorization하고, 모든 레이어의 파라미터를 공유하는 구조를 취하고 있다. 더 작은 파라미터와 더 나은 성능을 보이지만, 그럼에도 불구하고 더 큰 구조로 인해 학습속도가 낮다는 단점이 있다.  
+ALBERT는 parameter sharing을 통해 parameter의 양을 줄이면서 성능은 향상시킨 논문이다. 이를 위하여 embedding layer를 분해하는 factorization과 모든 레이어의 파라미터를 공유하는 구조를 취하고 있다. 
+더 작은 파라미터를 갖음에도 더 나은 성능을 보인다는 장점이 있지만 그럼에도 불구하고 더 큰 구조로 인해 학습속도가 낮다는 단점이 있다.  
 
 자세한 내용은 [논문](https://arxiv.org/abs/1909.11942)과 [깃허브](https://github.com/google-research/ALBERT)를 참고하자.
 
 ## Introduction
 
 NLP에서 pre-training/fine-tuning scheme은 사실상의 표준이 되며 language representation learning이 갖는 한계점의 돌파구가 되었다.
-이에는 워낙 많은 논문들이 있고, LM을 다루다보면 한번쯤은 보게 되는 Dai & Le, 2015; Radford et al., 2018; Devlin et al., 2019; Howard & Ruder, 2018 등이 있다.
+이에는 LM을 다루다보면 한번쯤은 보게 되는 Dai & Le, 2015, GPT, ELMo, BERT 등이 있다.
 
-활용 가능한 데이터가 작은 task를 포함, 다양한 non-trivial NLP tasks는 이러한 pre-training으로 부터 많은 이점을 얻었다.
+활용 가능한 데이터가 작은 태스크를 포함하여 다양한 non-trivial NLP tasks는 이러한 pre-training으로부터 많은 이점을 얻었다.
 이러한 연구들 중에는 대용량의 LM이 SOTA를 달성하는데 매우 중요한 역할을 하였으며, 더 큰 모델을 만들고 이로부터 distillation하는 것이 일반적인 방법이 되었다 (Sun et al., 2019; Turc et al., 2019).
 이렇듯 모델의 사이즈가 중요해지는 시점에서 논문의 저자들은 다음과 같은 질문을 던진다.
 
 **과연 더 큰 모델을 사용하는 것 만큼 더 좋은 NLP 모델을 얻는 것이 쉬울 것인가?**
+{: .text-center}
 
-이러한 질문에 대한 답변으로 가장 큰 장애물은 가용가능한 **하드웨어의 메모리**이다.
-현존하는 SOTA 모델은 종종 수백만, 혹은 수십억의 파라미터를 필요로하며, 모델의 크기를 늘리려하면 이러한 메모리 문제에 맞닥뜨리게 된다.
+여기서 가장 큰 장애물은 가용가능한 **하드웨어의 메모리**이다.
+현존하는 SOTA 모델은 종종 수백만 혹은 수십억의 파라미터를 필요로하며, 모델의 크기를 늘리게되면 이러한 메모리 문제에 맞닥뜨리게 된다.
 학습속도 또한 communication overhead가 모델의 파라미터와 비례관계에 있으므로 분산 학습에서 상당한 문제가 된다.
 
 앞서 언급한 문제에 대해 현존하는 해결법으로는 Mesh-tensorflow (Shazeer et al., 2018), Megatron-LM (Shoeybi et al., 2019)과 같은 model parallelization과, gradient checkpointing (Chen et al., 2016), RevNet(Gomez et al., 2017)과 같은 memory management이 있다.
@@ -90,7 +92,7 @@ DEQ의 경우 Transformer를 이용, 특정 레이어에서 input/output embeddi
 ALBERT는 두개의 연속된 segment의 순서를 맞추는 loss를 갖는다.
 이러한 담화 응집성(discourse coherence)과 관련된 연구도 여럿 존재한다.
 
-담화에서의 응집성과 결속성 널리 연구되어 왔으며, 이웃하는 segment를 연결해주는 현상 또한 연구되어 왔다.
+담화에서의 응집성과 결속성은 널리 연구되어 왔으며, 이웃하는 segment를 연결해주는 현상 또한 연구되어 왔다.
 
 > 응집성 (coherence): 텍스트에 포함되어 있는 내용들 간의 **의미적인 연결 관계**  
 > 결속성(cohesion): 텍스트에 포함되어 있는 요소(문장)들을 연결해 주는 **표면적인 언어 자질**. 
