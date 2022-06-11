@@ -15,7 +15,6 @@ last_modified_at: 2022-05-31
 ## Introduction
 
 - Clustering에서 왜 poly encoder가 문제인가
-- Max pooling
 - Triplet loss 어디다 쓰는지?
 
 BERT가 비록 다양한 sentence classification과 sentence-pairregression task에서 SOTA를 달성했지만, 대규모의 문장 쌍을 다룰 때 연산이 많아진다는 단점이 있다.
@@ -69,6 +68,8 @@ Siamese/triplet network는 가용가능한 학습 데이터에 의존하므로 �
 
 ### Classification Objective Function
 
+다음은 classification에서 사용하는 objective function이다.
+
 ![image](https://user-images.githubusercontent.com/47516855/171989665-3dfcd891-44b5-4529-aeaa-887c61a6d566.png){: .align-center}{: width="300"}
 
 Sentence embedding $\mathbf{u}, \mathbf{v}$와 이의 element-wise difference $\lvert \mathbf{u} - \mathbf{v} \rvert$를 concatenation하고, 이를 trainable weight $\mathbf{W} _t \in \mathbb{R}^{3n \times k}$와 곱하여 objective Function을 만든다.
@@ -80,14 +81,20 @@ $$
 여기서 $n$은 embedding dimension이고 $k$는 label의 갯수이다.
 이후 cross entropy loss를 사용하여 이를 최적화한다.
 
-여기서 사용한 문장 임베딩간의 차이에 대해 concatenate하는 것은 MT-DNN에서도 본 것 같은데, 어떠한 의미가 있는지는 잘 모르겠다.
+여기서 사용한 문장 임베딩간의 차이에 대해 concatenate하는 것은 MT-DNN에서도 본 것 같은데, 어떠한 이유로 다음과 같은 결과가 나왔는지 궁금하다.
+
+본 function은 NLI task에서 사용한다.
 
 ### Regression Objective Function
+
+다음은 regression task에서 사용하는 objective function이다.
 
 ![image](https://user-images.githubusercontent.com/47516855/172142599-a77e56d8-f32d-4e1f-86b7-f93dc70e9fc8.png){: .align-center}{: width="300"}
 
 $\mathbf{u}, \mathbf{v}$간의 코사인 유사도가 위 그림과 같이 계산된다.
 이에 대한 objective function으로 MSE loss를 사용한다.
+
+본 function은 regression에서 활용한다.
 
 ### Triplet Objective Function
 
@@ -112,8 +119,19 @@ SBERT는 SNLI와 MNLI에 대해 학습된다.
 SNLI는 570,000개의 문장 쌍이 주어지며, 레이블은 contradiction, eintailment, neutral로 주어진다.
 MNLI는 430,000의 문장 쌍으로 구성되며, 대화부터 글까지 여러 장르를 포함한다.
 
-SBERT는 한 epoch으로 3-way softmax-classifier objective function(label이 세 개인 것을 의미하는 듯)을 통해 학습한다.
+SBERT는 한 epoch으로 3-way softmax-classifier objective function(label이 세 개인 것을 의미)을 통해 학습한다.
 Batch size는 16으로 Adam optimizer와 learning rate 2e-5를 적용하였고, 학습 데이터의 10%에 linear learning rate warm-up를 적용하였다.
+
+또한, Argument Facet Similarity (AFS) corpus에 대해서도 추가적으로 실험하였다.
+AFS는 논란이 많은 총기 규제, 동성혼, 사형제도에 대해 소셜 미디어에서 수집한 6천여개의 문장(sentential argument)으로 구성되어있다.
+데이터는 0점(완전히 다름)부터 5점(완전히 동일) 사이의 점수가 매겨져있다.
+
+AFS corpus에서의 유사도는 STS에서의 유사도와 많이 다른데, STS의 경우 기술적인(descriptive) 반면 AFS는 대화로부터 논증적으로 발췌한 것이 때문이다.
+AFS 논문에서는 STS와의 차이점을 다음과 같이 소개하고 있다.
+
+> We distinguish AFS from STS because: (1) our data are so different: **STS data consists of descriptive sentences whereas our sentences are argumentative excerpts** from dialogs; and (2) our definition of facet allows for sentences that express opposite stance to be realizations of the same facet (AFS = 3) in Fig. 10.
+
+논쟁이 비슷하려면 
 
 ### Evaluation - Semantic Textual Similarity
 
@@ -141,6 +159,25 @@ SBERT는 성능이 제일 좋았으며, InferSent와 Universal Sentence Encoder�
 SBERT가 Universal Sentence Encoder보다 성능이 떨어졌던 것은 SICK-R인데, Universal Sentence Encoder의 경우 뉴스, QnA 페이지, discussion forum과 같은 곳에서 얻은 데이터로 학습했기 때문에 SICK-R의 데이터와 유사한 측면이 있기 때문이다 (반면 SBERT의 경우 BERT를 그대로 활용하기 때문에 Wikipedia를 사용).
 
 RoBERTa도 좋은 성능을 내었지만, SBERT와 SRoBERTa사이에는 미미한 성능차이가 있을뿐이었다.
+
+### Supervised STS
+
+이번엔 STSb를 지도학습으로 학습시키 결과를 살펴보자.
+STSb의 경우 *caption, news, forum*에서 수집한 8,628개의 문장 쌍으로 이루어져있으며, 5,479개의 train, 1,500개의 dev, 1379개의 test로 구성되어있다.
+
+모든 실험은 10번 random seed로 진행하여 variance의 영향력을 최소화하였다.
+실험은 STSb-only와 NLI+STSb 두개로 나누어 진행하였다.
+
+![image](https://user-images.githubusercontent.com/47516855/173166572-137f22f8-f729-4b02-966c-34271351cb8b.png){: .align-center}{: width="300"}
+
+STSb만 학습시킨 결과보다 NLI+STSb를 학습시킨 결과가 1-2 포인트 정도의 미미한 향상이 일어났다.
+그러나 BERT의 cross-encoder 구조에서는 대략 3-4%의 성능을 이끌어내었다.
+이 역시 BERT와 RoBERTa의 차이는 미미하였다.
+
+### Argument Facet Similarity
+
+
+
 
 
 
