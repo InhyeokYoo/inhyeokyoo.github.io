@@ -30,9 +30,16 @@ LAMBADA는 (Paperno et al., 2016) 텍스트 내 긴 문장에 대한 의존성�
 
 ## Natural Language Inference (NLI)
 
-premise가 뭔지 설명
+Natural Language Inference(NLI)는 두 문장 사이의 관계를 이해하는 능력을 측정한다. 보통 두 개에서 세 개의 클래스를 분류하는 문제로 구성되며, 모델은 두번째 문장이 논리적으로 첫번째 문장 뒤에 올 수 있는지, 이에 반대되는지, 아니면 참인지 (자연스러운지) 분류한다.
 
-Natural Language Inference(NLI)는 두 문장 사이의 관계를 이해하는 능력을 측정한다. 실질적으로 이러한 작업은 두 개 혹은 세 개의 클래스를 분류하는 문제로 구성되며, 모델은 두번째 문장이 논리적으로 첫번째 문장 뒤에 올 수 있는지, 이에 반대되는지, 아니면 참인지 (자연스러운지) 분류한다.
+### SNLI
+
+SNLI와 MNLI에 대해 학습된다.
+SNLI는 570,000개의 문장 쌍이 주어지며, 레이블은 contradiction, eintailment, neutral로 주어진다.
+
+### MNLI
+
+MNLI는 430,000의 문장 쌍으로 구성되며, 대화부터 글까지 여러 장르를 포함한다.
 
 ### Recognizing Textual Entailment (RTE)
 
@@ -72,6 +79,9 @@ Most current question answering datasets frame the task as reading comprehension
 
 http://nlpprogress.com/english/question_answering.html#reading-comprehension
 
+## Semantic Textual Similarity
+
+[Reimers et al., 2016](https://aclanthology.org/C16-1009/)에 따르면 Pearson correlation의 경우 STS에 부적합함.
 
 
 데이터셋 구축 과정
