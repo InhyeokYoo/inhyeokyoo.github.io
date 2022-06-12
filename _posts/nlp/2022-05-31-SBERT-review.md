@@ -229,7 +229,7 @@ tf-idf, average GloVe embeddings, InferSent과 같은 **비지도학습 방법�
 SBERT를 10-fold cross-validation(1번 방법)으로 학습할 경우 BERT와 거의 동등한 성능을 냈다.
 
 그러나 cross-topic evaluation(2번 방법)의 경우 SBERT는 Spearman correlation에서 **약 7포인트의 하락**이 일어났다.
-논쟁이 비슷하려면 반드시 비슷한 주장을 할 뿐만 아니라 그 근거까지도 비슷해야하는데, BERT는 **두 문장간의 직접적인 attention(e.g. 단어끼리의 비교)이 가능**한반면, SBERT는 단일문장을 embedding하여 **학습 시에 없었던 토픽**에서의 문장을 비슷한 주장과 근거를 가깝게 위치하는 vector space에 맵핑해야되기 때문에 훨씬 더 어렵기 때문이라 밝히고 있다.
+논쟁이 비슷하려면 반드시 비슷한 주장을 할 뿐만 아니라 그 근거까지도 비슷해야하는데, BERT는 **두 문장간의 직접적인 attention(e.g. 단어끼리의 비교)이 가능**한반면, SBERT는 **단일문장을 각 각 embedding**하여 **학습 시에 없었던 토픽**에서의 문장을 비슷한 주장과 근거를 가깝게 위치하는 vector space에 맵핑해야되기 때문에 훨씬 더 어렵기 때문이라 밝히고 있다.
 
 ### Wikipedia Sections Distinction
 
