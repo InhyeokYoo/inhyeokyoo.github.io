@@ -229,7 +229,7 @@ tf-idf, average GloVe embeddings, InferSent과 같은 **비지도학습 방법�
 SBERT를 10-fold cross-validation(1번 방법)으로 학습할 경우 BERT와 거의 동등한 성능을 냈다.
 
 그러나 cross-topic evaluation(2번 방법)의 경우 SBERT는 Spearman correlation에서 **약 7포인트의 하락**이 일어났다.
-논쟁이 비슷하려면 반드시 비슷한 주장을 할 뿐만 아니라 그 근거까지도 비슷해야하는데, BERT는 **두 문장간의 직접적인 attention(e.g. 단어끼리의 비교)이 가능**한반면, SBERT는 **학습 시에 없었던 토픽**에서의 문장을 비슷한 주장과 근거를 가깝게 위치하는 vector space에 맵핑해야되기 때문에 훨씬 더 어렵기 때문이라 밝히고 있다.
+논쟁이 비슷하려면 반드시 비슷한 주장을 할 뿐만 아니라 그 근거까지도 비슷해야하는데, BERT는 **두 문장간의 직접적인 attention(e.g. 단어끼리의 비교)이 가능**한반면, SBERT는 단일문장을 embedding하여 **학습 시에 없었던 토픽**에서의 문장을 비슷한 주장과 근거를 가깝게 위치하는 vector space에 맵핑해야되기 때문에 훨씬 더 어렵기 때문이라 밝히고 있다.
 
 ### Wikipedia Sections Distinction
 
@@ -303,9 +303,59 @@ GloVe의 경우 단순한 for-loop에 dictionary lookup을 이용, NumPy로 계�
 InferSent와 SBERT는 PyTorch기반으로, Universal Sentence Encoder의 경우 TensorFlow Hub에 있는 버전으로 사용한다.
 실험 spec은 Intel i7-5820K CPU @ 3.30GHz, Nvidia Tesla V100 GPU, CUDA 9.2, cuDNN이다.
 
-연산 효율을 위해 BucketIterator와 비슷한 느낌으로 batching을 진행하는데, mini-batch 내 가장 긴 문장만큼 padding한 채로 학습한다고 한다.
-그러나 attention 계열에선 `max_len`만큼 padding할 수 밖에 없는데, 어떤식으로 연산을 줄였다는 건지 이해가 잘 되진 않는다.
-아무래도 코드를 봐야 정확히 이해할 수 있을 것 같다.
+연산 효율을 위해 `BucketIterator`와 비슷한 느낌으로 batching(smart batching)을 진행하는데, mini-batch 내 가장 긴 문장만큼 padding한 채로 학습한다고 한다.
+이로 인해 padding에서 오는 computational overhead를 줄일 수 있다고 한다.
+이 부분은 잘 이해가 가질 않는데, 행렬연산에 특화된 구조를 이용하는 것으로 보인다.
+
+아래는 이에 대한 [코드](https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/SentenceTransformer.py#L517)이다.
+근데 문제는 `smart_batching_collate`가 `DataLoader`의 `collate_fn`으로 들어가는데, 이 때 문장의 길이에 대한 어떠한 정보도 넘겨주지 않는다.
+따라서 도대체 문장 길이와 이 smart batching의 관계를 알 수가 없다.
+Tokenize도 안되어있는데 `Dataset`단에서 이를 미리 정렬해서 줄 수도 없는거고, 미리 정렬되어 있지도 않는 구조고...
+
+```python
+def smart_batching_collate(self, batch):
+  """
+  Transforms a batch from a SmartBatchingDataset to a batch of tensors for the model
+  Here, batch is a list of tuples: [(tokens, label), ...]
+  :param batch:
+      a batch from a SmartBatchingDataset
+  :return:
+      a batch of tensors for the model
+  """
+  num_texts = len(batch[0].texts)
+  texts = [[] for _ in range(num_texts)]
+  labels = []
+
+  for example in batch:
+      for idx, text in enumerate(example.texts):
+          texts[idx].append(text)
+
+      labels.append(example.label)
+
+  labels = torch.tensor(labels).to(self._target_device)
+
+  sentence_features = []
+  for idx in range(num_texts):
+      tokenized = self.tokenize(texts[idx])
+      batch_to_device(tokenized, self._target_device)
+      sentence_features.append(tokenized)
+
+  return sentence_features, labels
+```
+
+다만 또 신기한 것은 sentence embedding을 계산하는 [`encode` 함수](https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/SentenceTransformer.py#L156)에서는 각 문장의 길이를 정렬하여 계산한다.
+참으로 이해하기가 어려운 구조이다.
+
+```python
+...
+all_embeddings = []
+length_sorted_idx = np.argsort([-self._text_length(sen) for sen in sentences])
+sentences_sorted = [sentences[idx] for idx in length_sorted_idx]
+
+for start_index in trange(0, len(sentences), batch_size, desc="Batches", disable=not show_progress_bar):
+    sentences_batch = sentences_sorted[start_index:start_index+batch_size]
+    ...
+```
 
 ![image](https://user-images.githubusercontent.com/47516855/173226682-2d22838d-3205-4fdc-90e9-878659fb0e66.png){: .align-center}{: width="400"}
 
