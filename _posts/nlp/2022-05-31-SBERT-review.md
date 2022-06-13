@@ -357,6 +357,9 @@ for start_index in trange(0, len(sentences), batch_size, desc="Batches", disable
     ...
 ```
 
+이 부분은 sentence-transformers github [issue](https://github.com/UKPLab/sentence-transformers/issues/1592#event-6792452357)에 직접 물어보았는데, inference(`encode` method)에만 적용되고, `smart_batching_collate`에선 적용되지 않는다고 한다.
+근데 이럴거면 이름을 다르게 지었어야되지 않나 싶다.
+
 ![image](https://user-images.githubusercontent.com/47516855/173226682-2d22838d-3205-4fdc-90e9-878659fb0e66.png){: .align-center}{: width="400"}
 
 CPU만 사용할 경우 구조의 단순함으로 인해 SBERT보다 InferSent가 65% 빨랐다 (BiLSTM vs. 12 Transformer layers).
