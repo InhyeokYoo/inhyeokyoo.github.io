@@ -40,7 +40,6 @@ last_modified_at: 2021-09-26
 2. 새로운 데이터셋인 CC-NEWS를 사용하여 더 많은 데이터를 사용하는 것이 성능을 향상시킨다는 것을 발견하였다.
 3. 올바른 design choice하에서 MLM은 다른 방법론에 비해 성능이 전혀 밀리지 않는다.
 
-
 ## Background
 
 2장에선 BERT에 대한 간략한 설명과 다음장에서 실험할 training choice에 대해 다루고 있다. BERT에 대해 잘 알지 못한다면 [다음](/project/nlp/bert-review/)을 참고하도록 하자.
@@ -58,15 +57,16 @@ last_modified_at: 2021-09-26
 
 ### Data
 
-BERT-style의 pretraining은 다량의 데이터에 크게 의존한다. [Baevski et al. (2019)](https://arxiv.org/abs/1903.07785)는 데이터의 사이즈를 키울수록 end-task의 성능이 올라감을 증명하였으며, 기존의 BERT보다 더욱 크고 다양한 데이터셋을 통해 학습시키는 노력들이 존재해왔다 ([Radford et al., 2019 (GPT-2)](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf); [Yang et al., 2019 (XLNet)](https://arxiv.org/abs/1906.08237), [리뷰 보기](/project/nlp/xlnet-review/); [Zellers et al., 2019](https://arxiv.org/abs/1905.12616)). 그러나 안타깝게도 여기에 사용된 모든 데이터가 공개되지는 않았기에 저자들은 기존의 문헌들과 비교하기 적합한 양질의 데이터를 가능한 모으는데 집중했다고 한다.
+BERT-style의 pretraining은 다량의 데이터에 크게 의존한다. 
+[Baevski et al. (2019)](https://arxiv.org/abs/1903.07785)는 데이터의 사이즈를 키울수록 end-task의 성능이 올라감을 증명하였으며, 그 외에도 기존의 BERT보다 더욱 크고 다양한 데이터셋을 통해 학습시키는 노력들이 존재해왔다 ([Radford et al., 2019 (GPT-2)](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf); [Yang et al., 2019 (XLNet)](https://arxiv.org/abs/1906.08237), [리뷰 보기](/project/nlp/xlnet-review/); [Zellers et al., 2019](https://arxiv.org/abs/1905.12616)). 
+그러나 안타깝게도 여기에 사용된 모든 데이터가 공개되지는 않았기에 저자들은 기존의 문헌들과 비교하기 적합한 양질의 데이터를 가능한 모으는데 집중했다고 한다.
 
-여기서는 다양한 사이즈와 도메인을 갖는 5개의 영어 corpus를 수집하였으며, 총 160GB의 텍스트 파일을 사용했다고한다.
+RoBERTa는 다양한 사이즈와 도메인을 토대로 5개의 영어 corpus를 수집하였으며, 총 160GB의 텍스트 파일을 사용했다고 한다.
 
 - BookCorpus + English WIKIPEDIA: BERT 학습에 사용됨 (16GB)
 - CC-News: CommonCrawl News dataset에서 영어만 수집. 16년 9월부터 19년 2월 사이의 63M의 뉴스기사를 포함 (76GB).
 - OpenWebText: WebText의 오픈소스 버전. GPT-2에서 사용. (38GB).
 - STORIES: [Trinh and Le(2018)](https://arxiv.org/abs/1806.02847)에서 소개된 데이터. CommonCrawl data에서 이야기스러운 데이터만 필터링.
-
 
 ### Evaluation
 
@@ -74,17 +74,25 @@ BERT-style의 pretraining은 다량의 데이터에 크게 의존한다. [Baevsk
 
 ## Training Procedure Analysis
 
-본 장을 통해 BERT의 어느 부분이 중요한지를 탐구한다. 모델의 구조는 BERT_BASE (L =
-12, H = 768, A = 12, 110M params)와 같은 구조를 사용한다. 지금은 구조를 그대로 사용하였지만 구조의 변경 또한 future work의 중요한 부분이라고 한다.
+본 장을 통해 BERT의 어느 부분이 중요한지를 탐구한다. 
+모델의 구조는 BERT_BASE (L = 12, H = 768, A = 12, 110M params)와 같은 구조를 사용한다. 
+지금은 구조를 그대로 사용하였지만 구조의 변경 또한 future work의 중요한 부분이라고 한다.
 
 ### Static vs. Dynamic Masking
 
-BERT의 성능은 임의의 단어를 마스킹하고 이를 복원하므로서 달성된다. 기존의 BERT 구현체는 전처리과정에서 마스킹을 딱 한번만 수행하기 때문에 single **static** mask을 하게된다. 매 에폭 때마다 똑같은 마스킹을 피하기 위해 데이터를 10번 복사하고 매번 다른 마스킹을 씌워 40 에폭동안 학습했다고 한다. 따라서 학습에 사용된 각 문장은 같은 마스킹으로 4번 (40 epochs/10 duplicate) 학습하게 된다.
+BERT의 성능은 임의의 단어를 마스킹하고 이를 복원하므로서 달성된다. 
+기존의 BERT 구현체는 전처리과정에서 마스킹을 딱 한번만 수행하기 때문에 single **static** mask을 하게된다. 
 
-이렇게 모델에 넣을 때마다 각기 다른 마스킹 패턴을 사용하는 것을 **dynamic masking**이라 한다. 이는 큰 데이터셋이나 더 많은 스텝을 사용하여 pretraining할 때 중요하다.
+이처럼 매 에폭마다 똑같은 패턴으로 학습하는 것을 피하기 위해 데이터를 10번 복사하고 매번 다른 마스킹을 씌워 40 에폭동안 학습했다고 한다. 
+따라서 학습에 사용된 각 문장은 같은 마스킹으로 4번 (40 epochs/10 duplicate) 학습하게 된다.
+
+이렇게 각기 다른 마스킹 패턴을 사용하는 것을 **dynamic masking**이라 한다. 
+이는 큰 데이터셋이나 더 많은 스텝을 사용하여 pretraining할 때 중요하다.
 
 **Results**:  
-아래 Table 1은 BERT와 여기서 사용한 static/dynamic masking을 비교한 결과이다. Static masking을 사용할 경우 기존의 BERT와 비슷했지만, dynamic masking을 사용할 경우 static masking보다 더 나은 성능을 보임을 확인하였다. 
+아래 Table 1은 BERT와 여기서 사용한 static/dynamic masking을 비교한 결과이다. 
+
+Static masking을 사용할 경우 기존의 BERT와 비슷했지만, dynamic masking을 사용할 경우 static masking보다 더 나은 성능을 보임을 확인하였다. 
 
 ![image](https://user-images.githubusercontent.com/47516855/136080135-b9527693-e13c-49ba-8d86-d178676aaa0e.png){: .align-center}{: width="400"}
 
@@ -92,7 +100,8 @@ BERT의 성능은 임의의 단어를 마스킹하고 이를 복원하므로서 
 
 ### Model Input Format and Next Sentence Prediction
 
-BERT의 pretraining에선 두 개의 document segment를 concat을 인풋으로 받게된다. 그리고 MLM Objective에 더해 두 문장이 같은 문서에서 왔는지 아닌지를 판별하는 NSP loss를 보조로 사용하게 된다.
+BERT의 pretraining에선 두 개의 document segment를 concat을 인풋으로 받게된다. 
+그리고 MLM Objective에 더해 두 문장이 같은 문서에서 왔는지 아닌지를 판별하는 NSP loss를 보조로 사용하게 된다.
 
 BERT의 경우 NSP loss를 학습하는데 중요한 요인 중 하나로 인식하였고, 실제로도 NSP를 제거할 경우 QNLI, MNLI, and SQuAD 1.1과 같은 태스크에서 심각한 성능하락이 일어남을 확인하였다. 그러나 최근 연구들은 NSP loss의 필요성의 의문을 제기하였다 ([Lample and Conneau, 2019](https://arxiv.org/abs/1901.07291); [Yang et al., 2019 (XLNet)](https://arxiv.org/abs/1906.08237); [Joshi et al., 2019 (SpanBERT)](https://arxiv.org/abs/1907.10529)).
 
@@ -108,15 +117,21 @@ BERT의 경우 NSP loss를 학습하는데 중요한 요인 중 하나로 인식
 
 ![image](https://user-images.githubusercontent.com/47516855/136082332-141f69b0-0635-4399-aa56-6e8df4ab56ab.png){: .align-center}{: width="600"}
 
-우선 BERT와 세팅이 가장 유사한 `SEGMENT-PAIR + NSP`와 `SENTENCE-PAIR + NSP`를 비교해보자. 이 둘은 segment/sentence 사용 외에는 전부 같다. 결과를 보면 문장을 사용할 경우 downstream 태스크에서 성능을 해치는 것으로 나타났다. 이는 모델이 long-range dependencies를 학습하지 못하기 때문인 것으로 보인다.
+우선 BERT와 세팅이 가장 유사한 `SEGMENT-PAIR + NSP`와 `SENTENCE-PAIR + NSP`를 비교해보자. 이 둘은 segment/sentence 사용 외에는 전부 같다. 
+결과를 보면 문장을 사용할 경우 downstream 태스크에서 성능을 해치는 것으로 나타났다. 
+이는 모델이 long-range dependencies를 학습하지 못하기 때문인 것으로 보인다.
 
-그 다음은 NSP loss를 제거한 `DOC-SENTENCES`를 살펴보자. 이는 BERT base의 성능을 능가하였으며, NSP loss를 제거할 경우 downstream 태스크 성능과 맞먹거나 능가하는 것을 확인하였다. 이는 BERT 논문에서 공개한 것과 반대되는 결과인데, 아마도 BERT의 실험에서는 loss term만 제거하고 input format은 그대로 남겨놨기 때문인 것으로 보인다.
+그 다음은 NSP loss를 제거한 `DOC-SENTENCES`를 살펴보자. 
+이는 BERT base의 성능을 능가하였으며, NSP loss를 제거할 경우 downstream 태스크 성능과 맞먹거나 능가하는 것을 확인하였다. 
+이는 BERT 논문에서 공개한 것과 반대되는 결과인데, 아마도 BERT의 실험에서는 loss term만 제거하고 input format은 그대로 남겨놨기 때문인 것으로 보인다.
 
-마지막으로 여러 문서에서 문장을 수집하여 인풋을 구성하는 것보단 (`FULL-SENTENCES`) 하나의 문서에서 문장을 수집하여 인풋을 구성하는게 더 좋은 성능을 보이는 것으로 나타났다 (`DOC-SENTENCES`). 그러나 `DOC-SENTENCES`의 경우 배치사이즈가 가변적이므로 `FULL-SENTENCES`를 사용하여 남은 실험을 진행한다.
+마지막으로 여러 문서에서 문장을 수집하여 인풋을 구성하는 것보단 (`FULL-SENTENCES`) 하나의 문서에서 문장을 수집하여 인풋을 구성하는게 더 좋은 성능을 보이는 것으로 나타났다 (`DOC-SENTENCES`). 
+그러나 `DOC-SENTENCES`의 경우 배치사이즈가 가변적이므로 `FULL-SENTENCES`를 사용하여 남은 실험을 진행한다.
 
 ### Training with large batches
 
-NMT에서 매우 큰 미니배치와 learning rate를 적절하게 상승시켜 학습하면 최적화 속도와 end-task 성능 둘 다 향상시킬 수 있다고 알려져있다. 최근 연구에 의하면 BERT 또한 이러한 세팅을 통해 학습시킬 수 있음을 보여주었다 ([You et al., 2019](https://arxiv.org/abs/1904.00962)).
+NMT에서 매우 큰 미니배치와 learning rate를 적절하게 상승시켜 학습하면 최적화 속도와 end-task 성능 둘 다 향상시킬 수 있다고 알려져있다. 
+최근 연구에 의하면 BERT 또한 이러한 세팅을 통해 학습시킬 수 있음을 보여주었다 ([You et al., 2019](https://arxiv.org/abs/1904.00962)).
 
 BERT는 1M step과 256 배치를 이용하여 학습했는데, 이는 *gradient accumulation*를 사용할 경우 125K step과 2K 배치, 31K step과 8K 배치를 사용한 것과 동일한 computational cost가 된다.
 
@@ -125,7 +140,12 @@ gradient accumulation에 대해서는 [다음](https://velog.io/@nawnoes/Pytorch
 
 ![image](https://user-images.githubusercontent.com/47516855/136089171-f1a5b849-3963-4cf4-a931-386d41f26d13.png){: .align-center}{: width="400"}
 
-Table 3에서는 step수는 유지한 채 배치사이즈를 조절함에 따른 PPL과 end-task 성능을 비교한 것이다. 이를 통해 배치 사이즈를 키울수록 성능이 올라감을 확인할 수 있다. 또한, 배치사이즈를 키우면 병렬화하기 쉽다는 장점도 있다. 큰 배치 사이즈는 하드웨어가 받쳐주지 않더라도 gradient accumulation을 사용하여 달성가능하다. 이는 FAIRSEQ에도 구현되어 있다. 따라서 앞으로의 실험은 8K 배치사이즈로 진행한다.
+Table 3에서는 step수는 유지한 채 배치사이즈를 조절함에 따른 PPL과 end-task 성능을 비교한 것이다. 
+이를 통해 배치 사이즈를 키울수록 성능이 올라감을 확인할 수 있다. 
+또한, 배치사이즈를 키우면 병렬화하기 쉽다는 장점도 있다. 
+큰 배치 사이즈는 하드웨어가 받쳐주지 않더라도 gradient accumulation을 사용하여 달성가능하다. 
+이는 FAIRSEQ에도 구현되어 있다. 
+따라서 앞으로의 실험은 8K 배치사이즈로 진행한다.
 
 특히 [You et al., 2019](https://arxiv.org/abs/1904.00962)의 경우에는 배치사이즈를 32K까지 늘렸지만, RoBERTa에서는 배치 사이즈에 대한 한계를 후속 연구로 남겨놓았다.
 
@@ -141,9 +161,9 @@ BPE와 byte-level BPE가 성능상엔 큰 차이를 보이지 않고, 오히려 
 
 이러한 방법론을 묶어 **RoBERTa** (**Ro**bustly optimized **BERT** **a**pproach)라고 부른다. RoBERTa는 앞서 설명한 dynamic masking, NSP loss를 제거한 `FULL-SENTENCES`, 큰 mini-batch, 기존보다 더 큰 BBPE를 사용하여 학습한다.
 
-추가적으로 논문에서 덜 부곽된 두 가지 주요 요소가 있는데, 이는 학습에 사용된 데이터의 크기와 학습과정에서 집어넣은 데이터의 양이다 (즉, epoch * # data). 에를들어 XLNet의 경우 BERT보다 10배나 큰 데이터를 사용하여 학습하였고, 배치사이즈는 8배 더 많고 optimization step의 경우 절반이므로 총 4배 더 많은 데이터를 학습하였다.
+추가적으로 논문에서 덜 부곽된 두 가지 주요 요소가 있는데, 이는 학습에 사용된 데이터의 크기와 학습과정에서 집어넣은 데이터의 양이다 (즉, epoch * # data). 예를들어 XLNet의 경우 BERT보다 10배나 큰 데이터를 사용하여 학습하였고, 배치사이즈는 8배 더 많고 optimization step의 경우 절반이므로 총 4배 더 많은 데이터를 학습하였다.
 
-이러한 데이터의 중요성과 모델의 design choice (e.g. pretraining objective)의 영향을 분리하여 비교하기 위해 RoBERTa를 BERT Large와 같은 구조 ($L=24, H=1024, A=16, 335M \text{parameters}$)와 같은 구조로 실험을 진행하였다.  100K steps까지는 BookCorpus와 위키피디아 데이터를 이용하여 학습시켰고, 1024개의 V100 GPU를 이용하여 학습하였다.
+이러한 데이터의 중요성과 모델의 design choice (e.g. pretraining objective)의 영향을 분리하여 비교하기 위해 RoBERTa를 BERT Large와 같은 구조 ($L=24, H=1024, A=16$, 총 335M parameters)와 같은 구조로 실험을 진행하였다.  100K steps까지는 BookCorpus와 위키피디아 데이터를 이용하여 학습시켰고, 1024개의 V100 GPU를 이용하여 학습하였다.
 
 **Results**  
 
