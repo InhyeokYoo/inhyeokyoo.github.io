@@ -89,13 +89,13 @@ DEQ의 경우 Transformer를 이용, 특정 레이어에서 input/output embeddi
 
 ### SENTENCE ORDERING OBJECTIVES
 
-ALBERT는 두개의 연속된 segment의 순서를 맞추는 loss를 갖는다.
-이러한 담화 응집성(discourse coherence)과 관련된 연구도 여럿 존재한다.
+ALBERT는 두개의 연속된 segment의 순서를 맞추는 loss를 사용한다.
+사전연구들에서도 이런 담화 응집성(discourse coherence)과 관련된 pretraining objective를 실험해왔다.
 
-담화에서의 응집성과 결속성은 널리 연구되어 왔으며, 이웃하는 segment를 연결해주는 현상 또한 연구되어 왔다.
+담화에서의 응집성(coherence)과 결속성(cohesion)은 널리 연구되어 왔으며, 이웃하는 segment를 연결해주는 현상 또한 연구되어 왔다.
 
-> 응집성 (coherence): 텍스트에 포함되어 있는 내용들 간의 **의미적인 연결 관계**  
-> 결속성(cohesion): 텍스트에 포함되어 있는 요소(문장)들을 연결해 주는 **표면적인 언어 자질**. 
+> 응집성(coherence): 텍스트에 포함되어 있는 내용들 끼리 잘 연결되어 **하나로써 잘 연결되는지에 대한 개념**  
+> 결속성(cohesion): 텍스트에 포함되어 있는 단어, 문장과 같은 작은요소들이 **잘 연결되는지에 대한 개념**. 
 
 실제로 효과가 있다고 밝혀진 대부분의 objective는 대게 단순하다.
 Skip-thought/FastSent sentence embedding은 **이웃하는 문장의 단어를 예측**하는 방식으로 문장을 학습한다.

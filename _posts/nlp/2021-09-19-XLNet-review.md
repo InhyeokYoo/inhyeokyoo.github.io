@@ -152,7 +152,7 @@ $$
 여기서 새롭게 도입된 $g _\theta (\mathbf x _{\mathbf z _{<t}}, z _t)$는 새로운 형태의 representation으로, target position $z _t$을 input으로 포함하게 된다.
 
 **Two-Stream Self-Attention**  
-앞서 살펴봤던 것과 같이, 새로운 representation은 t시점 이전의 정보와 t에 대한 위치 정보 둘 다를 포함해야 한다. 그러나 이 둘은 일반적은 transformer에서는 서로 대조되는 개념이라 달성하기가 까다롭다.
+앞서 살펴봤던 것과 같이, 새로운 representation은 **t시점 이전의 정보**와 **t에 대한 위치 정보** 둘 모두를 포함해야 한다. 그러나 이 둘은 Transformer에서는 서로 대조되는 개념이라 달성하기가 까다롭다.
 
 1. $x _{z _t}$를 예측하기 위해서 새로운 representation $g _\theta (\mathbf x _{\mathbf z _{< t}}, z _t)$는 $z _t$의 **위치정보** $z _t$는 이용해야 하지만 **내용 (content)** $x _{z _t}$는 이용해선 안된다. 만약 $x _{z _t}$까지 이용하게 될 경우 문제가 너무 단순해지게 된다.
 2. $t$보다 뒤에 위치에 있는 $j$ 토큰 $x _{z _j}$를 예측하게 될 경우, 새로운 representation $g _\theta (\mathbf x _{\mathbf z _{< t}}, z _t)$는 위치정보뿐만 아니라 $x _{z _t}$까지 활용하여 문맥에 대한 정보를 반영해야 한다.
@@ -169,9 +169,9 @@ $t=3$으로, permutation order는 `[2, 4, 3, 1]`으로 가정하자. 새로운 r
 
 ![image](https://user-images.githubusercontent.com/47516855/134291286-79cfe0b5-3a5b-45a2-bcf2-cee1ca79e393.png){: .align-center}{: width="500"}
 
-이번엔 2번과 같은 경우를 보자. 이번에는 $j=1>3=t$로 가정하였다. $g _\theta$는 context를 반영해야 되기 때문에 이번에는 full context information, 즉, 내용을 전달해야 한다. 이번에 포함되는 위치정보는 $z _j$가 된다. $g _theta$는 token을 예측하는 시점에 따라 표현하는 방법이 파랑색/검은색 두 가지로 나눠지게 된다. Transformer는 이 두가지 제한사항을 동시에 만족할 수 없다.
+이번엔 2번과 같은 경우를 보자. 이번에는 $j=1>3=t$로 가정하였다. $g _\{theta}$는 context를 반영해야 되기 때문에 이번에는 full context information, 즉, 내용을 전달해야 한다. 이번에 포함되는 위치정보는 $z _j$가 된다. $g _theta$는 token을 예측하는 시점에 따라 표현하는 방법이 파랑색/검은색 두 가지로 나눠지게 된다. Transformer는 이 두가지 제한사항을 동시에 만족할 수 없다.
 
-이러한 모순을 해결하기 위해 하나의 representation 대신 두 개의 representation인 **two-stream self-attention**을 사용한다.
+이러한 모순을 해결하기 위해 하나의 representation 대신 두 개의 representation을 사용하는 **two-stream self-attention**을 제안한다.
 
 **Content representation**: $h _\theta (\mathbf x _{\mathbf z _{< t}})$ or simply $h _{z _t}$  
 Content representation은 Transformer의 hidden state와 유사한 역할을 하는 것으로, context와 위치 $x _{z _t}$ 둘 다 encoding한다. 첫번째 레이어는 embedding vector $h^{(0)} _i = e(x _i)$가 된다.
