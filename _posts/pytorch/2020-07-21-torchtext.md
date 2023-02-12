@@ -1,5 +1,5 @@
 ---
-title:  "Torch text 살펴보기 (아직 작성 중)"
+title:  "Torch text 살펴보기 (작성 중단)"
 excerpt: ""
 toc: true
 toc_sticky: true
@@ -12,6 +12,9 @@ last_modified_at: 2020-09-21
 ---
 
 # Introduction
+
+`torchtest`는 더 이상 자주 사용되지 않으므로, 미완성 상태에서 업데이트하거나 더 이상 완성하지 않고 방치할 계획임에 참고.
+{: .notice--danger}
 
 PyTorch를 통해 NLP를 처리하다보면 torchtext를 사용하게 되는데, 마테리얼도 따로 없고... 공부할 방법이 마땅치가 않다.
 이번 기회에 한번 정리해보자. Colab문서는 [다음](https://github.com/InhyeokYoo/NLP/blob/master/utils/1.%20torchtext/1_torchtext_tutorial.ipynb)을 참조하며 따라해보자.
