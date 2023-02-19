@@ -1,5 +1,5 @@
 ---
-title:  "BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension"
+title:  "[작성 중] BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension"
 toc: true
 toc_sticky: true
 permalink: /project/nlp/BART-review/
