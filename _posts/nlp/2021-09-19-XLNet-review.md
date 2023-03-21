@@ -169,7 +169,7 @@ $t=3$으로, permutation order는 `[2, 4, 3, 1]`으로 가정하자. 새로운 r
 
 ![image](https://user-images.githubusercontent.com/47516855/134291286-79cfe0b5-3a5b-45a2-bcf2-cee1ca79e393.png){: .align-center}{: width="500"}
 
-이번엔 2번과 같은 경우를 보자. 이번에는 $j=1>3=t$로 가정하였다. $g _\{theta}$는 context를 반영해야 되기 때문에 이번에는 full context information, 즉, 내용을 전달해야 한다. 이번에 포함되는 위치정보는 $z _j$가 된다. $g _theta$는 token을 예측하는 시점에 따라 표현하는 방법이 파랑색/검은색 두 가지로 나눠지게 된다. Transformer는 이 두가지 제한사항을 동시에 만족할 수 없다.
+이번엔 2번과 같은 경우를 보자. 이번에는 $j=1>3=t$로 가정하였다. $g _{\theta}$는 context를 반영해야 되기 때문에 이번에는 full context information, 즉, 내용을 전달해야 한다. 이번에 포함되는 위치정보는 $z _j$가 된다. $g _theta$는 token을 예측하는 시점에 따라 표현하는 방법이 파랑색/검은색 두 가지로 나눠지게 된다. Transformer는 이 두가지 제한사항을 동시에 만족할 수 없다.
 
 이러한 모순을 해결하기 위해 하나의 representation 대신 두 개의 representation을 사용하는 **two-stream self-attention**을 제안한다.
 
