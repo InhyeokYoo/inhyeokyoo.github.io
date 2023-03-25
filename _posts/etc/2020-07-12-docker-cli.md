@@ -114,6 +114,27 @@ Deleted: sha256:be16cf2d832a9a54ce42144e25f5ae7cc66bccf0e003837e7b5eb1a455dc742b
 ...
 ```
 
+삭제하다보면 `Error response from daemon: conflict: unable to remove repository reference ...`라고 나오며 삭제가 안될 때가 있다.
+컨테이너가 아직 동작 중이라 그런 것이니 중지하고 삭제한 후 다시 시도하자
+
+```sh
+$ sudo docker image rm nvidia/cuda:11.8.0-base-ubuntu20.04
+Error response from daemon: conflict: unable to remove repository reference "nvidia/cuda:11.8.0-base-ubuntu20.04" (must force) - container 0508bd8ee6a2 is using its referenced image eb8718baffe6
+$ sudo docker stop 0508bd8ee6a2 # 동작 중이라면
+0508bd8ee6a2
+$ sudo docker rm 0508bd8ee6a2
+0508bd8ee6a2
+$ sudo docker image rm nvidia/cuda:11.8.0-base-ubuntu20.04
+Untagged: nvidia/cuda:11.8.0-base-ubuntu20.04
+Untagged: nvidia/cuda@sha256:dc9cda1c8bf3d76d4140fee288c107e2b81774d167a6a8435090b8f0f1f28f52
+Deleted: sha256:eb8718baffe6af11250f89df236ae649d9929b7885316b0dc4c9b321fb7f9168
+Deleted: sha256:dbc2dc7aa95d5c973ac1a4b5259c210f4baf34ab111c0f2ea3f8ff567e28276c
+Deleted: sha256:f997035a803c9c16429d2d66a17e1754f6e2e081dded27fdf493ab833fc0d426
+Deleted: sha256:63ffe2d7ffdee0912313491cb180dab07bc490cd817e458e0030ed2af8fec8f0
+Deleted: sha256:13c16e3020f4fcd4960579f2694feaef3a7cfb75e0e14dace0092f8cd6a4d2e8
+Deleted: sha256:d543b8cad89e3428ac8852a13cb2dbfaf55b1e10fd95a9753e51faf393d60e81
+```
+
 또한, `-f`, `--force` 옵션을 통해 태그가 지정된 모든 이미지를 삭제할 수 있다.
 이 때 이미지 ID는 전체가 아닌 일부만 써도 상관없다.
 
