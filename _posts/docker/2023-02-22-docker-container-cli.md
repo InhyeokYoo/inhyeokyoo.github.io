@@ -3,9 +3,8 @@ title:  "Docker container 명령어 정리"
 toc: true
 toc_sticky: true
 categories:
-  - IT
+  - Docker
 tags:
-  - docker
 use_math: true
 last_modified_at: 2023-02-22
 ---

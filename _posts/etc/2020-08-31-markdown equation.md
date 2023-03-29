@@ -5,8 +5,7 @@ toc: true
 toc_sticky: true
 
 categories:
-  - IT
-
+  - Github Pages
 use_math: true
 last_modified_at: 2020-08-31
 ---
