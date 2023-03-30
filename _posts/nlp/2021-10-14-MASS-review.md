@@ -1,5 +1,5 @@
 ---
-title:  "MASS review"
+title:  "MASS: Masked Sequence to Sequence Pre-training for Language Generation review"
 toc: true
 toc_sticky: true
 permalink: /project/nlp/MASS-review/
