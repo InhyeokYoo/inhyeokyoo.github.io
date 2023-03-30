@@ -6,7 +6,7 @@ categories:
   - Docker
 tags:
 use_math: true
-last_modified_at: 2023-02-22
+last_modified_at: 2023-03-30
 ---
 
 ## `docker create`/`docker run`: 컨테이너 실행
@@ -88,9 +88,33 @@ docker restart [OPTIONS] <CONTAINER> [<CONTAINER>...]
 
 ## 실행 중인 container에 접속
 
+### docker attach
+
+`attach`는 실행되고 있는 컨테이너에 접속하는 명령어이다.
+사용법은 아래와 같다.
+
 ```sh
 docker attach <CONTAINER>
 ```
+
+`attach`를 사용하게 되면 로컬의 stdin, stdout, stderr 스트림들이 해당 컨테이너와 연결된다. 
+즉, 표준 입출력을 연결시켜 컨테이너 내부 제어가 가능하게 하는 기능이라고 할 수 있다.
+
+`attach`로 컨테이너를 접속할 경우 처음 도커 컨테이너를 run하였을 때의 환경이 포그라운드로 보여진다. 
+따라서 도커 컨테이너를 run할 시 `/bin/bash`로 들어간 것이 아니라면 `attach`를 활용해서는 들어갈 수 없다.
+
+### docker exec
+
+`exec`는 실행되고 있는 컨테이너에 새로 명령한다. 
+사용법은 다음과 같다.
+
+```sh
+docker exec -it <CONTAINER> <COMMAND>
+```
+
+`exec`으로 실행한 명령어는 컨테이너에서 이미 실행되고 있던 프로세스가 실행되는 동안에만 실행되며 컨테이너를 다시 시작해도 다시 시작되지 않는다.
+
+`docker exec`가 컨테이너 외부에서 명령을 실행시키기 위한 방법이라면, `docker attach`는 표준 입출력을 컨테이너에 붙여서 직접 명령 및 제어를 하게 만든다.
 
 ## docker rename: 컨테이너 이름 변경
 
