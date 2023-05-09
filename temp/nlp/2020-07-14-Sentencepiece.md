@@ -281,6 +281,12 @@ sp.DecodeIds(ids)
 
 공식 github의 사용법을 번역한 문서를 colab으로 만들어서 배포 중에 있다. [다음](https://github.com/InhyeokYoo/NLP/blob/master/papers/2.Sub-word%20Model/Sentencepiece_python_module_example.ipynb)을 참고해서 따라해보자.
 
+## Byte-level BPE
+
+Ġ를 띄어쓰기 대신 사용.
+
+![](https://user-images.githubusercontent.com/12532185/74916254-cced7c00-53c5-11ea-9eb8-b3d69e228c9e.png)
+
 
 
 
