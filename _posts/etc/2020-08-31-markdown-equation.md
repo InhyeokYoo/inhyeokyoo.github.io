@@ -1,16 +1,25 @@
 ---
-title:  "Mathjax 수식 정리"
-excerpt: "자주쓰이는 Mathjax 수식 정리"
+title:  "LaTex(MathJax) 수식 정리"
 toc: true
 toc_sticky: true
-
 categories:
   - Github Pages
+tags:
+  - jekyll
+  - minimal mistakes
+  - LaTex
+  - MathJax
 use_math: true
-last_modified_at: 2020-08-31
+last_modified_at: 2023-04-23
 ---
 
-Markdown을 통해 Github pages를 작성하다 보니 수식을 입력하는게 생각보다 까다롭다. Colab에선 이러지 않았는데... 따라서 직접 사용하고 정리해보는 Markdown 수식을 작성해보았다. 본 post는 기본적으로 markdown에 대한 이해가 어느정도 있는 상태에서 사용할 것을 권장한다. 기본적인 자료는 구글링하면 쉽게 구할 수 있으니 한 번 찾아보자.
+Kramadown을 통해 Github pages를 작성하다 보니 수식을 입력하는게 생각보다 까다롭다. 
+Colab에선 이러지 않았는데... 
+따라서 LaTex(MathJax) 수식을 직접 사용하고 정리하여 작성해보았다.
+단, github pages에 사용을 목적으로 하다보니 실제 LaTex에는 성립하지 않는 것들이 있을수도 있다.
+
+본 post는 기본적으로 markdown에 대한 이해가 어느정도 있는 상태에서 사용할 것을 권장한다. 
+기본적인 자료는 구글링하면 쉽게 구할 수 있으니 한 번 찾아보자.
 
 ## 정렬
 
@@ -19,7 +28,7 @@ Markdown을 통해 Github pages를 작성하다 보니 수식을 입력하는게
 **오른쪽 정렬**
 $$
 \begin{align}
-R _k = \{ x^LM _k, \overrightarrow {h^{LM} _{k, j}}, \overleftarrow {h^{LM} _{k, j}} \lvert j=1, ..., L\} \\
+R _k = \{ x^LM _k, \vec {h} _{k, j}^{LM}, \vec {h}^{LM} _{k, j} \lvert j=1, ..., L\} \\
 = \{ h^{LM} _{k, j} \lvert j=0, ..., L \},
 \end{align}
 $$
