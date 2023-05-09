@@ -10,7 +10,7 @@ use_math: true
 last_modified_at: 2023-01-10
 ---
 
-열심히 쓰긴 했는데, https://velog.io/@inthecode/Windows-10WSL%EC%97%90%EC%84%9C-Docker%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%98%EC%97%AC-Tensorflow-GPU%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0 보고 하는게 빠를 것 같다.
+열심히 쓰긴 했는데, [Windows 10(WSL)에서 Docker를 활용하여 Tensorflow-GPU를 사용하기](https://velog.io/@inthecode/Windows-10WSL%EC%97%90%EC%84%9C-Docker%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%98%EC%97%AC-Tensorflow-GPU%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0)를 보고 하는게 빠를 것 같다.
 
 ## 들어가며
 
