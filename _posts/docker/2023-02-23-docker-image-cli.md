@@ -5,7 +5,7 @@ toc_sticky: true
 categories:
   - Docker
 use_math: true
-last_modified_at: 2023-02-22
+last_modified_at: 2023-05-15
 ---
 
 ## docker pull: 이미지 내려받기
@@ -19,7 +19,7 @@ docker [IMAGE] pull [OPTIONS] name[:TAG | @IMAGE_DIGEST]
 실제 예시를 통해 자세히 알아보자.
 
 ```bash
-inhyeok@DESKTOP-QDNEO0C:~$ docker pull debian
+$ docker pull debian
 Using default tag: latest # 이미지 명 뒤에 태그가 없으면 latest로 지정됨
 latest: Pulling from library/debian # library: 도커 허브의 공식 이미지가 저장되어있는 특별한 네임스페이스
 1e4aec178e08: Pull complete # 도커 허브에서 제공된 이미지의 distribution hash.
@@ -48,24 +48,24 @@ docker image load [OPTIONS]
 예시:
 
 ```console
-inhyeok@DESKTOP-QDNEO0C:~$ docker images
+$ docker images
 REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
 httpd        latest    3a4ea134cf8e   13 days ago   145MB
 debian       latest    54e726b437fb   13 days ago   124MB
 mysql        5.7       be16cf2d832a   3 weeks ago   455MB
-inhyeok@DESKTOP-QDNEO0C:~$ docker image save mysql:5.7 > test-mysql57.tar
-inhyeok@DESKTOP-QDNEO0C:~$ ls
+$ docker image save mysql:5.7 > test-mysql57.tar
+$ ls
 test-mysql57.tar
 ```
 
 불러올 때는 다음과 같이 `docker image load`를 사용한다.
 
 ```console
-inhyeok@DESKTOP-QDNEO0C:~$ docker images # image 확인
+$ docker images # image 확인
 REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
 httpd        latest    3a4ea134cf8e   13 days ago   145MB
 debian       latest    54e726b437fb   13 days ago   124MB
-inhyeok@DESKTOP-QDNEO0C:~$ docker image load < test-mysql57.tar # 불러오기
+$ docker image load < test-mysql57.tar # 불러오기
 c233345f327a: Loading layer [==================================================>]    145MB/145MB
 9117b1e53ba3: Loading layer [==================================================>]  11.26kB/11.26kB
 1256ef6b8ce9: Loading layer [==================================================>]  2.385MB/2.385MB
@@ -78,7 +78,7 @@ d34e99e3e6e5: Loading layer [==================================================>
 38c885e9f124: Loading layer [==================================================>]  17.41kB/17.41kB
 bc7ce92d7b90: Loading layer [==================================================>]  1.536kB/1.536kB
 Loaded image: mysql:5.7
-inhyeok@DESKTOP-QDNEO0C:~$ docker images # 새롭게 추가된 mysql
+$ docker images # 새롭게 추가된 mysql
 REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
 httpd        latest    3a4ea134cf8e   13 days ago   145MB
 debian       latest    54e726b437fb   13 days ago   124MB
@@ -99,14 +99,14 @@ docker rmi [OPTIONS] IMAGE [IMAGE...]
 
 ```console
 # latest가 아닌 이상 태그명을 명시해야 함
-inhyeok@DESKTOP-QDNEO0C:~$ docker image rm mysql
+$ docker image rm mysql
 Error: No such image: mysql
-inhyeok@DESKTOP-QDNEO0C:~$ docker images
+$ docker images
 REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
 httpd        latest    3a4ea134cf8e   13 days ago   145MB
 debian       latest    54e726b437fb   13 days ago   124MB
 mysql        5.7       be16cf2d832a   3 weeks ago   455MB
-inhyeok@DESKTOP-QDNEO0C:~$ docker image rm mysql:5.7
+$ docker image rm mysql:5.7
 Untagged: mysql:5.7
 Deleted: sha256:be16cf2d832a9a54ce42144e25f5ae7cc66bccf0e003837e7b5eb1a455dc742b
 ...
@@ -137,12 +137,12 @@ Deleted: sha256:d543b8cad89e3428ac8852a13cb2dbfaf55b1e10fd95a9753e51faf393d60e81
 이 때 이미지 ID는 전체가 아닌 일부만 써도 상관없다.
 
 ```console
-inhyeok@DESKTOP-QDNEO0C:~$ docker images
+$ docker images
 REPOSITORY     TAG       IMAGE ID       CREATED       SIZE
 debian-httpd   2.0       3a4ea134cf8e   13 days ago   145MB
 httpd          latest    3a4ea134cf8e   13 days ago   145MB
 debian         latest    54e726b437fb   13 days ago   124MB
-inhyeok@DESKTOP-QDNEO0C:~$ docker image rm -f 3a4e
+$ docker image rm -f 3a4e
 Untagged: debian-httpd:2.0
 Untagged: httpd:latest
 Untagged: httpd@sha256:db2d897cae2ad67b33435c1a5b0d6b6465137661ea7c01a5e95155f0159e1bcf
@@ -152,7 +152,7 @@ Deleted: sha256:eb991c200c9af34ef15003013e10c8ce8e143991de9780f2d0c5370041f3cf19
 Deleted: sha256:127d0bec4c754ad1d28fcb982b114444cbc9aca95a6f5a7d74560e61a109a2fb
 Deleted: sha256:c5c018d684454c7d5056c7f72a970aac612a515e70f3c858cba3978039a26248
 Deleted: sha256:4695cdfb426a05673a100e69d2fe9810d9ab2b3dd88ead97c6a3627246d83815
-inhyeok@DESKTOP-QDNEO0C:~$ docker images
+$ docker images
 REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
 debian       latest    54e726b437fb   13 days ago   124MB
 ```
