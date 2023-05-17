@@ -51,5 +51,10 @@ The library was designed with two strong goals in mind:
 
 
 
+## BertLMHeadModel
+
+If yes then, it’s intended to be used with the EncoderDecoder model which allows you to use pre-trained encoder for as both encoder and decoder for seq2seq tasks. It’s not intended for language modeling.
+
+While you can use that class as a standalone decoder by passing is_decoder=True to config it might not give you good results as it’s trained as an encoder.
 
 {: .align-center}{: width="300"}
