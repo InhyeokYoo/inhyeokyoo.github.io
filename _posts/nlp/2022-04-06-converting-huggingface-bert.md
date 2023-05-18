@@ -7,7 +7,7 @@ categories:
 tags:
   - huggingface
 use_math: true
-last_modified_at: 2022-04-06
+last_modified_at: 2023-05-19
 ---
 
 ## 들어가며
