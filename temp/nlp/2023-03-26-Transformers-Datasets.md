@@ -60,6 +60,22 @@ Dataset({
 이름을 키값(e.g. train, test)으로하며 `Dataset` 오브젝트를 밸류로하는 딕셔너리이다.
 이에는 `map`이나 `filter`와 같은 transform 메소드를 지원하며, 모든 밸류에 대해 한번에 진행할 수 있다.
 
+## 스트리밍
+
+JSONL, csv, zip, gzip, zstandard 등으로 압축된 텍스트 같이 한 줄씩 읽는 여러 종류의 압축/비압축 파일 포맷을 처리할 수 있다.
+아래와 같이 `load_dataset`에서 `streaming=True`를 사용하면 된다.
+
+```py
+import datasets
+
+streamed_dataset:  datasets.IterableDataset = datasets.load_dataset('./codeparrot', split="train", streaming=True)
+```
+
+하드에 캐시 파일이 생성되지 않으므로 많은 양의 메모리가 필요하지 않다는 장점이 있다.
+새로운 배치가 필요할 때 raw 파일을 바로 읽어 해당 배치만 메모리에 로드한다.
+또한, 로컬 뿐만이 아니라 허브에 있는 데이터셋을 지정할 수도 있다.
+이 경우엔 로컬에 raw 파일을 다운로드 하지 않고 샘플을 직접 다운로드한다.
+
 
 
 {: .align-center}{: width="300"}

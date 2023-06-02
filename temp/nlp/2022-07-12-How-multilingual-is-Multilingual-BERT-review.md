@@ -69,7 +69,7 @@ Part of Speech의 경우에는 41개의 언어에 대한 Universal Dependencies 
 
 이제 본격적으로 실험에 대한 내용이다.
 M-BERT는 동일한 사전을 사용하기 때문에, 학습에 나타났던 word piece가 테스트에도 나타나 성능 평가에 영향을 미칠 수 있다.
-따라서 피상적인 형태(superficial form)의 일반화 능력을 살펴보도록 한다.
+따라서 피상적인 형태(superficial form)의 일반화 능력을 살펴보도록 한다.  
 본 섹션에서 탐구할 내용은 다음과 같다:
 - transferability가 **어휘적 중복(lexical overlap)에 얼마나 영향**을 받는가?
 - 다른 문자(script)로 쓰인, 즉, **중복이 없는 경우에도 transfer가 가능한가?**

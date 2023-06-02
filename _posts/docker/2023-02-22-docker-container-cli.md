@@ -145,3 +145,42 @@ docker commit <컨테이너 이름> <새 이미지 이름>
 
 docker run -ti -v <디렉토리1>:<디렉토리2> <이미지 이름> bash
 ```
+
+## init 실행 후 종료 방지
+
+Docker run background
+docker run -d를 사용하여 entrypoint 또는 cmd가 설정되어 있지 않은 이미지로 컨테이너 실행 시
+
+$ docker run -d --name test ubuntu:20.04
+589f7b7cfc6ead8950c92c5e6b09b7e7a4f0bbd89b7557a7b384a2d3c5360a70
+
+$ docker ps -a
+CONTAINER ID   IMAGE          COMMAND   CREATED          STATUS                      PORTS     NAMES
+589f7b7cfc6e   ubuntu:20.04   "bash"    31 seconds ago   Exited (0) 28 seconds ago             test
+위와 같이 컨테이너가 지속적으로 실행시킬 프로그램을 찾지 못하고 자동으로 종료된다.
+
+자동으로 종료되지 않게 설정하기 위해서는 몇 가지 설정이 필요하다.
+
+sleep infinity
+docker run 명령어 마지막에 sleep infinity를 추가할 경우 정상적으로 컨테이너가 유지된다.
+
+docker run
+
+$ docker run -d --name test ubuntu:20.04 sleep infinity
+347ae2a4d398d5f04cde0df0b5a4243d6ce52e515d1dd6da0e54a7ee1aa3153b
+
+$ docker ps -a
+CONTAINER ID   IMAGE          COMMAND            CREATED          STATUS          PORTS     NAMES
+347ae2a4d398   ubuntu:20.04   "sleep infinity"   11 seconds ago   Up 11 seconds             test
+
+tail -f /dev/null
+이전부터 많이 사용한 방식으로, null device(/dev/null) 라고 불리는 리눅스 특수 장치 파일을 계속 읽음으로써 컨테이너 작업을 유지시키는 방식이다.
+
+필자가 테스트 한 결과, run 시 아래와 같은 오류가 발생하며, docker-compose 및 Dockerfile로는 정상적으로 동작한다.
+이미지에 따라 다를 수 있음으로, 위의 sleep infinity를 경우에 따라 혼용하여 사용하면 된다.
+
+docker run
+
+$ docker run -d --name test --entrypoint "tail -f /dev/null" ubuntu:20.04
+37a992c25eeab81805a57da3ab08241315ed2745c66b15202235b2037ed4d1c8
+docker: Error response from daemon: failed to create shim: OCI runtime create failed: container_linux.go:380: starting container process caused: exec: "tail -f /dev/null": stat tail -f /dev/null: no such file or directory: unknown.

@@ -177,3 +177,12 @@ docker image prune -a
 # --filter until=<timestamp>를 통해 필터링 옵션을 줄 수 있다.
 # docker image prun -a -f -filter "until=48h" # -f: Do not prompt for confirmation
 ```
+
+
+## docker tag: 이미지/태그 명 변경
+
+도커 이미지의 태그명은 다음과 같이 변경한다.
+
+```console
+$ docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+```

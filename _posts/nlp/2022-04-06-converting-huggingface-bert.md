@@ -101,7 +101,7 @@ show_weights(bert_lm)
 
 결과
 
-```pycon
+```
 # of layers: 205
 Layers' name and their dimensions are:
   bert.embeddings.position_ids : torch.Size([1, 512])
@@ -148,7 +148,7 @@ for model_name1, layer in bert_lm.named_children():
         print("  "+model_name2)
 ```
 
-```pycon
+```
 BertForMaskedLM의 submodule:
 bert
   embeddings
@@ -227,7 +227,7 @@ print(len(bert_lm_state_dict), len(bert_state_dict), len(same_layers), len(diffe
 
 같은 레이어는 살펴볼 필요가 없으므로 `BertModel`에만 있는 레이어를 살펴보자 (`differences` 확인).
 
-```pycon
+```
 ['pooler.dense.weight', 'pooler.dense.bias']
 ```
 
@@ -240,7 +240,7 @@ Pooler는 BertModel을 제외한 모든 모델에서 사용하지 않음에 주�
 set(bert_lm_state_dict.keys()) - set(same_layers.keys())
 ```
 
-```pycon
+```
 {'cls.predictions.bias',
  'cls.predictions.decoder.bias',
  'cls.predictions.decoder.weight',
@@ -274,7 +274,7 @@ nv_bert.load_state_dict(torch.load(nv_bert_path / Path('BERT-base-pretrained.pt'
 show_weights(nv_bert)
 ```
 
-```pycon
+```
 # of layers: 205
 Layers' name and their dimensions are:
   bert.embeddings.word_embeddings.weight : torch.Size([35000, 768])
@@ -406,7 +406,7 @@ cnt_weights(nv_bert.bert), cnt_weights(bert)
 
 결과:
 
-```pycon
+```
 # of layers: 199
 Layers' name and their dimensions are:
 # of layers: 200
@@ -444,7 +444,7 @@ set(nv_state_dict.keys()) - set(state_dict.keys())
 
 결과:
 
-```pycon
+```
 # of differences: 26
 {'encoder.layer.0.intermediate.dense_act.bias',
  'encoder.layer.0.intermediate.dense_act.weight',
@@ -479,7 +479,7 @@ NVIDIA BERT의 dense_act는 [modeling.py](https://github.com/NVIDIA/DeepLearning
 
 반대로 transformers에만 있고 NVIDIA에는 없는 레이어도 비슷한 결과가 나온다.
 
-```pycon
+```
 # of differences: 26
 { 'encoder.layer.0.intermediate.dense.bias',
  'encoder.layer.0.intermediate.dense.weight',
@@ -541,7 +541,7 @@ print(set(state_dict.keys()) - set(nv_state_dict.keys()))
 ```
 
 결과:
-```pycon
+```
 # of differences: 0
 set()
 
@@ -606,7 +606,7 @@ True
 생각보다는 높은 0.0004정도의 오차가 발생하는 것으로 보인다.
 원래는 이보다는 작아야할 것 같은데... 값을 직접 찍어보자.
 
-```pycon
+```
 # 새로운 BERT
 tensor([[[ 0.2682, -0.1333, -0.1957,  ..., -0.7712,  0.2674, -0.7297],
          [ 0.7260,  2.5613,  0.7204,  ..., -0.1292,  0.4576,  0.3700],
