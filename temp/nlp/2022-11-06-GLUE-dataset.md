@@ -44,6 +44,8 @@ GLUE에는 아래와 같은 종류의 데이터셋이 포함되어 있다.
 
 ### COLA
 
+Matthew’s correlation 사용
+
 ### SST-A
 
 ## Similarity and Paraphrase Tasks

@@ -1,8 +1,8 @@
 ---
-title:  "Huggingface datasets 소개"
+title:  "🤗 Huggingface: datasets"
 toc: true
 toc_sticky: true
-permalink: /project/nlp/huggingface/datasets
+permalink: /project/nlp/Hugging-Face/datasets
 categories:
   - NLP
   - Huggingface

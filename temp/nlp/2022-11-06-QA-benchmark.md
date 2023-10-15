@@ -25,6 +25,9 @@ NLP관련 논문들을 읽다보면 다양한 태스크와 데이터셋이 등�
 관련정보:
 - QA 데이터셋 정리: http://nlpprogress.com/english/question_answering.html
 - 클라우데라 패스트 포워드: https://qa.fastforwardlabs.com/
+- [Summary of Question Answering task](https://alessandro-lombardini.medium.com/summary-of-question-and-answering-task-889d5cf70017)
+- [Question Answering vs Machine Reading Comprehension (QA vs MRC)](https://alessandro-lombardini.medium.com/question-and-answering-vs-machine-reading-comprehension-qa-vs-mrc-acf599536fe1)
+- [Evaluating QA: Metrics, Predictions, and the Null Response](https://qa.fastforwardlabs.com/no%20answer/null%20threshold/bert/distilbert/exact%20match/f1/robust%20predictions/2020/06/09/Evaluating_BERT_on_SQuAD.html)
 
 ### QA와 MRC의 차이
 
