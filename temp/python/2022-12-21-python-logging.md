@@ -19,6 +19,19 @@ last_modified_at: 2022-12-21
 
 ## config를 통한 로그설정
 
+```
+%(pathname)s Full pathname of the source file where the logging call was issued(if available).
+
+%(filename)s Filename portion of pathname.
+
+%(module)s Module (name portion of filename).
+
+%(funcName)s Name of function containing the logging call.
+
+%(lineno)d Source line number where the logging call was issued (if available).
+```
+
+
 ## 일자별로 로그를 쌓는 TimedRotatingFileHandler
 
 ```py
