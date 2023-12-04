@@ -88,7 +88,7 @@ git stash drop <stash 이름>
 
 이를 통해 부모 저장소 (superproject) 디렉토리 하에 자식 저장소 (submodule)을 추가할 수 있다.
 
-## Submodule push하기
+### Submodule push하기
 
 Submodule의 push는 일반적인 repo와 동일한 방식으로 진행하면 된다.
 
