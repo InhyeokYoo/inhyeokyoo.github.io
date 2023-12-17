@@ -232,7 +232,7 @@ For example, the following configuration sets the maximum delay time of 100 micr
   }
 ```
 
-The max_queue_delay_microseconds property setting changes the dynamic batcher behavior when a maximum size (or preferred size) batch cannot be created.
+The **max_queue_delay_microseconds** property setting changes the dynamic batcher behavior when a maximum size (or preferred size) batch cannot be created.
 When a batch of a maximum or preferred size cannot be created from the available requests, the dynamic batcher will delay sending the batch as long as no request is delayed longer than the configured max_queue_delay_microseconds value.
 If a new request arrives during this delay and allows the dynamic batcher to form a batch of a maximum or preferred batch size, then that batch is sent immediately for inferencing.
 If the delay expires the dynamic batcher sends the batch as is, even though it is not a maximum or preferred size.
@@ -249,6 +249,8 @@ The priority_levels property can be used to create multiple priority levels with
 Requests at the same priority level are processed in order. Inference requests that do not set a priority are scheduled using the default_priority_level property.
 
 #### Queue Policy
+
+https://github.com/triton-inference-server/server/blob/main/docs/user_guide/model_configuration.md#queue-policy
 
 The dynamic batcher provides several settings that control how requests are queued for batching.
 
@@ -522,6 +524,8 @@ Note: By default, quick search runs unbounded and ignores any default values for
 
 
 ### Automatic Brute Search
+
+https://github.com/triton-inference-server/model_analyzer/blob/main/docs/config_search.md#brute-search-mode
 
 exhaustively search the Max Batch Size, Dynamic Batching, and Instance Group parameters of your model configuration
 
