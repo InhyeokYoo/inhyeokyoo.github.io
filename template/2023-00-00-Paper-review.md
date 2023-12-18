@@ -2,7 +2,7 @@
 title:  "ABBREVIATION-Paper-Name review"
 toc: true
 toc_sticky: true
-permalink: /project/nlp/Paper-Name-review/
+permalink: /project/nlp/review/Paper-Name/
 categories:
   - NLP
   - Paper Review
