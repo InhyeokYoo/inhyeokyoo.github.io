@@ -17,6 +17,8 @@ last_modified_at: 2023-11-22
 
 간략한 개요와 참고 리소스 등을 적는다.
 
+https://aclanthology.org/2021.emnlp-main.243/
+
 
 ### Summary
 
@@ -77,10 +79,11 @@ Prompt의 길이에 따른 성능 변화를 보기 위해 $\{1, 5, 20, 100, 150\
 아무리 못해도 하나 이상의 prompt를 고르는 것이 좋았으나, XXL 사이즈의 경우 특별히 하나의 토큰으로도 준수한 성능을 보여주었다.
 이는 큰 모델일수록 prompt 신호에 덜 영향을 받음을 보여준다. 
 
-### Detail-Experiment
+### 비슷한 방법론과의 비교
 
-자세한 프로세스를 적는다.
-제목은 논문에서 따온다.
+- P-tuning
+- Prefix-tuning
+- 
 
 ## Conclusion
 

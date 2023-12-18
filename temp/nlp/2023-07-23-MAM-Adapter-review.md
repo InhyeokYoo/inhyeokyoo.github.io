@@ -57,7 +57,6 @@ https://arxiv.org/pdf/2110.04366.pdf
 최근 좋은 성능은 유지한채로 작은 양의 (추가) 파라미터만을 fine-tuning하는 parameter-efficient transfer learning method가 제안됨.
 성능은 효과적이나 왜 잘되는지에 대한 연구는 아직 적은 상황임.
 
-
 ## Contributions
 
 SOTA parameter-efficient transfer learning method의 디자인을 분석하고 이들 사이의 연결점을 보여주는 통합된 프레임워크를 제안.
@@ -75,8 +74,6 @@ SOTA parameter-efficient transfer learning method의 디자인을 분석하고 �
 
 ### A CLOSER LOOK AT PREFIX TUNING
 
-
-
 ## Experiment
 
 간략하게 실험에 대한 overview를 적는다
@@ -93,4 +90,3 @@ SOTA parameter-efficient transfer learning method의 디자인을 분석하고 �
 ![Fig.1-add-caption-here]({{site.url}}{{site.baseurl}}/assets/posts/CATEGORY/POST-NAME-Fig.1.png){: .align-center}{: width="600"}
 
 ![Caption](URL){: .align-center}{: width="600"}
-
