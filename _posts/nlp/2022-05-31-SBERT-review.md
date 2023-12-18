@@ -2,7 +2,7 @@
 title:  "Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks review"
 toc: true
 toc_sticky: true
-permalink: /project/nlp/SBERT-review/
+permalink: /project/nlp/review/SBERT/
 categories:
   - NLP
   - Paper Review

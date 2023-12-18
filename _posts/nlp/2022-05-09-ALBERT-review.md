@@ -2,7 +2,7 @@
 title:  "ALBERT: A LITE BERT FOR SELF-SUPERVISED LEARNING OF LANGUAGE REPRESENTATIONS review"
 toc: true
 toc_sticky: true
-permalink: /project/nlp/ALBERT-review/
+permalink: /project/nlp/review/ALBERT-review/
 categories:
   - NLP
   - Paper Review
@@ -127,7 +127,7 @@ BERT와 이의 후속작 XLNet, RoBERTa를 포함하여 WordPiece embedding size
 먼저 모델링관점에서 살펴보자. 
 
 WordPiece embedding은 어떠한 입력이 들어오더라도 같은 값을 내놓으므로 **context-independent** representation을 학습하도록 되어있다. 반면 hidden-layer embeddings은 단어의 맥락에 따라 달라지므로 **context-dependent** representations을 학습하도록 되어있다.
-[RoBERTa](/project/nlp/roberta-review/)는 context length가 성능에 미치는 영향을 실험하였는데, 이처럼 BERT-like representation의 성능은 context를 이용하여 context-dependent representations을 학습하는데서 온다.
+[RoBERTa](/project/nlp/review/roberta/)는 context length가 성능에 미치는 영향을 실험하였는데, 이처럼 BERT-like representation의 성능은 context를 이용하여 context-dependent representations을 학습하는데서 온다.
 이와같이 WordPiece embedding size $E$와 hidden layer size $H$를 분리하는 것은 모델링 요구사항에 따라 (즉, $H \gg E$) 전체적인 모델 파라미터를 더욱 효율적으로 사용할 수 있게끔 한다.
 
 실용적인 관점에서 살펴보면, NLP는 일반적으로 vocab size $V$가 커야한다. 만일 $E \equiv H$라면, $H$가 커질수록 embedding matrix $E \times V$가 커지게된다.

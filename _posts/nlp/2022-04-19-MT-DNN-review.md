@@ -2,7 +2,7 @@
 title:  "Multi-Task Deep Neural Networks for Natural Language Understanding review"
 toc: true
 toc_sticky: true
-permalink: /project/nlp/MT-DNN-review/
+permalink: /project/nlp/review/MT-DNN/
 categories:
   - NLP
   - Paper Review

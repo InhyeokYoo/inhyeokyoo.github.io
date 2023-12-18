@@ -2,7 +2,7 @@
 title:  "LoRA: LOW-RANK ADAPTATION OF LARGE LANGUAGE MODELS review"
 toc: true
 toc_sticky: true
-permalink: /project/nlp/LoRA-review/
+permalink: /project/nlp/review/LoRA/
 categories:
   - NLP
   - Paper Review

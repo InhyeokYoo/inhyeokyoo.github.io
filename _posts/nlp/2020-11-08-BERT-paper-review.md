@@ -3,7 +3,7 @@ title:  "BERT: Pre-training of Deep Bidirectional Transformers for Language Unde
 excerpt: "맥락과 함께 자세히 살펴보는 BERT 논문 리뷰/설명"
 toc: true
 toc_sticky: true
-permalink: /project/nlp/bert-review/
+permalink: /project/nlp/review/bert/
 categories:
   - NLP
   - Paper Review
@@ -31,8 +31,8 @@ last_modified_at: 2020-12-26
 # Pre-trained Language Model
 
 Language modeling pre-training은 다양한 NLP task에서 효과적임을 보여왔다. 이에 대표적인 예로는,
-- GPT-1 ([Review 보러가기)](/project/nlp/gpt1/)
-- ELMo ([Review 보러가기)](/project/nlp/elmo-review/)
+- GPT-1 ([Review 보러가기)](/project/nlp/review/gpt1/)
+- ELMo ([Review 보러가기)](/project/nlp/review/elmo/)
 - Semi-supervised sequence learning
 - ULMFiT ([다음](https://github.com/InhyeokYoo/CS224N/blob/main/week7/Modeling-contexts-of-use-Contextual-Representations-and-Pretraining.md#3-ulmfit-and-on-ward)을 참고)
 등이 있다. 
@@ -54,7 +54,7 @@ pre-trained representation을 **추가적인 feature**로 이용하는 **task-sp
 
 **2. fine-tuning approach**
 
-fine-tuning approach는 최소한의 task-specific parameter만을 도입하는 모델이다. downstream에 대해 단순히 모든 parameter를 fine-tuning한다. 이에는 GPT-1이 대표적이다. ([리뷰 보러가기](/project/nlp/gpt1/)) 
+fine-tuning approach는 최소한의 task-specific parameter만을 도입하는 모델이다. downstream에 대해 단순히 모든 parameter를 fine-tuning한다. 이에는 GPT-1이 대표적이다. ([리뷰 보러가기](/project/nlp/review/gpt1/)) 
 
 이 두 가지 방법은 pre-training에서 같은 objective function ($p(x _t \rvert x _1, ..., x _{t-1})$)을 공유하고, unidirectional language model을 통해 일반적인 language representation을 학습한다.
 
@@ -125,7 +125,7 @@ BERT에서의 MLM은 임의로 input token 일부를 masking하고, objective는
 
 BERT에는 두 가지 step을 통해 downstream task를 수행한다.
 
-첫 번째는 **pre-train**으로, pre-training task에 대해 unlabeled data를 사용하여 학습한다. 일반적으로는 semi-supervised/unsupervised learning이라 불리는 것을 의미한다. 이에 대한 개념은 [다음](/project/nlp/gpt1/#unsupervised-pre-training)을 참고해보자.
+첫 번째는 **pre-train**으로, pre-training task에 대해 unlabeled data를 사용하여 학습한다. 일반적으로는 semi-supervised/unsupervised learning이라 불리는 것을 의미한다. 이에 대한 개념은 [다음](/project/nlp/review/gpt1/#unsupervised-pre-training)을 참고해보자.
 
 두 번째 step은 **fine-tuning**이다. 앞서 수행한 pre-trained parameter로 initialize한 후, downstream task 수행하여 parameter를 fine-tuning한다. 아래의 Figure 1은 본 모델에서의 QA task의 예시이다.
 
@@ -311,7 +311,7 @@ BERT_BASE와 BERT_LARGE 모두 상당한 격차 (substantial margin)로 모든 �
 여기서 주목할점은 BERT_BASE와 OpenAI GPT의 경우 attention masking을 제외하고는 모델적인 측면에서 동일하다는 것이다 (encoder와 decoder의 차이). 가장 크고 널리 보고된 GLUE 테스크인 MNLI의 경우 4.6%의 정확도 상승을 이뤄냈다.
 GLUE 공식 리더보드에서는 BERT_LARGE의 경우 80.5인 반면 GPT는 72.8이다.
 
-BERT_LARGE는 모든 테스크에 대해 BERT_BASE를 굉장히 압도하는 것으로 나타났으며, 특히나 작은 트레인 셋에 대해서 그런 경향이 있음을 발견했다. 모델 사이즈에 대한 실험은 [Effect of Pre-training Tasks](/project/nlp/bert-review/##Effect of Pre-training Tasks)에서 추가로 확인할 수 있다.
+BERT_LARGE는 모든 테스크에 대해 BERT_BASE를 굉장히 압도하는 것으로 나타났으며, 특히나 작은 트레인 셋에 대해서 그런 경향이 있음을 발견했다. 모델 사이즈에 대한 실험은 [Effect of Pre-training Tasks](/project/nlp/review/bert/##Effect of Pre-training Tasks)에서 추가로 확인할 수 있다.
 
 ## SQuAD v1.1
 
@@ -435,7 +435,7 @@ BERT와 가장 비교할만한 것은 GPT이다. GPT는 LTR transformer LM으로
 - GPT는 32,000 단어에 대해 1M step을 학습하지만, BERT는 128,000 단어에 대해 1M step을 학습
 - GPT의 learning rate는 파인튜닝시 5e-5로 고정되어 있지만 BERT는 task마다 다르게 적용
 
-이러한 영향을 분리하여 실험하기 위해 [Effect of Pre-training Tasks](/project/nlp/bert-review/##Effect of Pre-training Tasks)에서 ablation experiment를 진행하였고, 그 결과 성능 향상의 주역은 MLM/NSP와 bidirecionality임을 확인하였다.
+이러한 영향을 분리하여 실험하기 위해 [Effect of Pre-training Tasks](/project/nlp/review/bert/##Effect of Pre-training Tasks)에서 ablation experiment를 진행하였고, 그 결과 성능 향상의 주역은 MLM/NSP와 bidirecionality임을 확인하였다.
 
 ## C.1 Effect of Number of Training Steps
 

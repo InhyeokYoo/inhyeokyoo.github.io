@@ -2,7 +2,7 @@
 title:  "MASS: Masked Sequence to Sequence Pre-training for Language Generation review"
 toc: true
 toc_sticky: true
-permalink: /project/nlp/MASS-review/
+permalink: /project/nlp/review/MASS/
 categories:
   - NLP
   - Paper Review

@@ -2,7 +2,7 @@
 title:  "[작성 중] BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension"
 toc: true
 toc_sticky: true
-permalink: /project/nlp/BART-review/
+permalink: /project/nlp/review/BART/
 categories:
   - NLP
   - Paper Review
@@ -32,7 +32,7 @@ SpanBERT
 
 [XLNet (Yang et al., 2019)](https://arxiv.org/abs/1906.08237)처럼 마스크 토큰의 순서를 바꾸어 버리던가,
 
-XLNet ([리뷰보기](/project/nlp/XLNet-review/))
+XLNet ([리뷰보기](/project/nlp/review/XLNet/))
 {: .text-center}
 
 ![image](https://user-images.githubusercontent.com/47516855/134289037-8573a4a3-b7b5-4804-b958-a8fde3fc82a1.png){: .align-center}{: width="700"}

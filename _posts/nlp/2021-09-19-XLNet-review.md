@@ -2,7 +2,7 @@
 title:  "XLNet: Generalized Autoregressive Pretraining for Language Understanding review"
 toc: true
 toc_sticky: true
-permalink: /project/nlp/XLNet-review/
+permalink: /project/nlp/review/XLNet/
 categories:
   - NLP
   - Paper Review

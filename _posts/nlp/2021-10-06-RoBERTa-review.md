@@ -2,7 +2,7 @@
 title:  "RoBERTa: A Robustly Optimized BERT Pretraining Approach"
 toc: true
 toc_sticky: true
-permalink: /project/nlp/RoBERTa-review/
+permalink: /project/nlp/review/RoBERTa/
 categories:
   - NLP
   - Paper Review
@@ -42,7 +42,7 @@ last_modified_at: 2021-09-26
 
 ## Background
 
-2장에선 BERT에 대한 간략한 설명과 다음장에서 실험할 training choice에 대해 다루고 있다. BERT에 대해 잘 알지 못한다면 [다음](/project/nlp/bert-review/)을 참고하도록 하자.
+2장에선 BERT에 대한 간략한 설명과 다음장에서 실험할 training choice에 대해 다루고 있다. BERT에 대해 잘 알지 못한다면 [다음](/project/nlp/review/bert/)을 참고하도록 하자.
 
 
 ## Experimental Setup
@@ -58,7 +58,7 @@ last_modified_at: 2021-09-26
 ### Data
 
 BERT-style의 pretraining은 다량의 데이터에 크게 의존한다. 
-[Baevski et al. (2019)](https://arxiv.org/abs/1903.07785)는 데이터의 사이즈를 키울수록 end-task의 성능이 올라감을 증명하였으며, 그 외에도 기존의 BERT보다 더욱 크고 다양한 데이터셋을 통해 학습시키는 노력들이 존재해왔다 ([Radford et al., 2019 (GPT-2)](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf); [Yang et al., 2019 (XLNet)](https://arxiv.org/abs/1906.08237), [리뷰 보기](/project/nlp/xlnet-review/); [Zellers et al., 2019](https://arxiv.org/abs/1905.12616)). 
+[Baevski et al. (2019)](https://arxiv.org/abs/1903.07785)는 데이터의 사이즈를 키울수록 end-task의 성능이 올라감을 증명하였으며, 그 외에도 기존의 BERT보다 더욱 크고 다양한 데이터셋을 통해 학습시키는 노력들이 존재해왔다 ([Radford et al., 2019 (GPT-2)](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf); [Yang et al., 2019 (XLNet)](https://arxiv.org/abs/1906.08237), [리뷰 보기](/project/nlp/review/xlnet/); [Zellers et al., 2019](https://arxiv.org/abs/1905.12616)). 
 그러나 안타깝게도 여기에 사용된 모든 데이터가 공개되지는 않았기에 저자들은 기존의 문헌들과 비교하기 적합한 양질의 데이터를 가능한 모으는데 집중했다고 한다.
 
 RoBERTa는 다양한 사이즈와 도메인을 토대로 5개의 영어 corpus를 수집하였으며, 총 160GB의 텍스트 파일을 사용했다고 한다.

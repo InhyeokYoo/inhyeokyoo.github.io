@@ -3,7 +3,7 @@ title:  "How to Fine-Tune BERT for Text Classification? review"
 excerpt: "BERT의 fine-tuning 전략을 알아보자"
 toc: true
 toc_sticky: true
-permalink: /project/nlp/How-to-Fine-Tune-BERT-for-Text-Classification-review/
+permalink: /project/nlp/review/How-to-Fine-Tune-BERT-for-Text-Classification/
 categories:
   - NLP
   - Paper Review
@@ -18,7 +18,7 @@ last_modified_at: 2021-06-23
 
 최근 회사에서 BERT를 활용하여 소셜 미디어 텍스트 분석을 진행하게 되었는데, 데이터셋부터 fine-tuning까지 여러 과정에서 문제를 겪게 되었다. 사실 너무 naive하게 생각해서 BERT만 있으면 되는줄 알았는데 여러 과정에서 신경쓸 부분이 많았다. 본 논문은 이렇듯 fine-tunining 과정에서 생길 수 있는 문제들이나 전략을 다루며, 효과적인 fine-tuning을 탐색하는 논문이다. 즉, pre-trained model에 데이터를 단순하게 때려박는다고 높은 성취를 달성할 수는 없다는 뜻이다. 만일 BERT를 사용하여 downstream task를 진행한다면 본 논문을 보며 fine-tuning 전략을 구상하는 것이 바람직해보인다.
 
-본 글을 이해하기 이전에 BERT에 대한 이해가 필수적이므로 리뷰를 보고 오도록 하자. 리뷰는 [이곳](/project/nlp/bert-review/)에서 확인할 수 있다.
+본 글을 이해하기 이전에 BERT에 대한 이해가 필수적이므로 리뷰를 보고 오도록 하자. 리뷰는 [이곳](/project/nlp/review/bert/)에서 확인할 수 있다.
 
 본 논문의 원본은 [이곳](https://arxiv.org/abs/1905.05583)에서 확인할 수 있으며, repository는 [여기](https://github.com/xuyige/BERT4doc-Classification)서 확인할 수 있다.
 
