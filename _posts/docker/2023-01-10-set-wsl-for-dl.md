@@ -153,7 +153,7 @@ sudo apt-get install -y nvidia-docker2
 docker run --rm -it --gpus=all nvcr.io/nvidia/k8s/cuda-sample:nbody nbody -gpu -benchmark
 ```
 
-나의 경우에는 MS 가이드에서 제공하는 tensorflow 이미지가 제대로 동작하지 않았기 때문에 확실하게 하기 위해서 [pytorch 이미지](https://hub.docker.com/r/pytorch/pytorch)를 다운받고 컨테이너로 올린다.
+나의 경우에는 MS 가이드에서 제공하는 tensorflow 이미지가 제대로 동작하지 않았기 때문에 확실하게 하기 위해서 [pytorch 이미지](https://hub.docker.com/r/pytorch/pytorch)를 다운받고 컨테이너로 올렸다.
 
 ```bash
 docker pull pytorch/pytorch
@@ -177,3 +177,10 @@ tensor = tensor.to(device)
 
 net(tensor)
 ```
+
+## Windows terminal 설치
+
+윈도우 스토어를 통해 windows terminal을 설치하고, 이를 통해 깔끔하게 WSL 내 ubuntu 환경을 즐길 수 있다.
+
+![Fig.1-windows-terminal]({{site.url}}{{site.baseurl}}/assets/posts/docker/set-wsl-for-dl-fig.1.png){: .align-center}{: width="600"}
+
