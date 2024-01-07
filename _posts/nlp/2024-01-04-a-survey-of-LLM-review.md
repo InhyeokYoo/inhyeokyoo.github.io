@@ -56,7 +56,7 @@ Instruction tuning을 하면 unseen data에 대한 일반화 성능이 우수한
 
 이 방법은 labeled dataset에 인간이 작성한 task descriptions을 더해 LLM을 학습시키는 것이다.
 
-![Fig.1-Formatting-Task-Datasets]({{site.url}}{{site.baseurl}}/assets/posts/nlp/a-survey-of-LLM-review-Fig.1){: .align-center}{: width="500"}
+![Fig.1-Formatting-Task-Datasets]({{site.url}}{{site.baseurl}}/assets/posts/nlp/a-survey-of-LLM-review-Fig.1.png){: .align-center}{: width="500"}
 
 위 그림에서는 "Please answer this question"가 QA task의 task description이 된다.
 Instruction tuning을 수행하면 task description을 따라 unseen data에 대한 성능이 높아지며, 없는 경우 성능이 심각하게 하락하기도 한다.
