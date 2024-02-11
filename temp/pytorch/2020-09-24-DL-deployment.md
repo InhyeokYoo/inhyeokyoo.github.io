@@ -1,6 +1,5 @@
 ---
 title:  "모델 deploy하기 정리"
-excerpt: "DL 모델을 deploy하기 위해 정리한 글"
 toc: true
 toc_sticky: true
 permalink: /pytorch/DL-deployment/

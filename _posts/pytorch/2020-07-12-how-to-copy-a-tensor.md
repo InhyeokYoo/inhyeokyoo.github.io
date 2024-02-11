@@ -1,6 +1,5 @@
 ---
 title:  "PyTorch에서 tensor를 copy하는 법"
-excerpt: "PyTorch에서 tensor를 복사하는 방법은 여러가지가 있다."
 toc: true
 toc_sticky: true
 permalink: /pytorch/how-to-copy-a-tensor/

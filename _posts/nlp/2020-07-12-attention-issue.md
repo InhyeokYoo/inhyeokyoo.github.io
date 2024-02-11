@@ -1,6 +1,5 @@
 ---
 title:  "PyTorch Attention 구현 issue 정리"
-excerpt: "포트폴리오 용으로 Attention을 구현하던 중 헷갈리는 개념을 정리하였다."
 toc: true
 toc_sticky: true
 permalink: /project/nlp/review/attention-issue/

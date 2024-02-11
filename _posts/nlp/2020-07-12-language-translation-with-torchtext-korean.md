@@ -1,6 +1,5 @@
 ---
 title:  "LANGUAGE TRANSLATION WITH TORCHTEXT"
-excerpt: "LANGUAGE TRANSLATION WITH TORCHTEXT 번역 자료"
 toc: true
 toc_sticky: true
 

@@ -1,6 +1,5 @@
 ---
 title:  "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding review"
-excerpt: "맥락과 함께 자세히 살펴보는 BERT 논문 리뷰/설명"
 toc: true
 toc_sticky: true
 permalink: /project/nlp/review/bert/

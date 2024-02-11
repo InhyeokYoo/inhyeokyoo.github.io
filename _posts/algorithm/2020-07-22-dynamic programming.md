@@ -1,6 +1,5 @@
 ---
 title:  "백준 DP 풀이 모음집"
-excerpt: "Python으로 풀어보는 백준 DP 문제"
 toc: true
 toc_sticky: true
 permalink: /project/algorithm/DP/

@@ -1,9 +1,7 @@
 ---
 title:  "Minimal Mistakes: github pages를 잘 꾸며보자"
-excerpt: "Minimal Mistakes를 내 입맛대로 수정하기"
 toc: true
 toc_sticky: true
-
 categories:
   - Github Pages
 tags:

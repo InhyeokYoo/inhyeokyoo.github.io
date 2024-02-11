@@ -1,6 +1,5 @@
 ---
 title:  "[미완성] 한국어 전처리의 이해"
-excerpt: "검색해도 안 나오는 한국어 전처리에 대해 공부해보자."
 toc: true
 toc_sticky: true
 

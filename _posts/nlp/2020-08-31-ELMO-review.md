@@ -1,6 +1,5 @@
 ---
 title:  "Deep contextualized word representations (ELMO) review"
-excerpt: "ELMO 정리"
 toc: true
 toc_sticky: true
 permalink: /project/nlp/review/elmo/

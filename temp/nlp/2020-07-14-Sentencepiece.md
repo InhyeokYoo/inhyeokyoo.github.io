@@ -1,6 +1,5 @@
 ---
 title:  "Sentencepiece 사용하기"
-excerpt: "서브워드 분절에서 사용하는 sentencepiece에 대해 알아보자."
 toc: true
 toc_sticky: true
 

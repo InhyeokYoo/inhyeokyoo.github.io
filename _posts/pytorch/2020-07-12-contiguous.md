@@ -1,6 +1,5 @@
 ---
 title:  "PyTorch contiguous에 대해 알아보자"
-excerpt: "Attention을 활용한 NMT를 학습하던 도중 다음과 같은 에러가 발생했다."
 toc: true
 toc_sticky: true
 permalink: /pytorch/contiguous/

@@ -1,6 +1,5 @@
 ---
 title:  "How to Fine-Tune BERT for Text Classification? review"
-excerpt: "BERT의 fine-tuning 전략을 알아보자"
 toc: true
 toc_sticky: true
 permalink: /project/nlp/review/How-to-Fine-Tune-BERT-for-Text-Classification/

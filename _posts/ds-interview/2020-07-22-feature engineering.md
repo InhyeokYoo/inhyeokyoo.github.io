@@ -1,6 +1,5 @@
 ---
 title:  "The Quest for Machine Learning (1) - Feature Engineering"
-excerpt: "데이터 사이언스를 위한 인터뷰 문답집 (1) Feature Engineering편"
 toc: true
 toc_sticky: true
 permalink: /project/ds-interview/feature-engineering/

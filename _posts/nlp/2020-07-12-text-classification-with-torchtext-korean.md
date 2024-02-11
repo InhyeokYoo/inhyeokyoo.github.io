@@ -1,6 +1,5 @@
 ---
 title:  "TEXT CLASSIFICATION WITH TORCHTEXT"
-excerpt: "TEXT CLASSIFICATION WITH TORCHTEXT 번역 자료"
 toc: true
 toc_sticky: true
 

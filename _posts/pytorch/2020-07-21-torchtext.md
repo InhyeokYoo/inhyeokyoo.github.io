@@ -1,6 +1,5 @@
 ---
 title:  "Torch text 살펴보기 (작성 중단)"
-excerpt: ""
 toc: true
 toc_sticky: true
 permalink: /pytorch/torchtext/

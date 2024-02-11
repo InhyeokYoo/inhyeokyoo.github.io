@@ -1,6 +1,5 @@
 ---
 title:  "pytorch로 BERT 구현하기"
-excerpt: "BERT를 직접 구현하며 헷갈리는 것들을 살펴보자"
 toc: true
 toc_sticky: true
 permalink: /project/nlp/review/bert-issue/

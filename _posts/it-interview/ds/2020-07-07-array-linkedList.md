@@ -1,6 +1,5 @@
 ---
 title:  "CS 비전공자의 IT 기업 면접 뽀개기 - (1) Data Structure - Array/LinkedList"
-excerpt: "Array/LinkedList를 알아보자"
 toc: true
 toc_sticky: true
 permalink: /project/IT-interview/DS/array-linkedList/

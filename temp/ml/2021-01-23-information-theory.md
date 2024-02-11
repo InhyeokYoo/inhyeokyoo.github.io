@@ -1,6 +1,5 @@
 ---
 title:  "머신러닝에서 사용하는 information theory 정리"
-excerpt: "information theory의 기본에 대해 알아보자"
 toc: true
 toc_sticky: true
 categories:

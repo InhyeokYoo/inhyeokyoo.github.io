@@ -1,6 +1,5 @@
 ---
 title:  "쉽게 따라하는 Github pages"
-excerpt: "비전공자도 쉽게 따라하는 깃허브 블로그 만들기"
 toc: true
 toc_sticky: true
 

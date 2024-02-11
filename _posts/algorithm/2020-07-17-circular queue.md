@@ -1,6 +1,5 @@
 ---
 title:  "백준 Circular Queue 풀이"
-excerpt: "백준 Circular Queue 풀이 모음집"
 toc: true
 toc_sticky: true
 permalink: /project/algorithm/circular-queue/
