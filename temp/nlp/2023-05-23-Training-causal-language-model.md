@@ -2,7 +2,6 @@
 title:  "CLM 학습하기"
 toc: true
 toc_sticky: true
-permalink: /project/nlp/
 categories:
   - NLP
   - Language Modeling
