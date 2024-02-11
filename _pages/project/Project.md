@@ -21,7 +21,7 @@ NLP 관련 굵직한 논문들을 읽고, 정리하고 구현하는 활동입니
 
 본 과정은 다른 스터디원분들과 함께 진행합니다.
 
-[link](/project/nlp/)
+[link](/project/nlp/review)
 
 ## CS224N (July 2020 - Dec 2020)
 
