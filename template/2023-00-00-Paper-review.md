@@ -59,7 +59,20 @@ last_modified_at: 2022-05-31
 
 논문의 결론과 개인적인 소감, 아쉬운 점, 응용법 등을 정리한다.
 
+캡션은 아래와 같이 단다.
+
 ![Fig.1-add-caption-here]({{site.url}}{{site.baseurl}}/assets/posts/CATEGORY/POST-NAME-Fig.1.png){: .align-center}{: width="600"}
 
+URL는 아래와 같이 단다.
+
 ![Caption](URL){: .align-center}{: width="600"}
+
+`{: .notice--info}`는 추가적인 정보를 적을 때 사용한다.
+{: .notice--info}
+
+`{: .notice--warning}`는 추후 살펴볼 내용을 적는다.
+{: .notice--warning}
+
+`{: .notice--warning}`는 잘 모르는 것을 적는다.
+{: .notice--warning}
 
