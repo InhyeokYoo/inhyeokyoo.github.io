@@ -5,10 +5,22 @@ toc_sticky: true
 categories:
   - Git
 use_math: true
-last_modified_at: 2023-10-19
+last_modified_at: 2024-02-15
 ---
 
 업무를 하며 유용하게 사용하는 git 명령어 정리해보았다.
+
+## `git reset`을 활용하여 remote와 local을 일치시키기
+
+가끔 HEAD가 detach되거나 특정 문제가 생겨 remote와 local이 일치하지 않는 경우가 발생한다.
+이런 경우엔 local 저장소를 지운뒤 remote와 동기화하면 된다. 
+
+```bash
+# Remove commits to branches that doesn't exist on the remotes
+git fetch --prune origin 
+# reset to remote branch
+git reset --hard origin/main
+```
 
 ## git add -p와 git commit -v을 활용한 이력관리
 
