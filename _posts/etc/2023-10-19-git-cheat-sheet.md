@@ -22,9 +22,10 @@ git fetch --prune origin
 git reset --hard origin/main
 ```
 
-## git add -p와 git commit -v을 활용한 이력관리
+## `git add -p`와 `git commit -v`을 활용한 이력관리
 
-### git add -p
+### `git add -p`을 활용하여 commit을 나누자
+
 
 코드를 작성하다보면 아주 당연하게도 여러 부분을 한번에 수정하게 되고, 이 중에는 커밋의 단위가 다른 경우가 있을 것이다.
 여태까진 `git add <file 이름>` 처럼 한 파일씩 commit을 넣게 되었는데, 한 파일의 add 단위를 분리할 수 없다는 단점이 있다.
@@ -51,7 +52,7 @@ e - manually edit the current hunk
 개인적으로는 `s` 옵션을 통해 hunk를 잘게 나눈 뒤, `e`로 manually 작업한다.
 
 
-### git commit -v
+### `git commit -v`를 활용하여 commit 변경사항을 직접 확인하기
 
 `git commit -v`도 `git add -p`와 비슷하게 commit시 변경사항을 다시 확인하기 위해 사용한다.
 
@@ -61,7 +62,7 @@ e - manually edit the current hunk
 Commit 메세지는 맨 윗줄에 입력하면 된다.
 
 
-## git stash
+## 임시저장을 하고 싶을 땐 ? `git stash`!
 
 working stage
 
@@ -88,7 +89,7 @@ git stash apply <stash 이름>
 git stash drop <stash 이름>
 ```
 
-## git submodule
+## Repository에서 repository를 관리하고 싶을 땐? `git submodule`!
 
 프로젝트를 진행하다보면 여러 파드 등에서 같은 모듈이나 config 등을 사용하는 경우가 있다.
 각 파드 별로 git repo를 관리하는 경우 똑같은 기능임에도 불구하고 조금씩 차이가 생길 수도 있고, 특정 repository (파드)에서만 버그를 수정하게 되는 경우 다른 repository (파드)로 이를 즉각적으로 반영하기가 어려운 경우가 많다.
@@ -123,12 +124,12 @@ Superproject의 **디렉토리 내**에서 직접 git pull을 하거나, `git su
 Submodule이 포함된 repository를 온전히 clone하기 위해서는 `--recurse-submodules` 옵션을 함께 줘야한다.
 
 
-## Remote branch 가져오기
+## Remote branch를 가져오려면? `git switch -t`!
 
 Git repository를 pull하면 branch는 제외하고 가져오게 된다.
 만약 특정 branch를 가져오고 싶으면 `git switch -t <원격 저장소/branch 이름>`를 사용하도록 하자.
 
-## 원격 저장소에 올라간 commit 취소하기
+## 원격 저장소에 올라간 commit 취소하려면? `reset`과 `revert`!
 
 ### `git reset`을 활용하여 원격 저장소에 올라간 commit 취소하기
 
