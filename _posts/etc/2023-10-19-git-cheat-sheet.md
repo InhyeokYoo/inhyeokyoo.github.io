@@ -64,11 +64,12 @@ Commit 메세지는 맨 윗줄에 입력하면 된다.
 
 ## 임시저장을 하고 싶을 땐 ? `git stash`!
 
-working stage
+working stage에 변경 내역이 남아있을 때 branch를 변경하는 등의 기능이 안될 때가 있다.
+이럴 때는 `git stash`를 이용하여 임시저장을 하고, branch를 변경하는 등의 작업을 수행한 뒤 다시 불러오는 방식으로 작업을 이어나갈 수 있다.
 
 ```sh
 # 코드 임시 저장
-git stash save
+git stash save <stash 이름>
 
 # 코드 임시 저장 목록 확인
 git stash list
@@ -87,6 +88,9 @@ git stash apply <stash 이름>
 
 # apply를 할 경우 list에서 사라지지 않으므로 drop을 이용하여 지워줌
 git stash drop <stash 이름>
+
+# apply와 drop을 동시에 하고 싶을 땐 pop을 사용함
+git stash pop <stash 이름>
 ```
 
 ## Repository에서 repository를 관리하고 싶을 땐? `git submodule`!
