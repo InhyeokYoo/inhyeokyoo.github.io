@@ -51,9 +51,9 @@ AR 모델과는 다르게 AE에 기반한 pre-training 모델은 density estimat
 수식으로 표현하면, 주어진 text sequence $\mathbf x = [x _1, \cdots, x _T]$에 대해 임의의 단어를 일정 확률 (15%)로 `[MASK]` 토큰으로 변경하여 오염된 버전의 sequence $\hat {\mathbf x}$를 생선한다. 마스킹된 토큰을 $\bar{\mathbf x}$라 하자. Training objective는  $\hat{\mathbf x}$으로부터 $\bar{\mathbf x}$를 복구하는 것이 된다.
 
 $$
-\max _\theta \log ~p _\theta (\hat{\mathbf x} \rvert \bar{\mathbf x}) 
+\max _\theta \log ~p _\theta (\bar{\mathbf x} \rvert \hat{\mathbf x}) 
 \approx \sum^T _{t=1} m _t \log ~p _\theta (x _t \rvert \hat{\mathbf x}) 
-= \sum^T _{t=1} m _t \log ~ \frac{\exp(H _\theta (\hat{\mathbf x} _t)^\intercal e(x _t))}{\sum _{x'} \exp (H _\theta (\hat{\mathbf x _t} _t)^\intercal e(x'))} \tag{2}
+= \sum^T _{t=1} m _t \log ~ \frac{\exp(H _\theta (\hat{\mathbf x})^\intercal _t e(x _t))}{\sum _{x'} \exp (H _\theta (\hat{\mathbf x})^\intercal _t e(x'))} \tag{2}
 $$
 
 $m _t=1$은 $x _t$가 마스킹되었음을 뜻하고, $H _\theta$는 Transformer로, $T$길이의 text sequence $\mathbf x$를 hidden vector의 sequence $H _\theta(\mathbf x) = [H _\theta(\mathbf x) _1, H _\theta(\mathbf x) _2, \cdots, H _\theta(\mathbf x) _T]$로 변환하는 역할을 한다.
@@ -62,7 +62,7 @@ AR 모델과 AE 모델의 장단점은 다음과 같다.
 
 ### Independence Assumption
 
-식 (2)을 자세히 보면 같다($=$)가 아니고 근사한다($\approx$)이다. BERT는 joint conditional probability $p (\hat{\mathbf x} \rvert \bar{\mathbf x})$를 factorize하는데, 이는 마스크된 모든 토큰이 **각자 복원**된다는 뜻이다. 즉, 마스크된 토큰끼리는 **서로 독립적**이라는 가정하에 복원을 진행하게 된다.
+식 (2)을 자세히 보면 같다($=$)가 아니고 근사한다($\approx$)이다. BERT는 joint conditional probability $p (\bar{\mathbf x} \rvert \hat{\mathbf x})$를 factorize하는데, 이는 마스크된 모든 토큰이 **각자 복원**된다는 뜻이다. 즉, 마스크된 토큰끼리는 **서로 독립적**이라는 가정하에 복원을 진행하게 된다.
 
 예를들어 *New York is a ccity*라는 단어가 있다고 가정하자. BERT와 같은 AE 모델이 *New*와 *York*를 마스킹했다고 가정하자.
 
@@ -169,7 +169,7 @@ $t=3$으로, permutation order는 `[2, 4, 3, 1]`으로 가정하자. 새로운 r
 
 ![image](https://user-images.githubusercontent.com/47516855/134291286-79cfe0b5-3a5b-45a2-bcf2-cee1ca79e393.png){: .align-center}{: width="500"}
 
-이번엔 2번과 같은 경우를 보자. 이번에는 $j=1>3=t$로 가정하였다. $g _{\theta}$는 context를 반영해야 되기 때문에 이번에는 full context information, 즉, 내용을 전달해야 한다. 이번에 포함되는 위치정보는 $z _j$가 된다. $g _theta$는 token을 예측하는 시점에 따라 표현하는 방법이 파랑색/검은색 두 가지로 나눠지게 된다. Transformer는 이 두가지 제한사항을 동시에 만족할 수 없다.
+이번엔 2번과 같은 경우를 보자. 이번에는 $j=1>3=t$로 가정하였다. $g _{\theta}$는 context를 반영해야 되기 때문에 이번에는 full context information, 즉, 내용을 전달해야 한다. 이번에 포함되는 위치정보는 $z _j$가 된다. $g _{\theta}$는 token을 예측하는 시점에 따라 표현하는 방법이 파랑색/검은색 두 가지로 나눠지게 된다. Transformer는 이 두가지 제한사항을 동시에 만족할 수 없다.
 
 이러한 모순을 해결하기 위해 하나의 representation 대신 두 개의 representation을 사용하는 **two-stream self-attention**을 제안한다.
 
