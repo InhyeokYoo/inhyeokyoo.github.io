@@ -3,9 +3,10 @@ title:  "BERT 모델을 huggingface로 변환하기"
 toc: true
 toc_sticky: true
 categories:
-  - NLP
-tags:
   - huggingface
+tags:
+  - BERT
+  - NLP
 use_math: true
 last_modified_at: 2023-05-19
 ---

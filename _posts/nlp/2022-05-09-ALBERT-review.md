@@ -4,12 +4,12 @@ toc: true
 toc_sticky: true
 permalink: /project/nlp/review/ALBERT-review/
 categories:
+  - Language Modeling
+tags:
   - NLP
   - Paper Review
-tags:
-  - Language Modeling
 use_math: true
-last_modified_at: 2022-05-09
+last_modified_at: 2024-06-05
 ---
 
 ## 들어가며

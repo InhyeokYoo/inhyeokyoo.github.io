@@ -4,13 +4,13 @@ toc: true
 toc_sticky: true
 permalink: /project/nlp/review/MT-DNN/
 categories:
-  - NLP
-  - Paper Review
-tags:
   - Language Modeling
   - Multi-task learning
+tags:
+  - NLP
+  - Paper Review
 use_math: true
-last_modified_at: 2022-05-08
+last_modified_at: 2024-06-05
 ---
 
 ## 들어가며

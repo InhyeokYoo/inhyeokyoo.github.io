@@ -4,12 +4,14 @@ toc: true
 toc_sticky: true
 permalink: /project/nlp/review/SBERT/
 categories:
+  - Language Modeling
+  - Semantic Textual Similarity
+  - Sentence Embedding
+tags:
   - NLP
   - Paper Review
-tags:
-  - Language Modeling
 use_math: true
-last_modified_at: 2022-05-31
+last_modified_at: 2024-06-05
 ---
 
 ## Introduction
