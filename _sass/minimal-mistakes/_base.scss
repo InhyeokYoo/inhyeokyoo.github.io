@@ -65,6 +65,10 @@ small,
 
 p {
   margin-bottom: 1.3em;
+  /* 양쪽 정렬을 위해 추가함*/
+  /* https://x2info.github.io/minimal-mistakes/%EC%BB%A8%ED%85%90%EC%B8%A0_%EC%96%91%EC%AA%BD_%EC%A0%95%EB%A0%AC%ED%95%98%EA%B8%B0/ */
+  text-align: justify;
+  word-break: break-all;
 }
 
 u,
