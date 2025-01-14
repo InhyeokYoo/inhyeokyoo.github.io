@@ -72,9 +72,12 @@ $type-size-8: 0.625em !default; // ~10px
 
 ## Notice 사용하기
 
-{: .text-center}
+**notice**를 통해 특정 컨텐츠를 설명하거나 필요한 정보를 강조할 수 있다.
+사용방법은 크게 세가지가 있다.
 
-다음과 같은 **notice**를 사용할 수 있다. 사용법은 문단의 끝에 `{: .notice}`를 사용하는 것이다. 직접 [깃헙](https://github.com/InhyeokYoo/inhyeokyoo.github.io/blob/master/_posts/etc/2020-10-11-minimal%20mistakes.md)문서를 확인해보자.
+### Kramdown
+
+첫번째 사용법은 문단의 끝에 `{: .notice}`를 사용하는 것이다.
 
 **서비스 변경:** 서비스 변경과 같이 간단한 안내는 `{: .notice}`를 문단의 끝에 첨부함으로서 사용할 수 있다.
 {: .notice}
@@ -94,6 +97,10 @@ $type-size-8: 0.625em !default; // ~10px
 **성공 안내:** 성공 안내는 `{: .notice--success}`를 이용한다.
 {: .notice--success}
 
+### HTML
+
+아니면 그냥 HTML로 감싸버리면 된다.
+
 **블록으로 감싸기**: 리스트나 수학공식과 같이 본 notice를 같이 쓸 수 있다.
 
 <div class="notice--primary" markdown="1">
@@ -108,6 +115,51 @@ $type-size-8: 0.625em !default; // ~10px
 </div>
 ```
 </div>
+
+### markdownify
+
+Liquid문법을 활용하는 방법도 있다.
+
+
+{% capture notice-2 %} 
+#### 예시
+
+* 다음과 같은 방법으로 notice를 사용할 수 있다.
+
+```md
+{% capture notice-2 %} 
+#### 예시
+
+* 다음과 같은 방법으로 notice를 사용할 수 있다.
+{% endcapture %}
+
+<div class="notice">
+  {{ notice-2 | markdownify }}
+</div>
+```
+{% endcapture %}
+
+<div class="notice">
+  {{ notice-2 | markdownify }}
+</div>
+
+나머지 정보는 직접 [문서](https://github.com/InhyeokYoo/inhyeokyoo.github.io/blob/master/_posts/etc/2020-10-11-minimal%20mistakes.md)를 확인해보자.
+
+
+## 양쪽 정렬하기
+
+`_sass/minimal-mistakes/_base.scss`에 아래를 추가한다.
+
+```scss
+/* 양쪽 정렬을 위해 추가함*/
+p {
+  text-align: justify;
+  word-break: break-all;
+}
+```
+
+[다음](https://x2info.github.io/minimal-mistakes/%EC%BB%A8%ED%85%90%EC%B8%A0_%EC%96%91%EC%AA%BD_%EC%A0%95%EB%A0%AC%ED%95%98%EA%B8%B0/)을 참고.
+
 
 
 # 이미지 관련
