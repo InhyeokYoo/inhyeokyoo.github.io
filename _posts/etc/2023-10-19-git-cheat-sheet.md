@@ -27,7 +27,7 @@ git reset --hard origin/main
 ### `git add -p`을 활용하여 commit을 나누자
 
 
-코드를 작성하다보면 아주 당연하게도 여러 부분을 한번에 수정하게 되고, 이 중에는 커밋의 단위가 다른 경우가 있을 것이다.
+코드를 작성하다보면 아주 당연하게도 여러 부분을 한번에 수정하게 되고, 이 중에는 commit의 단위가 다른 경우가 있을 것이다.
 여태까진 `git add <file 이름>` 처럼 한 파일씩 commit을 넣게 되었는데, 한 파일의 add 단위를 분리할 수 없다는 단점이 있다.
 
 `git add -p`는 commit의 단위를 hunk라는 작은 단위로 쪼갤 수 있을뿐만 아니라, 어느 부분이 수정되었는지 나오기에 매우 편리하다.
@@ -133,17 +133,20 @@ Submodule이 포함된 repository를 온전히 clone하기 위해서는 `--recur
 Git repository를 pull하면 branch는 제외하고 가져오게 된다.
 만약 특정 branch를 가져오고 싶으면 `git switch -t <원격 저장소/branch 이름>`를 사용하도록 하자.
 
-## 원격 저장소에 올라간 commit 취소하려면? `reset`과 `revert`!
+
+## commit을 취소하려면?
+
+commit을 취소하기 위해선 다양한 방법을 활용할 수 있다.
 
 ### `git reset`을 활용하여 원격 저장소에 올라간 commit 취소하기
 
 `git reset [option] <commit 이름>`을 활용하면 commit을 되돌릴 수 있다.
-이후 되돌린 커밋을 원격 저장소에 강제로 push하여 반영시킬 수 있다.
+이후 되돌린 commit을 원격 저장소에 강제로 push하여 반영시킬 수 있다.
 
-이 경우 로컬 저장소의 commit 히스토리가 원격 저장소보다 뒤쳐져 있기 때문에 push 과정에서 에러가 발생할 수 있다.
-현재 작업은 뒤쳐져 있는 로컬 저장소의 커밋 히스토리를 원격 저장소의 커밋 히스토리로 강제로 덮어쓰는 것이므로 `-f`/`--force`을 추가하여 강제로 push할 수 있다.
+이 경우 **로컬 저장소의 commit 히스토리가 원격 저장소보다 뒤쳐져** 있기 때문에 push 과정에서 에러가 발생할 수 있다.
+현재 작업은 뒤쳐져 있는 로컬 저장소의 commit 히스토리를 원격 저장소의 commit 히스토리로 강제로 덮어쓰는 것이므로 `-f`/`--force`을 추가하여 강제로 push할 수 있다.
 
-이 방법은 원격 저장소에 흔적도 없이 커밋들을 제거할 수 있으므로 겉보기에는 가장 깔끔한 해결책으로 보일 수 있다.
+이 방법은 원격 저장소에 흔적도 없이 commit들을 제거할 수 있으므로 겉보기에는 가장 깔끔한 해결책으로 보일 수 있다.
 하지만 해당 branch가 팀원들과 공유하는 branch이고, commit을 되돌리기 전에 다른 팀원이 pull로 땡겨갔다면, 그때부터 다른 팀원의 로컬 저장소에는 되돌린 commit이 남아있게 된다.
 이 사실을 모르는 팀원은 자신이 작업한 commit과 함께 이를 push할 것이고, 그 때 되돌렸던 commit이 다시 원격 저장소에 추가되게 될 것이다.
 따라서 이 방법은 다른 팀원이 내가 되돌린 commit을 pull로 땡겨가지 않았다고 확신할 수 있는 경우에만 사용하는 것이 바람직하다.
@@ -163,13 +166,111 @@ Git repository를 pull하면 branch는 제외하고 가져오게 된다.
 만일 여러개의 commit을 revert하고 싶다면 `git revert --no-commit HEAD~3..`처럼 범위를 입력해도 된다.
 
 
-## Git reset vs revert vs checkout reference
+## 과거의 특정 시점으로 돌아가고 싶을 땐? `git checkout`
 
-| 명령어            | 범위    | 활용법                                                                   |
-|:--------------:|:-----:|:---------------------------------------------------------------------:|
-| `git reset`    | 커밋 수준 | Discard commits in a private branch or throw away uncommitted changes |
-| `git reset`    | 파일 수준 | 파일 스테이징 취소                                                            |
-| `git checkout` | 커밋 수준 | 브랜치 간 전환 또는 이전 스냅샷 검사                                                 |
-| `git checkout` | 파일 수준 | 작업 디렉터리의 변경 사항 버리기                                                    |
-| `git revert`   | 커밋 수준 | 공개 브랜치에서 커밋 실행 취소                                                     |
-| `git revert`   | 파일 수준 | 해당 없음                                                                 |
+과거 특정 시점의 commit으로 돌아가 테스트를 하는 등의 작업을 할 때는 다음과 같이 수행하면 된다.
+
+```sh
+# 이전 시점으로 이동
+git checkout <commit>
+
+# 다시 원래 시점으로 되돌아오기
+git checkout <branch_name>
+```
+
+
+## 파일 단위의 변경을 진행할 때는? `reset`과 `checkout`
+
+`git reset`에 commit을 파라미터를 넣는 것과는 다르게 파일을 인자로 넣을수도 있다.
+이 경우 파일의 **stage area를 해당 커밋으로 업데이트**한다 (애초에 `reset`은 staging area를 다루는 것이다).
+명령어는 `git reset [<commit>] <file`와 같다.
+아래의 예시를 살펴보자.
+
+```sh
+# 각 커밋은 README.md에 1, 2, 3을 추가하는 것이다
+$ git log --oneline
+72b2d6b (HEAD -> main) Add 3
+bbc8ca8 Add 2
+0132908 Add 1
+69c4f3e Create README.md
+
+# staging area는 깔끔하다
+$ git status
+On branch main
+nothing to commit, working tree clean
+
+# 테스트해보자
+$ git reset HEAD~1 README.md
+Unstaged changes after reset:
+M	README.md
+
+# 상태를 확인해보자
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   README.md
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   README.md
+
+# WD는 HEAD와 상태가 동일하다 (3 추가)
+$ git diff README.md 
+diff --git a/README.md b/README.md
+index 1191247..01e79c3 100644
+--- a/README.md
++++ b/README.md
+@@ -1,2 +1,3 @@
+ 1
+ 2
++3
+
+# Stage area는 commit인 `HEAD~1`과 동일한 모습(=2 추가한 상태)이다
+$ git diff --cached README.md
+diff --git a/README.md b/README.md
+index 01e79c3..1191247 100644
+--- a/README.md
++++ b/README.md
+@@ -1,3 +1,2 @@
+ 1
+ 2
+-3
+
+# 말했듯이 stage area만 다루므로 커밋에는 영향이 없다
+$ git log --oneline
+72b2d6b (HEAD -> main) Add 3
+bbc8ca8 Add 2
+0132908 Add 1
+69c4f3e Create README.md
+```
+
+이때 commit이 `HEAD`일 경우 생략이 가능하다.
+
+또한, `reset`이 아닌 `checkout`을 사용하는 방법도 있다.
+`checkout`을 파일 단위로 사용하면 **stage area와 working directory 모두 커밋된 내용과 일치**하도록 파일을 되돌린다.
+사용법은 위와 비슷하다.
+
+```sh
+git checkout [<commit>] <file>
+```
+
+둘의 차이점은 아래의 표에 나와있다.
+
+|                                 | Index | Workdir | WD Safe? |
+|---------------------------------|-------|---------|----------|
+| reset [commit] <paths>          | YES   | NO      | YES      |
+| checkout [commit] <paths>       | YES   | YES     | **NO**   |
+
+checkout은 working directory를 건들이기 때문에 주의를 기울여야 한다.
+
+
+## `git reset` 후에 다시 돌아가고 싶다면?
+
+`git reset`을 할 경우 기존의 내역이 `ORIG_HEAD`에 저장된다.
+따라서 해당 커밋으로 되돌아가면 된다.
+
+```sh
+git reset --hard ORIG_HEAD
+```
