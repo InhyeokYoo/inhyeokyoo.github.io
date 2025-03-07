@@ -73,6 +73,6 @@ URL는 아래와 같이 단다.
 `{: .notice--warning}`는 추후 살펴볼 내용을 적는다.
 {: .notice--warning}
 
-`{: .notice--warning}`는 잘 모르는 것을 적는다.
+`{: .notice--danger}`는 잘 모르는 것을 적는다.
 {: .notice--warning}
 

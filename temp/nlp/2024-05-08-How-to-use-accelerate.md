@@ -3,7 +3,6 @@ title:  "Accelerate 사용법"
 toc: true
 toc_sticky: true
 categories:
-  - NLP
   - Huggingface
   - transformers
   - accelerate
