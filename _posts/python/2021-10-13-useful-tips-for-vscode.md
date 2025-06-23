@@ -99,3 +99,13 @@ def add(x, y):
 }
 ```
 
+## Setting 종류 차이
+
+VScode에서 세팅을 하다보면 다음과 같이 Default Settings, User Settings, Workspace Settings 세 종류의 세팅이 보인다.
+해당 세팅의 차이는 다음과 같다:
+
+| 설정 종류                  | 저장 위치                             | 적용 범위          | 우선순위    |
+| ---------------------- | --------------------------------- | -------------- | ------- |
+| **Default Settings**   | 내장 (읽기 전용)                        | VSCode 전체의 기본값 | ❌ (최하위) |
+| **User Settings**      | `settings.json` (사용자 계정)          | 모든 프로젝트에 적용    | 중간      |
+| **Workspace Settings** | `.vscode/settings.json` (프로젝트 폴더) | 해당 워크스페이스에만 적용 | ✅ (최우선) |
